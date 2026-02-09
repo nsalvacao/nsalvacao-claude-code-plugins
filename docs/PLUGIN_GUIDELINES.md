@@ -42,10 +42,15 @@ Each plugin README should include:
 1. Problem statement
 2. What the plugin solves
 3. Included components (commands/skills/agents)
-4. Usage examples
-5. Output behavior and side effects
-6. Known limitations
-7. Version information
+4. Installation instructions using the official flow:
+   - `/plugin marketplace add <owner>/<repo>`
+   - `/plugin install <plugin-name>@<marketplace-name>`
+5. Usage examples
+6. Output behavior and side effects
+7. Known limitations
+8. Version information
+
+Optional: include a local development mode using `claude --plugin-dir`.
 
 ## Repository Registration
 
@@ -61,6 +66,7 @@ Before opening a PR for a plugin:
 
 - [ ] Manifest is valid JSON
 - [ ] README is complete and in English
+- [ ] README includes marketplace install steps (`marketplace add` then `plugin install`)
 - [ ] Commands/skills are internally consistent
 - [ ] Relative paths are correct
 - [ ] Side effects and generated files are documented

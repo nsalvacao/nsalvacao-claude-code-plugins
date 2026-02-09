@@ -89,11 +89,26 @@ git clone <your-github-repo-url>
 cd nsalvacao-claude-code-plugins
 ```
 
-### Use the first plugin locally
+### Install from Marketplace (Recommended)
+
+Run these commands inside a Claude Code session:
+
+```text
+/plugin marketplace add nsalvacao/nsalvacao-claude-code-plugins
+/plugin install strategy-toolkit@nsalvacao-claude-code-plugins
+```
+
+This follows the official plugin flow: add marketplace first, then install plugin.
+
+### Local Development Mode (Alternative)
+
+For local development/testing from this repository:
 
 ```bash
-cc --plugin-dir "$(pwd)/plugins/strategy-toolkit"
+claude --plugin-dir "$(pwd)/plugins/strategy-toolkit"
 ```
+
+If you use a local `cc` alias, the same `--plugin-dir` approach applies.
 
 ## Publishing Flow
 

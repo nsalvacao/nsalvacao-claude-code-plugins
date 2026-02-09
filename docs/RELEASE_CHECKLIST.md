@@ -16,6 +16,7 @@ For each changed plugin:
 
 - [ ] `plugins/<name>/.claude-plugin/plugin.json` updated
 - [ ] `plugins/<name>/README.md` updated
+- [ ] README installation flow is correct (`/plugin marketplace add` before `/plugin install`)
 - [ ] Commands/skills reviewed for clarity and consistency
 - [ ] Generated output paths documented (for example, `.ideas/`)
 
@@ -42,4 +43,5 @@ For each changed plugin:
 
 - [ ] Confirm repository renders correctly on GitHub
 - [ ] Validate links in root and plugin READMEs
+- [ ] Validate plugin installation commands from docs in a clean Claude Code session
 - [ ] Track first feedback/issues and triage quickly

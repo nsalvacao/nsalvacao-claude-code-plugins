@@ -44,12 +44,21 @@ Commands are designed to write strategy artifacts into:
 
 The `.ideas/` directory is expected to remain private and ignored by Git.
 
-## Local Usage
+## Install in Claude Code (Marketplace)
+
+Run these commands inside a Claude Code session:
+
+```text
+/plugin marketplace add nsalvacao/nsalvacao-claude-code-plugins
+/plugin install strategy-toolkit@nsalvacao-claude-code-plugins
+```
+
+## Local Development Usage
 
 From the repository root:
 
 ```bash
-cc --plugin-dir "$(pwd)/plugins/strategy-toolkit"
+claude --plugin-dir "$(pwd)/plugins/strategy-toolkit"
 ```
 
 ## Version

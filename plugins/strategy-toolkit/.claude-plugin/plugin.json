@@ -1,0 +1,9 @@
+{
+  "name": "strategy-toolkit",
+  "version": "0.1.0",
+  "description": "Strategic ideation and execution planning toolkit with reproducible frameworks",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "nsalvacao-claude-code-plugins",
+  "version": "1.0.0",
+  "description": "Marketplace for Nuno Salvacao's Claude Code plugins",
+  "owner": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com"
+  },
+  "metadata": {
+    "description": "Marketplace for Nuno Salvacao's Claude Code plugins"
+  },
+  "plugins": [
+    {
+      "name": "strategy-toolkit",
+      "description": "Strategic ideation and execution planning toolkit with reproducible frameworks",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/strategy-toolkit",
+      "category": "productivity"
+    }
+  ]
+}

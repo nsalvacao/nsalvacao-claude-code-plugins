@@ -1,0 +1,13 @@
+{
+  "name": "product-management",
+  "version": "1.0.0",
+  "description": "Write feature specs, plan roadmaps, synthesise user research, and analyse competitors. Full PM workflow covered.",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com"
+  },
+  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "license": "Apache-2.0",
+  "keywords": ["product-management", "roadmap", "feature-spec", "user-research", "competitive-analysis", "metrics"]
+}

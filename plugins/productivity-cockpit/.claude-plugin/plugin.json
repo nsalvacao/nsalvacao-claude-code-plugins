@@ -1,0 +1,13 @@
+{
+  "name": "productivity-cockpit",
+  "version": "1.0.0",
+  "description": "Task management, workplace memory, and an interactive cockpit dashboard with built-in AI chatbot. Claude learns your people, projects, and terminology. Works in any project type.",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com"
+  },
+  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "license": "Apache-2.0",
+  "keywords": ["productivity", "cockpit", "dashboard", "tasks", "memory", "chatbot", "ai-backend"]
+}

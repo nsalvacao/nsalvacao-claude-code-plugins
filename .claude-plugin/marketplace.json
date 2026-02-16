@@ -21,6 +21,50 @@
       },
       "source": "./plugins/strategy-toolkit",
       "category": "productivity"
+    },
+    {
+      "name": "repo-structure",
+      "description": "Enterprise-grade repository structure analyzer, validator, and scaffolder with intelligent automation",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nuno Salvação",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/repo-structure",
+      "category": "development"
+    },
+    {
+      "name": "product-management",
+      "description": "Write feature specs, plan roadmaps, synthesise user research, and analyse competitors. Full PM workflow covered.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/product-management",
+      "category": "productivity"
+    },
+    {
+      "name": "productivity",
+      "description": "Task management, workplace memory, and a visual dashboard. Claude learns your people, projects, and terminology. Works in any project type.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/productivity",
+      "category": "productivity"
+    },
+    {
+      "name": "productivity-cockpit",
+      "description": "Task management, workplace memory, and an interactive cockpit dashboard with built-in AI chatbot. Works in any project type.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/productivity-cockpit",
+      "category": "productivity"
     }
   ]
 }

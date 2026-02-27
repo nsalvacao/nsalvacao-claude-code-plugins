@@ -50,7 +50,7 @@ By treating plugins as products (not one-off prompt files), this repository can 
 |--------|---------|-------------|----------|------------|
 | `strategy-toolkit` | 0.1.0 | Strategic ideation and execution planning toolkit with reproducible frameworks | productivity | 3 cmd, 1 skill |
 | `repo-structure` | 0.1.0 | Enterprise-grade repository structure analyzer, validator, and scaffolder wit... | development | 4 cmd, 5 skill, 3 agent, hooks |
-| `product-management` | 1.0.0 | Write feature specs, plan roadmaps, synthesise user research, and analyse com... | productivity | 7 cmd, 6 skill |
+| `product-management` | 1.0.0 | Write feature specs, plan roadmaps, synthesise user research, and analyse com... | productivity | 6 cmd, 6 skill |
 | `productivity` | 1.0.0 | Task management, workplace memory, and a visual dashboard. Claude learns your... | productivity | 2 cmd, 2 skill |
 | `productivity-cockpit` | 1.0.0 | Task management, workplace memory, and an interactive cockpit dashboard with ... | productivity | 2 cmd, 3 skill |
 <!-- PLUGINS-TABLE-END -->

@@ -44,3 +44,7 @@ coverage/
 .claude/CLAUDE.md
 /.claude
 /.dev
+CLAUDE.md
+dashboard.html
+/memory
+TASKS.md

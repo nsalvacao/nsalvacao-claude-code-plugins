@@ -72,7 +72,7 @@ jobs:
             [ -d "plugins/$plugin" ] || { echo "❌ '$plugin' in marketplace.json but directory missing"; errors=$((errors+1)); }
           done
           [ $errors -eq 0 ] && echo "✅ marketplace.json in sync"
-          [ $errors -gt 0 ] && exit 1
+          [ $errors -eq 0 ] || exit 1
 
       # ── plugin-dev: hooks.json ────────────────────────────────────────────────
       - name: Validate hooks.json (plugin-dev)
@@ -85,7 +85,7 @@ jobs:
             bash "$SCRIPT" "$f" || errors=$((errors+1))
           done < <(find plugins -name "hooks.json" -path "*/hooks/hooks.json" | sort)
           [ $errors -eq 0 ] && echo "✅ All hooks.json valid"
-          [ $errors -gt 0 ] && exit 1
+          [ $errors -eq 0 ] || exit 1
 
       # ── plugin-dev: hook scripts ──────────────────────────────────────────────
       - name: Lint hook scripts (plugin-dev)
@@ -100,7 +100,7 @@ jobs:
             bash "$SCRIPT" "$f" || errors=$((errors+1))
           done
           [ $errors -eq 0 ] && echo "✅ All hook scripts lint-clean"
-          [ $errors -gt 0 ] && exit 1
+          [ $errors -eq 0 ] || exit 1
 
       # ── plugin-dev: agents ────────────────────────────────────────────────────
       - name: Validate agent files (plugin-dev)
@@ -114,7 +114,7 @@ jobs:
           done < <(find plugins -name "*.md" -path "*/agents/*.md" \
                     ! -path "*/plugin-dev/agents/*.md" | sort)
           [ $errors -eq 0 ] && echo "✅ All agent files valid"
-          [ $errors -gt 0 ] && exit 1
+          [ $errors -eq 0 ] || exit 1
 
       # ── plugin-dev: command frontmatter ──────────────────────────────────────
       - name: Validate command frontmatter
@@ -130,7 +130,7 @@ jobs:
             fi
           done < <(find plugins -name "*.md" -path "*/commands/*.md" | sort)
           [ $errors -eq 0 ] && echo "✅ All command files have 'description'"
-          [ $errors -gt 0 ] && exit 1
+          [ $errors -eq 0 ] || exit 1
 
       # ── plugin-dev: SKILL.md frontmatter ─────────────────────────────────────
       - name: Validate skill frontmatter
@@ -147,7 +147,7 @@ jobs:
             fi
           done < <(find plugins -name "SKILL.md" | sort)
           [ $errors -eq 0 ] && echo "✅ All SKILL.md files have required frontmatter"
-          [ $errors -gt 0 ] && exit 1
+          [ $errors -eq 0 ] || exit 1
 
       # ── shellcheck ────────────────────────────────────────────────────────────
       - name: Shellcheck custom bash scripts
@@ -161,7 +161,7 @@ jobs:
           for f in "${scripts[@]}"; do
             shellcheck "$f" && echo "✅ $f" || errors=$((errors+1))
           done
-          [ $errors -gt 0 ] && exit 1
+          [ $errors -eq 0 ] || exit 1
 
       # ── markdownlint ──────────────────────────────────────────────────────────
       - name: Markdown lint

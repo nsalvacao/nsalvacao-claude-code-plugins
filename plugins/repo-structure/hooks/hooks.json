@@ -12,9 +12,9 @@
       ]
     }
   ],
-  "PostToolUse": [
+  "Stop": [
     {
-      "matcher": "Write",
+      "matcher": ".*",
       "hooks": [
         {
           "type": "prompt",

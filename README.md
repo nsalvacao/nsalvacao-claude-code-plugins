@@ -1,8 +1,10 @@
 # Nuno Salvacao - Claude Code Plugins
 
-[![Repository Health](https://img.shields.io/badge/repository-health%20checks-included-brightgreen)](#quality-and-governance)
-[![Plugins](https://img.shields.io/badge/plugins-1-blue)](#plugin-catalog)
+[![Plugin Validation](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/plugin-validation.yml/badge.svg)](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/plugin-validation.yml)
+[![Release](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/release.yml/badge.svg)](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/release.yml)
+[![Plugins](https://img.shields.io/badge/plugins-5-blue)](#plugin-catalog)
 [![License](https://img.shields.io/badge/license-MIT-black)](LICENSE)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/nsalvacao/nsalvacao-claude-code-plugins/badge)](https://scorecard.dev/viewer/?uri=github.com/nsalvacao/nsalvacao-claude-code-plugins)
 
 Production-focused home for reusable **Claude Code plugins**.  
 This repository is structured as a long-term plugin portfolio.  
@@ -43,9 +45,15 @@ By treating plugins as products (not one-off prompt files), this repository can 
 
 ## Plugin Catalog
 
-| Plugin | Version | Status | Category | Description |
-|---|---|---|---|---|
-| `strategy-toolkit` | `0.1.0` | Stable (first release baseline) | Productivity | Strategic ideation and execution planning toolkit with reproducible frameworks |
+<!-- PLUGINS-TABLE-START -->
+| Plugin | Version | Description | Category | Components |
+|--------|---------|-------------|----------|------------|
+| `strategy-toolkit` | 0.1.0 | Strategic ideation and execution planning toolkit with reproducible frameworks | productivity | 3 cmd, 1 skill |
+| `repo-structure` | 0.1.0 | Enterprise-grade repository structure analyzer, validator, and scaffolder wit... | development | 4 cmd, 5 skill, 3 agent, hooks |
+| `product-management` | 1.0.0 | Write feature specs, plan roadmaps, synthesise user research, and analyse com... | productivity | 7 cmd, 6 skill |
+| `productivity` | 1.0.0 | Task management, workplace memory, and a visual dashboard. Claude learns your... | productivity | 2 cmd, 2 skill |
+| `productivity-cockpit` | 1.0.0 | Task management, workplace memory, and an interactive cockpit dashboard with ... | productivity | 2 cmd, 3 skill |
+<!-- PLUGINS-TABLE-END -->
 
 ## Repository Structure
 

@@ -1,0 +1,173 @@
+name: Plugin Validation
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  validate:
+    name: Validate plugins
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq jq shellcheck
+          npm install -g markdownlint-cli2 --silent
+
+      - name: Make plugin-dev scripts executable
+        run: |
+          find plugins/plugin-dev -name "*.sh" -exec chmod +x {} \;
+
+      # ── Root files ────────────────────────────────────────────────────────────
+      - name: Required root files
+        run: |
+          set -euo pipefail
+          required=(README.md LICENSE CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md CHANGELOG.md ROADMAP.md)
+          for f in "${required[@]}"; do
+            [ -f "$f" ] || { echo "❌ Missing: $f"; exit 1; }
+          done
+          echo "✅ All required root files present"
+
+      # ── JSON manifests ────────────────────────────────────────────────────────
+      - name: Validate JSON manifests
+        run: |
+          set -euo pipefail
+          jq empty .claude-plugin/marketplace.json
+          echo "✅ marketplace.json"
+          while IFS= read -r f; do
+            jq empty "$f" && echo "✅ $f"
+          done < <(find plugins -type f -path "*/.claude-plugin/plugin.json" | sort)
+
+      # ── Plugin README presence ────────────────────────────────────────────────
+      - name: Plugin README presence
+        run: |
+          set -euo pipefail
+          while IFS= read -r dir; do
+            [ -f "$dir/README.md" ] || { echo "❌ Missing README: $dir/README.md"; exit 1; }
+          done < <(find plugins -mindepth 1 -maxdepth 1 -type d | sort)
+          echo "✅ All plugins have README.md"
+
+      # ── marketplace.json sync ─────────────────────────────────────────────────
+      - name: marketplace.json sync with plugins/
+        run: |
+          set -euo pipefail
+          mapfile -t dirs   < <(find plugins -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
+          mapfile -t listed < <(jq -r '.plugins[].name' .claude-plugin/marketplace.json | sort)
+          errors=0
+          for plugin in "${dirs[@]}"; do
+            if ! printf '%s\n' "${listed[@]}" | grep -qx "$plugin"; then
+              echo "⚠️  Plugin '$plugin' in plugins/ but NOT in marketplace.json"
+              errors=$((errors+1))
+            fi
+          done
+          for plugin in "${listed[@]}"; do
+            [ -d "plugins/$plugin" ] || { echo "❌ '$plugin' in marketplace.json but directory missing"; errors=$((errors+1)); }
+          done
+          [ $errors -eq 0 ] && echo "✅ marketplace.json in sync"
+          [ $errors -gt 0 ] && exit 1
+
+      # ── plugin-dev: hooks.json ────────────────────────────────────────────────
+      - name: Validate hooks.json (plugin-dev)
+        run: |
+          set -euo pipefail
+          SCRIPT="plugins/plugin-dev/skills/hook-development/scripts/validate-hook-schema.sh"
+          errors=0
+          while IFS= read -r f; do
+            echo "→ $f"
+            bash "$SCRIPT" "$f" || errors=$((errors+1))
+          done < <(find plugins -name "hooks.json" -path "*/hooks/hooks.json" | sort)
+          [ $errors -eq 0 ] && echo "✅ All hooks.json valid"
+          [ $errors -gt 0 ] && exit 1
+
+      # ── plugin-dev: hook scripts ──────────────────────────────────────────────
+      - name: Lint hook scripts (plugin-dev)
+        run: |
+          set -euo pipefail
+          SCRIPT="plugins/plugin-dev/skills/hook-development/scripts/hook-linter.sh"
+          mapfile -t scripts < <(find plugins -name "*.sh" -path "*/hooks/scripts/*.sh" | sort)
+          if [ ${#scripts[@]} -eq 0 ]; then echo "ℹ️  No hook scripts found"; exit 0; fi
+          errors=0
+          for f in "${scripts[@]}"; do
+            echo "→ $f"
+            bash "$SCRIPT" "$f" || errors=$((errors+1))
+          done
+          [ $errors -eq 0 ] && echo "✅ All hook scripts lint-clean"
+          [ $errors -gt 0 ] && exit 1
+
+      # ── plugin-dev: agents ────────────────────────────────────────────────────
+      - name: Validate agent files (plugin-dev)
+        run: |
+          set -euo pipefail
+          SCRIPT="plugins/plugin-dev/skills/agent-development/scripts/validate-agent.sh"
+          errors=0
+          while IFS= read -r f; do
+            echo "→ $f"
+            bash "$SCRIPT" "$f" || errors=$((errors+1))
+          done < <(find plugins -name "*.md" -path "*/agents/*.md" \
+                    ! -path "*/plugin-dev/agents/*.md" | sort)
+          [ $errors -eq 0 ] && echo "✅ All agent files valid"
+          [ $errors -gt 0 ] && exit 1
+
+      # ── plugin-dev: command frontmatter ──────────────────────────────────────
+      - name: Validate command frontmatter
+        run: |
+          set -euo pipefail
+          PARSER="plugins/plugin-dev/skills/plugin-settings/scripts/parse-frontmatter.sh"
+          errors=0
+          while IFS= read -r f; do
+            desc=$(bash "$PARSER" "$f" description 2>/dev/null || true)
+            if [ -z "$desc" ]; then
+              echo "❌ Missing 'description' frontmatter: $f"
+              errors=$((errors+1))
+            fi
+          done < <(find plugins -name "*.md" -path "*/commands/*.md" | sort)
+          [ $errors -eq 0 ] && echo "✅ All command files have 'description'"
+          [ $errors -gt 0 ] && exit 1
+
+      # ── plugin-dev: SKILL.md frontmatter ─────────────────────────────────────
+      - name: Validate skill frontmatter
+        run: |
+          set -euo pipefail
+          PARSER="plugins/plugin-dev/skills/plugin-settings/scripts/parse-frontmatter.sh"
+          errors=0
+          while IFS= read -r f; do
+            name=$(bash "$PARSER" "$f" name 2>/dev/null || true)
+            desc=$(bash "$PARSER" "$f" description 2>/dev/null || true)
+            if [ -z "$name" ] || [ -z "$desc" ]; then
+              echo "❌ Missing 'name' or 'description' frontmatter: $f"
+              errors=$((errors+1))
+            fi
+          done < <(find plugins -name "SKILL.md" | sort)
+          [ $errors -eq 0 ] && echo "✅ All SKILL.md files have required frontmatter"
+          [ $errors -gt 0 ] && exit 1
+
+      # ── shellcheck ────────────────────────────────────────────────────────────
+      - name: Shellcheck custom bash scripts
+        run: |
+          set -euo pipefail
+          mapfile -t scripts < <(find plugins -name "*.sh" \
+            ! -path "*/plugin-dev/*" \
+            ! -path "*/examples/*" | sort)
+          if [ ${#scripts[@]} -eq 0 ]; then echo "ℹ️  No custom scripts found"; exit 0; fi
+          errors=0
+          for f in "${scripts[@]}"; do
+            shellcheck "$f" && echo "✅ $f" || errors=$((errors+1))
+          done
+          [ $errors -gt 0 ] && exit 1
+
+      # ── markdownlint ──────────────────────────────────────────────────────────
+      - name: Markdown lint
+        run: |
+          markdownlint-cli2 \
+            "plugins/**/README.md" \
+            "plugins/**/commands/**/*.md" \
+            "plugins/**/skills/**/SKILL.md" \
+            "plugins/**/agents/*.md" \
+            "#plugins/plugin-dev/**"

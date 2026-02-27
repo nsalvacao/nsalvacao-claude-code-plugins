@@ -1,0 +1,375 @@
+name: AI Plugin Review
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "plugins/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  # GitHub Models free tier — no premium requests, limit=0
+  REVIEW_MODEL: "openai/gpt-4.1"
+  REVIEW_FALLBACK_MODEL: "openai/gpt-4o"
+  REVIEW_FALLBACK_MODEL_2: "meta/llama-4-maverick-17b-128e-instruct-fp8"
+  MODELS_ENDPOINT: "https://models.github.ai/inference/chat/completions"
+  MIN_CONFIDENCE: "0.55"
+  MAX_TOKENS: "2500"
+  MAX_RETRY: "3"
+  MAX_CONTENT_CHARS: "40000"
+
+jobs:
+  preflight:
+    name: Preflight check
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.check.outputs.skip }}
+    steps:
+      - name: Check token and context
+        id: check
+        env:
+          MODELS_PAT: ${{ secrets.MODELS_PAT }}
+        run: |
+          if [ -z "$MODELS_PAT" ]; then
+            echo "⚠️  MODELS_PAT not configured — skipping AI review"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  review:
+    name: Review changed plugins
+    runs-on: ubuntu-latest
+    needs: preflight
+    if: needs.preflight.outputs.skip == 'false'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed plugin files
+        id: changed
+        run: |
+          mapfile -t files < <(
+            git diff --name-only "origin/${{ github.base_ref }}...HEAD" \
+            | grep '^plugins/' \
+            | grep -v '^plugins/plugin-dev/' \
+            | grep -E '\.(md|json)$' \
+            | sort
+          )
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No reviewable plugin files changed"
+            echo "has_files=false" >> "$GITHUB_OUTPUT"
+          else
+            printf '%s\n' "${files[@]}"
+            echo "has_files=true" >> "$GITHUB_OUTPUT"
+            printf '%s\n' "${files[@]}" > /tmp/changed_files.txt
+          fi
+
+      - name: Set up Python
+        if: steps.changed.outputs.has_files == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        if: steps.changed.outputs.has_files == 'true'
+        run: pip install requests --quiet
+
+      - name: Build review context and call GitHub Models
+        if: steps.changed.outputs.has_files == 'true'
+        id: ai_review
+        env:
+          MODELS_PAT: ${{ secrets.MODELS_PAT }}
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          python3 - << 'PYEOF'
+          import os, json, sys, time, requests, pathlib, textwrap
+
+          # ── Config ────────────────────────────────────────────────────────────
+          token      = os.environ["MODELS_PAT"]
+          endpoint   = os.environ["MODELS_ENDPOINT"]
+          models     = [os.environ["REVIEW_MODEL"],
+                        os.environ["REVIEW_FALLBACK_MODEL"],
+                        os.environ["REVIEW_FALLBACK_MODEL_2"]]
+          min_conf   = float(os.environ["MIN_CONFIDENCE"])
+          max_tokens = int(os.environ["MAX_TOKENS"])
+          max_chars  = int(os.environ["MAX_CONTENT_CHARS"])
+          max_retry  = int(os.environ["MAX_RETRY"])
+          changed    = pathlib.Path("/tmp/changed_files.txt").read_text().strip().splitlines()
+
+          # ── System prompt (derived from plugin-validator + skill-reviewer) ────
+          SYSTEM = textwrap.dedent("""
+          You are an expert Claude Code plugin reviewer. You analyse changed plugin
+          component files submitted in pull requests and validate them against the
+          official Claude Code plugin specification and quality standards.
+
+          ## Plugin Architecture Standards
+
+          ### Manifest (.claude-plugin/plugin.json)
+          - Required field: `name` (kebab-case, no spaces, no uppercase)
+          - Recommended fields: `version` (semver X.Y.Z), `description` (non-empty), `author`
+          - Warn on unknown fields; do NOT fail on them
+
+          ### Commands (commands/*.md)
+          - Must have YAML frontmatter delimited by `---`
+          - Required frontmatter field: `description` (non-empty, user-facing text)
+          - Optional: `argument-hint` (string), `allowed-tools` (must be array if present), `model`
+          - Markdown body must exist after frontmatter
+
+          ### Agents (agents/*.md)
+          - Required frontmatter: `name`, `description`, `model`, `color`
+          - `name`: lowercase + hyphens only, 3–50 chars, starts/ends alphanumeric
+          - `description`: MUST include `<example>` blocks; use "Use this agent when..." pattern
+          - `model`: one of inherit | sonnet | opus | haiku (or full model ID)
+          - `color`: one of blue | cyan | green | yellow | magenta | red
+          - System prompt (body after frontmatter): must start with "You are", >20 chars
+
+          ### Skills (skills/*/SKILL.md) — MOST CRITICAL: description quality
+          - Required frontmatter: `name`, `description`
+          - `description` MUST:
+            * Use third person: "This skill should be used when..."
+            * Include specific trigger phrases users would type
+            * Be specific and concrete (not vague like "when working with X")
+            * Be 50–500 chars in length
+          - Body: 1 000–3 000 words; imperative/infinitive style
+          - Progressive disclosure: heavy content belongs in references/ not SKILL.md itself
+          - Reference files listed in SKILL.md must exist
+
+          ### Hooks (hooks/hooks.json)
+          - Valid event names: PreToolUse, PostToolUse, Stop, SubagentStop,
+            SessionStart, SessionEnd, UserPromptSubmit, PreCompact, Notification
+          - Each hook must have `matcher` and `hooks` array
+          - Hook `type`: "command" or "prompt"
+          - Command hooks: must have `command` field; use ${CLAUDE_PLUGIN_ROOT}
+
+          ### Security
+          - No hardcoded API keys, tokens, or passwords in any file
+          - Hook scripts must NOT interpolate user-controlled content directly
+            into shell arguments (use stdin/tempfile instead)
+          - MCP servers should use HTTPS/WSS, not HTTP/WS
+
+          ## Output Format
+          Return ONLY valid JSON — no markdown, no explanation.
+
+          {
+            "findings": [
+              {
+                "severity": "critical | warning | info",
+                "component": "manifest | command | agent | skill | hook | security | structure",
+                "file": "relative/path/to/file",
+                "issue": "Concise description of the problem",
+                "recommendation": "Specific, actionable fix",
+                "confidence": 0.0
+              }
+            ]
+          }
+
+          Severity:
+          - critical: blocks correct operation or is a security risk
+          - warning: degrades quality or violates best practices
+          - info: minor improvement opportunity
+
+          Confidence:
+          - 0.9+  definite violation of explicit rule
+          - 0.7–0.9  strong indicator
+          - 0.55–0.7  possible issue worth flagging
+          - <0.55  discard
+
+          Only include findings with confidence >= 0.55.
+          If no issues found, return: {"findings": []}
+          """).strip()
+
+          # ── Read changed files ────────────────────────────────────────────────
+          def read_file(path):
+              try:
+                  return pathlib.Path(path).read_text(errors="replace")
+              except Exception as e:
+                  return f"[error reading file: {e}]"
+
+          def plugin_name_from_path(path):
+              parts = pathlib.PurePosixPath(path).parts
+              return parts[1] if len(parts) > 1 else "unknown"
+
+          # Group files by plugin
+          by_plugin = {}
+          for f in changed:
+              plugin = plugin_name_from_path(f)
+              by_plugin.setdefault(plugin, []).append(f)
+
+          # Build user message (cap total chars)
+          parts = []
+          total_chars = 0
+          for plugin, files in by_plugin.items():
+              manifest_path = f"plugins/{plugin}/.claude-plugin/plugin.json"
+              if pathlib.Path(manifest_path).exists():
+                  manifest = read_file(manifest_path)
+                  parts.append(f"### {plugin}/plugin.json\n```json\n{manifest}\n```")
+                  total_chars += len(manifest)
+              for f in files:
+                  if total_chars >= max_chars:
+                      parts.append(f"\n[truncated — remaining files omitted due to size limit]")
+                      break
+                  content = read_file(f)
+                  parts.append(f"### {f}\n```\n{content[:8000]}\n```")
+                  total_chars += len(content)
+
+          user_msg = (
+              "Review the following changed plugin files from this pull request. "
+              "Apply all standards from the system prompt.\n\n"
+              + "\n\n".join(parts)
+          )
+
+          # ── Call GitHub Models with retry + fallback ──────────────────────────
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Content-Type": "application/json",
+          }
+          payload = {
+              "model": models[0],
+              "messages": [
+                  {"role": "system", "content": SYSTEM},
+                  {"role": "user",   "content": user_msg},
+              ],
+              "response_format": {
+                  "type": "json_schema",
+                  "json_schema": {
+                      "name": "review_findings",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "findings": {
+                                  "type": "array",
+                                  "items": {
+                                      "type": "object",
+                                      "properties": {
+                                          "severity":       {"enum": ["critical","warning","info"]},
+                                          "component":      {"type": "string"},
+                                          "file":           {"type": "string"},
+                                          "issue":          {"type": "string"},
+                                          "recommendation": {"type": "string"},
+                                          "confidence":     {"type": "number","minimum":0,"maximum":1},
+                                      },
+                                      "required": ["severity","component","file","issue","recommendation","confidence"],
+                                  }
+                              }
+                          },
+                          "required": ["findings"],
+                      }
+                  }
+              },
+              "max_tokens": max_tokens,
+              "temperature": 0.1,
+          }
+
+          result = None
+          used_model = None
+          total_tokens = 0
+
+          for model in models:
+              payload["model"] = model
+              for attempt in range(max_retry):
+                  try:
+                      resp = requests.post(endpoint, headers=headers, json=payload, timeout=90)
+                      if resp.status_code == 200:
+                          data = resp.json()
+                          result = json.loads(data["choices"][0]["message"]["content"])
+                          total_tokens = data.get("usage", {}).get("total_tokens", 0)
+                          used_model = model
+                          break
+                      elif resp.status_code == 429:
+                          retry_after = int(resp.headers.get("retry-after", 2 ** attempt))
+                          print(f"Rate limited — waiting {retry_after}s", file=sys.stderr)
+                          time.sleep(min(retry_after, 60))
+                      else:
+                          print(f"HTTP {resp.status_code}: {resp.text[:200]}", file=sys.stderr)
+                          break
+                  except Exception as e:
+                      print(f"Request error: {e}", file=sys.stderr)
+                      time.sleep(2 ** attempt)
+              if result is not None:
+                  break
+
+          if result is None:
+              print("All models failed — skipping AI review", file=sys.stderr)
+              pathlib.Path("/tmp/ai_findings.json").write_text('{"findings":[]}')
+              sys.exit(0)
+
+          # ── Filter by confidence ──────────────────────────────────────────────
+          findings = [f for f in result.get("findings", []) if f.get("confidence", 0) >= min_conf]
+
+          # Store results
+          pathlib.Path("/tmp/ai_findings.json").write_text(json.dumps({
+              "findings": findings,
+              "meta": {"model": used_model, "tokens": total_tokens, "files_reviewed": len(changed)}
+          }))
+          print(f"✅ AI review complete — {len(findings)} findings (model: {used_model}, tokens: {total_tokens})")
+          PYEOF
+
+      - name: Post PR comment
+        if: steps.changed.outputs.has_files == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          python3 - << 'PYEOF'
+          import os, json, requests
+
+          data     = json.loads(open("/tmp/ai_findings.json").read())
+          findings = data.get("findings", [])
+          meta     = data.get("meta", {})
+
+          severity_icon = {"critical": "🔴", "warning": "🟡", "info": "🔵"}
+          severity_order = {"critical": 0, "warning": 1, "info": 2}
+          findings.sort(key=lambda f: severity_order.get(f["severity"], 3))
+
+          counts = {"critical": 0, "warning": 0, "info": 0}
+          for f in findings:
+              counts[f["severity"]] = counts.get(f["severity"], 0) + 1
+
+          lines = ["## 🤖 AI Plugin Review\n"]
+
+          if not findings:
+              lines.append("✅ **No issues found.** All changed plugin components look good.")
+          else:
+              summary = []
+              if counts["critical"]: summary.append(f"🔴 {counts['critical']} critical")
+              if counts["warning"]:  summary.append(f"🟡 {counts['warning']} warnings")
+              if counts["info"]:     summary.append(f"🔵 {counts['info']} info")
+              lines.append(f"**{', '.join(summary)}** across {meta.get('files_reviewed', '?')} files\n")
+
+              for f in findings:
+                  icon = severity_icon.get(f["severity"], "⚪")
+                  lines.append(f"---\n{icon} **{f['severity'].upper()}** · `{f['file']}` · _{f['component']}_\n")
+                  lines.append(f"**Issue:** {f['issue']}\n")
+                  lines.append(f"**Fix:** {f['recommendation']}\n")
+                  lines.append(f"_Confidence: {f['confidence']:.0%}_\n")
+
+          lines.append(
+              f"\n---\n_AI Review · model: `{meta.get('model','?')}` · "
+              f"{meta.get('tokens','?')} tokens · "
+              f"{sum(counts.values())} findings · GitHub Models free tier · 0 premium requests_"
+          )
+
+          body = "\n".join(lines)
+
+          token  = os.environ["GH_TOKEN"]
+          repo   = os.environ["REPO"]
+          pr_num = os.environ["PR_NUMBER"]
+          url    = f"https://api.github.com/repos/{repo}/issues/{pr_num}/comments"
+          resp   = requests.post(url,
+                      headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"},
+                      json={"body": body})
+          if resp.status_code in (200, 201):
+              print("✅ PR comment posted")
+          else:
+              print(f"⚠️  Comment post failed: {resp.status_code} {resp.text[:200]}")
+          PYEOF

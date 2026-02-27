@@ -1,0 +1,53 @@
+name: Docs Sync
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "plugins/**"
+      - ".claude-plugin/marketplace.json"
+      - "scripts/sync-docs.py"
+  workflow_dispatch:
+    inputs:
+      ai_enhance:
+        description: "Use AI to enrich plugin descriptions (requires MODELS_PAT)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Sync plugin docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests --quiet
+
+      - name: Run sync-docs
+        env:
+          MODELS_PAT: ${{ secrets.MODELS_PAT }}
+          AI_ENHANCE_DOCS: ${{ github.event.inputs.ai_enhance || 'false' }}
+        run: python3 scripts/sync-docs.py
+
+      - name: Commit updated docs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs(auto): sync plugin inventory and README table [skip ci]"
+          file_pattern: |
+            README.md
+            docs/plugins-inventory.md
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"

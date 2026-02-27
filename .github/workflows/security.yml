@@ -7,17 +7,20 @@ on:
     - cron: "30 2 * * 1"  # weekly Monday 02:30 UTC
   workflow_dispatch:
 
+# Scorecard requires minimal global permissions (no write at workflow level)
 permissions:
   contents: read
-  security-events: write
-  actions: read
-  id-token: write
 
 jobs:
   scorecard:
     name: OpenSSF Scorecard
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+      id-token: write
 
     steps:
       - name: Checkout
@@ -40,6 +43,10 @@ jobs:
   codeql:
     name: CodeQL (Python)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
 
     steps:
       - name: Checkout

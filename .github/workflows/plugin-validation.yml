@@ -51,14 +51,15 @@ jobs:
           set -euo pipefail
           while IFS= read -r dir; do
             [ -f "$dir/README.md" ] || { echo "❌ Missing README: $dir/README.md"; exit 1; }
-          done < <(find plugins -mindepth 1 -maxdepth 1 -type d | sort)
+          done < <(find plugins -mindepth 1 -maxdepth 1 -type d | grep -v '/plugin-dev$' | sort)
           echo "✅ All plugins have README.md"
 
       # ── marketplace.json sync ─────────────────────────────────────────────────
       - name: marketplace.json sync with plugins/
         run: |
           set -euo pipefail
-          mapfile -t dirs   < <(find plugins -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
+          # plugin-dev is the official toolkit, not a marketplace plugin
+          mapfile -t dirs   < <(find plugins -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | grep -v '^plugin-dev$' | sort)
           mapfile -t listed < <(jq -r '.plugins[].name' .claude-plugin/marketplace.json | sort)
           errors=0
           for plugin in "${dirs[@]}"; do

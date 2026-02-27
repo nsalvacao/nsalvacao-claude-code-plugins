@@ -1,6 +1,6 @@
 ---
 name: structure-validator
-description: Use this agent when validation of repository structure is needed. Examples:
+description: Use this agent when validation of repository structure is needed. <example>user:"Validate my repository structure" assistant:"I'll use the structure-validator agent"</example> Extended examples:
 
   <example>
   Context: After structure-architect creates files

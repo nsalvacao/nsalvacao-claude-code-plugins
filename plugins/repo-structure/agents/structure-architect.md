@@ -1,6 +1,6 @@
 ---
 name: structure-architect
-description: Use this agent when the user requests repository structure setup, scaffolding, or analysis. Examples:
+description: Use this agent when the user requests repository structure setup, scaffolding, or analysis. <example>user:"Setup repo structure for my Python project" assistant:"I'll use the structure-architect agent"</example> Extended examples:
 
   <example>
   Context: User wants to setup a new repository with professional structure

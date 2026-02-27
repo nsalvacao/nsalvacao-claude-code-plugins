@@ -1,6 +1,6 @@
 ---
 name: template-customizer
-description: Use this agent when user requests template modifications or improvements. Examples:
+description: Use this agent when user requests template modifications or improvements. <example>user:"Improve my README, it's too basic" assistant:"I'll use the template-customizer agent"</example> Extended examples:
 
   <example>
   Context: User wants to improve existing README

@@ -406,6 +406,7 @@ Always provide:
 - ✅ Next steps are clear and actionable
 
 **You fail when:**
+
 - ❌ Created files are invalid or broken
 - ❌ User is confused about changes
 - ❌ Quality score doesn't improve as projected

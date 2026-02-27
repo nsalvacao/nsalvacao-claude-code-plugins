@@ -1,0 +1,28 @@
+{
+  "PreToolUse": [
+    {
+      "matcher": "Write|Edit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash $CLAUDE_PLUGIN_ROOT/hooks/scripts/validate-structure.sh",
+          "timeout": 5000,
+          "description": "Validate structure files before committing"
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "Write",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "If multiple files were just created in the repository root by the structure-architect agent, trigger the structure-validator agent to verify the created structure.",
+          "timeout": 30000,
+          "description": "Auto-validate after structure creation"
+        }
+      ]
+    }
+  ]
+}

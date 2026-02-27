@@ -1,0 +1,147 @@
+# Repo-Structure Plugin Configuration Example
+#
+# Copy this file to your project root at:
+#   .claude/repo-structure.config.yaml
+#
+# All fields are optional. The plugin uses sensible defaults
+# and reads from git config when available.
+
+# ============================================================
+# Author Information
+# ============================================================
+# Fallback if git config doesn't have user.name/user.email
+author:
+  name: ""                      # Empty = read from: git config user.name
+  email: ""                     # Empty = read from: git config user.email
+  github_username: ""           # For GitHub-specific features (badges, links)
+
+# ============================================================
+# Project Defaults
+# ============================================================
+defaults:
+  license: "MIT"                # Default license: MIT, Apache-2.0, GPL-3.0, BSD-3-Clause, Unlicense
+  code_of_conduct: "contributor-covenant-2.1"  # Code of Conduct template
+  ci_provider: "auto"           # auto|github-actions|gitlab-ci|circleci|none
+
+# ============================================================
+# Template Source
+# ============================================================
+templates:
+  source: "embedded"            # embedded|custom|hybrid
+  custom_repo_url: ""           # Git URL if source=custom (e.g., https://github.com/user/templates)
+  merge_strategy: "override"    # override|merge (how custom templates interact with embedded)
+
+# ============================================================
+# Quality Scoring
+# ============================================================
+scoring:
+  # Categories to evaluate
+  enabled_categories:
+    - documentation
+    - security
+    - ci_cd
+    - community
+
+  # Score weights (must sum to 100)
+  weights:
+    documentation: 25
+    security: 25
+    ci_cd: 25
+    community: 25
+
+  # Score thresholds for alerts
+  threshold_warnings: 70        # Warn if score < 70
+  threshold_critical: 50        # Critical alert if score < 50
+
+# ============================================================
+# Validation Settings
+# ============================================================
+validation:
+  # Link validation behavior
+  # - true: Validate all links (slow, thorough)
+  # - false: Skip link validation (fast)
+  # - smart: Only validate external HTTP links (balanced)
+  validate_links: "smart"
+
+  # Pre-commit hook strictness
+  # - strict: Block commit if any validation fails
+  # - warnings: Block only on critical issues
+  # - info: Never block, only report
+  pre_commit_strictness: "warnings"
+
+  # Check CI status via GitHub API
+  check_ci_status: true
+
+# ============================================================
+# Automation Settings
+# ============================================================
+automation:
+  # Skip approval prompts (USE WITH CAUTION)
+  auto_approve_mode: false
+
+  # Always create branch for changes
+  create_branch: true
+
+  # Branch name prefix
+  branch_prefix: "feat/repo-structure"
+
+  # Hooks installer framework
+  # - pre-commit: Use pre-commit framework (recommended)
+  # - native: Use native Git hooks
+  # - husky: Use Husky (Node.js projects)
+  hooks_installer: "pre-commit"
+
+# ============================================================
+# Compliance Frameworks
+# ============================================================
+compliance:
+  # Enabled compliance frameworks
+  enabled_frameworks:
+    - openssf-scorecard         # OpenSSF Security Scorecard
+    - cii-best-practices        # CII Best Practices Badge
+    # - owasp-top10             # OWASP Top 10 (web apps)
+    # - soc2                    # SOC2 compliance (enterprise)
+
+  # Auto-detect which frameworks are relevant
+  # - Public repos → OpenSSF, CII
+  # - Private repos → SOC2, ISO27001
+  auto_detect_type: true
+
+# ============================================================
+# Advanced Settings
+# ============================================================
+advanced:
+  # Run validations in parallel (faster)
+  parallel_validation: true
+
+  # Cache GitHub API responses (1 hour TTL)
+  cache_github_api: true
+
+  # Track quality history in .repo-quality-history.json
+  historical_tracking: true
+
+  # Auto-generate badges for README
+  generate_badges: true
+
+# ============================================================
+# Stack-Specific Overrides (Optional)
+# ============================================================
+# Override settings based on detected stack
+stack_overrides:
+  python:
+    automation:
+      hooks_installer: "pre-commit"
+    defaults:
+      license: "MIT"
+
+  javascript:
+    automation:
+      hooks_installer: "husky"
+    defaults:
+      license: "MIT"
+
+  go:
+    automation:
+      hooks_installer: "native"
+    defaults:
+      license: "Apache-2.0"

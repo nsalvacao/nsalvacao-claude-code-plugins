@@ -1,0 +1,371 @@
+# {{PROJECT_NAME}}
+
+{{#CI_BADGE}}{{CI_BADGE}}{{/CI_BADGE}}
+{{#COVERAGE_BADGE}}{{COVERAGE_BADGE}}{{/COVERAGE_BADGE}}
+{{#LICENSE_BADGE}}{{LICENSE_BADGE}}{{/LICENSE_BADGE}}
+{{#VERSION_BADGE}}{{VERSION_BADGE}}{{/VERSION_BADGE}}
+
+{{DESCRIPTION}}
+
+## Features
+
+- 🚀 Feature 1
+- ⚡ Feature 2
+- 🎯 Feature 3
+
+## Prerequisites
+
+{{#PYTHON}}
+- Python {{PYTHON_VERSION}}+
+- pip or poetry
+{{/PYTHON}}
+
+{{#JAVASCRIPT}}
+- Node.js {{NODE_VERSION}}+
+- npm, yarn, or pnpm
+{{/JAVASCRIPT}}
+
+{{#GO}}
+- Go {{GO_VERSION}}+
+{{/GO}}
+
+{{#RUST}}
+- Rust {{RUST_VERSION}}+
+- Cargo
+{{/RUST}}
+
+## Installation
+
+{{#IS_LIBRARY}}
+{{#PYTHON}}
+```bash
+pip install {{PROJECT_NAME}}
+```
+{{/PYTHON}}
+
+{{#JAVASCRIPT}}
+```bash
+npm install {{PROJECT_NAME}}
+```
+{{/JAVASCRIPT}}
+
+{{#GO}}
+```bash
+go get github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}
+```
+{{/GO}}
+
+{{#RUST}}
+```bash
+cargo add {{PROJECT_NAME}}
+```
+{{/RUST}}
+{{/IS_LIBRARY}}
+
+{{#IS_CLI}}
+{{#PYTHON}}
+```bash
+pip install {{PROJECT_NAME}}
+```
+{{/PYTHON}}
+
+{{#JAVASCRIPT}}
+```bash
+npm install -g {{PROJECT_NAME}}
+```
+{{/JAVASCRIPT}}
+
+{{#GO}}
+```bash
+go install github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}@latest
+```
+{{/GO}}
+
+{{#RUST}}
+```bash
+cargo install {{PROJECT_NAME}}
+```
+{{/RUST}}
+{{/IS_CLI}}
+
+{{^IS_LIBRARY}}{{^IS_CLI}}
+### From Source
+
+```bash
+git clone https://github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}.git
+cd {{PROJECT_NAME}}
+
+{{#PYTHON}}
+pip install -r requirements.txt
+{{/PYTHON}}
+
+{{#JAVASCRIPT}}
+npm install
+{{/JAVASCRIPT}}
+
+{{#GO}}
+go mod download
+{{/GO}}
+
+{{#RUST}}
+cargo build --release
+{{/RUST}}
+```
+{{/IS_CLI}}{{/IS_LIBRARY}}
+
+{{#HAS_DOCKER}}
+### Docker
+
+```bash
+docker pull {{GITHUB_USERNAME}}/{{PROJECT_NAME}}:latest
+docker run {{GITHUB_USERNAME}}/{{PROJECT_NAME}}
+```
+
+Or build locally:
+
+```bash
+docker build -t {{PROJECT_NAME}} .
+docker run {{PROJECT_NAME}}
+```
+{{/HAS_DOCKER}}
+
+## Usage
+
+{{#IS_CLI}}
+### Command Line
+
+```bash
+{{PROJECT_NAME}} [OPTIONS] [ARGS]
+```
+
+**Examples:**
+
+```bash
+# Example 1
+{{PROJECT_NAME}} --help
+
+# Example 2
+{{PROJECT_NAME}} command arg1 arg2
+```
+{{/IS_CLI}}
+
+{{#IS_LIBRARY}}
+### Basic Example
+
+{{#PYTHON}}
+```python
+from {{PROJECT_NAME_SNAKE}} import main_function
+
+result = main_function(arg1, arg2)
+print(result)
+```
+{{/PYTHON}}
+
+{{#JAVASCRIPT}}
+```javascript
+import { mainFunction } from '{{PROJECT_NAME}}';
+
+const result = mainFunction(arg1, arg2);
+console.log(result);
+```
+{{/JAVASCRIPT}}
+
+{{#GO}}
+```go
+package main
+
+import "github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}"
+
+func main() {
+    result := {{PROJECT_NAME_SNAKE}}.MainFunction(arg1, arg2)
+    fmt.Println(result)
+}
+```
+{{/GO}}
+
+{{#RUST}}
+```rust
+use {{PROJECT_NAME_SNAKE}}::main_function;
+
+fn main() {
+    let result = main_function(arg1, arg2);
+    println!("{}", result);
+}
+```
+{{/RUST}}
+{{/IS_LIBRARY}}
+
+{{^IS_CLI}}{{^IS_LIBRARY}}
+### Running the Application
+
+{{#PYTHON}}
+```bash
+python main.py
+```
+{{/PYTHON}}
+
+{{#JAVASCRIPT}}
+```bash
+npm start
+```
+{{/JAVASCRIPT}}
+
+{{#GO}}
+```bash
+go run main.go
+```
+{{/GO}}
+
+{{#RUST}}
+```bash
+cargo run
+```
+{{/RUST}}
+{{/IS_LIBRARY}}{{/IS_CLI}}
+
+## Configuration
+
+{{#HAS_CONFIG_FILE}}
+Create a configuration file at `{{CONFIG_FILE_PATH}}`:
+
+```{{CONFIG_FORMAT}}
+{{CONFIG_EXAMPLE}}
+```
+{{/HAS_CONFIG_FILE}}
+
+{{^HAS_CONFIG_FILE}}
+Configuration via environment variables:
+
+```bash
+export {{PROJECT_NAME_UPPER}}_OPTION1=value1
+export {{PROJECT_NAME_UPPER}}_OPTION2=value2
+```
+{{/HAS_CONFIG_FILE}}
+
+## Development
+
+### Setup Development Environment
+
+{{#PYTHON}}
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install development dependencies
+pip install -r requirements-dev.txt
+
+# Install pre-commit hooks
+pre-commit install
+```
+{{/PYTHON}}
+
+{{#JAVASCRIPT}}
+```bash
+# Install dependencies
+npm install
+
+# Install pre-commit hooks (if using husky)
+npm run prepare
+```
+{{/JAVASCRIPT}}
+
+{{#GO}}
+```bash
+# Download dependencies
+go mod download
+
+# Install development tools
+go install golang.org/x/tools/cmd/goimports@latest
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+```
+{{/GO}}
+
+{{#RUST}}
+```bash
+# Install development tools
+rustup component add rustfmt clippy
+
+# Build in development mode
+cargo build
+```
+{{/RUST}}
+
+{{#HAS_TESTS}}
+### Running Tests
+
+```bash
+{{TEST_COMMAND}}
+```
+
+{{#HAS_COVERAGE}}
+With coverage:
+
+```bash
+{{COVERAGE_COMMAND}}
+```
+{{/HAS_COVERAGE}}
+{{/HAS_TESTS}}
+
+{{#HAS_LINTER}}
+### Code Quality
+
+Run linter:
+
+```bash
+{{LINT_COMMAND}}
+```
+
+Auto-format code:
+
+```bash
+{{FORMAT_COMMAND}}
+```
+{{/HAS_LINTER}}
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+### Quick Contribution Guide
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the {{LICENSE_TYPE}} License - see the [LICENSE](LICENSE) file for details.
+
+## Author
+
+**{{AUTHOR_NAME}}**
+
+{{#GITHUB_USERNAME}}- GitHub: [@{{GITHUB_USERNAME}}](https://github.com/{{GITHUB_USERNAME}}){{/GITHUB_USERNAME}}
+{{#AUTHOR_EMAIL}}- Email: {{AUTHOR_EMAIL}}{{/AUTHOR_EMAIL}}
+{{#LINKEDIN_USERNAME}}- LinkedIn: [{{AUTHOR_NAME}}](https://www.linkedin.com/in/{{LINKEDIN_USERNAME}}/){{/LINKEDIN_USERNAME}}
+
+## Acknowledgments
+
+- Inspired by [project/resource]
+- Built with [technology/framework]
+- Special thanks to contributors
+
+## Support
+
+{{#HAS_ISSUES}}
+- 🐛 **Bug reports**: [GitHub Issues](https://github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}/issues)
+- 💡 **Feature requests**: [GitHub Issues](https://github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}/issues)
+{{/HAS_ISSUES}}
+{{#HAS_DISCUSSIONS}}
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/{{GITHUB_USERNAME}}/{{PROJECT_NAME}}/discussions)
+{{/HAS_DISCUSSIONS}}
+{{#AUTHOR_EMAIL}}
+- 📧 **Email**: {{AUTHOR_EMAIL}}
+{{/AUTHOR_EMAIL}}
+
+---
+
+**Built with ❤️ by {{AUTHOR_NAME}}**

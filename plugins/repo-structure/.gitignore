@@ -1,0 +1,51 @@
+# User-specific settings (should not be committed)
+.claude/*.local.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.old
+
+# Cache
+.cache/
+*.cache
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Quality history (project-specific, not plugin-specific)
+.repo-quality-history.json
+.repo-audit-*.md

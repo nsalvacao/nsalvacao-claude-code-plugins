@@ -41,3 +41,6 @@ coverage/
 # Local tool state
 .claude/*.local.md
 .codex/
+.claude/CLAUDE.md
+/.claude
+/.dev

@@ -135,7 +135,7 @@ jobs:
               echo "❌ Missing 'description' frontmatter: $f"
               errors=$((errors+1))
             fi
-          done < <(find plugins -name "*.md" -path "*/commands/*.md" | sort)
+          done < <(find plugins -name "*.md" -path "*/commands/*.md" ! -name "CLAUDE.md" | sort)
           [ $errors -eq 0 ] && echo "✅ All command files have 'description'"
           [ $errors -eq 0 ] || exit 1
 

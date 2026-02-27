@@ -6,7 +6,7 @@
         {
           "type": "command",
           "command": "bash $CLAUDE_PLUGIN_ROOT/hooks/scripts/validate-structure.sh",
-          "timeout": 5000,
+          "timeout": 10,
           "description": "Validate structure files before committing"
         }
       ]
@@ -19,7 +19,7 @@
         {
           "type": "prompt",
           "prompt": "If multiple files were just created in the repository root by the structure-architect agent, trigger the structure-validator agent to verify the created structure.",
-          "timeout": 30000,
+          "timeout": 30,
           "description": "Auto-validate after structure creation"
         }
       ]

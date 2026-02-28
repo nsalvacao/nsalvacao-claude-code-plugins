@@ -1,0 +1,15 @@
+{
+  "SessionStart": [
+    {
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/check-server.sh",
+          "timeout": 5,
+          "description": "Check if Plugin Studio server is running and show status hint"
+        }
+      ]
+    }
+  ]
+}

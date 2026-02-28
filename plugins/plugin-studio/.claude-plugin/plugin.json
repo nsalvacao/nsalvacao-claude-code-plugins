@@ -1,0 +1,9 @@
+{
+  "name": "plugin-studio",
+  "version": "0.1.0",
+  "description": "Visual dashboard for creating and managing Claude Code plugins — browse structure, edit components, validate, and scaffold new plugins from a browser UI.",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com"
+  }
+}

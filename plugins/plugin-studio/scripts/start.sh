@@ -2,11 +2,10 @@
 # start.sh — Production launcher for Plugin Studio
 # Usage: start.sh [path|--settings]
 # Serves app/dist/ via the Node.js server. No build step required.
-#
-# NOTE: Full implementation tracked in issue #10 (milestone v0.1).
-# This is a scaffold placeholder — server is implemented in issue #2.
 
 set -euo pipefail
+
+PLUGIN_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Pre-flight: Node.js >=18
 if ! command -v node &>/dev/null; then
@@ -25,7 +24,4 @@ if [ "${node_major}" -lt 18 ]; then
   exit 1
 fi
 
-echo "⚠ Plugin Studio server not yet implemented (milestone v0.1, issue #2)."
-echo "  This placeholder confirms Node.js ${node_version} is available."
-echo "  Re-run /plugin-studio:open after issue #2 is merged."
-exit 0
+exec node "${PLUGIN_ROOT}/server/index.js" "$@"

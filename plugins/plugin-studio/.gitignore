@@ -1,0 +1,14 @@
+# Node
+node_modules/
+server/node_modules/
+app/node_modules/
+
+# Build outputs (server TypeScript build — not the pre-built app/dist/)
+server/dist/
+
+# Runtime state
+server/.pid
+
+# Editor
+.DS_Store
+*.local

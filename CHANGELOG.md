@@ -5,6 +5,13 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.2.0...v1.3.0) (2026-02-28)
+
+
+### ✨ Features
+
+* **plugin-studio:** Node.js server + Vite/React app scaffold ([#30](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/30)) ([c37d447](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/c37d4471824874794457fb28d3745b46f2f365e9))
+
 ## [1.2.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.1.0...v1.2.0) (2026-02-28)
 
 

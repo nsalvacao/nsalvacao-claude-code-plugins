@@ -22,7 +22,7 @@ jobs:
 
       - name: Checkout (on release merge)
         if: ${{ steps.release.outputs.release_created }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Tag summary
         if: ${{ steps.release.outputs.release_created }}

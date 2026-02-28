@@ -65,6 +65,17 @@
       },
       "source": "./plugins/productivity-cockpit",
       "category": "productivity"
+    },
+    {
+      "name": "plugin-studio",
+      "description": "Visual dashboard for creating and managing Claude Code plugins — browse structure, edit components, validate, and scaffold new plugins from a browser UI.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/plugin-studio",
+      "category": "development"
     }
   ]
 }

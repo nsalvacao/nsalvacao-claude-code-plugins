@@ -21,7 +21,17 @@ const __dirname = path.dirname(__filename);
 const PLUGIN_ROOT = path.join(__dirname, '..');
 const DIST_DIR = path.join(PLUGIN_ROOT, 'app', 'dist');
 const PID_FILE = path.join(__dirname, '.pid');
-const PORT_START = Number(process.env.PLUGIN_STUDIO_SERVER_PORT ?? 3847);
+const DEFAULT_PORT = 3847;
+let PORT_START = DEFAULT_PORT;
+const _envPort = process.env.PLUGIN_STUDIO_SERVER_PORT;
+if (_envPort !== undefined && _envPort !== '') {
+  const _parsed = Number.parseInt(_envPort, 10);
+  if (Number.isFinite(_parsed) && _parsed > 0 && _parsed <= 65535) {
+    PORT_START = _parsed;
+  } else {
+    console.warn(`⚠ Invalid PLUGIN_STUDIO_SERVER_PORT "${_envPort}". Falling back to ${DEFAULT_PORT}.`);
+  }
+}
 const PORT_MAX = PORT_START + 10;
 
 const MIME_TYPES = {
@@ -127,15 +137,39 @@ function serveStatic(req, res) {
   const ext = path.extname(filePath);
   const contentType = MIME_TYPES[ext] ?? 'application/octet-stream';
   res.writeHead(200, { 'Content-Type': contentType });
-  fs.createReadStream(filePath).pipe(res);
+
+  const fileStream = fs.createReadStream(filePath);
+  fileStream.on('error', (err) => {
+    console.error('Error streaming static file:', err);
+    if (!res.headersSent) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Internal server error');
+    } else if (!res.writableEnded) {
+      res.end();
+    }
+  });
+  res.on('close', () => { fileStream.destroy(); });
+  fileStream.pipe(res);
 }
 
 // ---------------------------------------------------------------------------
 // Request handler
 // ---------------------------------------------------------------------------
 
+// Restrict CORS to localhost origins only — prevents arbitrary websites from
+// calling Plugin Studio APIs (which will expose local filesystem data).
+const ALLOWED_ORIGINS = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+
+function setCorsHeaders(req, res) {
+  const origin = req.headers['origin'];
+  if (!origin || ALLOWED_ORIGINS.test(origin)) {
+    if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Vary', 'Origin');
+}
+
 function requestHandler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  setCorsHeaders(req, res);
 
   // API routes — stubs, filled in by issues #3, #4, #12, #16
   if (req.url?.startsWith('/api/')) {

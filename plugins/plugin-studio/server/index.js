@@ -21,8 +21,8 @@ const __dirname = path.dirname(__filename);
 const PLUGIN_ROOT = path.join(__dirname, '..');
 const DIST_DIR = path.join(PLUGIN_ROOT, 'app', 'dist');
 const PID_FILE = path.join(__dirname, '.pid');
-const PORT_START = 3847;
-const PORT_MAX = 3857;
+const PORT_START = Number(process.env.PLUGIN_STUDIO_SERVER_PORT ?? 3847);
+const PORT_MAX = PORT_START + 10;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -52,7 +52,13 @@ function findAvailablePort(start) {
     probe.listen(start, '127.0.0.1', () => {
       probe.close(() => resolve(start));
     });
-    probe.on('error', () => resolve(findAvailablePort(start + 1)));
+    probe.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        resolve(findAvailablePort(start + 1));
+      } else {
+        reject(err);
+      }
+    });
   });
 }
 
@@ -100,12 +106,19 @@ function serveStatic(req, res) {
     return;
   }
 
-  // SPA fallback — any missing path serves index.html for client-side routing
-  if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+  // SPA fallback — missing or directory paths serve index.html for client-side routing
+  try {
+    if (fs.statSync(filePath).isDirectory()) {
+      filePath = path.join(DIST_DIR, 'index.html');
+    }
+  } catch {
+    // File does not exist — fall back to index.html
     filePath = path.join(DIST_DIR, 'index.html');
   }
 
-  if (!fs.existsSync(filePath)) {
+  try {
+    fs.statSync(filePath);
+  } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not found — run pnpm build in app/ to generate dist/');
     return;
@@ -138,6 +151,25 @@ function requestHandler(req, res) {
 // PID file management
 // ---------------------------------------------------------------------------
 
+function checkExistingInstance() {
+  try {
+    const existing = fs.readFileSync(PID_FILE, 'utf8').trim();
+    const pid = Number(existing);
+    if (pid && !Number.isNaN(pid)) {
+      try {
+        process.kill(pid, 0); // signal 0 = check existence, no kill
+        console.error(`✗ Plugin Studio is already running (PID ${pid}). Stop it first or delete ${PID_FILE}.`);
+        process.exit(1);
+      } catch {
+        // PID not running — stale file, remove it
+        fs.unlinkSync(PID_FILE);
+      }
+    }
+  } catch {
+    // No PID file — clean start
+  }
+}
+
 function writePid() {
   fs.writeFileSync(PID_FILE, String(process.pid), 'utf8');
 }
@@ -156,6 +188,8 @@ function makeCleanupHandler(server) {
 // ---------------------------------------------------------------------------
 
 async function main() {
+  checkExistingInstance();
+
   const port = await findAvailablePort(PORT_START);
   const server = http.createServer(requestHandler);
 

@@ -24,8 +24,11 @@ if [ ! -d "${PLUGIN_ROOT}/app/node_modules" ]; then
   pnpm install --prefix "${PLUGIN_ROOT}/app"
 fi
 
+# Fixed port for dev mode so Vite proxy can target it reliably
+export PLUGIN_STUDIO_SERVER_PORT="${PLUGIN_STUDIO_SERVER_PORT:-3847}"
+
 echo "✓ Starting Plugin Studio in development mode"
-echo "  API server : tsx watch (hot-reload)"
+echo "  API server : tsx watch on port ${PLUGIN_STUDIO_SERVER_PORT} (hot-reload)"
 echo "  Vite app   : http://localhost:5173"
 echo ""
 

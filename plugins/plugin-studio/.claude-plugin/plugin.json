@@ -5,9 +5,5 @@
   "author": {
     "name": "Nuno Salvacao",
     "email": "nuno.salvacao@gmail.com"
-  },
-  "keywords": ["dashboard", "visual", "editor", "scaffold", "plugin-dev"],
-  "requirements": {
-    "node": ">=18"
   }
 }

@@ -17,13 +17,15 @@ if ! command -v node &>/dev/null; then
   exit 1
 fi
 
-node_major=$(node -e "process.stdout.write(String(process.versions.node.split('.')[0]))")
+node_details=$(node -e "console.log(process.versions.node.split('.')[0] + '|' + process.version)")
+node_major="${node_details%|*}"
+node_version="${node_details#*|}"
 if [ "${node_major}" -lt 18 ]; then
-  echo "✗ Node.js 18+ is required (found v$(node --version | tr -d 'v'))."
+  echo "✗ Node.js 18+ is required (found ${node_version})."
   exit 1
 fi
 
 echo "⚠ Plugin Studio server not yet implemented (milestone v0.1, issue #2)."
-echo "  This placeholder confirms Node.js $(node --version) is available."
+echo "  This placeholder confirms Node.js ${node_version} is available."
 echo "  Re-run /plugin-studio:open after issue #2 is merged."
 exit 0

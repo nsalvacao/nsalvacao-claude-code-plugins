@@ -5,6 +5,13 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.1.0...v1.2.0) (2026-02-28)
+
+
+### ✨ Features
+
+* **plugin-studio:** add canonical plugin scaffold structure ([#1](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/1)) ([8d8b8f5](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/8d8b8f5f5c3f99e2c75f4443dd03d4e0cfef5b0b))
+
 ## [1.1.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.0.0...v1.1.0) (2026-02-28)
 
 

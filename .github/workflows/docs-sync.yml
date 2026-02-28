@@ -43,7 +43,7 @@ jobs:
         run: python3 scripts/sync-docs.py
 
       - name: Commit updated docs
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "docs(auto): sync plugin inventory and README table [skip ci]"
           file_pattern: |

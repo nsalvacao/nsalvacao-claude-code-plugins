@@ -4,7 +4,7 @@
  *
  * Entry point: node server/index.js
  * No external dependencies — only Node.js built-in modules.
- * Serves app/dist/ as static files + REST API stub (filled in by issues #3, #4, #12).
+ * Serves app/dist/ as static files + REST API (filesystem routes in api/fs.js).
  */
 
 import http from 'node:http';
@@ -14,6 +14,7 @@ import net from 'node:net';
 import { exec } from 'node:child_process';
 import { platform } from 'node:os';
 import { fileURLToPath } from 'node:url';
+import { handleFsRoute } from './api/fs.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -168,10 +169,33 @@ function setCorsHeaders(req, res) {
   res.setHeader('Vary', 'Origin');
 }
 
+/**
+ * Return true when the request comes from a trusted origin.
+ * Requests without an Origin header (direct/curl/server-to-server) are allowed
+ * since we only bind on 127.0.0.1.  Browser-initiated requests always include
+ * Origin, so we validate it against the allowlist.
+ */
+function isTrustedOrigin(req) {
+  const origin = req.headers['origin'];
+  return !origin || ALLOWED_ORIGINS.test(origin);
+}
+
 function requestHandler(req, res) {
   setCorsHeaders(req, res);
 
-  // API routes — stubs, filled in by issues #3, #4, #12, #16
+  // Filesystem API routes (issue #3)
+  if (req.url?.startsWith('/api/fs/')) {
+    // Actively reject requests from non-localhost browser origins (CSRF guard).
+    // setCorsHeaders only sets response headers; browsers still send the request.
+    if (!isTrustedOrigin(req)) {
+      res.writeHead(403, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Forbidden: origin not allowed' }));
+      return;
+    }
+    return handleFsRoute(req, res, req.url);
+  }
+
+  // Other API routes — stub until implemented in subsequent issues (#4, #12, #16)
   if (req.url?.startsWith('/api/')) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ status: 'ok', version: '0.1.0', note: 'API routes implemented in subsequent issues' }));

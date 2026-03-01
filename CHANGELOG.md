@@ -5,6 +5,13 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.3.0...v1.4.0) (2026-03-01)
+
+
+### ✨ Features
+
+* **plugin-studio:** filesystem REST API with unit tests ([#3](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/3)) ([#32](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/32)) ([f4d0986](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/f4d09863a6f933d16d275f69e58bdd5e80ee68e1))
+
 ## [1.3.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.2.0...v1.3.0) (2026-02-28)
 
 

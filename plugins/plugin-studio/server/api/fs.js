@@ -18,6 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const TIMEOUT_MS = 10_000;
+const MAX_BODY_BYTES = 1024 * 1024; // 1 MB — generous for any plugin text file
 
 // ---------------------------------------------------------------------------
 // Utility — exported for unit tests
@@ -49,10 +50,10 @@ export function sanitizePath(root, userPath) {
 /**
  * Return true if dir contains .claude-plugin/plugin.json.
  */
-export function isValidPluginRoot(dir) {
+export async function isValidPluginRoot(dir) {
   if (!dir || typeof dir !== 'string') return false;
   try {
-    fs.statSync(path.join(dir, '.claude-plugin', 'plugin.json'));
+    await fs.promises.stat(path.join(dir, '.claude-plugin', 'plugin.json'));
     return true;
   } catch {
     return false;
@@ -103,7 +104,8 @@ async function walk(rootDir, dir, components) {
   let entries;
   try {
     entries = await withTimeout(fs.promises.readdir(dir, { withFileTypes: true }));
-  } catch {
+  } catch (err) {
+    console.error(`[fs-api] Failed to read directory ${dir}:`, err);
     return;
   }
   for (const entry of entries) {
@@ -142,15 +144,28 @@ export async function buildTree(rootDir) {
 
 function parseBody(req) {
   return new Promise((resolve, reject) => {
-    let raw = '';
+    const chunks = [];
+    let size = 0;
     const timer = setTimeout(
       () => reject(Object.assign(new Error('Request body timeout'), { code: 'ETIMEDOUT' })),
       TIMEOUT_MS,
     );
-    req.on('data', (chunk) => { raw += chunk; });
+    req.on('data', (chunk) => {
+      const buf = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+      size += buf.length;
+      if (size > MAX_BODY_BYTES) {
+        clearTimeout(timer);
+        reject(Object.assign(new Error('Request body too large'), { code: 'ETOOLARGE' }));
+        return;
+      }
+      chunks.push(buf);
+    });
     req.on('end', () => {
       clearTimeout(timer);
-      try { resolve(JSON.parse(raw || '{}')); } catch { reject(new Error('Invalid JSON body')); }
+      try {
+        const raw = Buffer.concat(chunks).toString('utf8');
+        resolve(JSON.parse(raw || '{}'));
+      } catch { reject(new Error('Invalid JSON body')); }
     });
     req.on('error', (err) => { clearTimeout(timer); reject(err); });
   });
@@ -182,7 +197,7 @@ export async function handleFsRoute(req, res, url) {
     if (fsPath === '/tree' && method === 'GET') {
       const rootDir = params.get('path');
       if (!rootDir) return sendError(res, 400, 'Missing ?path= query parameter');
-      if (!isValidPluginRoot(rootDir)) {
+      if (!await isValidPluginRoot(rootDir)) {
         return sendError(res, 400, 'Not a valid plugin directory (missing .claude-plugin/plugin.json)');
       }
       const tree = await withTimeout(buildTree(rootDir));
@@ -196,7 +211,7 @@ export async function handleFsRoute(req, res, url) {
       const root = params.get('root');
       const filePath = params.get('path');
       if (!root || !filePath) return sendError(res, 400, 'Missing ?root= or ?path= query parameters');
-      if (!isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
+      if (!await isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
       const safe = sanitizePath(root, filePath);
       if (!safe) return sendError(res, 403, 'Path outside plugin root');
       const content = await withTimeout(fs.promises.readFile(safe, 'utf8'));
@@ -212,7 +227,7 @@ export async function handleFsRoute(req, res, url) {
       if (!root || !filePath || content === undefined) {
         return sendError(res, 400, 'Body must include root, path, and content');
       }
-      if (!isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
+      if (!await isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
       const safe = sanitizePath(root, filePath);
       if (!safe) return sendError(res, 403, 'Path outside plugin root');
       try { await withTimeout(fs.promises.access(safe)); }
@@ -230,7 +245,7 @@ export async function handleFsRoute(req, res, url) {
       if (!root || !filePath || content === undefined) {
         return sendError(res, 400, 'Body must include root, path, and content');
       }
-      if (!isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
+      if (!await isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
       const safe = sanitizePath(root, filePath);
       if (!safe) return sendError(res, 403, 'Path outside plugin root');
       try {
@@ -247,7 +262,7 @@ export async function handleFsRoute(req, res, url) {
     // ------------------------------------------------------------------
     if (fsPath === '/file' && method === 'DELETE') {
       let root, filePath;
-      if (params.get('root')) {
+      if (params.has('root') || params.has('path')) {
         root = params.get('root');
         filePath = params.get('path');
       } else {
@@ -256,7 +271,7 @@ export async function handleFsRoute(req, res, url) {
         filePath = body.path;
       }
       if (!root || !filePath) return sendError(res, 400, 'Missing root and path');
-      if (!isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
+      if (!await isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
       const safe = sanitizePath(root, filePath);
       if (!safe) return sendError(res, 403, 'Path outside plugin root');
       await withTimeout(fs.promises.unlink(safe));
@@ -272,7 +287,7 @@ export async function handleFsRoute(req, res, url) {
       if (!root || !oldPath || !newPath) {
         return sendError(res, 400, 'Body must include root, oldPath, and newPath');
       }
-      if (!isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
+      if (!await isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
       const safeOld = sanitizePath(root, oldPath);
       const safeNew = sanitizePath(root, newPath);
       if (!safeOld || !safeNew) return sendError(res, 403, 'Path outside plugin root');
@@ -290,7 +305,7 @@ export async function handleFsRoute(req, res, url) {
       if (!root || !sourcePath || !targetPath) {
         return sendError(res, 400, 'Body must include root, sourcePath, and targetPath');
       }
-      if (!isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
+      if (!await isValidPluginRoot(root)) return sendError(res, 403, 'Invalid plugin root');
       const safeSrc = sanitizePath(root, sourcePath);
       const safeTgt = sanitizePath(root, targetPath);
       if (!safeSrc || !safeTgt) return sendError(res, 403, 'Path outside plugin root');
@@ -309,6 +324,7 @@ export async function handleFsRoute(req, res, url) {
     if (err.code === 'ENOENT') return sendError(res, 404, 'File or directory not found');
     if (err.code === 'EACCES') return sendError(res, 403, 'Permission denied');
     if (err.code === 'ETIMEDOUT') return sendError(res, 504, 'Filesystem operation timed out');
+    if (err.code === 'ETOOLARGE') return sendError(res, 413, 'Request body too large');
     console.error('[fs-api] Unhandled error:', err);
     return sendError(res, 500, 'Internal server error');
   }

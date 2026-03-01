@@ -169,11 +169,29 @@ function setCorsHeaders(req, res) {
   res.setHeader('Vary', 'Origin');
 }
 
+/**
+ * Return true when the request comes from a trusted origin.
+ * Requests without an Origin header (direct/curl/server-to-server) are allowed
+ * since we only bind on 127.0.0.1.  Browser-initiated requests always include
+ * Origin, so we validate it against the allowlist.
+ */
+function isTrustedOrigin(req) {
+  const origin = req.headers['origin'];
+  return !origin || ALLOWED_ORIGINS.test(origin);
+}
+
 function requestHandler(req, res) {
   setCorsHeaders(req, res);
 
   // Filesystem API routes (issue #3)
   if (req.url?.startsWith('/api/fs/')) {
+    // Actively reject requests from non-localhost browser origins (CSRF guard).
+    // setCorsHeaders only sets response headers; browsers still send the request.
+    if (!isTrustedOrigin(req)) {
+      res.writeHead(403, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Forbidden: origin not allowed' }));
+      return;
+    }
     return handleFsRoute(req, res, req.url);
   }
 

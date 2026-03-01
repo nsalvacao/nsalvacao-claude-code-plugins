@@ -71,7 +71,7 @@ function mockRes() {
     _body: '',
     writeHead(status) { this.statusCode = status; },
     end(data = '') { this._body = data; },
-    get json() { return JSON.parse(this._body); },
+    get json() { return JSON.parse(this._body || 'null'); },
   };
   return res;
 }
@@ -81,14 +81,14 @@ function mockRes() {
 // ---------------------------------------------------------------------------
 
 describe('sanitizePath', () => {
-  const root = '/tmp/plugin';
+  const root = path.join(os.tmpdir(), 'plugin');
 
   it('allows paths inside root', () => {
-    assert.equal(sanitizePath(root, 'commands/open.md'), '/tmp/plugin/commands/open.md');
+    assert.equal(sanitizePath(root, 'commands/open.md'), path.join(root, 'commands', 'open.md'));
   });
 
   it('allows .claude-plugin/plugin.json', () => {
-    assert.equal(sanitizePath(root, '.claude-plugin/plugin.json'), '/tmp/plugin/.claude-plugin/plugin.json');
+    assert.equal(sanitizePath(root, '.claude-plugin/plugin.json'), path.join(root, '.claude-plugin', 'plugin.json'));
   });
 
   it('blocks path traversal with ..', () => {
@@ -105,7 +105,7 @@ describe('sanitizePath', () => {
 
   it('normalises Windows backslashes', () => {
     const result = sanitizePath(root, 'commands\\open.md');
-    assert.equal(result, '/tmp/plugin/commands/open.md');
+    assert.equal(result, path.join(root, 'commands', 'open.md'));
   });
 
   it('returns null for empty path', () => {
@@ -122,21 +122,21 @@ describe('isValidPluginRoot', () => {
   before(() => { dir = makeTempPlugin(); });
   after(() => { removeTempPlugin(dir); });
 
-  it('returns true for valid plugin directory', () => {
-    assert.ok(isValidPluginRoot(dir));
+  it('returns true for valid plugin directory', async () => {
+    assert.ok(await isValidPluginRoot(dir));
   });
 
-  it('returns false for directory without plugin.json', () => {
-    assert.equal(isValidPluginRoot(os.tmpdir()), false);
+  it('returns false for directory without plugin.json', async () => {
+    assert.equal(await isValidPluginRoot(os.tmpdir()), false);
   });
 
-  it('returns false for null/undefined', () => {
-    assert.equal(isValidPluginRoot(null), false);
-    assert.equal(isValidPluginRoot(undefined), false);
+  it('returns false for null/undefined', async () => {
+    assert.equal(await isValidPluginRoot(null), false);
+    assert.equal(await isValidPluginRoot(undefined), false);
   });
 
-  it('returns false for non-existent path', () => {
-    assert.equal(isValidPluginRoot('/nonexistent/path/xyz'), false);
+  it('returns false for non-existent path', async () => {
+    assert.equal(await isValidPluginRoot('/nonexistent/path/xyz'), false);
   });
 });
 

@@ -61,23 +61,21 @@ Execute bash commands for deterministic checks:
 
 ### Plugin hooks.json Format
 
-**For plugin hooks** in `hooks/hooks.json`, use wrapper format:
+**For plugin hooks** in `hooks/hooks.json`, use direct format (canonical):
 
 ```json
 {
-  "description": "Brief explanation of hooks (optional)",
-  "hooks": {
-    "PreToolUse": [...],
-    "Stop": [...],
-    "SessionStart": [...]
-  }
+  "PreToolUse": [...],
+  "Stop": [...],
+  "SessionStart": [...]
 }
 ```
 
 **Key points:**
-- `description` field is optional
-- `hooks` field is required wrapper containing actual hook events
-- This is the **plugin-specific format**
+- Direct format (shown above) is **canonical and preferred** for new plugins
+- Each hook event is a top-level key (PreToolUse, Stop, SessionStart, etc.)
+- Legacy wrapper format `{"hooks": {...}}` is also accepted by validation but not recommended for new code
+- Older documentation referenced the wrapper format; this has been superseded
 
 **Example:**
 ```json

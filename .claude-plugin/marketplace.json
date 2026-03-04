@@ -27,7 +27,7 @@
       "description": "Enterprise-grade repository structure analyzer, validator, and scaffolder with intelligent automation",
       "version": "0.1.0",
       "author": {
-        "name": "Nuno Salvação",
+        "name": "Nuno Salvacao",
         "email": "nuno.salvacao@gmail.com"
       },
       "source": "./plugins/repo-structure",

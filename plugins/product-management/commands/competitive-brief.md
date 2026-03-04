@@ -1,5 +1,6 @@
 ---
 description: Create a competitive analysis brief for one or more competitors or a feature area
+name: competitive-brief
 argument-hint: "<competitor or feature area>"
 ---
 

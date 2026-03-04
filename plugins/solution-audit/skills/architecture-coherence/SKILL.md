@@ -49,7 +49,7 @@ Use Grep with language-appropriate patterns:
 - JavaScript/TypeScript: `import .* from`, `require\(`
 - Python: `from .* import`, `import .*`
 - Go: `import "`, `import \(`
-- Rust: `use `, `mod `
+- Rust: `use`, `mod`
 
 ### 4. Detect Boundary Violations
 

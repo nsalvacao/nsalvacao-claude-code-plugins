@@ -1,5 +1,6 @@
 ---
 description: Sync tasks and refresh memory from your current activity
+name: update
 argument-hint: "[--comprehensive]"
 ---
 

@@ -1,5 +1,6 @@
 ---
 description: Review and analyze product metrics with trend analysis and actionable insights
+name: metrics-review
 argument-hint: "<time period or metric focus>"
 ---
 

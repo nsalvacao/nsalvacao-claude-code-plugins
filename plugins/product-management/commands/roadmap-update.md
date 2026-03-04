@@ -1,5 +1,6 @@
 ---
 description: Update, create, or reprioritize your product roadmap
+name: roadmap-update
 argument-hint: "<update description>"
 ---
 

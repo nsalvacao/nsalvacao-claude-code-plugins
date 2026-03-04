@@ -1,0 +1,13 @@
+{
+  "SessionStart": [
+    {
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "prompt",
+          "prompt": "Check if .solution-audit-latest.json exists in the current project root. If it exists, read it and display a brief (2-3 line) reminder of the top 3 unresolved findings by severity. Format: 'Solution Audit: [N] pending findings — top: [brief description of top 1-3 items]'. If the file does not exist, output nothing."
+        }
+      ]
+    }
+  ]
+}

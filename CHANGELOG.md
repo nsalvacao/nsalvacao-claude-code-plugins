@@ -5,6 +5,18 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.4.0...v1.5.0) (2026-03-04)
+
+
+### ✨ Features
+
+* **solution-audit:** add continuous meta-quality audit plugin ([#35](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/35)) ([8b6b0b9](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/8b6b0b9fa8cc02b87b8f8cf2820a4aa0d3ad4c5b))
+
+
+### 🔧 Maintenance
+
+* **deps:** bump actions/stale from 9 to 10 ([#34](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/34)) ([b7b3116](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/b7b31165f9208d239454c0bc09c669cc3aa5edac))
+
 ## [1.4.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.3.0...v1.4.0) (2026-03-01)
 
 

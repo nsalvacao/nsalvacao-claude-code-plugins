@@ -1,5 +1,6 @@
 ---
 description: Write a feature spec or PRD from a problem statement or feature idea
+name: write-spec
 argument-hint: "<feature or problem statement>"
 ---
 

@@ -1,5 +1,6 @@
 ---
 description: Initialize the productivity system and open the dashboard
+name: start
 ---
 
 # Start Command

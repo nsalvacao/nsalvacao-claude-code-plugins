@@ -29,7 +29,7 @@ grep -rn "static description" src/commands/ --include="*.ts"
 ### Finding documented features in README
 ```bash
 # Feature lists (typically bulleted)
-grep -n "^- \|^* \|^  - \|^  * " README.md
+grep -En '^[[:space:]]*[-*] ' README.md
 # Code examples
 grep -n '```' README.md
 # Command examples

@@ -14,7 +14,7 @@ View, compare, and analyze previous solution audit reports.
 
 ## Behavior
 
-1. **Discover reports**: Find all `.solution-audit-*.json` files in the project root
+1. **Discover reports**: Find all `.solution-audit-[0-9]*.json` files in the project root (excludes `.solution-audit-latest.json`)
 2. **Display based on arguments**:
    - No args or `--latest`: Show most recent audit report summary
    - `--compare YYYY-MM-DD`: Show diff between two reports (regressions, improvements, new/resolved findings)

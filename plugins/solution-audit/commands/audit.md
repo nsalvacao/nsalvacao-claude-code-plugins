@@ -1,7 +1,7 @@
 ---
 name: audit
 description: Run comprehensive solution audit across all quality dimensions
-argument-hint: "[--dimensions=all|coherence|docs|onboarding|ux] [--severity=all|critical|warning] [--compare]"
+argument-hint: "[--dimensions=all|coherence|docs|onboarding|ux] [--severity=all|critical|warning|info] [--compare]"
 allowed-tools:
   - Read
   - Grep
@@ -34,7 +34,7 @@ Run a comprehensive multi-dimensional quality audit of the current project.
 ## Arguments
 
 - `--dimensions`: Limit to specific dimensions (comma-separated). Default: all
-- `--severity`: Filter findings by minimum severity. Default: all
+- `--severity`: Filter findings by minimum severity (`critical`, `warning`, `info`). Default: all
 - `--compare`: Force comparison with most recent previous audit
 
 ## Output Format

@@ -88,7 +88,7 @@ If no architecture doc exists: WARNING finding, infer from directory names.
 ### Step 2: Build actual import graph
 
 For each source file, extract imports:
-- Python: `import`, `from X import`
+- Python: `import`, `from X import`, `importlib.import_module` (dynamic imports)
 - JS/TS: `import`, `require`
 - Go: `import`
 - Rust: `use`, `mod`

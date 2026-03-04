@@ -1,7 +1,7 @@
 ---
 name: audit-ux
 description: Comprehensive UX audit — CLI ergonomics, textual quality, learnability, and workflow friction
-argument-hint: "[--focus=cli|text|learnability|all] [--deep]"
+argument-hint: "[--focus=cli|text|learnability-workflow|all] [--deep]"
 allowed-tools:
   - Read
   - Grep
@@ -38,7 +38,7 @@ Comprehensive user experience audit covering CLI ergonomics, textual communicati
 
 ## Arguments
 
-- `--focus`: Limit to specific UX dimension. Default: all
+- `--focus`: Limit to specific UX dimension (`cli`, `text`, `learnability-workflow`). Default: all
 - `--deep`: Perform exhaustive analysis including edge cases and all error paths
 
 ## Output Format
@@ -51,7 +51,7 @@ Scorecard:
 |---------------------|-------|-------|----------|
 | CLI UX              | XX    | [G]   | N        |
 | Textual UX          | XX    | [G]   | N        |
-| Learnability/Flow   | XX    | [G]   | N        |
+| Learnability & Workflow | XX | [G]   | N        |
 | UX OVERALL          | XX    | [G]   | N        |
 
 Quick Wins (high impact, low effort):

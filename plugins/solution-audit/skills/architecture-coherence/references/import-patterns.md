@@ -20,7 +20,7 @@ grep -rn "import(" src/ --include="*.ts" --include="*.js"
 ```bash
 # Cross-module imports (assumes src/<module>/ structure)
 # Find imports that reference ../other-module/
-grep -rn 'from "\.\./\|from "\.\.\/' src/ --include="*.ts"
+grep -rn 'from "\.\.' src/ --include="*.ts"
 
 # Find imports crossing package boundaries in monorepos
 grep -rn 'from "@[^/]*/\|from "packages/' src/ --include="*.ts"

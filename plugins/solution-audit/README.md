@@ -51,13 +51,13 @@ This plugin acts as a methodical, skeptical reviewer that examines your solution
 # View previous results
 /audit-report --latest
 /audit-report --trend
-/audit-report --compare 2025-01-15
+/audit-report --compare YYYY-MM-DD
 ```
 
 ## Output
 
 Every audit produces:
-- **Scorecard** — 0-100 per dimension with letter grades
+- **Scorecard** — 0-100 per dimension with grades
 - **Findings** — classified as Critical, Warning, or Info with file references
 - **Actionable Checklist** — prioritized fixes grouped by effort
 - **Baseline Comparison** — delta vs previous audit (if available)

@@ -1,7 +1,7 @@
 {
   "name": "solution-audit",
   "version": "0.1.0",
-  "description": "Continuous meta-quality audit system for solutions under development — evaluates coherence, architecture, documentation, onboarding, and UX across multiple dimensions",
+  "description": "Continuous meta-quality audit system for solutions under development — evaluates coherence, architecture, documentation, onboarding, and UX across 7 dimensions with prioritized, actionable findings",
   "author": {
     "name": "Nuno Salvacao",
     "email": "nuno.salvacao@gmail.com",

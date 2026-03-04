@@ -72,6 +72,9 @@ New findings: N | Resolved findings: N
 ```
 Score Trend: [N] audits from [first-date] to [last-date]
 
+Columns: Overall, Prod (Product Coherence), Arch (Architecture Coherence), Docs (Documentation Quality),
+Onb (Onboarding Quality), CLI (CLI UX), Text (Textual UX), Learn (Learnability & Workflow)
+
 | Date       | Overall | Prod | Arch | Docs | Onb  | CLI  | Text | Learn |
 |------------|---------|------|------|------|------|------|------|-------|
 | [per-date] |         |      |      |      |      |      |      |       |

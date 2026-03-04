@@ -2,7 +2,7 @@
 
 [![Plugin Validation](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/plugin-validation.yml/badge.svg)](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/plugin-validation.yml)
 [![Release](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/release.yml/badge.svg)](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/release.yml)
-[![Plugins](https://img.shields.io/badge/plugins-6-blue)](#plugin-catalog)
+[![Plugins](https://img.shields.io/badge/plugins-7-blue)](#plugin-catalog)
 [![License](https://img.shields.io/badge/license-MIT-black)](LICENSE)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/nsalvacao/nsalvacao-claude-code-plugins/badge)](https://scorecard.dev/viewer/?uri=github.com/nsalvacao/nsalvacao-claude-code-plugins)
 
@@ -54,6 +54,7 @@ By treating plugins as products (not one-off prompt files), this repository can 
 | `productivity` | 1.0.0 | Task management, workplace memory, and a visual dashboard. Claude learns your... | productivity | 2 cmd, 2 skill |
 | `productivity-cockpit` | 1.0.0 | Task management, workplace memory, and an interactive cockpit dashboard with ... | productivity | 2 cmd, 3 skill |
 | `plugin-studio` | 0.1.0 | Visual dashboard for creating and managing Claude Code plugins — browse struc... | development | 2 cmd, 1 skill, hooks |
+| `solution-audit` | 0.1.0 | Continuous meta-quality audit system for solutions under development — evalua... | development | 6 cmd, 7 skill, 3 agent, hooks |
 <!-- PLUGINS-TABLE-END -->
 
 ## Repository Structure

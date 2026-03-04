@@ -5,6 +5,18 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.5.0...v1.6.0) (2026-03-04)
+
+
+### ✨ Features
+
+* **solution-audit:** finalize plugin with review fixes and CI improvements ([116e088](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/116e08854bfdad90a1f76dd187ea11de5b3ba94a))
+
+
+### 📚 Documentation
+
+* regenerate copilot-instructions.md with 11-step discovery workflow v2.0 ([9a2be8a](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/9a2be8a75f246ddcb58a6729c90ee2093eabb6ef))
+
 ## [1.5.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.4.0...v1.5.0) (2026-03-04)
 
 

@@ -5,6 +5,12 @@ This directory contains all Claude Code plugins maintained in this repository.
 ## Current Plugins
 
 - `strategy-toolkit` - Strategic ideation and execution planning toolkit
+- `repo-structure` - Enterprise-grade repository structure analyzer, validator, and scaffolder
+- `product-management` - Full PM workflow: specs, roadmaps, user research, competitive analysis
+- `productivity` - Task management, workplace memory, and visual dashboard
+- `productivity-cockpit` - Task management, memory, and interactive cockpit dashboard with AI chatbot
+- `plugin-studio` - Visual dashboard for creating and managing Claude Code plugins
+- `solution-audit` - Continuous meta-quality audit across 7 development dimensions
 
 ## Add a New Plugin
 

@@ -1,575 +1,437 @@
-# Copilot Coding Agent Instructions
+# GitHub Copilot — Repository Onboarding Guide
 
-## Repository Overview
+> **One read, zero searches.** This guide enables any LLM coding agent to contribute
+> to this repository confidently from first encounter.
 
-This repository is a **Claude Code plugin portfolio** — a structured collection of
-production-grade plugins for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
-It contains 6 plugins under `plugins/`, a root marketplace manifest, automated CI
-validation, AI-powered PR reviews, and docs-sync automation.
+---
 
-There is **no traditional build system** (no `npm`, `pip install`, `make`, etc.).
-The codebase is primarily **Markdown, JSON, YAML, Bash, and Python**. Validation
-is done via CI workflows and shell scripts.
+## 1. Project Intent
 
-## Repository Structure
+Personal marketplace of production-grade **Claude Code plugins** — reusable commands,
+skills, agents, and hooks packaged as self-contained plugin directories under `plugins/`.
+The repository solves the "scattered prompt files" problem: every plugin follows a shared
+quality bar, gets validated in CI, and is discoverable via a root marketplace manifest.
 
-```text
+**Typical task types**: add a plugin, extend an existing plugin, fix validation failures,
+update documentation, scaffold components (commands/skills/agents/hooks).
+
+**Stake**: Breaking the CI pipeline (`plugin-validation.yml`) blocks the entire release
+workflow. Breaking `marketplace.json` sync makes plugins undiscoverable in Claude Code.
+
+---
+
+## 2. Critical Rules
+
+### MUST
+
+- **MUST keep `.claude-plugin/marketplace.json` in sync** with every directory under
+  `plugins/` (excluding `plugin-dev`). CI fails hard if they diverge.
+  - Rationale: marketplace.json is the discovery index Claude Code users rely on.
+  - Violation: `Plugin 'X' in plugins/ but NOT in marketplace.json` → CI exit 1.
+
+- **MUST validate all JSON files with `jq empty <file>`** before committing.
+  - Applies to: `marketplace.json`, `plugin.json`, `hooks.json`.
+  - Violation: silently corrupt manifests that break Claude Code plugin loading.
+
+- **MUST include required frontmatter in every command and skill file**:
+  - Command `.md` files → `description:` field mandatory.
+  - `SKILL.md` files → `name:` AND `description:` fields mandatory.
+  - Violation: CI step "Validate command/skill frontmatter" exits 1.
+
+- **MUST use `${CLAUDE_PLUGIN_ROOT}` instead of absolute paths** in `hooks.json`
+  command strings.
+  - Rationale: plugins are installed in different directories per user; hardcoded
+    paths break portability.
+
+- **MUST use `var=$((var + 1))`** (not `((var++))`) in bash scripts that use `set -e`.
+  - Rationale: `((var++))` returns 0 (falsy) when `var=0` → `set -e` exits immediately.
+  - Applies to all `.sh` scripts, especially validators under `plugin-dev/skills/`.
+
+- **MUST use Conventional Commits** format for all commits:
+  `feat(scope): …`, `fix(scope): …`, `docs(scope): …`, `chore(scope): …`.
+
+### NEVER
+
+- **NEVER add `plugin-dev` to `marketplace.json`** — it is the dev toolkit, not a
+  plugin. CI explicitly excludes it from sync checks.
+  - Why: `plugin-dev` contains validators/scaffolders used by CI; treating it as a
+    marketplace plugin would expose internal tooling to end users.
+
+- **NEVER use `type: prompt`** in `hooks.json` for events other than
+  `Stop`, `SubagentStop`, `UserPromptSubmit`, `PreToolUse`.
+  - Why: validator warns on unsupported events; Claude Code may silently ignore them.
+
+- **NEVER hardcode absolute paths** in hook scripts or command prompts.
+
+- **NEVER skip markdownlint** on plugin README, commands, skills, and agent files.
+  - Exception: `plugins/plugin-dev/**` is explicitly excluded from markdownlint in CI.
+
+### SHOULD
+
+- **SHOULD run local validation** (see Section 5) before pushing — CI mirrors it exactly.
+- **SHOULD keep plugin components at plugin root level** (`commands/`, `skills/`,
+  `agents/`, `hooks/`) — never nested inside `.claude-plugin/`.
+- **SHOULD start new plugin versions at `0.1.0`**; follow semver for increments.
+
+---
+
+## 3. Repository Structure
+
+```
 .
-├── .claude-plugin/          # Root marketplace manifest
-│   └── marketplace.json     # Lists all publishable plugins
+├── .claude-plugin/
+│   └── marketplace.json          # ⚠️ Root index — must stay in sync with plugins/
 ├── .github/
-│   ├── workflows/           # CI/CD workflows (validation, release, docs sync, etc.)
-│   ├── ISSUE_TEMPLATE/      # Bug report and feature request forms
+│   ├── ISSUE_TEMPLATE/           # Bug/feature issue templates
+│   ├── workflows/
+│   │   ├── plugin-validation.yml # 🔑 Primary CI — validates all plugins
+│   │   ├── release.yml           # release-please automation
+│   │   ├── docs-sync.yml         # Auto-syncs README plugin table
+│   │   ├── housekeeping.yml      # Stale issues, dependabot config
+│   │   ├── ai-review.yml         # AI-assisted PR review
+│   │   └── security.yml          # OpenSSF / security scanning
 │   └── PULL_REQUEST_TEMPLATE.md
+├── .ideas/                       # Ideation & blueprints (not code)
 ├── docs/
-│   ├── PLUGIN_GUIDELINES.md # Quality bar and required plugin structure
-│   ├── RELEASE_CHECKLIST.md # Pre-release validation checklist
-│   └── plugins-inventory.md # Auto-generated plugin inventory (do NOT edit manually)
+│   ├── PLUGIN_GUIDELINES.md      # Quality bar for all plugins
+│   └── RELEASE_CHECKLIST.md      # Pre-release checklist
+├── memory/                       # Session memory for agent context
+│   ├── context/repo.md           # Repo-level context notes
+│   └── projects/                 # Per-project memory files
 ├── plugins/
-│   ├── plugin-dev/          # Dev toolkit (validators, linters, scaffolding — NOT a marketplace plugin)
-│   ├── strategy-toolkit/    # Strategic ideation plugin
-│   ├── repo-structure/      # Repository structure analyzer/validator
-│   ├── product-management/  # Product management workflow plugin
-│   ├── productivity/        # Task/memory management plugin
-│   └── productivity-cockpit/# Productivity dashboard with web UI
+│   ├── plugin-dev/               # 🔧 Dev toolkit (NOT a marketplace plugin)
+│   │   ├── commands/             # Scaffolding commands (create-plugin.md)
+│   │   └── skills/               # Validator scripts + dev skills
+│   │       ├── hook-development/ # validate-hook-schema.sh, hook-linter.sh
+│   │       ├── agent-development/# validate-agent.sh
+│   │       ├── plugin-settings/  # parse-frontmatter.sh
+│   │       └── plugin-structure/ # Plugin layout guidance
+│   ├── plugin-studio/            # 🚧 Active development — Node.js server + React UI
+│   │   ├── app/                  # Vite/React frontend (app/dist/ pre-built)
+│   │   ├── server/               # Node.js HTTP server (no external deps)
+│   │   │   ├── index.js          # Entry point; stores PID in server/.pid
+│   │   │   └── api/fs.js         # Filesystem REST API
+│   │   ├── hooks/hooks.json      # SessionStart → check-server.sh
+│   │   └── scripts/check-server.sh
+│   ├── strategy-toolkit/         # Stable — strategic planning commands/skills
+│   ├── product-management/       # Stable — PM workflow commands/skills
+│   ├── productivity/             # Stable — task management + dashboard
+│   ├── productivity-cockpit/     # Stable — cockpit dashboard + AI chatbot
+│   ├── repo-structure/           # Stable — repo analyzer/validator/scaffolder
+│   └── solution-audit/           # Active — continuous meta-quality audit
 ├── scripts/
-│   └── sync-docs.py         # Auto-generates README table and plugins-inventory.md
-├── CONTRIBUTING.md           # Contribution guide and plugin checklist
-├── release-please-config.json
-└── .release-please-manifest.json
+│   └── sync-docs.py              # Syncs plugin inventory + README table (CI only)
+├── .markdownlint.json            # Markdownlint config (MD013, MD033, MD041 off)
+├── .markdownlintrc               # Same config (both files present, identical)
+├── release-please-config.json    # Automated release configuration
+└── version.txt                   # Current version (managed by release-please)
 ```
 
-## Plugin Architecture & Validation Requirements
+**Key paths for common tasks**:
 
-Each plugin lives under `plugins/<plugin-name>/` and must contain a `.claude-plugin/plugin.json` manifest plus one or more component types (commands, skills, agents, hooks, MCP). This section covers manifest requirements, component formats, and quality standards for all plugin files.
+| Task | Path |
+|------|------|
+| Add a new plugin | `plugins/<name>/` + update `.claude-plugin/marketplace.json` |
+| Add a command | `plugins/<name>/commands/<name>.md` |
+| Add a skill | `plugins/<name>/skills/<skill-name>/SKILL.md` |
+| Add an agent | `plugins/<name>/agents/<name>.md` |
+| Add hooks | `plugins/<name>/hooks/hooks.json` |
+| Plugin manifest | `plugins/<name>/.claude-plugin/plugin.json` |
+| Validate hooks | `plugins/plugin-dev/skills/hook-development/scripts/validate-hook-schema.sh` |
+| Validate agents | `plugins/plugin-dev/skills/agent-development/scripts/validate-agent.sh` |
+| Parse frontmatter | `plugins/plugin-dev/skills/plugin-settings/scripts/parse-frontmatter.sh` |
 
-**Important:** `plugins/plugin-dev/` is a development toolkit, **not** a marketplace plugin. It provides validation scripts, linters, and scaffolding used by CI and other plugins. It is excluded from marketplace sync checks.
-
-### Plugin Manifest (plugin.json)
-
-Each plugin MUST include a `.claude-plugin/plugin.json` manifest at the plugin root with the following structure:
-
-**Required fields:**
-- `name` (string): kebab-case identifier, lowercase, alphanumeric + hyphens only, globally unique
-- `version` (string): Semantic versioning (MAJOR.MINOR.PATCH); initialize new plugins at `0.1.0`
-- `description` (string): Clear problem statement or plugin purpose, under 150 characters
-- `author` (object): Must contain `name` (string) and `email` (string) fields
-
-**Recommended fields:**
-- `homepage` (string): URL to plugin documentation or website
-- `repository` (string): URL to source version control (e.g., GitHub repository)
-- `license` (string): SPDX identifier (e.g., `"MIT"`, `"Apache-2.0"`)
-- `keywords` (array of strings): 3–5 terms for marketplace discoverability
-
-**Example:**
-```json
-{
-  "name": "strategy-toolkit",
-  "version": "0.1.0",
-  "description": "Strategic ideation and execution planning toolkit with reproducible frameworks",
-  "author": {
-    "name": "Nuno Salvacao",
-    "email": "nuno.salvacao@gmail.com"
-  },
-  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins/tree/main/plugins/strategy-toolkit",
-  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
-  "license": "MIT",
-  "keywords": ["strategy", "ideation", "planning", "frameworks"]
-}
-```
-
-### Component Format Requirements
-
-#### Commands (commands/*.md)
-
-**File naming:** kebab-case.md (e.g., `write-spec.md`, `brainstorm.md`, `repo-validate.md`)
-
-**Frontmatter (YAML) — Required & Optional fields:**
-```yaml
----
-description: Create a detailed competitive analysis report comparing features and positioning
-name: competitive-brief  # optional; if omitted, derives from filename
-argument-hint: "[repo-path] [competitors]"  # optional
-allowed-tools: [find_files, read_file]  # optional; restricts tool access
-model: sonnet  # optional; overrides default model; values: inherit|sonnet|opus|haiku
-disable-model-invocation: false  # optional; boolean
----
-```
-
-- **`description`** (REQUIRED): 1–2 sentence command purpose, visible in `/help` (aim for <60 characters); should be an action directive (e.g., "Create...", "Validate...", "Write...")
-- **`name`** (OPTIONAL): if omitted, command name derives from filename; if provided, must match filename exactly
-- **Other fields** (OPTIONAL): see plugin-dev/skills/command-development for advanced use cases
-
-**Purpose:** Commands are instructions FOR Claude, not messages TO users. They shape Claude's behavior when invoked via `/plugin-name:command-name [args]`.
-
-**Example:**
-```markdown
----
-description: Validate plugin structure conformance against quality standards
-name: plugin-validate
 ---
 
-## Purpose
-Check a plugin directory for structural integrity and guideline compliance...
+## 4. Development Workflow
 
-[Markdown body with template, examples, and validation criteria]
-```
+1. **BRANCH** from `main` using convention: `feat/<topic>`, `fix/<topic>`,
+   `docs/<topic>`, `chore/<topic>`
 
-#### Skills (skills/skill-name/SKILL.md)
+2. **PLAN** — read `docs/PLUGIN_GUIDELINES.md`; check `TASKS.md` for active work;
+   review `memory/context/repo.md` for context.
 
-**Directory structure:**
-```
-skills/
-  strategic-analysis/
-    SKILL.md              # Required: metadata + description
-    scripts/              # Optional: executable utilities
-    references/           # Optional: large reference documents
-    assets/               # Optional: templates or boilerplate files
-```
+3. **IMPLEMENT** — follow plugin structure (see Section 6). Use `plugin-dev` skills
+   as reference: load `plugin-structure` skill for layout, `hook-development` for
+   hooks, `agent-development` for agents.
 
-**SKILL.md frontmatter (YAML) — Required fields:**
-```yaml
+4. **VALIDATE LOCALLY** — run all checks from Section 5 before pushing.
+
+5. **UPDATE MANIFEST** — if adding/removing a plugin, update `.claude-plugin/marketplace.json`.
+
+6. **COMMIT** using Conventional Commits:
+   - `feat(plugin-name): add X command`
+   - `fix(plugin-name): correct frontmatter in skill Y`
+   - `docs(repo): update plugin guidelines`
+   - `chore(deps): bump actions/checkout`
+
+7. **OPEN PR** — fill PR template (purpose, files changed, validation notes).
+   release-please creates release PRs automatically after merging.
+
+**Branching strategy**: trunk-based — all work targets `main` via short-lived feature
+branches. No long-lived develop/staging branches.
+
 ---
-name: strategic-analysis
-description: |
-  Use this skill when the user asks to analyze market opportunities, competitive positioning, or strategic risks.
-  Large reference guides available: grep "Feature:" in references/competitor-matrix.md
----
-```
 
-- **`name`** (REQUIRED): skill identifier, lowercase + hyphens, no spaces
-- **`description`** (REQUIRED): trigger conditions and usage context; if bundling large reference files, include grep patterns to help Claude index content
+## 5. Build, Test & Validation
 
-**Guidelines:**
-- Keep SKILL.md body under 5,000 words; reference large docs via `references/` subdirectory
-- `scripts/` contains deterministic, repeatable code (parsing, validation, formatting, tree traversal)
-- `assets/` contains template files, boilerplate code, or snippets users might copy-paste
-- Use markdown headers and examples liberally for clarity
+> This is a documentation/configuration repository. There is no build step at root level.
+> All validation runs through CI scripts.
 
-#### Agents (agents/*.md) — CRITICAL: Description Format
+### Local Validation (mirrors CI exactly)
 
-**File naming:** kebab-case.md (e.g., `structure-architect.md`, `coherence-analyzer.md`)
-
-**Frontmatter (YAML) — Required fields:**
-```yaml
----
-name: coherence-analyzer
-description: |
-  Use this agent when reviewing a plugin's architecture or cross-component consistency.
-  
-  <example>
-  Context: New plugin with inconsistent command naming (some use brainstorm, others use ideate).
-  User: Check plugin structure for consistency issues
-  Assistant: Identifies mixed naming patterns, recommends standardization to kebab-case.
-  <commentary>Triggered because naming consistency impacts discoverability and usability.</commentary>
-  </example>
-
-  <example>
-  Context: Plugin has valid structure but unclear skill descriptions that don't indicate triggering conditions.
-  User: Audit skill descriptions for clarity
-  Assistant: Reviews descriptions, suggests improvements to make Claude recognize when skills are needed.
-  <commentary>Triggered to improve Claude's decision-making about skill applicability.</commentary>
-  </example>
-model: inherit
-color: blue
-tools: [read_file, grep_search]  # optional
----
-```
-
-**Required fields:**
-- **`name`** (REQUIRED): 3–50 characters, lowercase + hyphens, must start/end with alphanumeric; avoid generic names like `helper` or `validator`
-- **`description`** (REQUIRED & CRITICAL): 
-  - Opens with clear triggering condition: "Use this agent when [specific context/problem]"
-  - Includes 2+ `<example>` blocks showing when agent should be invoked
-  - Each example has: Context (situation), User (request), Assistant (response), <commentary> (why agent triggered)
-  - Examples teach Claude the context + expected behavior; without them, agents may never be invoked
-- **`model`** (REQUIRED): `inherit` (recommended), `sonnet`, `opus`, or `haiku`
-- **`color`** (REQUIRED): `blue`, `cyan`, `green`, `yellow`, `magenta`, or `red` (use distinct colors if multiple agents in same plugin)
-- **`tools`** (OPTIONAL): array of allowed tools to restrict access
-
-**Why this matters:** Claude uses agent descriptions to decide IF agent should be invoked. Clear triggering conditions + concrete examples are the only mechanism Claude has to recognize when an agent is relevant. Vague descriptions = agents that never get used.
-
-#### Hooks (hooks/hooks.json)
-
-**Format (canonical — direct format preferred):**
-
-```json
-{
-  "SessionStart": [
-    {
-      "matcher": "pattern_or_*_for_all",
-      "hooks": [
-        {
-          "type": "command",
-          "command": ["bash", "${CLAUDE_PLUGIN_ROOT}/scripts/setup.sh"],
-          "timeout": 10,
-          "description": "Initialize workspace on session start"
-        }
-      ]
-    }
-  ],
-  "PreToolUse": [
-    {
-      "matcher": "Write|Edit",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Validate this write operation: $TOOL_INPUT",
-          "timeout": 30
-        }
-      ]
-    }
-  ]
-}
-```
-
-**Key points:**
-- Each hook event (SessionStart, PreToolUse, Stop, etc.) is a **top-level key** containing an array of hook objects
-- **Direct format (above) is canonical and preferred** for new plugins
-- Use `${CLAUDE_PLUGIN_ROOT}` (with braces) for portability across Windows/WSL/Linux
-- Paths are relative to plugin root; NEVER use absolute paths or hardcoded user directories
-- `timeout`: optional, numeric seconds (recommended 5–600s range)
-- **Supported events:** PreToolUse, PostToolUse, UserPromptSubmit, Stop, SubagentStop, SessionStart, SessionEnd, PreCompact, Notification
-- **Legacy note:** Older documentation referenced a wrapper format `{"hooks": {...}}`. The direct format (shown above) is now canonical.
-
-#### MCP Server Configuration (mcp-template.json)
-
-**Important distinction:**
-- `mcp-template.json` is a REFERENCE TEMPLATE showing server configuration patterns — it is NOT operational configuration
-- Users must follow the plugin's `MCP-SETUP.md` documentation to configure their own servers with actual credentials
-- Should be version-controlled as documentation; users will create `.mcp.json` locally with their credentials (never committed)
-
-**MCP servers can be configured as:**
-1. **stdio** (local executable): `command`, `args`, `env` (for local tools, databases)
-2. **sse** (Server-Sent Events): `url`, auth headers (hosted services with OAuth)
-3. **http** (REST API): `url`, headers with auth tokens (REST-based tools like Slack, Notion)
-4. **websocket**: `url`, auth flow (real-time collaboration tools)
-
-**Best practices:**
-- Document setup instructions in plugin's `MCP-SETUP.md` (include OAuth flow if applicable)
-- Use environment variables for secrets; document required `.env` variables
-- Include example server URIs in templates, but NEVER include real credentials or API keys
-- Test that plugin functions without MCP server present (graceful degradation)
-- Avoid committing `.mcp.json` files; add to `.gitignore`
-
-**Example template structure:**
-```json
-{
-  "notion-integration": {
-    "type": "http",
-    "url": "https://api.notion.com/v1/",
-    "headers": {
-      "Authorization": "Bearer ${NOTION_API_KEY}"
-    }
-  },
-  "local-database": {
-    "type": "stdio",
-    "command": "python",
-    "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.py"]
-  }
-}
-```
-
-### File Quality Standards
-
-All plugin files MUST conform to the following standards:
-
-| Aspect | Standard | Enforcement |
-|--------|----------|-------------|
-| **Encoding** | UTF-8 | .editorconfig + git config core.safecrlf |
-| **Line endings** | LF (Unix) | .gitattributes, .editorconfig |
-| **Indentation** | 2 spaces | .editorconfig (JSON, YAML, Markdown nested lists) |
-| **Final newline** | Required on ALL files | .editorconfig + pre-commit hooks |
-| **Markdown lint** | markdownlint-cli2 per .markdownlintrc | CI workflow (plugin-validation.yml) |
-| **JSON syntax** | Valid JSON, validated with `jq empty` | CI workflow |
-| **YAML syntax** | Valid YAML; consistent field naming per component type | Manual review + plugin-dev validators |
-| **Shell scripts** | Validated with shellcheck; use `set -euo pipefail` | CI workflow; arithmetic with `var=$((var + 1))` not `((var++))` |
-
-**Key rules:**
-- Markdown: line-length (MD013) disabled; HTML tags allowed; all other linting rules enforced
-- YAML: consistent field naming (kebab-case for file names, camelCase for YAML fields, lowercase for enum values)
-- Bash: under `set -e`, arithmetic expressions must use `var=$((var + 1))` syntax, NOT `((var++))` (evaluates to 0 when count is 0, causing exit)
-
-## Validation and Testing
-
-### CI Workflows
-
-- **Plugin Validation** (`plugin-validation.yml`): push/PR to `main` — validates JSON, READMEs, manifests, hooks, agents, frontmatter, shellcheck, markdownlint
-- **Release** (`release.yml`): push to `main` — creates release PRs via release-please
-- **Docs Sync** (`docs-sync.yml`): push to `main` (plugin/manifest changes) — auto-updates README table and `docs/plugins-inventory.md`
-- **AI Review** (`ai-review.yml`): PR to `main` (plugin changes) — AI-powered plugin review via GitHub Models
-- **Security** (`security.yml`): push to `main` / weekly — OpenSSF Scorecard + CodeQL (Python)
-- **Housekeeping** (`housekeeping.yml`): daily — closes stale issues and PRs
-
-### Running Validation Locally
-
-There is no single `test` or `build` command. To validate locally:
+**Prerequisites**: `jq`, `shellcheck`, `markdownlint-cli2` installed.
 
 ```bash
-# Validate all JSON manifests
-jq empty .claude-plugin/marketplace.json
-find plugins -type f -path "*/.claude-plugin/plugin.json" -exec jq empty {} \;
+# Install tools (Ubuntu/Debian)
+sudo apt-get install jq shellcheck
+npm install -g markdownlint-cli2
 
-# Validate hooks.json files
-bash plugins/plugin-dev/skills/hook-development/scripts/validate-hook-schema.sh \
-  plugins/repo-structure/hooks/hooks.json
-
-# Validate agent files
-bash plugins/plugin-dev/skills/agent-development/scripts/validate-agent.sh \
-  plugins/repo-structure/agents/structure-architect.md
-
-# Validate command/skill frontmatter
-bash plugins/plugin-dev/skills/plugin-settings/scripts/parse-frontmatter.sh \
-  plugins/strategy-toolkit/commands/brainstorm.md description
-
-# Shellcheck custom scripts (exclude plugin-dev and examples)
-find plugins -name "*.sh" ! -path "*/plugin-dev/*" ! -path "*/examples/*" \
-  -exec shellcheck {} \;
-
-# Markdown lint (requires markdownlint-cli2)
-# npm install -g markdownlint-cli2
-markdownlint-cli2 "plugins/**/README.md" "plugins/**/commands/**/*.md" \
-  "plugins/**/skills/**/SKILL.md" "plugins/**/agents/*.md" \
-  "#plugins/plugin-dev/**"
+# macOS
+brew install jq shellcheck
+npm install -g markdownlint-cli2
 ```
 
-### Common Validation Failures & Troubleshooting
+| Command | Purpose | Common Error | Recovery |
+|---------|---------|--------------|----------|
+| `jq empty .claude-plugin/marketplace.json` | Validate root manifest JSON | Parse error at line N | Fix JSON syntax, check trailing commas |
+| `jq empty plugins/<name>/.claude-plugin/plugin.json` | Validate plugin manifest | Same | Same |
+| `jq empty plugins/<name>/hooks/hooks.json` | Validate hooks JSON | Same | Same |
+| `bash plugins/plugin-dev/skills/hook-development/scripts/validate-hook-schema.sh plugins/<name>/hooks/hooks.json` | Validate hooks schema | `❌ Missing required field` | Add missing field per schema |
+| `bash plugins/plugin-dev/skills/agent-development/scripts/validate-agent.sh plugins/<name>/agents/<name>.md` | Validate agent frontmatter | `❌` in output | Fix agent MD frontmatter |
+| `shellcheck plugins/<name>/hooks/scripts/*.sh` | Lint hook shell scripts | SC2xxx warning | Follow shellcheck suggestion |
+| `markdownlint-cli2 "plugins/<name>/**/README.md" "plugins/<name>/commands/**/*.md"` | Lint markdown | MD0xx violations | Fix per rule (most disabled, see `.markdownlint.json`) |
 
-**Plugin Validation workflow fails? Quick reference:**
+### Marketplace Sync Check
 
-| Failure Message | Root Cause | Solution |
-|-----------------|-----------|----------|
-| `parse error` (jq) | Malformed JSON in plugin.json or marketplace.json | Run `jq . < plugins/name/.claude-plugin/plugin.json` to see parse error details |
-| `description field is required` | Command or skill missing required frontmatter field | Ensure YAML frontmatter has `description:` key with non-empty value |
-| `Agent description missing examples` | Agent description lacks `<example>` blocks OR name doesn't match filename | Add 2+ `<example>` blocks with Context/User/Assistant/<commentary> structure; verify agent filename |
-| `Invalid hook event name` | hooks.json uses unrecognized event (typo) | Use only: PreToolUse, PostToolUse, Stop, SubagentStop, SessionStart, SessionEnd, UserPromptSubmit, PreCompact, Notification |
-| `hooks.json validate fails` | Invalid JSON syntax OR matcher/hooks structure incorrect | Validate JSON with `jq empty plugins/name/hooks/hooks.json`; check that hook structure matches example above |
-| `markdown lint fails` | Line too long OR disallowed HTML | Check .markdownlintrc; MD013 is disabled (long lines OK), HTML is allowed; likely a different rule — run local markdownlint to see which |
-| Agent never triggered in Claude Code | Agent description lacks clear triggering context OR no working examples | Review description format section above; Claude needs examples showing WHEN to use agent. Generic descriptions = no invocation. |
-
-**Pre-commit validation checklist:**
 ```bash
-# JSON manifests
-jq empty .claude-plugin/marketplace.json
-jq empty plugins/your-plugin/.claude-plugin/plugin.json
-
-# Agent descriptions
-bash plugins/plugin-dev/skills/agent-development/scripts/validate-agent.sh \
-  plugins/your-plugin/agents/your-agent.md
-
-# Hooks
-bash plugins/plugin-dev/skills/hook-development/scripts/validate-hook-schema.sh \
-  plugins/your-plugin/hooks/hooks.json 2>/dev/null && echo "Valid" || echo "Invalid"
-
-# All Markdown files
-markdownlint-cli2 "plugins/your-plugin/**/*.md"
+# Check plugins/ dirs vs marketplace.json entries
+diff \
+  <(find plugins -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | grep -v '^plugin-dev$' | sort) \
+  <(jq -r '.plugins[].name' .claude-plugin/marketplace.json | sort)
 ```
 
-### Known CI Issues & Workarounds
+No output = in sync. Any diff = CI will fail.
 
-**Plugin Validation workflow — bash arithmetic in validate-hook-schema.sh:**
+### Plugin-Studio (Node.js server, pnpm)
 
-Root cause: `((warning_count++))` expression evaluates to 0 (falsy) when `warning_count` is initially 0. Under `set -euo pipefail`, this causes the script to exit with code 1 even though the finding is only a warning.
-
-**Workaround:** If you need to modify `validate-hook-schema.sh` or write similar bash scripts, replace arithmetic increment syntax:
-- ❌ `((warning_count++))` — fails under set -e when var is 0
-- ✅ `warning_count=$((warning_count + 1))` — works correctly
-
-Apply the same fix to `error_count` and any new bash scripts using arithmetic under `set -euo pipefail`.
-
-## Conventions
-
-### File Formatting
-
-- UTF-8 encoding, LF line endings (enforced via `.gitattributes`)
-- 2-space indent for Markdown, JSON, YAML (see `.editorconfig`)
-- Final newline in all files
-- Markdown linting rules in `.markdownlintrc` (MD013/line-length disabled, HTML allowed)
-
-### Naming
-
-- Plugin directories: `kebab-case` (e.g., `strategy-toolkit`)
-- Plugin names in manifests: `kebab-case`, no spaces, no uppercase
-- Command files: `kebab-case.md` (e.g., `brainstorm.md`, `write-spec.md`)
-- Skill directories: `kebab-case` (e.g., `strategic-analysis/`)
-- Agent files: `kebab-case.md` (e.g., `structure-validator.md`)
-
-### Frontmatter Fields Checklist
-
-Quick reference for required vs optional frontmatter fields:
-
-**Commands (commands/*.md)**
-- [ ] `description` — REQUIRED (visible in /help)
-- [ ] `name` — optional (derives from filename if omitted)
-- [ ] `argument-hint` — optional
-- [ ] `allowed-tools` — optional
-- [ ] `model` — optional
-- [ ] `disable-model-invocation` — optional
-
-**Skills (skills/NAME/SKILL.md)**
-- [ ] `name` — REQUIRED
-- [ ] `description` — REQUIRED (trigger conditions, usage context)
-
-**Agents (agents/*.md)**
-- [ ] `name` — REQUIRED (3-50 chars, no generic names)
-- [ ] `description` — REQUIRED with 2+ `<example>` blocks (triggering context is critical)
-- [ ] `model` — REQUIRED (inherit | sonnet | opus | haiku)
-- [ ] `color` — REQUIRED (blue | cyan | green | yellow | magenta | red)
-- [ ] `tools` — optional (array of tool names)
-
-### Commit Messages
-
-Follow **Conventional Commits**:
-
-```text
-feat(scope): add plugin onboarding command
-fix(strategy-toolkit): improve risk register guidance
-docs(repo): update release checklist
-chore(ci): update validation workflow
+```bash
+cd plugins/plugin-studio/server
+node index.js          # Starts server; default port 3847 (auto-increments if busy)
+# PLUGIN_STUDIO_SERVER_PORT env var overrides default port
+# PID stored in server/.pid; delete stale file if server refuses to start
 ```
 
-### Branch Naming
+### CI Pipeline (`plugin-validation.yml`)
 
-```text
-feat/<short-topic>
-fix/<short-topic>
-docs/<short-topic>
-chore/<short-topic>
-```
+Runs on every push/PR to `main`. Steps in order:
 
-## Common Tasks
+| Step | Tool | What it checks |
+|------|------|----------------|
+| Required root files | bash | README.md, LICENSE, CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md, CHANGELOG.md, ROADMAP.md |
+| JSON manifests | `jq empty` | marketplace.json + all plugin.json |
+| Plugin README presence | bash | Every `plugins/<name>/` (excl. plugin-dev) has README.md |
+| marketplace.json sync | bash | All plugin dirs listed; no orphan entries |
+| hooks.json schema | validate-hook-schema.sh | Required fields, valid types, timeouts |
+| Hook scripts lint | hook-linter.sh | Bash syntax + shellcheck |
+| Agent files | validate-agent.sh | Agent MD frontmatter (❌ errors only; warnings suppressed) |
+| Command frontmatter | parse-frontmatter.sh | `description:` present in all commands/*.md |
+| Skill frontmatter | parse-frontmatter.sh | `name:` AND `description:` in all SKILL.md |
+| shellcheck | shellcheck | All *.sh outside plugin-dev and examples |
+| markdownlint | markdownlint-cli2 | READMEs, commands, skills, agents (excl. plugin-dev) |
 
-### Adding a New Plugin
+---
 
-1. Create `plugins/<plugin-name>/` directory
-2. Add `.claude-plugin/plugin.json` manifest (start at version `0.1.0`)
-3. Add `README.md` with problem statement, components, install/usage docs
-4. Add at least one component (`commands/`, `skills/`, `agents/`, hooks, or MCP)
-5. Register the plugin in `.claude-plugin/marketplace.json`
-6. Validate JSON files locally with `jq empty`
-7. Verify `markdownlint-cli2` passes on new Markdown files
-8. The `scripts/sync-docs.py` will auto-update `README.md` table and
-   `docs/plugins-inventory.md` on merge to `main`
+## 6. Architecture & Key Components
 
-### Modifying an Existing Plugin
+### Component: Root Marketplace Manifest
 
-- Update the plugin's `plugin.json` version if the change is user-facing
-- Ensure frontmatter is present and valid on all command/skill/agent files
-- Run the relevant validation scripts locally before pushing
-- Check that `.claude-plugin/marketplace.json` stays in sync
+- **Location:** `.claude-plugin/marketplace.json`
+- **Responsibility:** Discovery index — lists all plugins with name, version, description,
+  author, source path, and category. Used by Claude Code to find installable plugins.
+- **Key Files:** `.claude-plugin/marketplace.json` (single file)
+- **Constraints:** Must be valid JSON; must include every `plugins/<name>` dir (excl.
+  `plugin-dev`); source paths must be relative (`./plugins/<name>`).
+- **Common Changes:** Add/update entry when adding/versioning a plugin.
 
-### Editing CI Workflows
+### Component: Plugin Dev Toolkit (`plugin-dev`)
 
-- Workflows live in `.github/workflows/`
-- The `plugin-validation.yml` is the primary gating check for PRs
-- Be careful with `set -euo pipefail` in bash scripts — arithmetic
-  expressions like `((var++))` can fail under `set -e` when `var` is 0
+- **Location:** `plugins/plugin-dev/`
+- **Responsibility:** Internal CI tooling and development scaffolding — NOT a marketplace
+  plugin. Contains all validator scripts used by CI and skills for plugin authoring.
+- **Key Files:**
+  - `skills/hook-development/scripts/validate-hook-schema.sh` — hooks.json validator
+  - `skills/hook-development/scripts/hook-linter.sh` — hook script linter
+  - `skills/agent-development/scripts/validate-agent.sh` — agent MD validator
+  - `skills/plugin-settings/scripts/parse-frontmatter.sh` — YAML frontmatter parser
+  - `commands/create-plugin.md` — guided plugin creation command
+- **Constraints:** Never appears in marketplace.json. Excluded from markdownlint CI.
+- **Common Changes:** Update validators when plugin schema evolves.
 
-### Auto-Generated Files (Do Not Edit Manually)
+### Component: Plugin Manifest (`plugin.json`)
 
-- `docs/plugins-inventory.md` — generated by `scripts/sync-docs.py`
-- The plugin table in `README.md` between `<!-- PLUGINS-TABLE-START -->` and
-  `<!-- PLUGINS-TABLE-END -->` markers — also generated by `scripts/sync-docs.py`
+- **Location:** `plugins/<name>/.claude-plugin/plugin.json`
+- **Responsibility:** Plugin identity and metadata for Claude Code.
+- **Required Fields:** `name`, `version`, `description`, `author.name`, `author.email`
+- **Constraints:** Valid JSON; version must follow semver; start new plugins at `0.1.0`.
+- **Common Changes:** Version bump on release; description updates.
 
-## Active Development: plugin-studio (Issues #1–#20)
+### Component: Hooks Configuration (`hooks.json`)
 
-The major in-progress effort is **plugin-studio** — a visual dashboard plugin
-for creating and managing Claude Code plugins. It will live at
-`plugins/plugin-studio/`. All 20 open issues in the repository track this work.
+- **Location:** `plugins/<name>/hooks/hooks.json`
+- **Responsibility:** Defines Claude Code event hooks (PreToolUse, Stop, SessionStart, etc.)
+  that trigger commands or prompts automatically.
+- **Constraints:**
+  - `type: command` → `command` field is a **string scalar** (not object)
+  - `type: prompt` → only for Stop, SubagentStop, UserPromptSubmit, PreToolUse
+  - Use `${CLAUDE_PLUGIN_ROOT}` for all paths
+  - Timeout: integer seconds; typical range 5–30
+- **Common Changes:** Add new event hooks; update script paths.
 
-### Milestones
+### Component: Plugin Studio Server
 
-| Milestone | Issues | Scope |
-|-----------|--------|-------|
-| **v0.1 — Core Dashboard MVP** | #1–#11, #20 | Plugin scaffold, Node.js server, REST APIs (filesystem + validation), 4-panel layout (tree, editor, preview, validation), integration tests, README |
-| **v0.2 — AI Chat (Claude CLI)** | #12–#14 | AI routes with Claude CLI provider, chat sidebar panel, tree context menu (rename/delete/duplicate) |
-| **v0.3 — Scaffold & Create** | #15–#17 | New Plugin wizard (5 steps), scaffold routes + templates, frontmatter form editor with bidirectional sync |
-| **v0.4 — Multi-Provider AI** | #18–#19 | Provider abstraction layer (Claude API, Claude CLI, Ollama, OpenAI-compat, CLI OAuth providers), settings UI |
+- **Location:** `plugins/plugin-studio/server/`
+- **Responsibility:** Node.js HTTP server (no external runtime deps) serving the
+  React/Vite dashboard (`app/dist/`) and a filesystem REST API (`api/fs.js`).
+- **Key Files:** `server/index.js` (entry), `server/api/fs.js` (FS routes),
+  `server/.pid` (instance detection)
+- **Constraints:** Default port 3847 (auto-increments up to +10 if busy). PID file
+  must be cleaned up on stop. FS API must block path traversal (403 on `../`).
+  AI CLI bridge must never interpolate user content in shell args.
+- **Common Changes:** Active development — new API endpoints, frontend features.
 
-### Tech Stack (plugin-studio only)
+---
 
-- **Package manager**: pnpm (not npm)
-- **Runtime**: Node.js 18+
-- **Server**: `plugins/plugin-studio/server/` — Express or Fastify, TypeScript in strict mode, tsx for dev execution
-- **Frontend**: `plugins/plugin-studio/app/` — Vite + React + Tailwind CSS
-- **Editor**: Monaco Editor (async lazy-loaded, ~2MB bundle)
-- **Testing**: Vitest for both frontend and backend, Playwright for E2E
-- **Distribution**: `app/dist/` is **pre-built by CI and committed** — users never run a build step; `scripts/start.sh` just runs `node server/index.js`
+## 7. Known Gotchas
 
-### Architecture
+❌ **Trap: `plugin-dev` included in marketplace.json**
 
-```text
-plugins/plugin-studio/
-├── .claude-plugin/plugin.json   # Plugin manifest
-├── commands/
-│   ├── open.md                  # /plugin-studio:open [path]
-│   └── settings.md              # /plugin-studio:settings
-├── skills/plugin-anatomy/SKILL.md
-├── hooks/hooks.json             # SessionStart: check if server is running
-├── server/                      # Node.js backend (TypeScript)
-│   └── index.js                 # Entry point — serves app/dist/ + REST API
-├── app/                         # React frontend (Vite + Tailwind)
-│   └── dist/                    # Pre-built — committed in release tags
-├── scripts/
-│   ├── start.sh                 # Production: just `node server/index.js`
-│   └── dev.sh                   # Development: Vite dev server + tsx hot-reload
-└── README.md
-```
+- Symptom: CI passes locally but `marketplace.json sync` step fails → `Plugin 'X' in
+  marketplace.json but directory missing` (or reverse).
+- Root Cause: `plugin-dev` is the toolkit, not a product. It is hardcoded to be
+  excluded in the CI sync check.
+- Fix: Remove `plugin-dev` from `.plugins[]` in marketplace.json.
+- Preventive: Never add `plugin-dev` to marketplace.json.
 
-**REST API endpoints** (defined across issues #3, #4, #12, #16):
+❌ **Trap: `((var++))` with `set -e` exits on first increment**
 
-- `GET/PUT/POST/DELETE /api/fs/*` — filesystem CRUD (tree, file read/write/rename/duplicate)
-- `POST /api/validate/*` — bridge to plugin-dev validation scripts
-- `GET/POST /api/ai/*` — AI completion/suggestion (Claude CLI → multi-provider in v0.4)
-- `POST /api/scaffold/*` — create plugins/components from templates
+- Symptom: Bash script silently exits after first warning/error count increment when
+  counter starts at 0.
+- Root Cause: `((var++))` returns old value (0) which is falsy → `set -e` treats as
+  failure.
+- Fix: Replace `((var++))` with `var=$((var + 1))`.
+- Preventive: Use arithmetic expansion form in all scripts with `set -e`.
 
-### Issue Dependency Chain
+❌ **Trap: Stale `server/.pid` file blocks Plugin Studio**
 
-```text
-#1 (scaffold) → #2 (server) → #3 (fs API) ──→ #6 (tree) → #14 (context menu) → #15 (wizard)
-                             → #4 (validate) → #9 (validation panel)
-                             → #5 (layout) ──→ #7 (editor) → #8 (preview) → #17 (frontmatter form)
-                                             → #20 (README)
-                             → #10 (open cmd)
-#3, #4, #10 → #11 (integration tests)
-#4 → #12 (AI routes) → #13 (chat panel)
-                      → #18 (providers) → #19 (settings UI)
-#4 → #16 (scaffold routes) → #15 (wizard)
-```
+- Symptom: `check-server.sh` reports server is running but nothing responds on port
+  3847; or server refuses to start.
+- Root Cause: Previous server crashed without cleaning up `server/.pid`.
+- Fix: `rm plugins/plugin-studio/server/.pid` then restart.
+- Preventive: SessionStart hook (`check-server.sh`) detects stale PID and auto-deletes it.
 
-### Security Requirements (plugin-studio)
+❌ **Trap: Missing frontmatter breaks CI silently in local tests**
 
-These are explicitly mandated in the issues and **must** be followed:
+- Symptom: `markdownlint` passes locally but "Validate command/skill frontmatter" fails
+  in CI with `❌ Missing 'description' frontmatter`.
+- Root Cause: markdownlint does not check YAML frontmatter; frontmatter validation is
+  a separate `parse-frontmatter.sh` step.
+- Fix: Add `description:` to command `.md` files; add `name:` AND `description:` to
+  every `SKILL.md`.
+- Preventive: Run `parse-frontmatter.sh` locally before pushing.
 
-- **Path traversal prevention** (#3): Filesystem API must never serve files
-  outside the plugin root directory — return 403 on any traversal attempt.
-  Sanitise all paths; support both `/` and `\` (WSL + Windows).
-- **Prompt injection mitigation** (#12): The AI CLI bridge runs
-  `claude -p "<prompt>"` where content may include user-controlled file data.
-  **Never** interpolate file content directly into shell arguments — pass
-  context via **stdin** (pipe) or a **temp file**. Escape all arguments with
-  `shell-quote` or equivalent.
-- **API key storage** (#19): Keys go in `.plugin-studio.config.json` outside
-  the plugin directory, **never committed**. Auto-add to `.gitignore`.
-- **Timeouts**: 10 s on filesystem ops, 30 s on validation calls, 60 s on
-  AI completions.
+❌ **Trap: `type: prompt` on SessionStart raises validator warning**
 
-### plugin-studio Development Notes
+- Symptom: hooks.json validator warns about unsupported event+type combination.
+- Root Cause: `type: prompt` is valid only for Stop/SubagentStop/UserPromptSubmit/
+  PreToolUse. SessionStart only supports `type: command`.
+- Fix: Change SessionStart hooks to `type: command`.
+- Preventive: Check event/type combination before writing hooks.json.
 
-- The `open` command (#10) must do a **pre-flight check**: verify Node.js ≥ 18
-  (hard error if absent), detect plugin-dev (soft warning if absent), auto-resolve
-  stale PID port locks, and open the browser cross-platform (WSL/macOS/Linux).
-- Auto-save with 500 ms debounce; Ctrl+S for immediate save.
-- Monaco lazy-loaded asynchronously — must not block initial page render.
-- Validation auto-runs on plugin open and on each save.
-- All new plugins created via the wizard must pass plugin-dev validation
-  with zero warnings.
+❌ **Trap: Agent validator exits on first warning (not just errors)**
 
-## Key References
+- Symptom: CI "Validate agent files" step exits non-zero even when only warnings are
+  present (no ❌ errors).
+- Root Cause: `validate-agent.sh` uses `((warning_count++))` with `set -e` internally
+  (known bug). CI workaround captures output and checks for `❌` string only.
+- Fix: Do not rely on exit code of `validate-agent.sh`; check for `❌` in output.
+- Preventive: The CI wrapper already handles this; do not change the grep pattern.
 
-- `CONTRIBUTING.md` — Contribution process and plugin checklist
-- `docs/PLUGIN_GUIDELINES.md` — Plugin quality bar and required structure
-- `docs/RELEASE_CHECKLIST.md` — Pre-release validation steps
-- `SECURITY.md` — Vulnerability reporting process
-- `CODE_OF_CONDUCT.md` — Community standards
-- `ROADMAP.md` — Mid-term project priorities
+❌ **Trap: Absolute paths in `hooks.json` break portability**
+
+- Symptom: Hooks fail silently on other machines or after plugin reinstall.
+- Root Cause: Plugin install path varies per user and machine.
+- Fix: Replace absolute paths with `${CLAUDE_PLUGIN_ROOT}/scripts/...`.
+- Preventive: Always use `${CLAUDE_PLUGIN_ROOT}` as path prefix in hook commands.
+
+---
+
+## 8. Troubleshooting & Recovery
+
+### Scenario: CI "marketplace.json sync" fails
+
+**Symptom:** `Plugin 'my-plugin' in plugins/ but NOT in marketplace.json`
+
+**Diagnosis:**
+1. `jq -r '.plugins[].name' .claude-plugin/marketplace.json | sort` — list registered plugins
+2. `find plugins -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | grep -v plugin-dev | sort` — list actual dirs
+
+**Recovery:**
+- Add missing entry to `.plugins[]` in `marketplace.json` with correct `name`, `version`,
+  `description`, `author`, `source` (`./plugins/<name>`), and `category`.
+- Or remove the orphan directory if it was accidentally created.
+
+**Prevention:** Always update `marketplace.json` immediately after creating `plugins/<name>/`.
+
+---
+
+### Scenario: CI "Validate hooks.json" fails
+
+**Symptom:** `❌ Missing required field: type` or `❌ Invalid hook type`
+
+**Diagnosis:**
+1. `jq . plugins/<name>/hooks/hooks.json` — check structure
+2. `bash plugins/plugin-dev/skills/hook-development/scripts/validate-hook-schema.sh plugins/<name>/hooks/hooks.json`
+
+**Recovery:**
+- For `type: command` hooks: ensure `command` is a string scalar (not object).
+- For `type: prompt` hooks: only use on Stop, SubagentStop, UserPromptSubmit, PreToolUse.
+- Add missing `timeout` (integer) and `description` fields.
+
+**Prevention:** Run validator locally after every `hooks.json` change.
+
+---
+
+### Scenario: markdownlint fails on plugin markdown
+
+**Symptom:** `MD0xx/rule-name: …` errors in CI
+
+**Diagnosis:**
+1. `markdownlint-cli2 "plugins/<name>/**/README.md"` — run locally
+2. Check `.markdownlint.json` — many rules disabled (MD013, MD033, MD041, etc.)
+
+**Recovery:**
+- Fix the specific violation. Most common: heading levels, code fence language tags,
+  bare URLs, duplicate headings.
+- If rule is appropriate to disable globally, add it to `.markdownlint.json` and
+  `.markdownlintrc` (both files must be kept identical).
+
+**Prevention:** Run markdownlint locally before pushing; note that `plugins/plugin-dev/**`
+is explicitly excluded — do not add it to CI lint scope.
+
+---
+
+### Scenario: Plugin Studio server won't start
+
+**Symptom:** Port conflict or PID file error
+
+**Diagnosis:**
+1. `cat plugins/plugin-studio/server/.pid` — check if PID exists
+2. `kill -0 <PID>` — check if process is actually alive
+
+**Recovery:**
+- If PID is stale: `rm plugins/plugin-studio/server/.pid`
+- If port 3847 is genuinely in use: set `PLUGIN_STUDIO_SERVER_PORT=<other>` env var
+- Server auto-increments port up to +10 from base port before failing
+
+**Prevention:** Ensure clean shutdown via `kill $(cat server/.pid)` rather than force-killing.

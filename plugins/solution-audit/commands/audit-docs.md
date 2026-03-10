@@ -20,8 +20,8 @@ Audit the quality, accuracy, and structure of all project documentation.
 2. **Load skill**: Apply `documentation-quality` skill
 3. **README assessment**: Evaluate utility (useful vs marketing), completeness, and structure
 4. **Accuracy check**: Cross-reference documented APIs, commands, and configs against current code
-5. **Link checking** (with --check-links): Verify all internal and external links resolve
-6. **Example validation** (with --check-examples): Check documented code examples against current API
+5. **Link checking** (with --check-links): Run `bash $CLAUDE_PLUGIN_ROOT/scripts/check-links.sh [directory]` and parse output for `BROKEN` entries. Supplement with contextual analysis for fix suggestions. Reports broken internal links (missing files) and external links (HTTP errors).
+6. **Example validation** (with --check-examples): Run `bash $CLAUDE_PLUGIN_ROOT/scripts/check-examples.sh [directory]` and parse output for `INVALID` entries. Reports bash syntax errors, Python compile failures, and JSON parse errors in documented code examples.
 7. **Structure assessment**: Evaluate documentation hierarchy (tutorial vs reference vs explanation)
 8. **Freshness check**: Find stale references, removed features, outdated version numbers
 9. **Report**: Present structured findings

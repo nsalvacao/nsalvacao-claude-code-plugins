@@ -66,7 +66,7 @@ This ensures that if the session ends unexpectedly (rate limit or interruption),
 
 ### Phase 2: Dimension Analysis
 
-Invoke each of the 7 audit skills in sequence:
+Invoke each of the 8 audit skills in sequence:
 
 1. **Product Coherence** (`product-coherence` skill) — docs vs implementation alignment
 2. **Architecture Coherence** (`architecture-coherence` skill) — declared vs actual structure

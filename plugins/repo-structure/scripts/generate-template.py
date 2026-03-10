@@ -266,6 +266,84 @@ def is_cli() -> bool:
     return False
 
 
+def detect_has_coverage() -> bool:
+    """Detect if project has coverage tooling configured."""
+    coverage_indicators = [".coveragerc", "coverage.xml", ".coverage"]
+    for f in coverage_indicators:
+        if os.path.exists(f):
+            return True
+    for cfg in ["pyproject.toml", "setup.cfg", "tox.ini"]:
+        if os.path.exists(cfg):
+            with open(cfg) as fh:
+                content = fh.read()
+            if "[tool.coverage" in content or "[coverage:" in content:
+                return True
+    if os.path.exists("package.json"):
+        with open("package.json") as fh:
+            content = fh.read()
+        if any(t in content for t in ["istanbul", "nyc", "c8", "@vitest/coverage"]):
+            return True
+    return False
+
+
+def detect_has_linter() -> bool:
+    """Detect if project has a linter configured."""
+    linter_files = [
+        ".eslintrc", ".eslintrc.js", ".eslintrc.json", ".eslintrc.yml",
+        ".pylintrc", "pylintrc", ".flake8",
+        "ruff.toml", ".ruff.toml", ".rubocop.yml", ".golangci.yml",
+    ]
+    for f in linter_files:
+        if os.path.exists(f):
+            return True
+    if os.path.exists("pyproject.toml"):
+        with open("pyproject.toml") as fh:
+            content = fh.read()
+        if "[tool.ruff" in content or "[tool.pylint" in content or "[tool.flake8" in content:
+            return True
+    if os.path.exists("package.json"):
+        with open("package.json") as fh:
+            content = fh.read()
+        if "eslint" in content or "tslint" in content:
+            return True
+    return False
+
+
+def detect_has_config_file() -> bool:
+    """Detect if project has a meaningful config file."""
+    config_files = [
+        ".env.example", ".env.sample",
+        "config.yaml", "config.yml", "config.json", "config.toml",
+        "app.config.js", "app.config.ts",
+        "settings.py", "settings.yaml",
+    ]
+    return any(os.path.exists(f) for f in config_files)
+
+
+def detect_has_discussions() -> bool:
+    """Detect if GitHub Discussions is referenced in project files."""
+    for fname in ["README.md", ".github/CONTRIBUTING.md", "CONTRIBUTING.md"]:
+        if os.path.exists(fname):
+            with open(fname) as fh:
+                content = fh.read().lower()
+            if "discussion" in content:
+                return True
+    return False
+
+
+def detect_has_issues() -> bool:
+    """Detect if GitHub Issues is enabled (presence of issue templates or references)."""
+    if os.path.isdir(".github/ISSUE_TEMPLATE"):
+        return True
+    for fname in [".github/ISSUE_TEMPLATE.md", "README.md", "CONTRIBUTING.md"]:
+        if os.path.exists(fname):
+            with open(fname) as fh:
+                content = fh.read().lower()
+            if "issue" in content:
+                return True
+    return False
+
+
 def resolve_variables(
     provided_vars: dict,
     mock: bool = False
@@ -366,6 +444,13 @@ def resolve_variables(
     vars["PROJECT_NAME_PASCAL"] = project_name.replace("-", " ").title().replace(" ", "")
     # kebab-case
     vars["PROJECT_NAME_KEBAB"] = project_name.replace("_", "-")
+
+    context = vars
+    context["HAS_COVERAGE"] = detect_has_coverage()
+    context["HAS_LINTER"] = detect_has_linter()
+    context["HAS_CONFIG_FILE"] = detect_has_config_file()
+    context["HAS_DISCUSSIONS"] = detect_has_discussions()
+    context["HAS_ISSUES"] = detect_has_issues()
 
     return vars
 

@@ -399,9 +399,6 @@ def score_cicd(repo_path: str) -> Dict[str, Any]:
                     coverage_found = True
                     break
 
-    if coverage_found:
-        scores["automated_testing"] += 2
-
     # Coverage >90% (additional 2 pts) - heuristic
     if coverage_found:
         scores["automated_testing"] += 2

@@ -3,7 +3,7 @@
 # Called with tool_input JSON on stdin. Exits 0 in all non-error cases.
 
 # --- Read stdin (may be empty) ---
-INPUT="$(cat)"
+INPUT="$(head -c 65536)"
 if [ -z "$INPUT" ]; then
   exit 0
 fi
@@ -30,6 +30,11 @@ fi
 STALE_DIMS="$(HOOK_FP="$FILE_PATH" python3 - <<'PYEOF'
 import re, os, sys
 fp = os.environ.get("HOOK_FP", "")
+import pathlib as _pl
+try:
+    fp = _pl.PurePosixPath(_pl.Path(fp).as_posix()).as_posix()
+except Exception:
+    pass  # keep original fp if normalisation fails
 base = fp.split("/")[-1]
 dims = set()
 
@@ -85,9 +90,17 @@ existing = data.get("stale", [])
 merged = sorted(set(existing) | set(new_dims))
 data["stale"] = merged
 
-with open(audit_path, "w") as f:
-    json.dump(data, f, indent=2)
-    f.write("\n")
+import tempfile, os as _os
+tmp_fd, tmp_path = tempfile.mkstemp(dir=_os.path.dirname(_os.path.abspath(audit_path)), suffix=".tmp")
+try:
+    with _os.fdopen(tmp_fd, "w") as f:
+        json.dump(data, f, indent=2)
+        f.write("\n")
+    _os.replace(tmp_path, audit_path)
+except Exception:
+    try: _os.unlink(tmp_path)
+    except: pass
+    raise
 PYEOF
 
 # --- Report to stderr ---

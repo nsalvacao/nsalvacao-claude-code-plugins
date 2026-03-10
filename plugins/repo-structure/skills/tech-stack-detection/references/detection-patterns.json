@@ -1,0 +1,138 @@
+{
+  "languages": {
+    "Python": {
+      "definitive_files": ["requirements.txt", "pyproject.toml", "setup.py", "Pipfile"],
+      "extensions": [".py"],
+      "keywords_in_files": {
+        "pyproject.toml": ["[tool.poetry", "[build-system"]
+      },
+      "confidence_base": 60,
+      "confidence_per_evidence": 10,
+      "confidence_max": 95
+    },
+    "JavaScript": {
+      "definitive_files": ["package.json"],
+      "extensions": [".js", ".mjs"],
+      "exclude_if": ["typescript"],
+      "confidence_base": 60,
+      "confidence_per_evidence": 10,
+      "confidence_max": 90
+    },
+    "TypeScript": {
+      "definitive_files": ["tsconfig.json", "tsconfig.base.json"],
+      "extensions": [".ts", ".tsx"],
+      "confidence_base": 70,
+      "confidence_per_evidence": 10,
+      "confidence_max": 95
+    },
+    "Go": {
+      "definitive_files": ["go.mod", "go.sum"],
+      "extensions": [".go"],
+      "confidence_base": 80,
+      "confidence_per_evidence": 10,
+      "confidence_max": 95
+    },
+    "Rust": {
+      "definitive_files": ["Cargo.toml", "Cargo.lock"],
+      "extensions": [".rs"],
+      "confidence_base": 80,
+      "confidence_per_evidence": 10,
+      "confidence_max": 95
+    },
+    "Java": {
+      "definitive_files": ["pom.xml", "build.gradle", "build.gradle.kts"],
+      "extensions": [".java"],
+      "confidence_base": 75,
+      "confidence_per_evidence": 10,
+      "confidence_max": 95
+    },
+    "Ruby": {
+      "definitive_files": ["Gemfile", "Gemfile.lock", ".ruby-version"],
+      "extensions": [".rb"],
+      "confidence_base": 70,
+      "confidence_per_evidence": 10,
+      "confidence_max": 95
+    }
+  },
+  "frameworks": {
+    "Django": {
+      "parent": "Python",
+      "indicators": ["django", "manage.py"],
+      "indicator_files": ["manage.py"]
+    },
+    "FastAPI": {
+      "parent": "Python",
+      "indicators": ["fastapi"],
+      "check_in": ["requirements.txt", "pyproject.toml"]
+    },
+    "Flask": {
+      "parent": "Python",
+      "indicators": ["flask"],
+      "check_in": ["requirements.txt", "pyproject.toml"]
+    },
+    "React": {
+      "parent": ["JavaScript", "TypeScript"],
+      "indicators": ["react", "react-dom"],
+      "check_in": ["package.json"]
+    },
+    "Vue": {
+      "parent": ["JavaScript", "TypeScript"],
+      "indicators": ["\"vue\""],
+      "check_in": ["package.json"]
+    },
+    "Next.js": {
+      "parent": ["JavaScript", "TypeScript"],
+      "indicators": ["\"next\""],
+      "check_in": ["package.json"]
+    },
+    "Express": {
+      "parent": "JavaScript",
+      "indicators": ["\"express\""],
+      "check_in": ["package.json"]
+    }
+  },
+  "tools": {
+    "Docker": {
+      "definitive_files": ["Dockerfile", "docker-compose.yml", "docker-compose.yaml"],
+      "confidence": 95
+    },
+    "GitHub Actions": {
+      "definitive_dirs": [".github/workflows"],
+      "confidence": 95
+    },
+    "GitLab CI": {
+      "definitive_files": [".gitlab-ci.yml"],
+      "confidence": 95
+    },
+    "pre-commit": {
+      "definitive_files": [".pre-commit-config.yaml"],
+      "confidence": 95
+    },
+    "Makefile": {
+      "definitive_files": ["Makefile", "GNUmakefile"],
+      "confidence": 90
+    }
+  },
+  "testing": {
+    "pytest": {
+      "parent": "Python",
+      "indicators": ["pytest", "pytest-cov"],
+      "config_files": ["pytest.ini", "pyproject.toml", "setup.cfg"]
+    },
+    "jest": {
+      "parent": ["JavaScript", "TypeScript"],
+      "indicators": ["jest", "@jest/core"],
+      "check_in": ["package.json"]
+    },
+    "vitest": {
+      "parent": ["JavaScript", "TypeScript"],
+      "indicators": ["vitest"],
+      "check_in": ["package.json"]
+    },
+    "go test": {
+      "parent": "Go",
+      "indicators": ["_test.go"],
+      "file_pattern": "*_test.go"
+    }
+  }
+}

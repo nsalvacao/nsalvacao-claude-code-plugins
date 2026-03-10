@@ -44,9 +44,29 @@ Before any analysis, orient yourself:
 
 If baseline exists, note its date, overall score, and top 5 findings for comparison.
 
+### Phase 1b: WIP File Initialization
+
+Before starting dimension analysis, create `.solution-audit-wip.md` in the project root to preserve progress if the session ends early:
+
+```
+# Solution Audit — Work In Progress
+Date: YYYY-MM-DD
+Status: IN PROGRESS
+
+## Completed Dimensions
+(updated as each dimension finishes)
+
+## Notes
+```
+
+After completing each dimension in Phase 2, append to this file:
+`- [x] DimensionName — score: XX, findings: N critical, N warning`
+
+This ensures that if the session ends unexpectedly (rate limit or interruption), the next session can see what was already completed and avoid duplicating work.
+
 ### Phase 2: Dimension Analysis
 
-Invoke each of the 7 audit skills in sequence:
+Invoke each of the 8 audit skills in sequence:
 
 1. **Product Coherence** (`product-coherence` skill) — docs vs implementation alignment
 2. **Architecture Coherence** (`architecture-coherence` skill) — declared vs actual structure
@@ -55,6 +75,7 @@ Invoke each of the 7 audit skills in sequence:
 5. **CLI UX** (`cli-ux` skill) — ergonomics and consistency (skip if no CLI)
 6. **Textual UX** (`textual-ux` skill) — user-facing text quality
 7. **Learnability & Workflow** (`learnability-workflow` skill) — learning curve, workflow friction
+8. **Spec Gap Analysis** (`spec-gap-analysis` skill) — spec/blueprint vs implementation comparison (skip if no spec documents found in docs/, blueprints/, specs/)
 
 For each dimension, collect all findings with severity classification.
 

@@ -26,6 +26,7 @@ Run a comprehensive multi-dimensional quality audit of the current project.
    - `cli-ux` — CLI ergonomics and consistency (skip if no CLI)
    - `textual-ux` — user-facing text quality
    - `learnability-workflow` — learning curve and workflow friction
+   - `spec-gap-analysis` — spec/blueprint vs implementation comparison (skip if no spec documents found in docs/, blueprints/, specs/)
 4. **Score**: Calculate per-dimension scores (start at 100, subtract per finding: critical -15, warning -7, info -2, min 0)
 5. **Compare**: If baseline exists or --compare flag, show delta per dimension
 6. **Report**: Present structured report (see Output Format below)
@@ -53,6 +54,7 @@ Scorecard:
 | CLI UX                 | XX    | [G]   | N        | N       | N    |
 | Textual UX             | XX    | [G]   | N        | N       | N    |
 | Learnability & Workflow| XX    | [G]   | N        | N       | N    |
+| Spec Gap Analysis      | XX    | [G]   | N        | N       | N    |
 | OVERALL                | XX    | [G]   | N        | N       | N    |
 
 Grade: 90-100 Outstanding | 80-89 Good | 65-79 Needs Attention | 50-64 Poor | 0-49 Critical
@@ -85,3 +87,4 @@ Save audit data as JSON to enable trend tracking:
 - Use `--dimensions=coherence` to focus on docs-vs-code alignment
 - Run `/audit-report --trend` after multiple audits to see score evolution
 - If a dimension is not applicable (e.g., CLI UX for a library), score it as N/A
+- `spec-gap-analysis` is skipped automatically when no spec documents are found in docs/, blueprints/, or specs/

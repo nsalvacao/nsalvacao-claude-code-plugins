@@ -1,6 +1,6 @@
 # solution-audit
 
-Continuous meta-quality audit system for solutions under development. Evaluates coherence, architecture, documentation, onboarding, and UX across 7 dimensions with prioritized, actionable findings.
+Continuous meta-quality audit system for solutions under development. Evaluates coherence, architecture, documentation, onboarding, and UX across 8 dimensions with prioritized, actionable findings.
 
 ## What it does
 
@@ -17,17 +17,19 @@ This plugin acts as a methodical, skeptical reviewer that examines your solution
 | 5 | **CLI UX** | Bad --help, inconsistent flags, unhelpful errors, poor defaults |
 | 6 | **Textual UX** | Jargon leakage, tone inconsistency, bad error messages, verbosity |
 | 7 | **Learnability & Workflow** | Friction points, cognitive overload, missing feedback, no escape hatches |
+| 8 | **Spec Gap Analysis** | Ghost features, invisible features, spec drift, implementation gaps |
 
 ## Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/audit` | Full audit across all 7 dimensions |
+| `/audit` | Full audit across all 8 dimensions |
 | `/audit-coherence` | Product + architecture coherence only |
 | `/audit-docs` | Documentation quality only |
 | `/audit-onboarding` | Onboarding experience only |
 | `/audit-ux` | CLI UX + textual UX + learnability |
 | `/audit-report` | View, compare, and trend previous audits |
+| `/blueprint-review` | Parallel multi-agent blueprint/spec review with output contracts |
 
 ## Agents
 
@@ -36,6 +38,16 @@ This plugin acts as a methodical, skeptical reviewer that examines your solution
 | `solution-auditor` | Orchestrates full multi-dimensional audits |
 | `coherence-analyzer` | Deep docs-vs-code and architecture analysis |
 | `ux-reviewer` | Deep UX analysis across CLI, text, and workflow |
+| `spec-reviewer` | Compares spec/blueprint documents against actual implementation |
+
+## Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `check-links.sh` | Validates internal and external links in markdown files |
+| `check-examples.sh` | Validates code blocks (bash, Python, JSON) in markdown files |
+| `mark-stale.sh` | Marks audit dimensions as stale when files are edited (PostToolUse hook) |
+| `save-progress.sh` | Saves session-end marker to WIP audit file (Stop hook) |
 
 ## Quick Start
 
@@ -47,6 +59,10 @@ This plugin acts as a methodical, skeptical reviewer that examines your solution
 /audit-ux --focus=cli
 /audit-coherence --focus=product
 /audit-docs --check-links --check-examples
+
+# Review a blueprint or spec document
+/blueprint-review docs/blueprint.md
+/blueprint-review --all  # scan docs/, blueprints/, specs/
 
 # View previous results
 /audit-report --latest

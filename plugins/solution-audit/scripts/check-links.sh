@@ -88,7 +88,7 @@ PYEOF
 
   while IFS=$'\t' read -r file line url; do
     [ -z "$url" ] && continue
-    HTTP_CODE="$(curl --head --silent --max-time 8 --location \
+    HTTP_CODE="$(curl --head --silent --max-time 15 --location \
       --write-out '%{http_code}' --output /dev/null "$url" 2>/dev/null)"
     case "$HTTP_CODE" in
       000|404|410)

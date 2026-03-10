@@ -9,11 +9,11 @@ FILES_WITH_ERRORS=0
 
 # --- Extract and validate code blocks via python3 ---
 RESULTS="$(python3 - "$DIR" <<'PYEOF'
-import sys, os, re, pathlib, subprocess, json, tempfile
+import sys, os, re, pathlib, subprocess, json
 
 directory = sys.argv[1]
 
-files_checked = set()
+files_checked = 0
 files_with_errors = set()
 
 FENCE_RE = re.compile(
@@ -21,58 +21,61 @@ FENCE_RE = re.compile(
     re.MULTILINE | re.DOTALL
 )
 
-for root, dirs, files in os.walk(directory):
-    dirs[:] = [d for d in dirs if not d.startswith('.')]
-    for fname in files:
-        if not fname.endswith('.md'):
-            continue
-        fpath = pathlib.Path(root) / fname
-        try:
-            content = fpath.read_text(encoding='utf-8', errors='replace')
-        except Exception:
-            continue
-        for m in FENCE_RE.finditer(content):
-            lang = m.group(1).lower().strip()
-            code = m.group(2)
-            if lang not in ('bash', 'sh', 'shell', 'python', 'py', 'python3', 'json'):
+try:
+    for root, dirs, files in os.walk(directory):
+        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        for fname in files:
+            if not fname.endswith('.md'):
                 continue
+            fpath = pathlib.Path(root) / fname
+            files_checked += 1
+            try:
+                content = fpath.read_text(encoding='utf-8', errors='replace')
+            except Exception:
+                continue
+            for m in FENCE_RE.finditer(content):
+                lang = m.group(1).lower().strip()
+                code = m.group(2)
+                if lang not in ('bash', 'sh', 'shell', 'python', 'py', 'python3', 'json'):
+                    continue
 
-            files_checked.add(str(fpath))
-
-            if lang in ('bash', 'sh', 'shell'):
-                # Validate with bash -n
-                try:
-                    result = subprocess.run(
-                        ['bash', '-n'],
-                        input=code, capture_output=True, text=True
-                    )
-                    if result.returncode != 0:
-                        err = result.stderr.strip().replace('\n', '; ')
-                        print(f"INVALID [bash] {fpath} → {err}")
+                if lang in ('bash', 'sh', 'shell'):
+                    # Validate with bash -n
+                    try:
+                        result = subprocess.run(
+                            ['bash', '-n'],
+                            input=code, capture_output=True, text=True
+                        )
+                        if result.returncode != 0:
+                            err = result.stderr.strip().replace('\n', '; ')
+                            print(f"INVALID [bash] {fpath} → {err}")
+                            files_with_errors.add(str(fpath))
+                    except Exception as e:
+                        print(f"INVALID [bash] {fpath} → {e}")
                         files_with_errors.add(str(fpath))
-                except Exception as e:
-                    print(f"INVALID [bash] {fpath} → {e}")
-                    files_with_errors.add(str(fpath))
 
-            elif lang in ('python', 'py', 'python3'):
-                # Validate with compile()
-                try:
-                    compile(code, '<string>', 'exec')
-                except SyntaxError as e:
-                    print(f"INVALID [python] {fpath} → {e}")
-                    files_with_errors.add(str(fpath))
-                except Exception as e:
-                    print(f"INVALID [python] {fpath} → {e}")
-                    files_with_errors.add(str(fpath))
+                elif lang in ('python', 'py', 'python3'):
+                    # Validate with compile()
+                    try:
+                        compile(code, '<string>', 'exec')
+                    except SyntaxError as e:
+                        print(f"INVALID [python] {fpath} → {e}")
+                        files_with_errors.add(str(fpath))
+                    except Exception as e:
+                        print(f"INVALID [python] {fpath} → {e}")
+                        files_with_errors.add(str(fpath))
 
-            elif lang == 'json':
-                try:
-                    json.loads(code)
-                except json.JSONDecodeError as e:
-                    print(f"INVALID [json] {fpath} → {e}")
-                    files_with_errors.add(str(fpath))
+                elif lang == 'json':
+                    try:
+                        json.loads(code)
+                    except json.JSONDecodeError as e:
+                        print(f"INVALID [json] {fpath} → {e}")
+                        files_with_errors.add(str(fpath))
 
-print(f"__STATS__:{len(files_checked)}:{len(files_with_errors)}")
+    print(f"__STATS__:{files_checked}:{len(files_with_errors)}")
+except Exception as e:
+    print(f"__STATS__:ERROR:0")
+    sys.exit(1)
 PYEOF
 )"
 

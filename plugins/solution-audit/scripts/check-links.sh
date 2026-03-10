@@ -82,11 +82,11 @@ for root, dirs, files in os.walk(directory):
         for lineno, line in enumerate(lines, 1):
             for m in re.finditer(r'https?://[^\s\)\]"\'<>]+', line):
                 url = m.group(0).rstrip('.,;:')
-                print(f"{fpath}:{lineno}:{url}")
+                print(f"{fpath}\t{lineno}\t{url}")
 PYEOF
 )"
 
-  while IFS=: read -r file line url; do
+  while IFS=$'\t' read -r file line url; do
     [ -z "$url" ] && continue
     HTTP_CODE="$(curl --head --silent --max-time 8 --location \
       --write-out '%{http_code}' --output /dev/null "$url" 2>/dev/null)"

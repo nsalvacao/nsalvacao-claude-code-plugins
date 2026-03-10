@@ -5,6 +5,13 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.6.0...v1.7.0) (2026-03-10)
+
+
+### ✨ Features
+
+* **solution-audit:** elevate to v0.2.0 — scripts, 8th dimension, parallel blueprint review ([#39](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/39)) ([1b40ebe](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/1b40ebec7ab5f9e8e96338a1db5c345eda7f9821))
+
 ## [1.6.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.5.0...v1.6.0) (2026-03-04)
 
 

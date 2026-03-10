@@ -26,25 +26,26 @@ from pathlib import Path
 from typing import Optional
 
 
+import subprocess as _subprocess
+
+
 def get_git_config(key: str, default: str = "") -> str:
     """Get value from git config, return default if not set."""
     try:
-        import subprocess
-        result = subprocess.run(
+        result = _subprocess.run(
             ["git", "config", key],
             capture_output=True,
             text=True,
             check=True
         )
         return result.stdout.strip()
-    except (subprocess.CalledProcessError, FileNotFoundError):
+    except (_subprocess.CalledProcessError, FileNotFoundError):
         return default
 
 
 def get_project_name() -> str:
     """Extract project name from git remote or directory name."""
     try:
-        import subprocess
         remote = get_git_config("remote.origin.url")
         if remote:
             # Match github.com/user/repo or git@github.com:user/repo.git
@@ -62,7 +63,6 @@ def get_project_name() -> str:
 def get_github_username() -> Optional[str]:
     """Get GitHub username from git remote."""
     try:
-        import subprocess
         remote = get_git_config("remote.origin.url")
         if remote:
             match = re.search(r'github\.com[/:]([^/]+)', remote)

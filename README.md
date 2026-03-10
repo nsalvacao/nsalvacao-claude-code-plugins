@@ -54,7 +54,7 @@ By treating plugins as products (not one-off prompt files), this repository can 
 | `productivity` | 1.0.0 | Task management, workplace memory, and a visual dashboard. Claude learns your... | productivity | 2 cmd, 2 skill |
 | `productivity-cockpit` | 1.0.0 | Task management, workplace memory, and an interactive cockpit dashboard with ... | productivity | 2 cmd, 3 skill |
 | `plugin-studio` | 0.1.0 | Visual dashboard for creating and managing Claude Code plugins — browse struc... | development | 2 cmd, 1 skill, hooks |
-| `solution-audit` | 0.1.0 | Continuous meta-quality audit system for solutions under development — evalua... | development | 6 cmd, 7 skill, 3 agent, hooks |
+| `solution-audit` | 0.2.0 | Continuous meta-quality audit system for solutions under development — evalua... | development | 7 cmd, 8 skill, 4 agent, hooks |
 <!-- PLUGINS-TABLE-END -->
 
 ## Repository Structure

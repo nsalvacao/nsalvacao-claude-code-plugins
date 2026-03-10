@@ -16,7 +16,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/mark-stale.sh",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/mark-stale.sh",
           "timeout": 10
         }
       ]
@@ -28,7 +28,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/save-progress.sh",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/save-progress.sh",
           "timeout": 10
         }
       ]

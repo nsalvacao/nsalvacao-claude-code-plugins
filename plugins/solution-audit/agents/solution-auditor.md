@@ -50,7 +50,7 @@ Before starting dimension analysis, create `.solution-audit-wip.md` in the proje
 
 ```
 # Solution Audit — Work In Progress
-Date: [today's date]
+Date: YYYY-MM-DD
 Status: IN PROGRESS
 
 ## Completed Dimensions

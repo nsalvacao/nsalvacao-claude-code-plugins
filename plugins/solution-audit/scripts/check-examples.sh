@@ -80,16 +80,15 @@ PYEOF
 )"
 
 # --- Parse stats line ---
-STATS_LINE="$(echo "$RESULTS" | grep '^__STATS__:')"
-BODY="$(echo "$RESULTS" | grep -v '^__STATS__:')"
+STATS_LINE="$(grep '^__STATS__:' <<< "$RESULTS")"
+BODY="$(grep -v '^__STATS__:' <<< "$RESULTS")"
 
 if [ -n "$BODY" ]; then
   echo "$BODY"
 fi
 
 if [ -n "$STATS_LINE" ]; then
-  FILES_CHECKED="$(echo "$STATS_LINE" | cut -d: -f2)"
-  FILES_WITH_ERRORS="$(echo "$STATS_LINE" | cut -d: -f3)"
+  IFS=':' read -r _ FILES_CHECKED FILES_WITH_ERRORS _ <<< "$STATS_LINE"
 fi
 
 echo "Example check complete. Files checked: ${FILES_CHECKED} | Files with invalid examples: ${FILES_WITH_ERRORS}"

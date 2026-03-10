@@ -5,7 +5,31 @@
       "hooks": [
         {
           "type": "prompt",
-          "prompt": "Check if .solution-audit-latest.json exists in the current project root. If it exists, read it and display a brief (2-3 line) reminder of the top 3 unresolved findings by severity. Format: 'Solution Audit: [N] pending findings — top: [brief description of top 1-3 items]'. If the file does not exist, output nothing."
+          "prompt": "Check if .solution-audit-latest.json exists in the current project root. If it exists, read it and:\n1. If 'stale' array is non-empty, display: '⚠ Audit stale: [dimension names] — files changed since last audit. Run /audit or relevant /audit-* command to refresh.'\n2. Display a brief (2-3 line) reminder of the top 3 unresolved findings by severity. Format: 'Solution Audit: [N] pending findings — top: [brief description of top 1-3 items]'\n3. If .solution-audit-wip.md exists in project root, display: '📋 WIP audit in progress: .solution-audit-wip.md'\nIf the file does not exist, output nothing."
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": "Write|Edit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/mark-stale.sh",
+          "timeout": 10
+        }
+      ]
+    }
+  ],
+  "Stop": [
+    {
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash $CLAUDE_PLUGIN_ROOT/scripts/save-progress.sh",
+          "timeout": 10
         }
       ]
     }

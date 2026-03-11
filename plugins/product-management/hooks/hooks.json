@@ -1,0 +1,15 @@
+{
+  "Stop": [
+    {
+      "matcher": ".*",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/pm-session-close.sh",
+          "timeout": 5,
+          "description": "Suggest relevant PM commands at session end when PM artifacts exist"
+        }
+      ]
+    }
+  ]
+}

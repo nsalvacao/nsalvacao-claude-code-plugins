@@ -303,8 +303,11 @@ def detect_has_linter() -> bool:
         if os.path.exists(f):
             return True
     if os.path.exists("pyproject.toml"):
-        with open("pyproject.toml", encoding="utf-8") as fh:
-            content = fh.read()
+        try:
+            with open("pyproject.toml", encoding="utf-8") as fh:
+                content = fh.read()
+        except (OSError, UnicodeDecodeError):
+            content = ""
         if "[tool.ruff" in content or "[tool.pylint" in content or "[tool.flake8" in content:
             return True
     if os.path.exists("package.json"):

@@ -4,7 +4,7 @@ set -euo pipefail
 
 # Read tool_input from stdin
 input=$(head -c 65536 /dev/stdin 2>/dev/null || echo "{}")
-file_path=$(echo "$input" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d.get('file_path',''))" 2>/dev/null || echo "")
+file_path=$(echo "$input" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); ti=d.get('tool_input',{}); print(ti.get('file_path','') or d.get('file_path',''))" 2>/dev/null || echo "")
 
 # Only process .sh files
 [[ "$file_path" == *.sh ]] || exit 0

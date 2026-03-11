@@ -3,7 +3,7 @@
 set -euo pipefail
 
 input=$(head -c 65536 /dev/stdin 2>/dev/null || echo "{}")
-file_path=$(echo "$input" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d.get('file_path',''))" 2>/dev/null || echo "")
+file_path=$(echo "$input" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); ti=d.get('tool_input',{}); print(ti.get('file_path','') or d.get('file_path',''))" 2>/dev/null || echo "")
 
 [[ -f "$file_path" ]] || exit 0
 

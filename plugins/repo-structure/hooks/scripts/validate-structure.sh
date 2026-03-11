@@ -5,6 +5,15 @@
 
 set -euo pipefail
 
+# Read hook payload if invoked as a Claude Code PreToolUse/PostToolUse hook
+_input=$(head -c 65536 /dev/stdin 2>/dev/null || echo "{}")
+_hook_file=$(echo "$_input" | python3 -c "
+import sys, json
+d = json.loads(sys.stdin.read())
+ti = d.get('tool_input', {})
+print(ti.get('file_path', '') or d.get('file_path', ''))
+" 2>/dev/null || echo "")
+
 # Colors
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
@@ -70,7 +79,8 @@ validate_markdown() {
             fi
         done
     done < "$file"
-    return $broken
+    # Return 0 on success, 1 on any broken links (avoids bash return code wrap at 256)
+    [[ $broken -eq 0 ]]
 }
 
 # Main validation logic
@@ -78,14 +88,17 @@ main() {
     local files_to_validate=()
     local errors=0
 
-    # Collect files from git staging area if available
-    if git rev-parse --is-inside-work-tree &>/dev/null; then
+    # If invoked as a Claude Code hook, validate the specific file being written/edited
+    if [[ -n "$_hook_file" && -f "$_hook_file" ]]; then
+        files_to_validate=("$_hook_file")
+    # Otherwise collect files from git staging area if available
+    elif git rev-parse --is-inside-work-tree &>/dev/null; then
         while IFS= read -r file; do
             [[ -f "$file" ]] && files_to_validate+=("$file")
         done < <(git diff --cached --name-only --diff-filter=ACM)
     fi
 
-    # If no git or no staged files, validate common structure files
+    # If no hook file and no staged files, validate common structure files
     if [[ ${#files_to_validate[@]} -eq 0 ]]; then
         [[ -f ".github/workflows/test.yml" ]] && files_to_validate+=(".github/workflows/test.yml")
         [[ -f ".pre-commit-config.yaml" ]] && files_to_validate+=(".pre-commit-config.yaml")

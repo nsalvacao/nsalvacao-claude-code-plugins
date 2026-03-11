@@ -27,24 +27,25 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/install-hooks.sh
 
 ### Python
 
-Recommended tools: **black** (formatter), **ruff** (linter), **mypy** (types), **detect-secrets** (scanning).
+Recommended tools: **ruff** (linter + formatter), **pre-commit-hooks** (common checks).
+Optional additions: **black** (alternative formatter), **mypy** (type checking), **detect-secrets** (secret scanning).
 
-Sample `.pre-commit-config.yaml`:
+Sample `.pre-commit-config.yaml` (matches what `install-hooks.sh` generates):
 
 ```yaml
 repos:
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
     hooks:
-      - id: black
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.9
+    rev: v0.4.1
     hooks:
       - id: ruff
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.4.0
-    hooks:
-      - id: detect-secrets
+      - id: ruff-format
 ```
 
 ### JavaScript / TypeScript

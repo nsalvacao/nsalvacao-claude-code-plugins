@@ -96,13 +96,22 @@ detect_stack() {
         tools+=('{"name":"GitLab CI","type":"ci","confidence":95}')
     fi
 
-    # Determine primary language (first detected with highest confidence)
+    # Determine primary language (highest confidence; first detected as tiebreaker)
     if [[ ${#languages[@]} -gt 0 ]]; then
-        if command -v jq &>/dev/null; then
-            primary_language=$(echo "${languages[0]}" | jq -r '.name')
-        else
-            primary_language=$(echo "${languages[0]}" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d['name'])")
-        fi
+        local max_conf=-1 conf name
+        for lang_json in "${languages[@]}"; do
+            if command -v jq &>/dev/null; then
+                conf=$(echo "$lang_json" | jq '.confidence')
+                name=$(echo "$lang_json" | jq -r '.name')
+            else
+                conf=$(echo "$lang_json" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d.get('confidence',0))")
+                name=$(echo "$lang_json" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d.get('name',''))")
+            fi
+            if [[ "$conf" -gt "$max_conf" ]]; then
+                max_conf="$conf"
+                primary_language="$name"
+            fi
+        done
     else
         primary_language="Unknown"
     fi

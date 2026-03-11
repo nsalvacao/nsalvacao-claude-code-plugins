@@ -481,8 +481,11 @@ def resolve_variables(
     if "RUFF" not in vars:
         ruff_present = False
         if os.path.exists("pyproject.toml"):
-            with open("pyproject.toml", encoding="utf-8") as f:
-                ruff_present = "[tool.ruff" in f.read()
+            try:
+                with open("pyproject.toml", encoding="utf-8") as f:
+                    ruff_present = "[tool.ruff" in f.read()
+            except (OSError, UnicodeDecodeError):
+                ruff_present = False
         vars["RUFF"] = ruff_present
 
     # Coverage command default

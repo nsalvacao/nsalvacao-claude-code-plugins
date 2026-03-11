@@ -26,26 +26,25 @@ from pathlib import Path
 from typing import Optional
 
 
-import subprocess as _subprocess
-
-
 def get_git_config(key: str, default: str = "") -> str:
     """Get value from git config, return default if not set."""
     try:
-        result = _subprocess.run(
+        import subprocess
+        result = subprocess.run(
             ["git", "config", key],
             capture_output=True,
             text=True,
             check=True
         )
         return result.stdout.strip()
-    except (_subprocess.CalledProcessError, FileNotFoundError):
+    except (subprocess.CalledProcessError, FileNotFoundError):
         return default
 
 
 def get_project_name() -> str:
     """Extract project name from git remote or directory name."""
     try:
+        import subprocess
         remote = get_git_config("remote.origin.url")
         if remote:
             # Match github.com/user/repo or git@github.com:user/repo.git
@@ -63,6 +62,7 @@ def get_project_name() -> str:
 def get_github_username() -> Optional[str]:
     """Get GitHub username from git remote."""
     try:
+        import subprocess
         remote = get_git_config("remote.origin.url")
         if remote:
             match = re.search(r'github\.com[/:]([^/]+)', remote)
@@ -266,84 +266,6 @@ def is_cli() -> bool:
     return False
 
 
-def detect_has_coverage() -> bool:
-    """Detect if project has coverage tooling configured."""
-    coverage_indicators = [".coveragerc", "coverage.xml", ".coverage"]
-    for f in coverage_indicators:
-        if os.path.exists(f):
-            return True
-    for cfg in ["pyproject.toml", "setup.cfg", "tox.ini"]:
-        if os.path.exists(cfg):
-            with open(cfg) as fh:
-                content = fh.read()
-            if "[tool.coverage" in content or "[coverage:" in content:
-                return True
-    if os.path.exists("package.json"):
-        with open("package.json") as fh:
-            content = fh.read()
-        if any(t in content for t in ["istanbul", "nyc", "c8", "@vitest/coverage"]):
-            return True
-    return False
-
-
-def detect_has_linter() -> bool:
-    """Detect if project has a linter configured."""
-    linter_files = [
-        ".eslintrc", ".eslintrc.js", ".eslintrc.json", ".eslintrc.yml",
-        ".pylintrc", "pylintrc", ".flake8",
-        "ruff.toml", ".ruff.toml", ".rubocop.yml", ".golangci.yml",
-    ]
-    for f in linter_files:
-        if os.path.exists(f):
-            return True
-    if os.path.exists("pyproject.toml"):
-        with open("pyproject.toml") as fh:
-            content = fh.read()
-        if "[tool.ruff" in content or "[tool.pylint" in content or "[tool.flake8" in content:
-            return True
-    if os.path.exists("package.json"):
-        with open("package.json") as fh:
-            content = fh.read()
-        if "eslint" in content or "tslint" in content:
-            return True
-    return False
-
-
-def detect_has_config_file() -> bool:
-    """Detect if project has a meaningful config file."""
-    config_files = [
-        ".env.example", ".env.sample",
-        "config.yaml", "config.yml", "config.json", "config.toml",
-        "app.config.js", "app.config.ts",
-        "settings.py", "settings.yaml",
-    ]
-    return any(os.path.exists(f) for f in config_files)
-
-
-def detect_has_discussions() -> bool:
-    """Detect if GitHub Discussions is referenced in project files."""
-    for fname in ["README.md", ".github/CONTRIBUTING.md", "CONTRIBUTING.md"]:
-        if os.path.exists(fname):
-            with open(fname) as fh:
-                content = fh.read().lower()
-            if "discussion" in content:
-                return True
-    return False
-
-
-def detect_has_issues() -> bool:
-    """Detect if GitHub Issues is enabled (presence of issue templates or references)."""
-    if os.path.isdir(".github/ISSUE_TEMPLATE"):
-        return True
-    for fname in [".github/ISSUE_TEMPLATE.md", "README.md", "CONTRIBUTING.md"]:
-        if os.path.exists(fname):
-            with open(fname) as fh:
-                content = fh.read().lower()
-            if "issue" in content:
-                return True
-    return False
-
-
 def resolve_variables(
     provided_vars: dict,
     mock: bool = False
@@ -445,42 +367,6 @@ def resolve_variables(
     # kebab-case
     vars["PROJECT_NAME_KEBAB"] = project_name.replace("_", "-")
 
-    context = vars
-    context["HAS_COVERAGE"] = detect_has_coverage()
-    context["HAS_LINTER"] = detect_has_linter()
-    context["HAS_CONFIG_FILE"] = detect_has_config_file()
-    context["HAS_DISCUSSIONS"] = detect_has_discussions()
-    context["HAS_ISSUES"] = detect_has_issues()
-
-    # REPO_NAME alias (same as PROJECT_NAME — used in clone URLs)
-    if "REPO_NAME" not in vars:
-        vars["REPO_NAME"] = vars.get("PROJECT_NAME", "my-project")
-
-    # Tool booleans for CI templates
-    primary = vars.get("PRIMARY_LANGUAGE", "").lower()
-    if "PYTEST" not in vars:
-        vars["PYTEST"] = primary == "python"
-    if "RUFF" not in vars:
-        ruff_present = os.path.exists("pyproject.toml") and "[tool.ruff" in open("pyproject.toml").read() if os.path.exists("pyproject.toml") else False
-        vars["RUFF"] = ruff_present
-
-    # Coverage command default
-    if "COVERAGE_COMMAND" not in vars:
-        if primary == "python":
-            vars["COVERAGE_COMMAND"] = "pytest --cov"
-        elif primary in ("javascript", "typescript"):
-            vars["COVERAGE_COMMAND"] = "npm test -- --coverage"
-        else:
-            vars["COVERAGE_COMMAND"] = ""
-
-    # Config file variables
-    if "CONFIG_FILE_PATH" not in vars:
-        vars["CONFIG_FILE_PATH"] = "config.yaml"
-    if "CONFIG_FORMAT" not in vars:
-        vars["CONFIG_FORMAT"] = "YAML"
-    if "CONFIG_EXAMPLE" not in vars:
-        vars["CONFIG_EXAMPLE"] = "key: value"
-
     return vars
 
 
@@ -515,23 +401,24 @@ def render_template(template_content: str, vars: dict) -> str:
     """Render template with variable substitution and conditionals."""
 
     def process_conditionals(content: str, is_negated: bool) -> str:
-        """Process conditional blocks recursively (positive or negated pass)."""
-        if is_negated:
-            # Match {{^COND}}...{{/COND}}
-            pattern = r'\{\{\^([A-Z_][A-Z0-9_]*)\}\}(.*?)\{\{/\1\}\}'
-        else:
-            # Match {{#COND}}...{{/COND}}
-            pattern = r'\{\{#([A-Z_][A-Z0-9_]*)\}\}(.*?)\{\{/\1\}\}'
+        """Process conditional blocks recursively."""
+        pattern = r'\{\{#(\^?)([A-Z_][A-Z0-9_]*)\}\}(.*?)\{\{/\2\}\}'
 
         def replace_match(match):
-            condition = match.group(1)
-            block_content = match.group(2)
+            negation_flag = match.group(1)
+            condition = match.group(2)
+            block_content = match.group(3)
+
+            # Determine if should include
             include = evaluate_condition(condition, vars)
-            if is_negated:
+
+            # Apply negation if needed
+            if negation_flag == "^":
                 include = not include
+
             return block_content if include else ""
 
-        # Keep processing until no more conditionals (handles nested blocks)
+        # Keep processing until no more conditionals
         prev_content = None
         while prev_content != content:
             prev_content = content

@@ -27,7 +27,7 @@ View, compare, and analyze previous solution audit reports.
 - `--latest`: Display the most recent audit report (default behavior)
 - `--compare YYYY-MM-DD`: Compare current with a specific dated report
 - `--trend`: Show score trends across all available reports
-- `--dimension`: Filter to a specific dimension (product-coherence, architecture-coherence, documentation-quality, onboarding-quality, cli-ux, textual-ux, learnability-workflow, spec-gap-analysis)
+- `--dimension`: Filter to a specific dimension (product-coherence, architecture-coherence, documentation-quality, onboarding-quality, cli-ux, textual-ux, learnability-workflow)
 
 ## Output Format
 
@@ -73,11 +73,11 @@ New findings: N | Resolved findings: N
 Score Trend: [N] audits from [first-date] to [last-date]
 
 Columns: Overall, Prod (Product Coherence), Arch (Architecture Coherence), Docs (Documentation Quality),
-Onb (Onboarding Quality), CLI (CLI UX), Text (Textual UX), Learn (Learnability & Workflow), Spec (Spec Gap Analysis)
+Onb (Onboarding Quality), CLI (CLI UX), Text (Textual UX), Learn (Learnability & Workflow)
 
-| Date       | Overall | Prod | Arch | Docs | Onb  | CLI  | Text | Learn | Spec |
-|------------|---------|------|------|------|------|------|------|-------|------|
-| [per-date] |         |      |      |      |      |      |      |       |      |
+| Date       | Overall | Prod | Arch | Docs | Onb  | CLI  | Text | Learn |
+|------------|---------|------|------|------|------|------|------|-------|
+| [per-date] |         |      |      |      |      |      |      |       |
 
 Trend: [improving/stable/declining] ([velocity: +/-N pts/audit])
 Best dimension: [name] ([score])

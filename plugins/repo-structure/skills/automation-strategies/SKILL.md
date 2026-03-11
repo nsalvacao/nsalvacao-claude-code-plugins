@@ -1,56 +1,47 @@
 ---
 name: Automation Strategies
-description: Use when the user asks to setup pre-commit hooks, configure CI/CD, install linters, add formatters, automate testing, or needs automation setup guidance for a specific tech stack.
-version: 1.0.0
+description: This skill should be used when the user asks to "setup pre-commit hooks", "configure CI/CD", "install linters", "add formatters", "automate testing", or needs automation setup for code quality, testing, and deployment workflows.
+version: 0.1.0
 ---
 
 # Automation Strategies
 
-Guide for setting up automation tools — pre-commit hooks, linters, formatters, and security scanning — adapted to the detected tech stack.
+Automation setup for pre-commit hooks, linters, formatters, security scanning, and CI/CD workflows with stack-adaptive configuration.
 
-## Pre-commit Framework
+## Pre-Commit Hooks
 
-Install and configure the `pre-commit` framework:
+**Framework:** `pre-commit` (recommended)
 
+**Installation:**
 ```bash
-pip install pre-commit
-pre-commit install
+bash scripts/install-hooks.sh
 ```
 
-Or use the plugin's `install-hooks.sh` script which auto-detects stack and generates `.pre-commit-config.yaml`:
-
-```bash
-bash ${CLAUDE_PLUGIN_ROOT}/scripts/install-hooks.sh
-```
-
-## Stack-Adaptive Configuration
+**Stack-adaptive hooks:**
 
 ### Python
-
-Recommended tools: **black** (formatter), **ruff** (linter), **mypy** (types), **detect-secrets** (scanning).
-
-Sample `.pre-commit-config.yaml`:
-
 ```yaml
+# .pre-commit-config.yaml
 repos:
   - repo: https://github.com/psf/black
-    rev: 23.12.1
+    rev: 23.11.0
     hooks:
       - id: black
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.9
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.1.0
     hooks:
-      - id: ruff
+      - id: flake8
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.7.0
+    hooks:
+      - id: mypy
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
     hooks:
       - id: detect-secrets
 ```
 
-### JavaScript / TypeScript
-
-Recommended tools: **prettier** (formatter), **eslint** (linter), **husky** (hooks integration).
-
+### JavaScript/TypeScript
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -58,48 +49,23 @@ repos:
     hooks:
       - id: prettier
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.56.0
+    rev: v8.54.0
     hooks:
       - id: eslint
-        types: [javascript, jsx, ts, tsx]
 ```
 
 ### Go
-
-Recommended tools: **gofmt** (formatter), **golangci-lint** (meta-linter).
-
 ```yaml
 repos:
   - repo: https://github.com/dnephin/pre-commit-golang
     rev: v0.5.1
     hooks:
       - id: go-fmt
-      - id: golangci-lint
+      - id: go-lint
+      - id: go-imports
 ```
 
-### Rust
-
-Recommended tools: **rustfmt** (formatter), **clippy** (linter).
-
-```yaml
-repos:
-  - repo: local
-    hooks:
-      - id: rustfmt
-        name: rustfmt
-        entry: cargo fmt --
-        language: system
-        types: [rust]
-      - id: clippy
-        name: clippy
-        entry: cargo clippy -- -D warnings
-        language: system
-        types: [rust]
-        pass_filenames: false
-```
-
-## Universal Hooks (all stacks)
-
+### Universal Hooks
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -108,36 +74,109 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
-      - id: check-json
       - id: check-merge-conflict
       - id: check-added-large-files
 ```
 
-## CI/CD Integration
+## Linter Configs
 
-Use the plugin's CI templates from `skills/repository-templates/templates/ci/`:
-
-- `python-ci.yml.template` — Python CI with pytest, ruff, optional coverage
-- `node-ci.yml.template` — Node.js CI with test and lint
-
-Generate with:
-
-```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-template.py \
-  --template ${CLAUDE_PLUGIN_ROOT}/skills/repository-templates/templates/ci/python-ci.yml.template \
-  --output .github/workflows/ci.yml
+### Python (.flake8)
+```ini
+[flake8]
+max-line-length = 88
+extend-ignore = E203, W503
+exclude = .git,__pycache__,venv
 ```
 
-## Git Hooks (Native, without pre-commit)
-
-Commit-msg validation (conventional commits):
-
-```bash
-#!/usr/bin/env bash
-# .git/hooks/commit-msg
-pattern="^(feat|fix|chore|docs|refactor|test|ci|perf|revert)(\(.+\))?: .{1,72}"
-if ! grep -qE "$pattern" "$1"; then
-  echo "ERROR: Commit message must follow conventional commits format" >&2
-  exit 1
-fi
+### JavaScript (.eslintrc.json)
+```json
+{
+  "extends": ["eslint:recommended", "prettier"],
+  "env": {"node": true, "es6": true},
+  "rules": {"no-console": "warn"}
+}
 ```
+
+### TypeScript (tsconfig.json)
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true
+  }
+}
+```
+
+## Formatter Configs
+
+### Python (pyproject.toml)
+```toml
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310']
+```
+
+### JavaScript (.prettierrc)
+```json
+{
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2
+}
+```
+
+## CI/CD Workflows
+
+### GitHub Actions (Python)
+```yaml
+# .github/workflows/test.yml
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements-dev.txt
+      - run: pytest --cov
+      - run: black --check .
+      - run: flake8
+```
+
+### Security Scanning
+```yaml
+# .github/workflows/security.yml
+name: Security
+on: [push, pull_request]
+jobs:
+  codeql:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v2
+      - uses: github/codeql-action/analyze@v2
+```
+
+## Usage
+
+**Install all automation:**
+```bash
+bash scripts/install-hooks.sh --stack=python
+```
+
+**Selective install:**
+```bash
+bash scripts/install-hooks.sh --hooks-only
+bash scripts/install-hooks.sh --ci-only
+```
+
+## Integration
+
+- Detects stack via `tech-stack-detection`
+- Validates setup via `quality-scoring`
+- Templates in `templates/` directory
+
+See: `references/` for complete configs and `scripts/` for installers.

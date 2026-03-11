@@ -1,6 +1,6 @@
 {
   "name": "repo-structure",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "Enterprise-grade repository structure analyzer, validator, and scaffolder with intelligent automation",
   "author": {
     "name": "Nuno Salvação",
@@ -15,11 +15,7 @@
     "templates",
     "automation",
     "validation",
-    "enterprise",
-    "ci-debugging",
-    "pr-automation",
-    "hooks",
-    "automation-validator"
+    "enterprise"
   ],
   "license": "MIT",
   "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",

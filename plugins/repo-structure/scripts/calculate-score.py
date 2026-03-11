@@ -105,7 +105,7 @@ def check_directory_exists(dirpath: str) -> bool:
 
 def score_documentation(repo_path: str) -> Dict[str, Any]:
     """Score documentation quality."""
-    scores: Dict[str, Any] = {
+    scores = {
         "readme_completeness": 0,
         "api_documentation": 0,
         "additional_docs": 0,
@@ -399,6 +399,9 @@ def score_cicd(repo_path: str) -> Dict[str, Any]:
                     coverage_found = True
                     break
 
+    if coverage_found:
+        scores["automated_testing"] += 2
+
     # Coverage >90% (additional 2 pts) - heuristic
     if coverage_found:
         scores["automated_testing"] += 2
@@ -596,12 +599,14 @@ def score_community(repo_path: str) -> Dict[str, Any]:
 
 def calculate_score(repo_path: str, weights: Optional[Dict[str, int]] = None) -> Dict[str, Any]:
     """Calculate overall quality score for a repository."""
-    raw = weights if weights is not None else DEFAULT_WEIGHTS
-    total_weight = sum(raw.values())
+    if weights is None:
+        weights = DEFAULT_WEIGHTS
+
+    # Ensure weights sum to 100
+    total_weight = sum(weights.values())
     if total_weight != 100:
-        local_weights: Dict[str, float] = {k: v / total_weight * 100 for k, v in raw.items()}
-    else:
-        local_weights = {k: float(v) for k, v in raw.items()}
+        # Normalize weights
+        weights = {k: v / total_weight * 100 for k, v in weights.items()}
 
     # Get category scores
     doc_scores = score_documentation(repo_path)
@@ -617,10 +622,10 @@ def calculate_score(repo_path: str, weights: Optional[Dict[str, int]] = None) ->
 
     # Weighted overall score
     overall_score = (
-        doc_total * local_weights["documentation"] / 25 +
-        sec_total * local_weights["security"] / 25 +
-        cicd_total * local_weights["ci_cd"] / 25 +
-        com_total * local_weights["community"] / 25
+        doc_total * weights["documentation"] / 25 +
+        sec_total * weights["security"] / 25 +
+        cicd_total * weights["ci_cd"] / 25 +
+        com_total * weights["community"] / 25
     )
 
     # Determine grade

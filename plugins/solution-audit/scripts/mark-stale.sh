@@ -48,12 +48,6 @@ if re.search(r"(?:^|/)(src|lib)/", fp):
     dims.update(["architecture-coherence", "product-coherence"])
 if re.match(r"(?i)(contributing|install|getting_started|quickstart)", base):
     dims.add("onboarding-quality")
-if re.match(r"(?i)(contributing)", base):
-    dims.add("learnability-workflow")
-if re.search(r"(?:^|/)(specs?|blueprints?|requirements?)/", fp):
-    dims.add("spec-gap-analysis")
-if re.match(r"(?i).*(-spec|-blueprint|-requirements|-architecture)(\..+)?$", base):
-    dims.add("spec-gap-analysis")
 if base.endswith(".md") and not dims:
     dims.add("documentation-quality")
 

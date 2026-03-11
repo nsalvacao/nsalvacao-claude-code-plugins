@@ -48,10 +48,10 @@ By treating plugins as products (not one-off prompt files), this repository can 
 <!-- PLUGINS-TABLE-START -->
 | Plugin | Version | Description | Category | Components |
 |--------|---------|-------------|----------|------------|
-| `strategy-toolkit` | 0.2.0 | Strategic ideation, execution planning, and pre-launch evaluation toolkit wit... | productivity | 3 cmd, 3 skill, 1 agent, hooks |
-| `repo-structure` | 0.2.0 | Enterprise-grade repository structure analyzer, validator, and scaffolder wit... | development | 7 cmd, 6 skill, 4 agent, hooks |
-| `product-management` | 1.0.0 | Write feature specs, plan roadmaps, synthesise user research, and analyse com... | productivity | 6 cmd, 6 skill, 1 agent, hooks |
-| `productivity` | 1.0.0 | Task management, workplace memory, and a visual dashboard. Claude learns your... | productivity | 2 cmd, 2 skill, 1 agent, hooks |
+| `strategy-toolkit` | 0.1.0 | Strategic ideation and execution planning toolkit with reproducible frameworks | productivity | 3 cmd, 1 skill |
+| `repo-structure` | 0.1.0 | Enterprise-grade repository structure analyzer, validator, and scaffolder wit... | development | 4 cmd, 5 skill, 3 agent, hooks |
+| `product-management` | 1.0.0 | Write feature specs, plan roadmaps, synthesise user research, and analyse com... | productivity | 6 cmd, 6 skill |
+| `productivity` | 1.0.0 | Task management, workplace memory, and a visual dashboard. Claude learns your... | productivity | 2 cmd, 2 skill |
 | `productivity-cockpit` | 1.0.0 | Task management, workplace memory, and an interactive cockpit dashboard with ... | productivity | 2 cmd, 3 skill |
 | `plugin-studio` | 0.1.0 | Visual dashboard for creating and managing Claude Code plugins — browse struc... | development | 2 cmd, 1 skill, hooks |
 | `solution-audit` | 0.2.0 | Continuous meta-quality audit system for solutions under development — evalua... | development | 7 cmd, 8 skill, 4 agent, hooks |

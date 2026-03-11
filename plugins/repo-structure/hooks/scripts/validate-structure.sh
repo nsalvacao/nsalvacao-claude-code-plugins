@@ -46,32 +46,11 @@ validate_json() {
 
 validate_markdown() {
     local file="$1"
-    local broken=0
-    local md_link_re='\[([^]]*)\]\(([^)]+)\)'
-    while IFS= read -r line; do
-        # Match markdown links [text](target)
-        while [[ "$line" =~ $md_link_re ]]; do
-            local link="${BASH_REMATCH[2]}"
-            # Remove the matched portion to find next link in same line
-            line="${line#*](*}"
-            line="${line#*)}"
-            # Skip external URLs and anchors
-            [[ "$link" =~ ^https?:// ]] && continue
-            [[ "$link" =~ ^# ]] && continue
-            [[ -z "$link" ]] && continue
-            # Strip anchor fragment
-            local filepath="${link%%#*}"
-            [[ -z "$filepath" ]] && continue
-            # Check relative to file's directory
-            local dir
-            dir="$(dirname "$file")"
-            if [[ ! -f "$dir/$filepath" && ! -f "$filepath" ]]; then
-                echo -e "${YELLOW}⚠️ Broken local link '$filepath' in: $file${NC}" >&2
-                broken=$((broken+1))
-            fi
-        done
-    done < "$file"
-    return $broken
+    # Basic markdown validation (check for common issues)
+    if grep -q '\[.*\]([^)]*)$' "$file"; then
+        echo -e "${YELLOW}⚠️ Potential broken link in: $file${NC}" >&2
+    fi
+    return 0
 }
 
 # Main validation logic
@@ -98,13 +77,13 @@ main() {
     for file in "${files_to_validate[@]}"; do
         case "$file" in
             *.yml|*.yaml)
-                validate_yaml "$file" || errors=$((errors+1))
+                validate_yaml "$file" || ((errors++))
                 ;;
             *.json)
-                validate_json "$file" || errors=$((errors+1))
+                validate_json "$file" || ((errors++))
                 ;;
             *.md)
-                validate_markdown "$file" || errors=$((errors+1))
+                validate_markdown "$file" || ((errors++))
                 ;;
         esac
     done

@@ -89,7 +89,14 @@ PYEOF
   while IFS=$'\t' read -r file line url; do
     [ -z "$url" ] && continue
     HTTP_CODE="$(curl --head --silent --max-time 15 --location \
+      --user-agent 'Mozilla/5.0 (compatible; link-checker/1.0)' \
       --write-out '%{http_code}' --output /dev/null "$url" 2>/dev/null)"
+    # Fallback: some servers reject HEAD — retry with GET on 405 Method Not Allowed
+    if [ "$HTTP_CODE" = "405" ]; then
+      HTTP_CODE="$(curl --silent --max-time 15 --location \
+        --user-agent 'Mozilla/5.0 (compatible; link-checker/1.0)' \
+        --write-out '%{http_code}' --output /dev/null "$url" 2>/dev/null)"
+    fi
     case "$HTTP_CODE" in
       000|404|410)
         echo "BROKEN [external:${HTTP_CODE}] ${file}:${line} → ${url}"

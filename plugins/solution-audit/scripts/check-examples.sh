@@ -74,10 +74,11 @@ try:
 
     print(f"__STATS__:{files_checked}:{len(files_with_errors)}")
 except Exception as e:
-    print(f"__STATS__:ERROR:0")
+    print(f"__STATS__:0:0")
     sys.exit(1)
 PYEOF
 )"
+PYTHON_RC=$?
 
 # --- Parse stats line ---
 STATS_LINE="$(grep '^__STATS__:' <<< "$RESULTS")"
@@ -91,7 +92,12 @@ if [ -n "$STATS_LINE" ]; then
   IFS=':' read -r _ FILES_CHECKED FILES_WITH_ERRORS _ <<< "$STATS_LINE"
 fi
 
-echo "Example check complete. Files checked: ${FILES_CHECKED} | Files with invalid examples: ${FILES_WITH_ERRORS}"
+if [ "$PYTHON_RC" -ne 0 ] && [ "${FILES_CHECKED:-0}" -eq 0 ]; then
+  echo "Example check failed (Python error). Files checked: 0 | Files with invalid examples: 0"
+  exit 1
+fi
+
+echo "Example check complete. Files checked: ${FILES_CHECKED:-0} | Files with invalid examples: ${FILES_WITH_ERRORS:-0}"
 
 [ "${FILES_WITH_ERRORS:-0}" -gt 0 ] && exit 1
 exit 0

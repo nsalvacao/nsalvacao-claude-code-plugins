@@ -1,63 +1,65 @@
 {
-  "PreToolUse": [
-    {
-      "matcher": "Write|Edit|MultiEdit",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate-structure.sh",
-          "timeout": 10,
-          "description": "Validate structure files before writing"
-        }
-      ]
-    }
-  ],
-  "PostToolUse": [
-    {
-      "matcher": "Write|Edit|MultiEdit",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/lf-check-hook.sh",
-          "timeout": 10,
-          "description": "Warn on CRLF line endings"
-        }
-      ]
-    },
-    {
-      "matcher": "Write|Edit|MultiEdit",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/shellcheck-hook.sh",
-          "timeout": 15,
-          "description": "Lint .sh files with shellcheck"
-        }
-      ]
-    },
-    {
-      "matcher": "Write|Edit|MultiEdit",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/yamllint-hook.sh",
-          "timeout": 15,
-          "description": "Lint .yml/.yaml files"
-        }
-      ]
-    }
-  ],
-  "Stop": [
-    {
-      "matcher": ".*",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/audit-reminder.sh",
-          "timeout": 10,
-          "description": "Suggest /repo-validate if new files were created"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate-structure.sh",
+            "timeout": 10,
+            "description": "Validate structure files before writing"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/lf-check-hook.sh",
+            "timeout": 10,
+            "description": "Warn on CRLF line endings"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/shellcheck-hook.sh",
+            "timeout": 15,
+            "description": "Lint .sh files with shellcheck"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/yamllint-hook.sh",
+            "timeout": 15,
+            "description": "Lint .yml/.yaml files"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/audit-reminder.sh",
+            "timeout": 10,
+            "description": "Suggest /repo-validate if new files were created"
+          }
+        ]
+      }
+    ]
+  }
 }

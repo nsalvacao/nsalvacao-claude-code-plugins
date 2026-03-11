@@ -1,15 +1,17 @@
 {
-  "Stop": [
-    {
-      "matcher": ".*",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/launch-reminder.sh",
-          "timeout": 5,
-          "description": "Remind to run /strategic-review before launching if .ideas/ has output"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/launch-reminder.sh",
+            "timeout": 5,
+            "description": "Remind to run /strategic-review before launching if .ideas/ has output"
+          }
+        ]
+      }
+    ]
+  }
 }

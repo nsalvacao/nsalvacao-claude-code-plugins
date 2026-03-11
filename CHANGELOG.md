@@ -5,6 +5,41 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.7.0...v1.8.0) (2026-03-11)
+
+
+### ✨ Features
+
+* **plugins:** add agents, hooks, and skills to strategy-toolkit, productivity, product-management ([1a65eee](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/1a65eee2ac0b16c974c5e8a81c9b3f3edb810936))
+* **repo-structure:** add B1-B4 github/ templates — CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, LICENSE.Apache-2.0 ([6c203a7](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/6c203a75e8a30d8d2be146157d0a7a3994f0081b))
+* **repo-structure:** add B5-B9 configs/ and ci/ templates — gitignore, editorconfig, GitHub Actions CI ([8ed6748](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/8ed6748571c452b87b08b0a2bf070979ad849b04))
+* **repo-structure:** add G1-G2 missing scripts — install-hooks.sh, check-compliance.sh ([2980413](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/2980413c95948c164f9c1717d6539a494fb4db98))
+* **repo-structure:** C1-C3 CI debugging suite — ci-diagnostics skill, /ci-audit, /ci-fix commands ([679522d](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/679522d92a535d119eb214031a9a8063296f6e22))
+* **repo-structure:** D1 /pr-respond command — classify-fix-commit flow for PR review comments ([0c3c273](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/0c3c273ee2d380fdd6b1b798a5ec4db013ab4069))
+* **repo-structure:** E1-E4 hooks upgrade — shellcheck, yamllint, lf-check, audit-reminder + hooks.json update (2-&gt;5 hooks) ([82e73df](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/82e73df8d0d77ac267fe2b799f7629badc40d6a7))
+* **repo-structure:** F1 automation-validator agent — validates workflows, hooks, pre-commit, task runners ([7a9a803](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/7a9a8034e96404884b3f2312ce58664c1134e1a5))
+* **repo-structure:** repo-structure plugin v0.2.0 ([7d24054](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/7d2405439e7ad5c96099f7103535dbd2131eeb99)), closes [#45](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/45)
+
+
+### 🐛 Bug Fixes
+
+* **repo-structure:** address review gaps — validate-structure, template negation, compliance subshell, missing vars, MultiEdit hook ([eb8af9b](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/eb8af9bff6e09cc6055f4abe201f714fa50da1ee))
+* **repo-structure:** B1-B4 bug fixes — scoring, link regex, missing detection, jq fallback ([b23396b](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/b23396b46fe03a4d6a0424a5db8198031d265537))
+* **repo-structure:** resolve Pyright type errors — scores Dict[str,Any], weights local_weights, subprocess import ([8151dbb](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/8151dbbc321d43f7e21ecabcc5686d522783e44c))
+* **solution-audit:** address review gaps — spec-gap-analysis stale tracking, audit-report dimension list, check-examples exit code, check-links user-agent ([c747ce1](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/c747ce159ce7bb8d5766c50d22136534f6e33fb4))
+
+
+### 📚 Documentation
+
+* add repo-structure v0.2.0 design doc and implementation plan ([dba252e](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/dba252e9f12a45cb9f6a52325b21e20060486733))
+* **auto:** sync plugin inventory and README table [skip ci] ([d69475c](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/d69475c3ac006d8515f865408abaa64d4410d5b6))
+* **repo-structure:** add H1-H4 reference files — scoring rubrics, partial credit, detection patterns, compliance mapping ([a5f9606](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/a5f96066a022c1b881694de8676dd3ca19d0c342))
+
+
+### 🔧 Maintenance
+
+* **repo-structure:** bump version 0.1.0-&gt;0.2.0, update README with v0.2.0 components ([5f7c4dd](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/5f7c4ddfe5e178eacb0e0083f512fdd0ebcf0169))
+
 ## [1.7.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.6.0...v1.7.0) (2026-03-10)
 
 

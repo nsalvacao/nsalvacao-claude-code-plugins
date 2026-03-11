@@ -24,6 +24,7 @@ detect_stack() {
         [[ -f "setup.py" ]] && py_evidence+=("setup.py found")
         [[ -f "setup.cfg" ]] && py_evidence+=("setup.cfg found")
         [[ -f "Pipfile" ]] && py_evidence+=("Pipfile found")
+        [[ -f "Pipfile.lock" ]] && py_evidence+=("Pipfile.lock found")
         local py_count=${#py_evidence[@]}
         local py_conf=$((60 + py_count * 10))
         [[ $py_conf -gt 95 ]] && py_conf=95
@@ -50,7 +51,7 @@ detect_stack() {
             js_evidence+=("tsconfig.json found")
             local ts_conf=$((70 + ${#js_evidence[@]} * 10))
             [[ $ts_conf -gt 95 ]] && ts_conf=95
-            languages+=("{\"name\":\"TypeScript\",\"confidence\":${ts_conf},\"evidence\":[$(printf '"%s",' "${js_evidence[@]}" | sed 's/,$//')]} ")
+            languages+=("{\"name\":\"TypeScript\",\"confidence\":${ts_conf},\"evidence\":[$(printf '"%s",' "${js_evidence[@]}" | sed 's/,$//')]}")
         else
             local js_conf=$((60 + ${#js_evidence[@]} * 10))
             [[ $js_conf -gt 90 ]] && js_conf=90

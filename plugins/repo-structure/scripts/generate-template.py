@@ -308,8 +308,11 @@ def detect_has_linter() -> bool:
         if "[tool.ruff" in content or "[tool.pylint" in content or "[tool.flake8" in content:
             return True
     if os.path.exists("package.json"):
-        with open("package.json") as fh:
-            content = fh.read()
+        try:
+            with open("package.json", encoding="utf-8") as fh:
+                content = fh.read()
+        except (OSError, UnicodeDecodeError):
+            return False
         if "eslint" in content or "tslint" in content:
             return True
     return False
@@ -330,8 +333,11 @@ def detect_has_discussions() -> bool:
     """Detect if GitHub Discussions is referenced in project files."""
     for fname in ["README.md", ".github/CONTRIBUTING.md", "CONTRIBUTING.md"]:
         if os.path.exists(fname):
-            with open(fname) as fh:
-                content = fh.read().lower()
+            try:
+                with open(fname, encoding="utf-8") as fh:
+                    content = fh.read().lower()
+            except (OSError, UnicodeDecodeError):
+                continue
             if "discussion" in content:
                 return True
     return False
@@ -343,8 +349,11 @@ def detect_has_issues() -> bool:
         return True
     for fname in [".github/ISSUE_TEMPLATE.md", "README.md", "CONTRIBUTING.md"]:
         if os.path.exists(fname):
-            with open(fname) as fh:
-                content = fh.read().lower()
+            try:
+                with open(fname, encoding="utf-8") as fh:
+                    content = fh.read().lower()
+            except (OSError, UnicodeDecodeError):
+                continue
             if "issue" in content:
                 return True
     return False

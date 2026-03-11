@@ -4,15 +4,15 @@
 
 set -euo pipefail
 
-# Check if any .ideas/ files were written in this session
-# We detect this by checking if .ideas/ directory exists in CWD
+# Check if strategic output files exist in .ideas/
+# (existence check only — does not track whether files were written in this session)
 IDEAS_DIR="$(pwd)/.ideas"
 
 if [[ ! -d "$IDEAS_DIR" ]]; then
     exit 0
 fi
 
-# Check for recent brainstorm or execution-plan files (written in session)
+# Check for brainstorm or execution-plan files without a corresponding evaluation
 RECENT_FILES=0
 if [[ -f "$IDEAS_DIR/brainstorm-expansion.md" ]] || \
    [[ -f "$IDEAS_DIR/execution-plan.md" ]]; then

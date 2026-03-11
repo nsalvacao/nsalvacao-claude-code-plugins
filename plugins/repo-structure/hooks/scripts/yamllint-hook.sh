@@ -19,13 +19,23 @@ if command -v yamllint &>/dev/null; then
         exit 1
     }
 else
-    # Fallback: python3 yaml parse
-    python3 -c "
+    # Fallback: python3 yaml parse — only if PyYAML is available
+    if python3 - <<'PY' >/dev/null 2>&1
+import importlib.util, sys
+sys.exit(0 if importlib.util.find_spec("yaml") is not None else 1)
+PY
+    then
+        python3 - "$file_path" <<'PY' 2>&1 || exit 1
 import sys, yaml
 try:
-    yaml.safe_load(open(sys.argv[1]))
+    with open(sys.argv[1], encoding='utf-8') as fh:
+        yaml.safe_load(fh)
 except yaml.YAMLError as e:
     print('YAML error in ' + sys.argv[1] + ': ' + str(e), file=sys.stderr)
     sys.exit(1)
-" "$file_path" 2>&1 || exit 1
+PY
+    else
+        echo "Skipping YAML lint for $file_path: neither 'yamllint' nor PyYAML available." >&2
+        echo "Install 'yamllint' or 'pip install pyyaml' to enable YAML validation." >&2
+    fi
 fi

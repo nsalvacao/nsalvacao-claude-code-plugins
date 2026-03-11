@@ -5,7 +5,7 @@ Thank you for your interest in contributing!
 ## Getting Started
 
 {{#HAS_ISSUES}}
-- Check existing [issues](../../issues) before opening a new one
+- Check existing [issues]({{GITHUB_REPO_URL}}/issues) before opening a new one
 - For bugs: open an issue describing the problem and how to reproduce it
 - For features: open an issue to discuss before implementing
 {{/HAS_ISSUES}}
@@ -52,7 +52,7 @@ This project uses ESLint. Run `npm run lint` before submitting.
 ## Questions
 
 {{#HAS_DISCUSSIONS}}
-Use [GitHub Discussions](../../discussions) for questions and ideas.
+Use [GitHub Discussions]({{GITHUB_REPO_URL}}/discussions) for questions and ideas.
 {{/HAS_DISCUSSIONS}}
 {{^HAS_DISCUSSIONS}}
 Open an issue with the `question` label.

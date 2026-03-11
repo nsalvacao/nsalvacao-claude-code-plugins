@@ -77,30 +77,30 @@ Across all workflow files with `strategy.matrix`:
 === Automation Health Report ===
 
 GitHub Actions (N files)
-  OK    ci.yml -- YAML valid, triggers OK, permissions OK
-  WARN  release.yml -- actions/checkout@master (should pin to SHA or tag)
-  FAIL  deploy.yml -- invalid runner 'ubuntu-lastest'
+  OK       ci.yml -- YAML valid, triggers OK, permissions OK
+  WARNING  release.yml -- actions/checkout@master (should pin to SHA or tag)
+  BLOCKER  deploy.yml -- invalid runner 'ubuntu-lastest'
 
 Pre-commit (.pre-commit-config.yaml)
-  OK    pre-commit/pre-commit-hooks @ v4.6.0
-  WARN  ruff-pre-commit @ v0.1.0 -- may be stale (latest: v0.4+)
+  OK       pre-commit/pre-commit-hooks @ v4.6.0
+  WARNING  ruff-pre-commit @ v0.1.0 -- may be stale (latest: v0.4+)
 
 Claude Code Hooks
-  OK    validate-structure.sh -- exists, syntax OK
-  FAIL  shellcheck-hook.sh -- file not found at specified path
+  OK       validate-structure.sh -- exists, syntax OK
+  BLOCKER  shellcheck-hook.sh -- file not found at specified path
 
 Task Runners (Makefile)
-  OK    test -- runs successfully (dry-run)
-  WARN  deploy -- references 'gcloud' (not in PATH)
+  OK       test -- runs successfully (dry-run)
+  WARNING  deploy -- references 'gcloud' (not in PATH)
 
 Matrix Coherence
-  OK    Python versions consistent: 3.11 in both ci.yml and test-matrix.yml
-  WARN  ci.yml matrix missing fail-fast: false
+  OK       Python versions consistent: 3.11 in both ci.yml and test-matrix.yml
+  WARNING  ci.yml matrix missing fail-fast: false
 
 === Summary ===
-OK   N checks passed
-WARN N warnings
-FAIL N errors
+OK       N checks passed
+WARNING  N warnings
+BLOCKER  N blockers
 
 === Actionable Fixes ===
 1. [BLOCKER] deploy.yml:8 -- Fix runner name: 'ubuntu-lastest' -> 'ubuntu-latest'

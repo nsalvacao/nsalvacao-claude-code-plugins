@@ -17,15 +17,17 @@ detect_stack() {
     local primary_language=""
 
     # Python detection
-    if [[ -f "requirements.txt" || -f "pyproject.toml" || -f "setup.py" || -f "setup.cfg" ]]; then
-        py_evidence=()
+    if [[ -f "requirements.txt" || -f "pyproject.toml" || -f "setup.py" || -f "setup.cfg" || -f "Pipfile" || -f "Pipfile.lock" ]]; then
+        local py_evidence=()
         [[ -f "requirements.txt" ]] && py_evidence+=("requirements.txt found")
         [[ -f "pyproject.toml" ]] && py_evidence+=("pyproject.toml found")
         [[ -f "setup.py" ]] && py_evidence+=("setup.py found")
         [[ -f "setup.cfg" ]] && py_evidence+=("setup.cfg found")
-        py_count=${#py_evidence[@]}
-        py_conf=$((60 + py_count * 10))
+        [[ -f "Pipfile" ]] && py_evidence+=("Pipfile found")
+        local py_count=${#py_evidence[@]}
+        local py_conf=$((60 + py_count * 10))
         [[ $py_conf -gt 95 ]] && py_conf=95
+        local py_evidence_json
         py_evidence_json=$(printf '"%s",' "${py_evidence[@]}" | sed 's/,$//')
         languages+=("{\"name\":\"Python\",\"confidence\":${py_conf},\"evidence\":[${py_evidence_json}]}")
 
@@ -43,14 +45,14 @@ detect_stack() {
 
     # JavaScript/TypeScript detection
     if [[ -f "package.json" ]]; then
-        js_evidence=("package.json found")
+        local js_evidence=("package.json found")
         if [[ -f "tsconfig.json" ]]; then
             js_evidence+=("tsconfig.json found")
-            ts_conf=$((70 + ${#js_evidence[@]} * 10))
+            local ts_conf=$((70 + ${#js_evidence[@]} * 10))
             [[ $ts_conf -gt 95 ]] && ts_conf=95
             languages+=("{\"name\":\"TypeScript\",\"confidence\":${ts_conf},\"evidence\":[$(printf '"%s",' "${js_evidence[@]}" | sed 's/,$//')]} ")
         else
-            js_conf=$((60 + ${#js_evidence[@]} * 10))
+            local js_conf=$((60 + ${#js_evidence[@]} * 10))
             [[ $js_conf -gt 90 ]] && js_conf=90
             languages+=("{\"name\":\"JavaScript\",\"confidence\":${js_conf},\"evidence\":[\"package.json found\"]}")
         fi

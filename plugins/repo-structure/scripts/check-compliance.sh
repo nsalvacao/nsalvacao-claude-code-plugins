@@ -44,7 +44,7 @@ check_openssf() {
 
     # CI present
     max=$((max+1))
-    if [[ -d ".github/workflows" ]] && ls .github/workflows/*.yml 2>/dev/null | head -1 &>/dev/null; then
+    if [[ -d ".github/workflows" ]] && ls .github/workflows/*.yml .github/workflows/*.yaml 2>/dev/null | head -1 &>/dev/null; then
         total=$((total+1))
     else
         echo "openssf_ci:No GitHub Actions workflows found" >> "$NOTES_FILE"
@@ -93,14 +93,33 @@ check_cii() {
 if [[ "$JSON_OUTPUT" == "true" ]]; then
     openssf_score=$(check_openssf)
     cii_score=$(check_cii)
-    python3 -c "
-import json, sys
+    OPENSSF_SCORE="$openssf_score" CII_SCORE="$cii_score" NOTES_FILE="$NOTES_FILE" \
+    python3 - <<'PY'
+import json, os
+
+notes_file = os.environ.get('NOTES_FILE', '')
 scores = {
-    'openssf': {'score': '$openssf_score'},
-    'cii': {'score': '$cii_score'},
+    'openssf': {'score': os.environ.get('OPENSSF_SCORE', ''), 'issues': []},
+    'cii': {'score': os.environ.get('CII_SCORE', ''), 'issues': []},
 }
+
+if notes_file:
+    try:
+        with open(notes_file, encoding='utf-8') as fh:
+            for line in fh:
+                line = line.strip()
+                if ':' not in line:
+                    continue
+                key, msg = line.split(':', 1)
+                if key.startswith('openssf_'):
+                    scores['openssf']['issues'].append({'key': key[len('openssf_'):], 'message': msg})
+                elif key.startswith('cii_'):
+                    scores['cii']['issues'].append({'key': key[len('cii_'):], 'message': msg})
+    except (OSError, UnicodeDecodeError):
+        pass
+
 print(json.dumps(scores, indent=2))
-"
+PY
 else
     echo "=== Compliance Check ==="
     echo

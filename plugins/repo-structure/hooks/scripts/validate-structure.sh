@@ -52,9 +52,8 @@ validate_markdown() {
         # Match markdown links [text](target)
         while [[ "$line" =~ $md_link_re ]]; do
             local link="${BASH_REMATCH[2]}"
-            # Remove the matched portion to find next link in same line
-            line="${line#*](*}"
-            line="${line#*)}"
+            # Consume the entire matched link to correctly advance on multi-link lines
+            line="${line#*"${BASH_REMATCH[0]}"}"
             # Skip external URLs and anchors
             [[ "$link" =~ ^https?:// ]] && continue
             [[ "$link" =~ ^# ]] && continue

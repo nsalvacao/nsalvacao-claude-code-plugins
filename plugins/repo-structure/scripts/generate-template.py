@@ -274,13 +274,19 @@ def detect_has_coverage() -> bool:
             return True
     for cfg in ["pyproject.toml", "setup.cfg", "tox.ini"]:
         if os.path.exists(cfg):
-            with open(cfg) as fh:
-                content = fh.read()
+            try:
+                with open(cfg, encoding="utf-8") as fh:
+                    content = fh.read()
+            except (OSError, UnicodeDecodeError):
+                continue
             if "[tool.coverage" in content or "[coverage:" in content:
                 return True
     if os.path.exists("package.json"):
-        with open("package.json") as fh:
-            content = fh.read()
+        try:
+            with open("package.json", encoding="utf-8") as fh:
+                content = fh.read()
+        except (OSError, UnicodeDecodeError):
+            return False
         if any(t in content for t in ["istanbul", "nyc", "c8", "@vitest/coverage"]):
             return True
     return False
@@ -297,7 +303,7 @@ def detect_has_linter() -> bool:
         if os.path.exists(f):
             return True
     if os.path.exists("pyproject.toml"):
-        with open("pyproject.toml") as fh:
+        with open("pyproject.toml", encoding="utf-8") as fh:
             content = fh.read()
         if "[tool.ruff" in content or "[tool.pylint" in content or "[tool.flake8" in content:
             return True
@@ -461,7 +467,10 @@ def resolve_variables(
     if "PYTEST" not in vars:
         vars["PYTEST"] = primary == "python"
     if "RUFF" not in vars:
-        ruff_present = os.path.exists("pyproject.toml") and "[tool.ruff" in open("pyproject.toml").read() if os.path.exists("pyproject.toml") else False
+        ruff_present = False
+        if os.path.exists("pyproject.toml"):
+            with open("pyproject.toml", encoding="utf-8") as f:
+                ruff_present = "[tool.ruff" in f.read()
         vars["RUFF"] = ruff_present
 
     # Coverage command default

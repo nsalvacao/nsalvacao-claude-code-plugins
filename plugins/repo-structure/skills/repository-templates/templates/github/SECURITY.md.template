@@ -14,7 +14,7 @@
 Email: {{SECURITY_EMAIL}}
 {{/SECURITY_EMAIL}}
 {{^SECURITY_EMAIL}}
-Use [GitHub's private vulnerability reporting](../../security/advisories/new).
+Use [GitHub's private vulnerability reporting]({{GITHUB_REPO_URL}}/security/advisories/new).
 {{/SECURITY_EMAIL}}
 
 Include:

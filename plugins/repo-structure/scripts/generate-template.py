@@ -452,6 +452,35 @@ def resolve_variables(
     context["HAS_DISCUSSIONS"] = detect_has_discussions()
     context["HAS_ISSUES"] = detect_has_issues()
 
+    # REPO_NAME alias (same as PROJECT_NAME — used in clone URLs)
+    if "REPO_NAME" not in vars:
+        vars["REPO_NAME"] = vars.get("PROJECT_NAME", "my-project")
+
+    # Tool booleans for CI templates
+    primary = vars.get("PRIMARY_LANGUAGE", "").lower()
+    if "PYTEST" not in vars:
+        vars["PYTEST"] = primary == "python"
+    if "RUFF" not in vars:
+        ruff_present = os.path.exists("pyproject.toml") and "[tool.ruff" in open("pyproject.toml").read() if os.path.exists("pyproject.toml") else False
+        vars["RUFF"] = ruff_present
+
+    # Coverage command default
+    if "COVERAGE_COMMAND" not in vars:
+        if primary == "python":
+            vars["COVERAGE_COMMAND"] = "pytest --cov"
+        elif primary in ("javascript", "typescript"):
+            vars["COVERAGE_COMMAND"] = "npm test -- --coverage"
+        else:
+            vars["COVERAGE_COMMAND"] = ""
+
+    # Config file variables
+    if "CONFIG_FILE_PATH" not in vars:
+        vars["CONFIG_FILE_PATH"] = "config.yaml"
+    if "CONFIG_FORMAT" not in vars:
+        vars["CONFIG_FORMAT"] = "YAML"
+    if "CONFIG_EXAMPLE" not in vars:
+        vars["CONFIG_EXAMPLE"] = "key: value"
+
     return vars
 
 
@@ -486,24 +515,23 @@ def render_template(template_content: str, vars: dict) -> str:
     """Render template with variable substitution and conditionals."""
 
     def process_conditionals(content: str, is_negated: bool) -> str:
-        """Process conditional blocks recursively."""
-        pattern = r'\{\{#(\^?)([A-Z_][A-Z0-9_]*)\}\}(.*?)\{\{/\2\}\}'
+        """Process conditional blocks recursively (positive or negated pass)."""
+        if is_negated:
+            # Match {{^COND}}...{{/COND}}
+            pattern = r'\{\{\^([A-Z_][A-Z0-9_]*)\}\}(.*?)\{\{/\1\}\}'
+        else:
+            # Match {{#COND}}...{{/COND}}
+            pattern = r'\{\{#([A-Z_][A-Z0-9_]*)\}\}(.*?)\{\{/\1\}\}'
 
         def replace_match(match):
-            negation_flag = match.group(1)
-            condition = match.group(2)
-            block_content = match.group(3)
-
-            # Determine if should include
+            condition = match.group(1)
+            block_content = match.group(2)
             include = evaluate_condition(condition, vars)
-
-            # Apply negation if needed
-            if negation_flag == "^":
+            if is_negated:
                 include = not include
-
             return block_content if include else ""
 
-        # Keep processing until no more conditionals
+        # Keep processing until no more conditionals (handles nested blocks)
         prev_content = None
         while prev_content != content:
             prev_content = content

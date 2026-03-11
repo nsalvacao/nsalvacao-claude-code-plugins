@@ -98,13 +98,13 @@ main() {
     for file in "${files_to_validate[@]}"; do
         case "$file" in
             *.yml|*.yaml)
-                validate_yaml "$file" || ((errors++))
+                validate_yaml "$file" || errors=$((errors+1))
                 ;;
             *.json)
-                validate_json "$file" || ((errors++))
+                validate_json "$file" || errors=$((errors+1))
                 ;;
             *.md)
-                validate_markdown "$file" || ((errors++))
+                validate_markdown "$file" || errors=$((errors+1))
                 ;;
         esac
     done

@@ -44,7 +44,7 @@ check_openssf() {
 
     # CI present
     max=$((max+1))
-    if [[ -d ".github/workflows" ]] && ls .github/workflows/*.yml .github/workflows/*.yaml 2>/dev/null | head -1 &>/dev/null; then
+    if [[ -d ".github/workflows" ]] && find ".github/workflows" -maxdepth 1 \( -name "*.yml" -o -name "*.yaml" \) -print -quit 2>/dev/null | grep -q .; then
         total=$((total+1))
     else
         echo "openssf_ci:No GitHub Actions workflows found" >> "$NOTES_FILE"

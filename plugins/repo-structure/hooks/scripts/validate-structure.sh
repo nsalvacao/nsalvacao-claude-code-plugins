@@ -48,6 +48,9 @@ validate_markdown() {
     local file="$1"
     local broken=0
     local md_link_re='\[([^]]*)\]\(([^)]+)\)'
+    # Compute once outside the loop (avoids SC2094: dirname subshell vs done < "$file")
+    local dir
+    dir="$(dirname "$file")"
     while IFS= read -r line; do
         # Match markdown links [text](target)
         while [[ "$line" =~ $md_link_re ]]; do
@@ -61,9 +64,6 @@ validate_markdown() {
             # Strip anchor fragment
             local filepath="${link%%#*}"
             [[ -z "$filepath" ]] && continue
-            # Check relative to file's directory
-            local dir
-            dir="$(dirname "$file")"
             if [[ ! -f "$dir/$filepath" && ! -f "$filepath" ]]; then
                 echo -e "${YELLOW}⚠️ Broken local link '$filepath' in: $file${NC}" >&2
                 broken=$((broken+1))

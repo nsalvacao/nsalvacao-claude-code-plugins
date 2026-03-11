@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck-hook.sh — Run shellcheck on modified .sh files (graceful if not installed)
+# Hook: run shellcheck on modified .sh files (graceful if not installed)
 set -euo pipefail
 
 # Read tool_input from stdin

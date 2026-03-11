@@ -1,9 +1,24 @@
 {
   "name": "strategy-toolkit",
-  "version": "0.1.0",
-  "description": "Strategic ideation and execution planning toolkit with reproducible frameworks",
+  "version": "0.2.0",
+  "description": "Strategic ideation, execution planning, and pre-launch evaluation toolkit with reproducible frameworks and LLM-as-judge evaluation",
   "author": {
-    "name": "Nuno Salvacao",
-    "email": "nuno.salvacao@gmail.com"
-  }
+    "name": "Nuno Salvação",
+    "email": "nuno.salvacao@gmail.com",
+    "url": "https://www.linkedin.com/in/nsalvacao/"
+  },
+  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "license": "MIT",
+  "keywords": [
+    "strategy",
+    "brainstorm",
+    "execution-plan",
+    "evaluation",
+    "pre-launch",
+    "ideation",
+    "frameworks",
+    "second-order-thinking",
+    "llm-as-judge"
+  ]
 }

@@ -1,0 +1,26 @@
+# Security Policy
+
+## Supported Versions
+
+| Version | Supported |
+|---------|-----------|
+| latest  | Yes |
+
+## Reporting a Vulnerability
+
+**Do not open public issues for security vulnerabilities.**
+
+{{#SECURITY_EMAIL}}
+Email: {{SECURITY_EMAIL}}
+{{/SECURITY_EMAIL}}
+{{^SECURITY_EMAIL}}
+Use [GitHub's private vulnerability reporting]({{GITHUB_REPO_URL}}/security/advisories/new).
+{{/SECURITY_EMAIL}}
+
+Include:
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Suggested fix (if any)
+
+You will receive a response within 48 hours. We aim to release patches within 14 days for critical vulnerabilities.

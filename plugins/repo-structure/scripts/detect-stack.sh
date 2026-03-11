@@ -17,8 +17,20 @@ detect_stack() {
     local primary_language=""
 
     # Python detection
-    if [[ -f "requirements.txt" ]] || [[ -f "pyproject.toml" ]] || [[ -f "setup.py" ]] || [[ -f "Pipfile" ]]; then
-        languages+=('{"name":"Python","confidence":85,"evidence":["requirements.txt or pyproject.toml found"]}')
+    if [[ -f "requirements.txt" || -f "pyproject.toml" || -f "setup.py" || -f "setup.cfg" || -f "Pipfile" || -f "Pipfile.lock" ]]; then
+        local py_evidence=()
+        [[ -f "requirements.txt" ]] && py_evidence+=("requirements.txt found")
+        [[ -f "pyproject.toml" ]] && py_evidence+=("pyproject.toml found")
+        [[ -f "setup.py" ]] && py_evidence+=("setup.py found")
+        [[ -f "setup.cfg" ]] && py_evidence+=("setup.cfg found")
+        [[ -f "Pipfile" ]] && py_evidence+=("Pipfile found")
+        [[ -f "Pipfile.lock" ]] && py_evidence+=("Pipfile.lock found")
+        local py_count=${#py_evidence[@]}
+        local py_conf=$((60 + py_count * 10))
+        [[ $py_conf -gt 95 ]] && py_conf=95
+        local py_evidence_json
+        py_evidence_json=$(printf '"%s",' "${py_evidence[@]}" | sed 's/,$//')
+        languages+=("{\"name\":\"Python\",\"confidence\":${py_conf},\"evidence\":[${py_evidence_json}]}")
 
         # Framework detection
         if grep -q "django" requirements.txt pyproject.toml 2>/dev/null; then
@@ -34,10 +46,16 @@ detect_stack() {
 
     # JavaScript/TypeScript detection
     if [[ -f "package.json" ]]; then
-        if grep -q '"typescript"' package.json; then
-            languages+=('{"name":"TypeScript","confidence":85,"evidence":["typescript in package.json"]}')
+        local js_evidence=("package.json found")
+        if [[ -f "tsconfig.json" ]]; then
+            js_evidence+=("tsconfig.json found")
+            local ts_conf=$((70 + ${#js_evidence[@]} * 10))
+            [[ $ts_conf -gt 95 ]] && ts_conf=95
+            languages+=("{\"name\":\"TypeScript\",\"confidence\":${ts_conf},\"evidence\":[$(printf '"%s",' "${js_evidence[@]}" | sed 's/,$//')]}")
         else
-            languages+=('{"name":"JavaScript","confidence":85,"evidence":["package.json found"]}')
+            local js_conf=$((60 + ${#js_evidence[@]} * 10))
+            [[ $js_conf -gt 90 ]] && js_conf=90
+            languages+=("{\"name\":\"JavaScript\",\"confidence\":${js_conf},\"evidence\":[\"package.json found\"]}")
         fi
 
         # Framework detection
@@ -57,30 +75,43 @@ detect_stack() {
 
     # Go detection
     if [[ -f "go.mod" ]]; then
-        languages+=('{"name":"Go","confidence":90,"evidence":["go.mod found"]}')
+        languages+=('{"name":"Go","confidence":85,"evidence":["go.mod found"]}')
     fi
 
     # Rust detection
     if [[ -f "Cargo.toml" ]]; then
-        languages+=('{"name":"Rust","confidence":90,"evidence":["Cargo.toml found"]}')
+        languages+=('{"name":"Rust","confidence":85,"evidence":["Cargo.toml found"]}')
     fi
 
     # Docker detection
     if [[ -f "Dockerfile" ]] || [[ -f "docker-compose.yml" ]]; then
-        tools+=('{"name":"Docker","confidence":100,"evidence":["Dockerfile or docker-compose.yml found"]}')
+        tools+=('{"name":"Docker","confidence":95,"evidence":["Dockerfile or docker-compose.yml found"]}')
     fi
 
     # CI/CD detection
     if [[ -d ".github/workflows" ]]; then
-        tools+=('{"name":"GitHub Actions","type":"ci","confidence":100}')
+        tools+=('{"name":"GitHub Actions","type":"ci","confidence":95}')
     fi
     if [[ -f ".gitlab-ci.yml" ]]; then
-        tools+=('{"name":"GitLab CI","type":"ci","confidence":100}')
+        tools+=('{"name":"GitLab CI","type":"ci","confidence":95}')
     fi
 
-    # Determine primary language (first detected with highest confidence)
+    # Determine primary language (highest confidence; first detected as tiebreaker)
     if [[ ${#languages[@]} -gt 0 ]]; then
-        primary_language=$(echo "${languages[0]}" | jq -r '.name')
+        local max_conf=-1 conf name
+        for lang_json in "${languages[@]}"; do
+            if command -v jq &>/dev/null; then
+                conf=$(echo "$lang_json" | jq '.confidence')
+                name=$(echo "$lang_json" | jq -r '.name')
+            else
+                conf=$(echo "$lang_json" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d.get('confidence',0))")
+                name=$(echo "$lang_json" | python3 -c "import sys,json; d=json.loads(sys.stdin.read()); print(d.get('name',''))")
+            fi
+            if [[ "$conf" -gt "$max_conf" ]]; then
+                max_conf="$conf"
+                primary_language="$name"
+            fi
+        done
     else
         primary_language="Unknown"
     fi

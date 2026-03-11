@@ -1,4 +1,4 @@
-# Repo-Structure Plugin
+# Repo-Structure Plugin v0.2.0
 
 Enterprise-grade repository structure analyzer, validator, and scaffolder with intelligent automation for Claude Code.
 
@@ -15,6 +15,9 @@ Enterprise-grade repository structure analyzer, validator, and scaffolder with i
 - 🤖 **Autonomous Agents**: Self-guided analysis, validation, and improvement workflows
 - 🎯 **Template Intelligence**: Context-aware templates with automatic variable substitution
 - 🔧 **Automation Toolkit**: Pre-commit hooks, linters, formatters, security scanning
+- 🔬 **CI Debugging Suite**: Pattern library + /ci-audit + /ci-fix for GitHub Actions failures
+- 🔄 **PR Automation**: /pr-respond to classify and apply review comments automatically
+- 🏥 **Automation Validator**: Health checks for workflows, hooks, pre-commit, task runners
 
 ## Use Cases
 
@@ -200,6 +203,49 @@ Targeted improvements for specific categories.
 
 ---
 
+### `/ci-audit`
+
+Audit all GitHub Actions workflows for syntax, logic, permissions, and known failure patterns.
+
+**Usage:**
+```bash
+/ci-audit
+/ci-audit --fix-plan
+```
+
+Loads the `ci-diagnostics` skill (10 patterns) and produces a structured report with BLOCKER/WARNING/INFO severity per finding.
+
+---
+
+### `/ci-fix`
+
+Apply all fixes identified by /ci-audit in dependency order.
+
+**Usage:**
+```bash
+/ci-fix
+/ci-fix --dry-run
+```
+
+One commit per workflow file. Validates with yamllint after each edit.
+
+---
+
+### `/pr-respond`
+
+Respond to all unresolved PR review comments — classify, fix, and summarize.
+
+**Usage:**
+```bash
+/pr-respond --current
+/pr-respond 42
+/pr-respond 42 --comment
+```
+
+Classifies comments as BLOCKER/QUESTION/NITPICK/CODE_CHANGE, applies fixes, commits per file.
+
+---
+
 ### `/repo-validate`
 
 Fast validation of repository structure.
@@ -222,6 +268,25 @@ Fast validation of repository structure.
 - `--strict`: Enforce stricter validation rules
 
 ## Agents
+
+### `automation-validator`
+
+Validates health of all automation files — GitHub Actions workflows, pre-commit hooks, Claude Code hooks, Makefile/package.json scripts, and matrix coherence.
+
+**Triggers:**
+- "validate automation", "check my hooks", "automation health check"
+- `/repo-validate --automation`
+
+**Capabilities:**
+- YAML syntax + runner + permissions validation per workflow
+- pre-commit rev staleness checks
+- Claude Code hook script existence + bash syntax checks
+- Task runner dry-run validation
+- Matrix coherence across workflow files
+
+**Output:** Structured report with OK/WARN/FAIL per category + prioritized fix list.
+
+---
 
 ### `structure-architect`
 
@@ -276,15 +341,34 @@ Intelligent template adaptation agent.
 
 ## Skills
 
+### `ci-diagnostics/`
+
+Pattern library for common GitHub Actions failures. Used by `/ci-audit` and `/ci-fix`.
+
+**10 Patterns covered:**
+- bash `-e` arithmetic trap (`((n++))` → exit 1 when n=0)
+- YAML indentation errors
+- Missing `on:` trigger key
+- Missing permissions (contents/pull-requests/packages)
+- Missing secrets/env vars not propagated to steps
+- Matrix strategy `fail-fast` not disabled
+- Shallow checkout depth (missing tags)
+- Cache key missing lockfile hash
+- Markdownlint config format issues
+- Invalid runner names
+
+---
+
 ### `repository-templates/`
 
 Complete template library for professional repositories.
 
 **Included Templates:**
-- **GitHub**: README, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, issue/PR templates
-- **Configs**: .editorconfig, .gitignore, .prettierrc, .eslintrc, linter configs
-- **CI/CD**: GitHub Actions, GitLab CI, CircleCI workflows
-- **Docs**: mkdocs.yml, docusaurus configs, API doc templates
+- **GitHub**: README, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, LICENSE.Apache-2.0, LICENSE.MIT
+- **Configs**: .editorconfig, .gitignore (Python), .gitignore (Node)
+- **CI/CD**: GitHub Actions Python CI, GitHub Actions Node CI
+
+**Mustache-style substitution:** `{{VAR}}`, `{{#COND}}...{{/COND}}`, `{{^COND}}...{{/COND}}`
 
 **Variable Substitution:**
 - `{{PROJECT_NAME}}`, `{{AUTHOR_NAME}}`, `{{LICENSE_TYPE}}`, `{{YEAR}}`, etc.
@@ -451,35 +535,51 @@ cd existing-project
 # Report saved: .repo-audit-2024-02-09.md
 ```
 
-## Hooks
+## Scripts
 
-The plugin includes two event hooks:
+### `install-hooks.sh`
 
-### Pre-Commit Validation
+Installs pre-commit configuration and hooks for any stack (Python/Node/generic).
 
-Validates structure files before allowing commit.
-
-**Checks:**
-- YAML/JSON syntax
-- Markdown formatting
-- Required file presence
-- Link validity (if configured)
-
-**Configuration:**
-```yaml
-validation:
-  pre_commit_strictness: "warnings"  # strict|warnings|info
+```bash
+bash scripts/install-hooks.sh [--dry-run]
 ```
 
-### Post-Setup Verification
+Auto-detects stack, generates `.pre-commit-config.yaml` if missing, runs `pre-commit install`.
 
-Automatically validates after structure creation.
+### `check-compliance.sh`
 
-**Behavior:**
-- Triggers after batch Write operations
-- Runs `structure-validator` agent
-- Reports issues immediately
-- Suggests fixes if validation fails
+Quick OpenSSF/CII compliance baseline check.
+
+```bash
+bash scripts/check-compliance.sh [--json]
+```
+
+Checks LICENSE, SECURITY.md, CONTRIBUTING.md, CI presence, README, and tests. Outputs scores per framework.
+
+## Hooks
+
+The plugin includes 5 event hooks (v0.2.0):
+
+### PreToolUse: validate-structure.sh
+
+Validates structure files before writing (YAML/JSON syntax, markdown links).
+
+### PostToolUse: shellcheck-hook.sh
+
+Lints `.sh` files with shellcheck after edit (graceful if not installed).
+
+### PostToolUse: yamllint-hook.sh
+
+Lints `.yml`/`.yaml` files after edit (yamllint with python3 fallback).
+
+### PostToolUse: lf-check-hook.sh
+
+Detects CRLF line endings in written files and warns on stderr.
+
+### Stop: audit-reminder.sh
+
+Suggests `/repo-validate` if new untracked files were created during the session.
 
 ## Troubleshooting
 

@@ -1,0 +1,59 @@
+# Contributing to {{PROJECT_NAME}}
+
+Thank you for your interest in contributing!
+
+## Getting Started
+
+{{#HAS_ISSUES}}
+- Check existing [issues]({{GITHUB_REPO_URL}}/issues) before opening a new one
+- For bugs: open an issue describing the problem and how to reproduce it
+- For features: open an issue to discuss before implementing
+{{/HAS_ISSUES}}
+{{^HAS_ISSUES}}
+- Review the project README before contributing
+- Discuss major changes with maintainers before starting work
+{{/HAS_ISSUES}}
+
+## Development Setup
+
+```bash
+git clone https://github.com/{{GITHUB_USERNAME}}/{{REPO_NAME}}
+cd {{REPO_NAME}}
+```
+
+{{#PYTHON}}
+```bash
+pip install -e ".[dev]"
+```
+{{/PYTHON}}
+{{#JAVASCRIPT}}
+```bash
+npm install
+```
+{{/JAVASCRIPT}}
+
+## Pull Request Process
+
+1. Fork the repository and create a feature branch
+2. Make your changes with clear, focused commits
+3. Update documentation if behaviour changes
+4. Ensure all tests pass
+5. Open a pull request with a clear description
+
+## Code Style
+
+{{#PYTHON}}
+This project uses Ruff for linting. Run `ruff check .` before submitting.
+{{/PYTHON}}
+{{#JAVASCRIPT}}
+This project uses ESLint. Run `npm run lint` before submitting.
+{{/JAVASCRIPT}}
+
+## Questions
+
+{{#HAS_DISCUSSIONS}}
+Use [GitHub Discussions]({{GITHUB_REPO_URL}}/discussions) for questions and ideas.
+{{/HAS_DISCUSSIONS}}
+{{^HAS_DISCUSSIONS}}
+Open an issue with the `question` label.
+{{/HAS_DISCUSSIONS}}

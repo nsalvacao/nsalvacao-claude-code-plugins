@@ -2,7 +2,7 @@
 
 [![Plugin Validation](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/plugin-validation.yml/badge.svg)](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/plugin-validation.yml)
 [![Release](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/release.yml/badge.svg)](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/release.yml)
-[![Plugins](https://img.shields.io/badge/plugins-7-blue)](#plugin-catalog)
+[![Plugins](https://img.shields.io/badge/plugins-8-blue)](#plugin-catalog)
 [![License](https://img.shields.io/badge/license-MIT-black)](LICENSE)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/nsalvacao/nsalvacao-claude-code-plugins/badge)](https://scorecard.dev/viewer/?uri=github.com/nsalvacao/nsalvacao-claude-code-plugins)
 
@@ -48,6 +48,7 @@ By treating plugins as products (not one-off prompt files), this repository can 
 <!-- PLUGINS-TABLE-START -->
 | Plugin | Version | Description | Category | Components |
 |--------|---------|-------------|----------|------------|
+| `plugin-dev` | 1.0.0 | Comprehensive toolkit for developing Claude Code plugins — hooks, MCP integra... | development | 1 cmd, 7 skill, 3 agent |
 | `strategy-toolkit` | 0.2.0 | Strategic ideation, execution planning, and pre-launch evaluation toolkit wit... | productivity | 3 cmd, 3 skill, 1 agent, hooks |
 | `repo-structure` | 0.2.0 | Enterprise-grade repository structure analyzer, validator, and scaffolder wit... | development | 7 cmd, 6 skill, 4 agent, hooks |
 | `product-management` | 1.0.0 | Write feature specs, plan roadmaps, synthesise user research, and analyse com... | productivity | 6 cmd, 6 skill, 1 agent, hooks |

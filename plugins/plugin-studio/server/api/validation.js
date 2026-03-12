@@ -7,38 +7,106 @@ import {
 } from '../lib/plugin-runtime/validation.js';
 
 const MAX_BODY_BYTES = 1024 * 1024;
+const BODY_TIMEOUT_MS = 10_000;
+
+const POST_VALIDATORS = {
+  '/plugin': {
+    requiredFields: ['root'],
+    run: (body) => validatePlugin(body.root),
+  },
+  '/hook': {
+    requiredFields: ['root', 'path'],
+    run: (body) => validateHook(body.root, body.path),
+  },
+  '/agent': {
+    requiredFields: ['root', 'path'],
+    run: (body) => validateAgent(body.root, body.path),
+  },
+};
+
+function armBodyTimeout(req, onTimeout) {
+  if (typeof req.setTimeout === 'function') {
+    req.setTimeout(BODY_TIMEOUT_MS, onTimeout);
+    return () => req.setTimeout(0);
+  }
+
+  const timer = setTimeout(onTimeout, BODY_TIMEOUT_MS);
+  return () => clearTimeout(timer);
+}
+
+function formatRequiredFieldsMessage(fields) {
+  return `Body must include ${fields.join(' and ')}`;
+}
+
+function ensureBodyFields(body, fields) {
+  const hasMissingField = fields.some((field) => !body?.[field]);
+  if (!hasMissingField) return;
+
+  throw new ValidationEngineError(formatRequiredFieldsMessage(fields), {
+    status: 400,
+    code: 'EBADREQUEST',
+  });
+}
 
 function parseBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
     let size = 0;
+    let settled = false;
 
-    req.on('data', (chunk) => {
+    const clearBodyTimeout = armBodyTimeout(req, () => {
+      finish(reject, new ValidationEngineError('Request body timeout', {
+        status: 408,
+        code: 'EBODYTIMEOUT',
+      }));
+    });
+
+    const cleanup = () => {
+      clearBodyTimeout();
+      req.off('data', onData);
+      req.off('end', onEnd);
+      req.off('error', onError);
+    };
+
+    const finish = (callback, value) => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      callback(value);
+    };
+
+    function onData(chunk) {
       const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
       size += buffer.length;
       if (size > MAX_BODY_BYTES) {
-        reject(new ValidationEngineError('Request body too large', {
+        finish(reject, new ValidationEngineError('Request body too large', {
           status: 413,
           code: 'ETOOLARGE',
         }));
         return;
       }
       chunks.push(buffer);
-    });
+    }
 
-    req.on('end', () => {
+    function onEnd() {
       try {
         const raw = Buffer.concat(chunks).toString('utf8');
-        resolve(JSON.parse(raw || '{}'));
+        finish(resolve, JSON.parse(raw || '{}'));
       } catch {
-        reject(new ValidationEngineError('Invalid JSON body', {
+        finish(reject, new ValidationEngineError('Invalid JSON body', {
           status: 400,
           code: 'EBADJSON',
         }));
       }
-    });
+    }
 
-    req.on('error', (error) => reject(error));
+    function onError(error) {
+      finish(reject, error);
+    }
+
+    req.on('data', onData);
+    req.on('end', onEnd);
+    req.on('error', onError);
   });
 }
 
@@ -55,24 +123,13 @@ export async function handleValidationRoute(req, res, url) {
   const parsedUrl = new URL(url, 'http://localhost');
   const validationPath = parsedUrl.pathname.replace(/^\/api\/validate/, '') || '/';
   const method = (req.method ?? 'GET').toUpperCase();
+  const postValidator = POST_VALIDATORS[validationPath];
 
   try {
-    if (validationPath === '/plugin' && method === 'POST') {
+    if (method === 'POST' && postValidator) {
       const body = await parseBody(req);
-      if (!body.root) return sendError(res, 400, 'Body must include root');
-      return sendJson(res, 200, await validatePlugin(body.root));
-    }
-
-    if (validationPath === '/hook' && method === 'POST') {
-      const body = await parseBody(req);
-      if (!body.root || !body.path) return sendError(res, 400, 'Body must include root and path');
-      return sendJson(res, 200, await validateHook(body.root, body.path));
-    }
-
-    if (validationPath === '/agent' && method === 'POST') {
-      const body = await parseBody(req);
-      if (!body.root || !body.path) return sendError(res, 400, 'Body must include root and path');
-      return sendJson(res, 200, await validateAgent(body.root, body.path));
+      ensureBodyFields(body, postValidator.requiredFields);
+      return sendJson(res, 200, await postValidator.run(body));
     }
 
     if (validationPath === '/health' && method === 'GET') {
@@ -90,7 +147,6 @@ export async function handleValidationRoute(req, res, url) {
     if (error.code === 'ENOENT') return sendError(res, 404, 'File not found');
     if (error.code === 'EACCES') return sendError(res, 403, 'Permission denied');
     if (error.code === 'ETIMEDOUT') return sendError(res, 504, 'Validation timed out');
-    if (error.code === 'ETOOLARGE') return sendError(res, 413, 'Request body too large');
 
     console.error('[validation-api] Unhandled error:', error);
     return sendError(res, 500, 'Internal server error');

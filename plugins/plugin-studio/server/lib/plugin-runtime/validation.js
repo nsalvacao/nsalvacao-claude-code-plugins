@@ -73,14 +73,14 @@ function createIssue({
 function dedupeIssues(issues) {
   const seen = new Set();
   return issues.filter((issue) => {
-    const key = [
+    const key = JSON.stringify([
       issue.severity,
       issue.file,
       issue.line,
       issue.col,
       issue.message,
       issue.source,
-    ].join('|');
+    ]);
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -244,7 +244,6 @@ function withTimeout(promise, timeoutMs, label) {
           }),
         );
       }, timeoutMs);
-      timer.unref();
     }),
   ]).finally(() => {
     if (timer) clearTimeout(timer);
@@ -1274,10 +1273,7 @@ async function ensureTypedFile(root, relPath, expected) {
 export async function validatePlugin(root) {
   await ensurePluginRoot(root);
   const tree = await buildTree(root);
-  const checks = [];
-  for (const check of buildPluginChecks(root, tree)) {
-    checks.push(await executeCheck(check));
-  }
+  const checks = await Promise.all(buildPluginChecks(root, tree).map((check) => executeCheck(check)));
   return summarizeChecks(root, checks);
 }
 

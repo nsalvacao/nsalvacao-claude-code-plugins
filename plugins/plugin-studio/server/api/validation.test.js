@@ -1,9 +1,11 @@
 import { after, before, describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { execFile } from 'node:child_process';
 import { EventEmitter } from 'node:events';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { promisify } from 'node:util';
 
 import { handleValidationRoute } from './validation.js';
 import {
@@ -13,6 +15,8 @@ import {
   validateHook,
   validatePlugin,
 } from '../lib/plugin-runtime/validation.js';
+
+const execFileAsync = promisify(execFile);
 
 function writeFile(filePath, content) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
@@ -138,6 +142,27 @@ function mockGet(url) {
   return req;
 }
 
+function mockSlowBody(method, url, timeoutDelayMs = 5) {
+  const req = new EventEmitter();
+  let timer = null;
+  req.method = method;
+  req.url = url;
+  req.headers = { 'content-type': 'application/json' };
+  req.setTimeout = (timeoutMs, callback) => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+
+    if (timeoutMs > 0) {
+      timer = setTimeout(callback, timeoutDelayMs);
+    }
+
+    return req;
+  };
+  return req;
+}
+
 function mockRes() {
   return {
     statusCode: null,
@@ -181,6 +206,35 @@ describe('runValidationTask', () => {
       ),
       (error) => error instanceof ValidationEngineError && error.code === 'ETIMEDOUT',
     );
+  });
+
+  it('keeps the timeout alive when it is the only pending handle', async () => {
+    const moduleUrl = new URL('../lib/plugin-runtime/validation.js', import.meta.url).href;
+    const script = `
+      import { ValidationEngineError, runValidationTask } from ${JSON.stringify(moduleUrl)};
+
+      try {
+        await runValidationTask(() => new Promise(() => {}), {
+          name: 'lonely-timeout-check',
+          timeoutMs: 20,
+          retryCount: 0,
+        });
+        process.exit(1);
+      } catch (error) {
+        if (error instanceof ValidationEngineError && error.code === 'ETIMEDOUT') {
+          process.stdout.write('ETIMEDOUT');
+          process.exit(0);
+        }
+        process.exit(1);
+      }
+    `;
+
+    const { stdout } = await execFileAsync(process.execPath, ['--input-type=module', '--eval', script], {
+      cwd: path.resolve(process.cwd()),
+      timeout: 2_000,
+    });
+
+    assert.equal(stdout, 'ETIMEDOUT');
   });
 });
 
@@ -318,5 +372,15 @@ describe('validation api routes', () => {
 
     assert.equal(res.statusCode, 400);
     assert.equal(res.json.error, 'Body must include root and path');
+  });
+
+  it('POST /api/validate/plugin times out on slow request bodies', async () => {
+    const req = mockSlowBody('POST', '/api/validate/plugin');
+    const res = mockRes();
+
+    await handleValidationRoute(req, res, req.url);
+
+    assert.equal(res.statusCode, 408);
+    assert.equal(res.json.error, 'Request body timeout');
   });
 });

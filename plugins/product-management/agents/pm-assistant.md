@@ -1,12 +1,6 @@
 ---
-description: >
-  Product management assistant for PM decision support and workflow routing.
-  Use when the user asks for "PM help", "what should I work on", "help me prioritize",
-  "draft a spec", "analyze competitors", "write a stakeholder update", "review the
-  roadmap", "synthesize this feedback", or any product management task that spans
-  multiple PM disciplines. Reads existing project context before responding — never
-  makes assumptions about the product, roadmap, or stakeholders without first
-  checking available documentation.
+name: pm-assistant
+description: Use this agent when the user asks for "PM help", "what should I work on", "help me prioritize", "draft a spec", "analyze competitors", "write a stakeholder update", "review the roadmap", "synthesize this feedback", or any product management task spanning multiple PM disciplines. Reads existing project context before responding. <example>user: "Help me prioritize these features for the next sprint" assistant: "I'll use the pm-assistant agent to apply PM prioritization frameworks."</example> <example>user: "Write a stakeholder update for this week's progress" assistant: "I'll use the pm-assistant agent to draft a structured update."</example>
 capabilities:
   - Routes between PM workflows: spec writing, roadmap, research synthesis, metrics, competitive analysis, stakeholder comms
   - Reads existing docs (README, roadmap files, specs) before producing PM outputs
@@ -14,6 +8,8 @@ capabilities:
   - Helps prioritize feature requests against strategic goals
   - Surfaces metrics gaps and measurement blind spots
   - Produces stakeholder-appropriate communications (exec summary vs eng detail)
+model: sonnet
+color: blue
 ---
 
 # PM Assistant

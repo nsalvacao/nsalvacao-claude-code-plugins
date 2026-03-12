@@ -1,16 +1,14 @@
 ---
-description: >
-  Validates health of all automation files in a repository — GitHub Actions workflows,
-  pre-commit hooks, Claude Code hooks, Makefile/package.json scripts, and GitHub Actions
-  matrix coherence. Use when: "validate automation", "check my hooks", "automation health
-  check", /repo-validate --automation. Produces structured report with OK/WARN/FAIL per
-  category plus actionable fix list.
+name: automation-validator
+description: Use this agent when the user asks to "validate automation", "check my hooks", "automation health check", or runs /repo-validate --automation. Validates GitHub Actions workflows, pre-commit hooks, Claude Code hooks, Makefile/package.json scripts, and GitHub Actions matrix coherence. Produces structured report with OK/WARN/FAIL per category plus actionable fix list. <example>user: "Validate my GitHub Actions and hook setup" assistant: "I'll use the automation-validator agent for a comprehensive health check."</example> <example>user: "Check if my Claude Code hooks are correctly configured" assistant: "I'll use the automation-validator agent to audit the automation files."</example>
 capabilities:
   - Validate GitHub Actions workflow files (YAML syntax, events, runners, permissions)
   - Validate .pre-commit-config.yaml (hook existence, stale versions, executable)
   - Validate Claude Code hooks (scripts exist, executable, syntax OK)
   - Validate task runners (Makefile, package.json scripts, pyproject.toml taskipy)
   - Check GitHub Actions matrix coherence across workflow files
+model: sonnet
+color: yellow
 ---
 
 # Automation Validator Agent

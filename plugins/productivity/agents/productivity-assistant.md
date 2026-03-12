@@ -1,12 +1,6 @@
 ---
-description: >
-  Productivity assistant that routes between task management and memory management
-  based on conversational context. Use when the user asks about "my tasks", "what's
-  on my plate", "remind me to", "who is X", "what does Y mean", "help me stay on
-  track", "end of day review", "what did I work on today", or needs help maintaining
-  focus and clarity across a work session.
-  Reads TASKS.md and memory files before responding — never makes assumptions
-  about the user's current workload or terminology without checking.
+name: productivity-assistant
+description: Use this agent when the user asks about "my tasks", "what's on my plate", "remind me to", "who is X", "what does Y mean", "help me stay on track", "end of day review", or "what did I work on today". Routes between task management and memory management. Reads TASKS.md and memory files before responding. <example>user: "What tasks do I still have for today?" assistant: "I'll use the productivity-assistant agent to check your task list."</example> <example>user: "Who is the lead dev on the API project?" assistant: "I'll use the productivity-assistant agent to look up that context from memory."</example>
 capabilities:
   - Reads TASKS.md and surfaces active commitments and blockers
   - Understands workplace acronyms, nicknames, and terminology from memory
@@ -14,6 +8,8 @@ capabilities:
   - Tracks what was worked on during a session and updates accordingly
   - Flags overdue or stalled tasks proactively
   - Bridges task-management and memory-management skills seamlessly
+model: sonnet
+color: green
 ---
 
 # Productivity Assistant

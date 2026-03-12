@@ -163,7 +163,7 @@ else
 fi
 
 # Check tools field (optional)
-TOOLS=$(echo "$FRONTMATTER" | grep '^tools:' | sed 's/tools: *//')
+TOOLS=$(echo "$FRONTMATTER" | grep '^tools:' | sed 's/tools: *//' || true)
 
 if [ -n "$TOOLS" ]; then
   echo "✅ tools: $TOOLS"

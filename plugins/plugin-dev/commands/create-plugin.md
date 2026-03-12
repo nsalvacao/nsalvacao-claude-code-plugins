@@ -91,11 +91,15 @@ Guide the user through creating a complete, high-quality Claude Code plugin from
    - **MCP**: What server type? Authentication? Which tools?
    - **Settings**: What fields? Required vs optional? Defaults?
 
-2. **Present all questions to user in organized sections** (one section per component type)
+2. **Batch questions — do NOT present everything at once**:
+   - Group by component type
+   - Ask **3–4 questions per batch maximum** (prioritise the most blocking unknowns first)
+   - Present one batch, wait for answers, then ask the next batch if needed
+   - Typical flow: skills/commands batch → agents batch → hooks/MCP batch
 
-3. **Wait for answers before proceeding to implementation**
+3. **Wait for each batch's answers before presenting the next batch or proceeding**
 
-4. If user says "whatever you think is best", provide specific recommendations and get explicit confirmation
+4. If user says "whatever you think is best", provide **1–2 specific default recommendations** and get explicit confirmation before proceeding — do not unilaterally proceed
 
 **Example questions for a skill**:
 - What specific user queries should trigger this skill?
@@ -122,7 +126,12 @@ Guide the user through creating a complete, high-quality Claude Code plugin from
 2. Choose plugin location:
    - Ask user: "Where should I create the plugin?"
    - Offer options: current directory, ../new-plugin-name, custom path
-3. Create directory structure using bash:
+3. **Validate path before creating anything**:
+   - Check the target directory does not already exist with content (warn if it does, ask to confirm or choose another path)
+   - Reject paths inside `.claude/`, `node_modules/`, `.git/`, or any system directory
+   - Confirm the resolved absolute path with the user before proceeding
+
+5. Create directory structure using bash:
    ```bash
    mkdir -p plugin-name/.claude-plugin
    mkdir -p plugin-name/skills     # if needed
@@ -130,7 +139,7 @@ Guide the user through creating a complete, high-quality Claude Code plugin from
    mkdir -p plugin-name/agents     # if needed
    mkdir -p plugin-name/hooks      # if needed
    ```
-4. Create plugin.json manifest using Write tool:
+6. Create plugin.json manifest using Write tool:
    ```json
    {
      "name": "plugin-name",
@@ -142,9 +151,9 @@ Guide the user through creating a complete, high-quality Claude Code plugin from
      }
    }
    ```
-5. Create README.md template
-6. Create .gitignore if needed (for .claude/*.local.md, etc.)
-7. Initialize git repo if creating new directory
+7. Create README.md template
+8. Create .gitignore if needed (for .claude/*.local.md, etc.)
+9. Initialize git repo if creating new directory
 
 **Output**: Plugin directory structure created and ready for components
 
@@ -290,12 +299,38 @@ Guide the user through creating a complete, high-quality Claude Code plugin from
    - [ ] MCP servers connect (if applicable)
    - [ ] Settings files work (if applicable)
 
-3. **Testing recommendations**:
-   - For skills: Ask questions using trigger phrases from descriptions
-   - For commands: Run `/plugin-name:command-name` with various arguments
-   - For agents: Create scenarios matching agent examples
-   - For hooks: Use `claude --debug` to see hook execution
-   - For MCP: Use `/mcp` to verify servers and tools
+3. **Per-component test steps** (provide these explicitly, don't just hand a checklist):
+
+   **Skills:**
+   - Ask a question using each trigger phrase listed in the skill's description
+   - Confirm the skill loads (Claude references skill content in its response)
+   - If not triggering: check description trigger phrases, restart Claude Code
+
+   **Commands:**
+   - Run `/plugin-name:command-name` with no arguments — verify graceful handling
+   - Run with a typical argument — verify expected behaviour
+   - Run with invalid/missing argument — verify error message is clear
+
+   **Agents:**
+   - Describe a scenario matching one of the agent's `<example>` blocks
+   - Confirm the agent is invoked (coloured agent label appears)
+   - If not triggering: check description wording, verify `<example>` blocks are correct
+
+   **Hooks:**
+   - Start Claude Code with `claude --debug`
+   - Trigger an event the hook listens on (e.g. run a Write tool call for PreToolUse/Write)
+   - Confirm hook appears in debug logs: look for `hook: <event-name> executed`
+   - Run `bash ${CLAUDE_PLUGIN_ROOT}/skills/hook-development/scripts/validate-hook-schema.sh hooks/hooks.json` to re-verify
+
+   **MCP:**
+   - Run `/mcp` inside Claude Code and verify the server name appears in the list
+   - Run a tool call that uses the MCP server
+   - If server not listed: check `.mcp.json` syntax, verify `command` path and env vars
+
+   **Settings:**
+   - Create a `.claude/plugin-name.local.md` with test values
+   - Trigger the hook or command that reads settings
+   - Verify values are consumed correctly
 
 4. **Ask user**: "I've prepared the plugin for testing. Would you like me to guide you through testing each component, or do you want to test it yourself?"
 
@@ -392,23 +427,21 @@ Every component must meet these standards:
 ### User Request
 "Create a plugin for managing database migrations"
 
-### Phase 1: Discovery
-- Understand: Migration management, database schema versioning
-- Confirm: User wants to create, run, rollback migrations
+**Phase 1 — Discovery**: Understand migration management, database schema versioning. Confirm: user wants to create, run, rollback migrations.
 
-### Phase 2: Component Planning
+**Phase 2 — Component Planning**:
 - Skills: 1 (migration best practices)
 - Commands: 3 (create-migration, run-migrations, rollback)
 - Agents: 1 (migration-validator)
 - MCP: 1 (database connection)
 
-### Phase 3: Clarifying Questions
+**Phase 3 — Clarifying Questions**:
 - Which databases? (PostgreSQL, MySQL, etc.)
 - Migration file format? (SQL, code-based?)
 - Should agent validate before applying?
 - What MCP tools needed? (query, execute, schema)
 
-### Phase 4-8: Implementation, Validation, Testing, Documentation
+**Phases 4–8**: Implementation, Validation, Testing, Documentation
 
 ---
 

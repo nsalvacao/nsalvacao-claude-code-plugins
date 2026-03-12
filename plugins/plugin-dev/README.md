@@ -4,6 +4,16 @@ An independent fork of [anthropics/claude-plugins-official](https://github.com/a
 
 A comprehensive toolkit for developing Claude Code plugins with expert guidance on hooks, MCP integration, plugin structure, and marketplace publishing.
 
+## Quick Start
+
+Run this command to create a complete plugin from scratch:
+
+```
+/plugin-dev:create-plugin "Brief description of your plugin"
+```
+
+This guided 8-phase workflow handles everything: discovery, component planning, implementation, validation, testing, and documentation. See [Guided Workflow Command](#guided-workflow-command) for details.
+
 ## Overview
 
 The plugin-dev toolkit provides seven specialized skills to help you build high-quality Claude Code plugins:
@@ -207,22 +217,6 @@ Or for development, use directly:
 ```bash
 cc --plugin-dir /path/to/plugin-dev
 ```
-
-## Quick Start
-
-### Creating Your First Plugin
-
-1. **Plan your plugin structure:**
-   - Ask: "What's the best directory structure for a plugin with commands and MCP integration?"
-   - The plugin-structure skill will guide you
-
-2. **Add MCP integration (if needed):**
-   - Ask: "How do I add an MCP server for database access?"
-   - The mcp-integration skill provides examples and patterns
-
-3. **Implement hooks (if needed):**
-   - Ask: "Create a PreToolUse hook that validates file writes"
-   - The hook-development skill gives working examples and utilities
 
 ## Development Workflow
 

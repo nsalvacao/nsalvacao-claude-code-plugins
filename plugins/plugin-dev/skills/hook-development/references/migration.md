@@ -15,6 +15,9 @@ Prompt-based hooks offer several advantages:
 
 ### Before (Basic Command Hook)
 
+> **Note:** This migration is about hook **type** (command → prompt), not format.
+> The wrapper `{"hooks":{...}}` format is correct in both "Before" and "After" — always use it in `hooks/hooks.json`.
+
 **Configuration:**
 ```json
 {
@@ -86,7 +89,10 @@ fi
 
 ## Migration Example: File Write Validation
 
-### Before (Basic Command Hook)
+### Before (Basic Command Hook — File Write)
+
+> **Note:** This migration is about hook **type** (command → prompt), not format.
+> The wrapper `{"hooks":{...}}` format is correct in both "Before" and "After" — always use it in `hooks/hooks.json`.
 
 **Configuration:**
 ```json
@@ -132,7 +138,7 @@ fi
 - Missing edge cases (e.g., `/etc` vs `/etc/`)
 - No consideration of file content
 
-### After (Advanced Prompt Hook)
+### After (Advanced Prompt Hook — File Write)
 
 **Configuration:**
 ```json

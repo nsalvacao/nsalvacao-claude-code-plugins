@@ -98,6 +98,11 @@ Execute bash commands for deterministic checks:
 }
 ```
 
+---
+
+> ⚠️ **The format below is for `.claude/settings.json`, NOT for `hooks/hooks.json`.**
+> Copying this into a plugin hooks file will cause a Claude Code runtime error.
+
 ### Settings Format (Direct)
 
 **For user settings** in `.claude/settings.json`, use direct format:
@@ -322,10 +327,13 @@ Access fields in prompts using `$TOOL_INPUT`, `$TOOL_RESULT`, `$USER_PROMPT`, et
 
 Available in all command hooks:
 
-- `$CLAUDE_PROJECT_DIR` - Project root path
+- `$CLAUDE_PROJECT_DIR` - Project root path (where `.claude/` lives)
 - `$CLAUDE_PLUGIN_ROOT` - Plugin directory (use for portable paths)
 - `$CLAUDE_ENV_FILE` - SessionStart only: persist env vars here
 - `$CLAUDE_CODE_REMOTE` - Set if running in remote context
+
+`${CLAUDE_PLUGIN_ROOT}` points to the plugin's own directory; `$CLAUDE_PROJECT_DIR` points to
+the project root. These differ when a plugin is installed in a shared or system-wide path.
 
 **Always use ${CLAUDE_PLUGIN_ROOT} in hook commands for portability:**
 

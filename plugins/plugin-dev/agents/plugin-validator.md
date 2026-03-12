@@ -34,6 +34,7 @@ description: |
 model: inherit
 color: yellow
 tools: ["Read", "Grep", "Glob", "Bash"]
+version: 0.1.0
 ---
 
 You are an expert plugin validator specializing in comprehensive validation of Claude Code plugin structure, configuration, and components.

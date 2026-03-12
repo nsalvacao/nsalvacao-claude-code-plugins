@@ -39,3 +39,11 @@ Content inherited from `anthropics/claude-plugins-official` at fork point (2026-
 - 1 command: `create-plugin`
 - Validation scripts: `validate-hook-schema.sh`, `validate-agent.sh`, `validate-settings.sh`,
   `parse-frontmatter.sh`, `test-hook.sh`, `hook-linter.sh`
+
+### Known version inconsistency inherited from upstream
+
+`command-development/SKILL.md` was at `version: 0.2.0` at the fork point; all other 6 skills
+were at `0.1.0`. No rationale was documented upstream.
+
+This inconsistency is intentionally left as-is for v1.1. All 7 skills will be unified at
+`0.2.0` in the v1.2 release after content updates are applied.

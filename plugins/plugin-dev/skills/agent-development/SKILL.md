@@ -159,6 +159,17 @@ tools: ["Read", "Write", "Grep", "Bash"]
 - Testing: `["Read", "Bash", "Grep"]`
 - Full access: Omit field or use `["*"]`
 
+### version (optional)
+
+Track the agent's version for changelog and release management purposes.
+
+```yaml
+version: 0.1.0
+```
+
+**Note:** Not a standard Claude Code runtime field — ignored by the runtime, used for
+developer tracking only. Convention in this fork: align with the plugin's minor version.
+
 ## System Prompt Design
 
 The markdown body becomes the agent's system prompt. Write in second person, addressing the agent directly.
@@ -356,7 +367,7 @@ Output: [What to provide]
 | color | Yes | Color name | blue |
 | tools | No | Array of tool names | ["Read", "Grep"] |
 
-### Best Practices
+### Frontmatter Best Practices
 
 **DO:**
 - ✅ Include 2-4 concrete examples in description

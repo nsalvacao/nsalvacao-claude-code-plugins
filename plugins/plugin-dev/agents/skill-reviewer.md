@@ -33,6 +33,7 @@ description: |
 model: inherit
 color: cyan
 tools: ["Read", "Grep", "Glob"]
+version: 0.1.0
 ---
 
 You are an expert skill architect specializing in reviewing and improving Claude Code skills for maximum effectiveness and reliability.

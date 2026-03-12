@@ -1,7 +1,7 @@
 ---
 name: skill-reviewer
 description: |
-  Use this agent when the user has created or modified a skill and needs quality review, asks to "review my skill", "check skill quality", "improve skill description", or wants to ensure skill follows best practices. Trigger proactively after skill creation. Examples:
+  Use this agent when the user has created or modified a skill and needs quality review, asks to "review my skill", "check skill quality", "improve skill description", or wants to ensure skill follows best practices. Trigger proactively after skill creation. Scope: reviews skill content quality, description effectiveness, and trigger phrases — does NOT validate plugin structure or manifests; use plugin-validator for that. Examples:
 
   <example>
   Context: User just created a new skill

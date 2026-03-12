@@ -1,7 +1,7 @@
 ---
 name: plugin-validator
 description: |
-  Use this agent when the user asks to "validate my plugin", "check plugin structure", "verify plugin is correct", "validate plugin.json", "check plugin files", or mentions plugin validation. Also trigger proactively after user creates or modifies plugin components. Examples:
+  Use this agent when the user asks to "validate my plugin", "check plugin structure", "verify plugin is correct", "validate plugin.json", "check plugin files", or mentions plugin validation. Also trigger proactively after user creates or modifies plugin components. Scope: validates plugin structure, manifests, and all components (hooks, commands, agents, skills) — does NOT review skill content quality; use skill-reviewer for that. Examples:
 
   <example>
   Context: User finished creating a new plugin

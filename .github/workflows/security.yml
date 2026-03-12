@@ -3,6 +3,7 @@ name: Security
 on:
   push:
     branches: ["main"]
+  pull_request:  # all PRs, all branches, on open/push/reopen
   schedule:
     - cron: "30 2 * * 1"  # weekly Monday 02:30 UTC
   workflow_dispatch:
@@ -15,7 +16,6 @@ jobs:
   scorecard:
     name: OpenSSF Scorecard
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       security-events: write
@@ -33,7 +33,9 @@ jobs:
         with:
           results_file: results.sarif
           results_format: sarif
-          publish_results: true
+          # publish_results requires running on the default branch;
+          # on PRs we still upload SARIF for code scanning but skip publishing
+          publish_results: ${{ github.event_name != 'pull_request' }}
 
       - name: Upload to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v4

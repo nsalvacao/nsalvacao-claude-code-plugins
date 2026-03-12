@@ -1,5 +1,7 @@
 # Plugin Development Toolkit
 
+An independent fork of [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official), maintained by Nuno Salvação with improvements to validation tooling, canonical formats, and documentation.
+
 A comprehensive toolkit for developing Claude Code plugins with expert guidance on hooks, MCP integration, plugin structure, and marketplace publishing.
 
 ## Overview
@@ -192,7 +194,6 @@ Use this workflow for structured, high-quality plugin development from concept t
 
 **Use when:** Creating new skills for plugins or improving existing skill quality.
 
-
 ## Installation
 
 Install from claude-code-marketplace:
@@ -222,7 +223,6 @@ cc --plugin-dir /path/to/plugin-dev
 3. **Implement hooks (if needed):**
    - Ask: "Create a PreToolUse hook that validates file writes"
    - The hook-development skill gives working examples and utilities
-
 
 ## Development Workflow
 
@@ -378,12 +378,12 @@ All skills emphasize:
 
 ## Contributing
 
-This plugin is part of the claude-code-marketplace. To contribute improvements:
+This plugin is part of [nsalvacao-claude-code-plugins](https://github.com/nsalvacao/nsalvacao-claude-code-plugins). To contribute improvements:
 
-1. Fork the marketplace repository
-2. Make changes to plugin-dev/
+1. Fork the repository
+2. Make changes to `plugins/plugin-dev/`
 3. Test locally with `cc --plugin-dir`
-4. Create PR following marketplace-publishing guidelines
+4. Create a PR following the repository's contribution guidelines
 
 ## Version
 
@@ -391,7 +391,13 @@ This plugin is part of the claude-code-marketplace. To contribute improvements:
 
 ## Author
 
-Daisy Hollman (daisy@anthropic.com)
+Nuno Salvação
+
+## Fork Attribution
+
+This plugin is an independent fork of [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official).
+Original work by Daisy Hollman (daisy@anthropic.com) and the Anthropic team.
+See [CHANGELOG.md](./CHANGELOG.md) for a full list of changes made in this fork.
 
 ## License
 

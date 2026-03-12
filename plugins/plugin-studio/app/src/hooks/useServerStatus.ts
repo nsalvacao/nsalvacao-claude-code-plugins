@@ -11,13 +11,25 @@ const INITIAL_STATUS: ServerStatus = {
   checkedAt: null,
 };
 
+function isStatusPayload(value: unknown): value is {
+  status?: string;
+  version?: string;
+  note?: string;
+} {
+  return typeof value === 'object' && value !== null;
+}
+
 export function useServerStatus() {
   const [serverStatus, setServerStatus] = useState<ServerStatus>(INITIAL_STATUS);
 
   useEffect(() => {
     let active = true;
+    let latestRequestId = 0;
 
     async function checkServer(showChecking: boolean) {
+      const requestId = latestRequestId + 1;
+      latestRequestId = requestId;
+
       if (showChecking) {
         setServerStatus((previous) => ({
           ...previous,
@@ -38,13 +50,12 @@ export function useServerStatus() {
           throw new Error(`Unexpected response: ${response.status}`);
         }
 
-        const payload = await response.json() as {
-          status?: string;
-          version?: string;
-          note?: string;
-        };
+        const payload = await response.json();
 
-        if (!active) return;
+        if (!active || requestId !== latestRequestId) return;
+        if (!isStatusPayload(payload)) {
+          throw new Error('Invalid API response format');
+        }
 
         setServerStatus({
           connection: payload.status === 'ok' ? 'connected' : 'disconnected',
@@ -53,7 +64,7 @@ export function useServerStatus() {
           checkedAt: Date.now(),
         });
       } catch {
-        if (!active) return;
+        if (!active || requestId !== latestRequestId) return;
 
         setServerStatus((previous) => ({
           connection: 'disconnected',

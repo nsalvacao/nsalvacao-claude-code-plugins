@@ -13,6 +13,9 @@ import { PreviewPlaceholder } from './placeholders/PreviewPlaceholder.tsx';
 import { TreePlaceholder } from './placeholders/TreePlaceholder.tsx';
 import { ValidationPlaceholder } from './placeholders/ValidationPlaceholder.tsx';
 
+const KEYBOARD_LEFT_RESIZE_STEP_PX = 16;
+const KEYBOARD_CENTER_RESIZE_STEP = 0.02;
+
 export function PluginStudioShell() {
   const serverStatus = useServerStatus();
   const {
@@ -99,11 +102,11 @@ export function PluginStudioShell() {
   }
 
   function stepLeftResize(direction: -1 | 1) {
-    updateLeftWidth(layout.leftWidth + (direction * 16));
+    updateLeftWidth(layout.leftWidth + (direction * KEYBOARD_LEFT_RESIZE_STEP_PX));
   }
 
   function stepCenterResize(direction: -1 | 1) {
-    updateCenterSplit(layout.centerSplit + (direction * 0.02));
+    updateCenterSplit(layout.centerSplit + (direction * KEYBOARD_CENTER_RESIZE_STEP));
   }
 
   return (

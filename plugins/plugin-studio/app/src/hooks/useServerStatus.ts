@@ -16,7 +16,25 @@ function isStatusPayload(value: unknown): value is {
   version?: string;
   note?: string;
 } {
-  return typeof value === 'object' && value !== null;
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+    return false;
+  }
+
+  const record = value as Record<string, unknown>;
+
+  if ('status' in record && typeof record.status !== 'string') {
+    return false;
+  }
+
+  if ('version' in record && typeof record.version !== 'string') {
+    return false;
+  }
+
+  if ('note' in record && typeof record.note !== 'string') {
+    return false;
+  }
+
+  return true;
 }
 
 export function useServerStatus() {

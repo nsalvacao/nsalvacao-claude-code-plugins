@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import type { StudioLayoutState } from '../types/studio.ts';
 
 const STORAGE_KEY = 'plugin-studio.layout.v1';
-const MIN_LEFT_WIDTH = 220;
-const MAX_LEFT_WIDTH = 420;
-const MIN_CENTER_SPLIT = 0.35;
-const MAX_CENTER_SPLIT = 0.65;
+export const MIN_LEFT_WIDTH = 220;
+export const MAX_LEFT_WIDTH = 420;
+export const MIN_CENTER_SPLIT = 0.35;
+export const MAX_CENTER_SPLIT = 0.65;
+const MIN_BOTTOM_HEIGHT = 120;
+const MAX_BOTTOM_HEIGHT = 320;
 
 const DEFAULT_LAYOUT: StudioLayoutState = {
   leftWidth: 280,
@@ -33,7 +35,11 @@ function normalizeLayout(payload: Partial<StudioLayoutState>): StudioLayoutState
     ),
     rightOpen: typeof payload.rightOpen === 'boolean' ? payload.rightOpen : DEFAULT_LAYOUT.rightOpen,
     bottomOpen: typeof payload.bottomOpen === 'boolean' ? payload.bottomOpen : DEFAULT_LAYOUT.bottomOpen,
-    bottomHeight: typeof payload.bottomHeight === 'number' ? payload.bottomHeight : DEFAULT_LAYOUT.bottomHeight,
+    bottomHeight: clamp(
+      typeof payload.bottomHeight === 'number' ? payload.bottomHeight : DEFAULT_LAYOUT.bottomHeight,
+      MIN_BOTTOM_HEIGHT,
+      MAX_BOTTOM_HEIGHT,
+    ),
   };
 }
 
@@ -54,7 +60,11 @@ export function useStudioLayout() {
 
   useEffect(() => {
     const persistId = window.setTimeout(() => {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(layout));
+      try {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(layout));
+      } catch {
+        // Ignore persistence failures; the shell can still run with in-memory layout state.
+      }
     }, 120);
 
     return () => {

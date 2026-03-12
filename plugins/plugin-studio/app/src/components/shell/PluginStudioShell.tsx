@@ -1,7 +1,13 @@
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useServerStatus } from '../../hooks/useServerStatus.ts';
-import { useStudioLayout } from '../../hooks/useStudioLayout.ts';
+import {
+  MAX_CENTER_SPLIT,
+  MAX_LEFT_WIDTH,
+  MIN_CENTER_SPLIT,
+  MIN_LEFT_WIDTH,
+  useStudioLayout,
+} from '../../hooks/useStudioLayout.ts';
 import { getActivePluginInfo } from '../../lib/plugin-path.ts';
 import { PanelFrame } from './PanelFrame.tsx';
 import { ResizeHandle } from './ResizeHandle.tsx';
@@ -139,8 +145,8 @@ export function PluginStudioShell() {
               label="Resize plugin tree"
               onPointerDown={startLeftResize}
               valueNow={layout.leftWidth}
-              valueMin={220}
-              valueMax={420}
+              valueMin={MIN_LEFT_WIDTH}
+              valueMax={MAX_LEFT_WIDTH}
               onStep={stepLeftResize}
             />
 
@@ -166,8 +172,8 @@ export function PluginStudioShell() {
                     label="Resize editor and preview"
                     onPointerDown={startCenterResize}
                     valueNow={Math.round(layout.centerSplit * 100)}
-                    valueMin={35}
-                    valueMax={65}
+                    valueMin={Math.round(MIN_CENTER_SPLIT * 100)}
+                    valueMax={Math.round(MAX_CENTER_SPLIT * 100)}
                     onStep={stepCenterResize}
                   />
 

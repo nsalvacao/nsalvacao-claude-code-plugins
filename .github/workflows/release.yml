@@ -16,6 +16,9 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
       - uses: googleapis/release-please-action@v4
         id: release
         with:

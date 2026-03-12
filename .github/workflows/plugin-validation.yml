@@ -110,9 +110,8 @@ jobs:
           set -euo pipefail
           SCRIPT="plugins/plugin-dev/skills/agent-development/scripts/validate-agent.sh"
           errors=0
-          # Note: validate-agent.sh has a known bash arithmetic bug where
-          # ((warning_count++)) with set -e causes premature exit on the first
-          # warning. We capture output and only fail on actual ❌ errors.
+          # Capture output and detect ❌ markers rather than relying on exit code
+          # (defensive: tolerates any future regressions in the validator script).
           while IFS= read -r f; do
             echo "→ $f"
             out=$(bash "$SCRIPT" "$f" 2>&1 || true)

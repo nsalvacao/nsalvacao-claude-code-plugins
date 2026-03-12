@@ -24,16 +24,6 @@ const POST_VALIDATORS = {
   },
 };
 
-function armBodyTimeout(req, onTimeout) {
-  if (typeof req.setTimeout === 'function') {
-    req.setTimeout(BODY_TIMEOUT_MS, onTimeout);
-    return () => req.setTimeout(0);
-  }
-
-  const timer = setTimeout(onTimeout, BODY_TIMEOUT_MS);
-  return () => clearTimeout(timer);
-}
-
 function formatRequiredFieldsMessage(fields) {
   return `Body must include ${fields.join(' and ')}`;
 }
@@ -54,15 +44,15 @@ function parseBody(req) {
     let size = 0;
     let settled = false;
 
-    const clearBodyTimeout = armBodyTimeout(req, () => {
+    const timer = setTimeout(() => {
       finish(reject, new ValidationEngineError('Request body timeout', {
         status: 408,
         code: 'EBODYTIMEOUT',
       }));
-    });
+    }, BODY_TIMEOUT_MS);
 
     const cleanup = () => {
-      clearBodyTimeout();
+      clearTimeout(timer);
       req.off('data', onData);
       req.off('end', onEnd);
       req.off('error', onError);

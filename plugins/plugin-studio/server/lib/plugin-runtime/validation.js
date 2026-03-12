@@ -231,6 +231,10 @@ function toCheckIssue(check, message, severity = 'error', line = null, col = nul
   });
 }
 
+function normalizeRelativePath(relPath) {
+  return String(relPath).replace(/\\/g, '/');
+}
+
 function withTimeout(promise, timeoutMs, label) {
   let timer = null;
   return Promise.race([
@@ -248,6 +252,22 @@ function withTimeout(promise, timeoutMs, label) {
   ]).finally(() => {
     if (timer) clearTimeout(timer);
   });
+}
+
+function formatCheckFailureMessage(check, error) {
+  if (error.code === 'ETIMEDOUT') {
+    return `Validation check timed out after ${check.timeoutMs ?? DEFAULT_TIMEOUT_MS}ms`;
+  }
+
+  if (error.code === 'ENOENT') {
+    return `Validation target not found: ${check.file ?? check.name}`;
+  }
+
+  if (error.code === 'EACCES') {
+    return `Permission denied while reading ${check.file ?? check.name}`;
+  }
+
+  return error.message;
 }
 
 function isTransientValidationError(error) {
@@ -319,9 +339,7 @@ async function executeCheck(check) {
       issues: [
         toCheckIssue(
           check,
-          error.code === 'ETIMEDOUT'
-            ? `Validation check timed out after ${check.timeoutMs ?? DEFAULT_TIMEOUT_MS}ms`
-            : error.message,
+          formatCheckFailureMessage(check, error),
           'error',
         ),
       ],
@@ -1248,26 +1266,27 @@ async function ensureTypedFile(root, relPath, expected) {
     throw new ValidationEngineError('Missing file path', { status: 400, code: 'EBADREQUEST' });
   }
 
-  const safePath = sanitizePath(root, relPath);
+  const normalizedRelPath = normalizeRelativePath(relPath);
+  const safePath = sanitizePath(root, normalizedRelPath);
   if (!safePath) {
     throw new ValidationEngineError('Path outside plugin root', { status: 403, code: 'EPATH' });
   }
 
-  if (expected === 'hook' && relPath !== 'hooks/hooks.json') {
+  if (expected === 'hook' && normalizedRelPath !== 'hooks/hooks.json') {
     throw new ValidationEngineError('Hook validation expects path "hooks/hooks.json"', {
       status: 400,
       code: 'EBADREQUEST',
     });
   }
 
-  if (expected === 'agent' && !/^agents\/[^/]+\.md$/.test(relPath)) {
+  if (expected === 'agent' && !/^agents\/[^/]+\.md$/.test(normalizedRelPath)) {
     throw new ValidationEngineError('Agent validation expects a file under agents/*.md', {
       status: 400,
       code: 'EBADREQUEST',
     });
   }
 
-  return safePath;
+  return { safePath, relPath: normalizedRelPath };
 }
 
 export async function validatePlugin(root) {
@@ -1283,14 +1302,14 @@ export async function validateHealth(root) {
 
 export async function validateHook(root, relPath) {
   await ensurePluginRoot(root);
-  const filePath = await ensureTypedFile(root, relPath, 'hook');
+  const { safePath: filePath, relPath: normalizedRelPath } = await ensureTypedFile(root, relPath, 'hook');
   const check = await executeCheck(
     makeCheck(
-      `hooks:${relPath}`,
+      `hooks:${normalizedRelPath}`,
       'Hook configuration',
-      relPath,
+      normalizedRelPath,
       'hook-schema',
-      () => validateHooksConfigFile(filePath, relPath),
+      () => validateHooksConfigFile(filePath, normalizedRelPath),
     ),
   );
   return summarizeChecks(root, [check]);
@@ -1298,14 +1317,14 @@ export async function validateHook(root, relPath) {
 
 export async function validateAgent(root, relPath) {
   await ensurePluginRoot(root);
-  const filePath = await ensureTypedFile(root, relPath, 'agent');
+  const { safePath: filePath, relPath: normalizedRelPath } = await ensureTypedFile(root, relPath, 'agent');
   const check = await executeCheck(
     makeCheck(
-      `agent:${relPath}`,
+      `agent:${normalizedRelPath}`,
       'Agent validation',
-      relPath,
+      normalizedRelPath,
       'agent',
-      () => validateAgentMarkdownFile(filePath, relPath),
+      () => validateAgentMarkdownFile(filePath, normalizedRelPath),
     ),
   );
   return summarizeChecks(root, [check]);

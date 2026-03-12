@@ -287,6 +287,13 @@ describe('validation engine', () => {
     }
   });
 
+  it('accepts Windows-style relative paths for hook validation', async () => {
+    const result = await validateHook(validPlugin, 'hooks\\hooks.json');
+
+    assert.equal(result.ok, true);
+    assert.equal(result.checks[0].file, 'hooks/hooks.json');
+  });
+
   it('returns structured agent validation errors', async () => {
     const plugin = createPlugin({
       agent: [
@@ -311,6 +318,13 @@ describe('validation engine', () => {
     }
   });
 
+  it('accepts Windows-style relative paths for agent validation', async () => {
+    const result = await validateAgent(validPlugin, 'agents\\plugin-editor.md');
+
+    assert.equal(result.ok, true);
+    assert.equal(result.checks[0].file, 'agents/plugin-editor.md');
+  });
+
   it('surfaces plugin-wide issues with files and score', async () => {
     const plugin = createPlugin({
       readme: false,
@@ -328,6 +342,14 @@ describe('validation engine', () => {
     } finally {
       removePlugin(plugin);
     }
+  });
+
+  it('sanitizes missing file errors before returning issues', async () => {
+    const result = await validateAgent(validPlugin, 'agents/missing-agent.md');
+
+    assert.equal(result.ok, false);
+    assert.ok(result.issues.some((issue) => issue.message === 'Validation target not found: agents/missing-agent.md'));
+    assert.ok(result.issues.every((issue) => !issue.message.includes(validPlugin)));
   });
 });
 

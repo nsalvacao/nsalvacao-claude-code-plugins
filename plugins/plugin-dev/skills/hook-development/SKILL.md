@@ -61,21 +61,22 @@ Execute bash commands for deterministic checks:
 
 ### Plugin hooks.json Format
 
-**For plugin hooks** in `hooks/hooks.json`, use direct format (canonical):
+**For plugin hooks** in `hooks/hooks.json`, use wrapper format:
 
 ```json
 {
-  "PreToolUse": [...],
-  "Stop": [...],
-  "SessionStart": [...]
+  "hooks": {
+    "PreToolUse": [...],
+    "Stop": [...],
+    "SessionStart": [...]
+  }
 }
 ```
 
 **Key points:**
-- Direct format (shown above) is **canonical and preferred** for new plugins
-- Each hook event is a top-level key (PreToolUse, Stop, SessionStart, etc.)
-- Legacy wrapper format `{"hooks": {...}}` is also accepted by validation but not recommended for new code
-- Older documentation referenced the wrapper format; this has been superseded
+- `hooks` field is **required** wrapper containing actual hook events
+- `description` field is optional (brief explanation of what the hooks do)
+- This is the **plugin-specific format** — distinct from settings format
 
 **Example:**
 ```json
@@ -341,40 +342,42 @@ In plugins, define hooks in `hooks/hooks.json`:
 
 ```json
 {
-  "PreToolUse": [
-    {
-      "matcher": "Write|Edit",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Validate file write safety"
-        }
-      ]
-    }
-  ],
-  "Stop": [
-    {
-      "matcher": "*",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Verify task completion"
-        }
-      ]
-    }
-  ],
-  "SessionStart": [
-    {
-      "matcher": "*",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-context.sh",
-          "timeout": 10
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Validate file write safety"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Verify task completion"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/load-context.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 

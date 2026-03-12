@@ -18,17 +18,19 @@ Prompt-based hooks offer several advantages:
 **Configuration:**
 ```json
 {
-  "PreToolUse": [
-    {
-      "matcher": "Bash",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash validate-bash.sh"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash validate-bash.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -57,18 +59,20 @@ fi
 **Configuration:**
 ```json
 {
-  "PreToolUse": [
-    {
-      "matcher": "Bash",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Command: $TOOL_INPUT.command. Analyze for: 1) Destructive operations (rm -rf, dd, mkfs, etc) 2) Privilege escalation (sudo) 3) Network operations without user consent. Return 'approve' or 'deny' with explanation.",
-          "timeout": 15
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Command: $TOOL_INPUT.command. Analyze for: 1) Destructive operations (rm -rf, dd, mkfs, etc) 2) Privilege escalation (sudo) 3) Network operations without user consent. Return 'approve' or 'deny' with explanation.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -87,17 +91,19 @@ fi
 **Configuration:**
 ```json
 {
-  "PreToolUse": [
-    {
-      "matcher": "Write",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash validate-write.sh"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash validate-write.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -131,17 +137,19 @@ fi
 **Configuration:**
 ```json
 {
-  "PreToolUse": [
-    {
-      "matcher": "Write|Edit",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "File path: $TOOL_INPUT.file_path. Content preview: $TOOL_INPUT.content (first 200 chars). Verify: 1) Not system directories (/etc, /sys, /usr) 2) Not credentials (.env, tokens, secrets) 3) No path traversal 4) Content doesn't expose secrets. Return 'approve' or 'deny'."
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "File path: $TOOL_INPUT.file_path. Content preview: $TOOL_INPUT.content (first 200 chars). Verify: 1) Not system directories (/etc, /sys, /usr) 2) Not credentials (.env, tokens, secrets) 3) No path traversal 4) Content doesn't expose secrets. Return 'approve' or 'deny'."
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -208,23 +216,25 @@ Combine both for multi-stage validation:
 
 ```json
 {
-  "PreToolUse": [
-    {
-      "matcher": "Bash",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/quick-check.sh",
-          "timeout": 5
-        },
-        {
-          "type": "prompt",
-          "prompt": "Deep analysis of bash command: $TOOL_INPUT",
-          "timeout": 15
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/quick-check.sh",
+            "timeout": 5
+          },
+          {
+            "type": "prompt",
+            "prompt": "Deep analysis of bash command: $TOOL_INPUT",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -281,37 +291,39 @@ my-plugin/
 
 ```json
 {
-  "PreToolUse": [
-    {
-      "matcher": "Bash",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Validate bash command safety: destructive ops, privilege escalation, network access"
-        }
-      ]
-    },
-    {
-      "matcher": "Write|Edit",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Validate file write safety: system paths, credentials, path traversal, content secrets"
-        }
-      ]
-    }
-  ],
-  "Stop": [
-    {
-      "matcher": "*",
-      "hooks": [
-        {
-          "type": "prompt",
-          "prompt": "Verify tests were run if code was modified"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Validate bash command safety: destructive ops, privilege escalation, network access"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Validate file write safety: system paths, credentials, path traversal, content secrets"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Verify tests were run if code was modified"
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 

@@ -35,6 +35,21 @@ if ! jq empty "$HOOKS_FILE" 2>/dev/null; then
 fi
 echo "✅ Valid JSON"
 
+# Detect and unwrap plugin wrapper format: {"hooks": {...}} or {"description": "...", "hooks": {...}}
+TMPFILE=""
+cleanup() {
+  [ -n "$TMPFILE" ] && rm -f "$TMPFILE"
+}
+trap cleanup EXIT
+
+if jq -e '.hooks | type == "object"' "$HOOKS_FILE" > /dev/null 2>&1; then
+  TMPFILE=$(mktemp)
+  jq '.hooks' "$HOOKS_FILE" > "$TMPFILE"
+  HOOKS_FILE="$TMPFILE"
+  echo "ℹ️  Wrapper format detected — validating inner hooks object"
+  echo ""
+fi
+
 # Check 2: Root structure
 echo ""
 echo "Checking root structure..."

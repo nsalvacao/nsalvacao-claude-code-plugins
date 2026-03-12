@@ -12,6 +12,17 @@
   },
   "plugins": [
     {
+      "name": "plugin-dev",
+      "description": "Comprehensive toolkit for developing Claude Code plugins — hooks, MCP integration, plugin structure, settings, commands, agents, and skills. Forked from anthropics/claude-plugins-official with improvements: wrapper-format support in validator and arithmetic bug fix.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/plugin-dev",
+      "category": "development"
+    },
+    {
       "name": "strategy-toolkit",
       "description": "Strategic ideation and execution planning toolkit with reproducible frameworks",
       "version": "0.1.0",

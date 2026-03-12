@@ -72,6 +72,50 @@ Before opening a PR for a plugin:
 - [ ] Side effects and generated files are documented
 - [ ] Marketplace entry has been added/updated
 
+## Governance Workflow (Atomic Delivery)
+
+Use this loop for any plugin change (new plugin, plugin update, docs, scripts, hooks, agents, skills).
+
+1. **Plan one logical change** with explicit scope and files.
+2. **Split into atomic subtasks** with clear done conditions.
+3. **Choose verification mode** (behavior changes: test-first where practical; docs/schema/metadata changes: validation-first).
+4. **Implement minimal change** for the current subtask.
+5. **Run relevant local validators** for touched artifacts.
+6. **Check repository consistency** (`plugins/` and `.claude-plugin/marketplace.json` alignment, frontmatter completeness, hook schema compatibility).
+7. **Commit atomically** with a Conventional Commit message.
+8. **Push and open PR**, then wait for online GitHub review and full CI pass in `.github/workflows/plugin-validation.yml`.
+9. **Do not merge as agent**. Merge is manual and happens only after explicit reviewer/user approval.
+
+### Atomic Commit Rules
+
+- One commit should map to one logical objective.
+- Keep coupled updates together when required for consistency (for example validator logic + matching documentation).
+- Do not batch unrelated roadmap/plugin tasks in one commit.
+- Allowed commit types: `feat`, `fix`, `docs`, `refactor`, `chore`, `plugin`, `update`.
+
+### Validation Baseline
+
+Run what applies to your change:
+
+- `jq empty .claude-plugin/marketplace.json`
+- `jq empty plugins/<name>/.claude-plugin/plugin.json`
+- `bash plugins/plugin-dev/skills/hook-development/scripts/validate-hook-schema.sh <hooks.json>`
+- `bash plugins/plugin-dev/skills/hook-development/scripts/hook-linter.sh <script.sh>`
+- `bash plugins/plugin-dev/skills/agent-development/scripts/validate-agent.sh <agent.md>`
+- `bash plugins/plugin-dev/skills/plugin-settings/scripts/parse-frontmatter.sh <file> <field>`
+- `shellcheck <script.sh>`
+- `markdownlint-cli2 <changed-docs>`
+
+### Mandatory Cross-Doc Read Order (Agents)
+
+Before implementation and before any commit/PR operation, agents must read and follow:
+
+1. `AGENTS.md`
+2. `.github/copilot-instructions.md`
+3. `CLAUDE.md`
+4. This document (`docs/PLUGIN_GUIDELINES.md`)
+5. Roadmap workflow details when applicable (`.ideas/plugin-dev-roadmap.md`)
+
 ## Versioning Guidance
 
 - Start new plugins at `0.1.0`

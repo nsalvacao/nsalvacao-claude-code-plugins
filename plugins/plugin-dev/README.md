@@ -387,7 +387,7 @@ This plugin is part of [nsalvacao-claude-code-plugins](https://github.com/nsalva
 
 ## Version
 
-0.1.0 - Initial release with seven comprehensive skills and three validation agents
+1.0.0 - Forked from upstream. See CHANGELOG.md for details.
 
 ## Author
 

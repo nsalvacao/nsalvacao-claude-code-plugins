@@ -320,7 +320,7 @@ Guide the user through creating a complete, high-quality Claude Code plugin from
    - Start Claude Code with `claude --debug`
    - Trigger an event the hook listens on (e.g. run a Write tool call for PreToolUse/Write)
    - Confirm hook appears in debug logs: look for `hook: <event-name> executed`
-   - Run `bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-hook-schema.sh hooks/hooks.json` to re-verify
+   - Run `bash ${CLAUDE_PLUGIN_ROOT}/skills/hook-development/scripts/validate-hook-schema.sh hooks/hooks.json` to re-verify
 
    **MCP:**
    - Run `/mcp` inside Claude Code and verify the server name appears in the list

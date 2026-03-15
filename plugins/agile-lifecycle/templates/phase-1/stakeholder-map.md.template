@@ -1,0 +1,61 @@
+# Stakeholder Map
+
+| Field | Value |
+|-------|-------|
+| ID | {{map_id}} |
+| Date | {{date}} |
+| Project | {{project}} |
+| Owner | {{owner}} |
+| Phase | 1 — Opportunity and Portfolio Framing |
+| Status | {{status}} |
+
+## Stakeholder Matrix (Power / Interest Grid)
+
+<!-- Plot stakeholders in the appropriate quadrant based on their power and interest. -->
+
+```
+High Power │ KEEP SATISFIED     │ MANAGE CLOSELY
+           │ {{ks_stakeholders}} │ {{mc_stakeholders}}
+           │────────────────────│────────────────────
+           │ MONITOR            │ KEEP INFORMED
+Low Power  │ {{m_stakeholders}}  │ {{ki_stakeholders}}
+           └────────────────────┴────────────────────
+                  Low Interest         High Interest
+```
+
+## Key Stakeholders
+
+<!-- Document all key stakeholders with engagement strategy. -->
+
+| Name | Role | Interest | Influence | Engagement Strategy | Preferred Channel |
+|------|------|----------|-----------|---------------------|-------------------|
+| {{stakeholder_1_name}} | {{stakeholder_1_role}} | {{stakeholder_1_interest}} | {{stakeholder_1_influence}} | {{stakeholder_1_strategy}} | {{stakeholder_1_channel}} |
+| {{stakeholder_2_name}} | {{stakeholder_2_role}} | {{stakeholder_2_interest}} | {{stakeholder_2_influence}} | {{stakeholder_2_strategy}} | {{stakeholder_2_channel}} |
+| {{stakeholder_3_name}} | {{stakeholder_3_role}} | {{stakeholder_3_interest}} | {{stakeholder_3_influence}} | {{stakeholder_3_strategy}} | {{stakeholder_3_channel}} |
+| {{stakeholder_4_name}} | {{stakeholder_4_role}} | {{stakeholder_4_interest}} | {{stakeholder_4_influence}} | {{stakeholder_4_strategy}} | {{stakeholder_4_channel}} |
+
+## Communication Plan
+
+<!-- How will we communicate with each stakeholder group throughout the lifecycle? -->
+
+| Stakeholder Group | What | When / Frequency | How | Owner |
+|-------------------|------|-------------------|-----|-------|
+| {{group_1}} | {{group_1_content}} | {{group_1_frequency}} | {{group_1_channel}} | {{group_1_owner}} |
+| {{group_2}} | {{group_2_content}} | {{group_2_frequency}} | {{group_2_channel}} | {{group_2_owner}} |
+| {{group_3}} | {{group_3_content}} | {{group_3_frequency}} | {{group_3_channel}} | {{group_3_owner}} |
+
+## Stakeholder Risks
+
+<!-- What stakeholder-related risks could affect the project? e.g., loss of sponsor, resistance to change, conflicting interests. -->
+
+| Risk | Affected Stakeholder | Probability | Impact | Mitigation |
+|------|----------------------|-------------|--------|------------|
+| {{st_risk_1}} | {{st_risk_1_stakeholder}} | {{st_risk_1_prob}} | {{st_risk_1_impact}} | {{st_risk_1_mitigation}} |
+| {{st_risk_2}} | {{st_risk_2_stakeholder}} | {{st_risk_2_prob}} | {{st_risk_2_impact}} | {{st_risk_2_mitigation}} |
+
+## Completeness Checklist
+- [ ] All key stakeholders identified across the power/interest grid
+- [ ] Influence and interest levels assessed for each stakeholder
+- [ ] Engagement strategy defined per stakeholder group
+- [ ] Communication plan covers who, what, when, and how
+- [ ] Stakeholder-related risks identified with mitigation strategies

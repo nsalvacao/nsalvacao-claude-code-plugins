@@ -1,0 +1,40 @@
+# Assumption Register
+
+| Field | Value |
+|-------|-------|
+| ID | {{register_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 2 — Inception and Product Framing |
+| Status | {{status}} |
+
+## Purpose
+<!-- The assumption register tracks all key assumptions made during the project. Each assumption must have an owner and a validation plan. Invalid assumptions must trigger re-evaluation of dependent decisions. -->
+
+## Assumption Tracking
+
+<!-- Status: unvalidated / validated / invalidated / deferred / accepted-risk -->
+<!-- Impact if Wrong: low / medium / high / critical -->
+
+| ID | Description | Owner | Phase | Due Date | Status | Impact if Wrong | Resolution | Resolved Date |
+|----|-------------|-------|-------|----------|--------|-----------------|------------|---------------|
+| A-001 | {{a001_desc}} | {{a001_owner}} | {{a001_phase}} | {{a001_due}} | {{a001_status}} | {{a001_impact}} | {{a001_resolution}} | {{a001_resolved}} |
+| A-002 | {{a002_desc}} | {{a002_owner}} | {{a002_phase}} | {{a002_due}} | {{a002_status}} | {{a002_impact}} | {{a002_resolution}} | {{a002_resolved}} |
+| A-003 | {{a003_desc}} | {{a003_owner}} | {{a003_phase}} | {{a003_due}} | {{a003_status}} | {{a003_impact}} | {{a003_resolution}} | {{a003_resolved}} |
+| A-004 | {{a004_desc}} | {{a004_owner}} | {{a004_phase}} | {{a004_due}} | {{a004_status}} | {{a004_impact}} | {{a004_resolution}} | {{a004_resolved}} |
+| A-005 | {{a005_desc}} | {{a005_owner}} | {{a005_phase}} | {{a005_due}} | {{a005_status}} | {{a005_impact}} | {{a005_resolution}} | {{a005_resolved}} |
+
+## Assumptions Past Due Date
+<!-- Flag any assumptions with a due date in the past that are still unvalidated. These represent risk. -->
+{{overdue_assumptions}}
+
+## Invalidated Assumptions and Actions
+<!-- Document what happened when an assumption was found to be false. What decisions does this affect? What corrective action was taken? -->
+{{invalidated_assumptions}}
+
+## Completeness Checklist
+- [ ] All assumptions have a named owner
+- [ ] All high/critical impact assumptions have a due date
+- [ ] Overdue unvalidated assumptions are flagged
+- [ ] Invalidated assumptions have documented corrective actions
+- [ ] Register is reviewed at each gate

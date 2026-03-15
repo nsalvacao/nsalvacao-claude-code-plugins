@@ -1,0 +1,59 @@
+# Risk Register — Initial
+
+| Field | Value |
+|-------|-------|
+| ID | {{register_id}} |
+| Date | {{date}} |
+| Phase | 1 — Opportunity and Portfolio Framing |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Purpose
+<!-- This is the initial risk register seeded at project inception. It will be carried forward and updated throughout the lifecycle. -->
+
+## Risk Register
+
+<!-- Document all identified risks. Add rows as needed. -->
+<!-- Probability: low / medium / high / critical -->
+<!-- Impact: low / medium / high / critical -->
+<!-- Status: open / mitigated / accepted / closed -->
+
+| ID | Description | Category | Probability | Impact | Owner | Mitigation | Status |
+|----|-------------|----------|-------------|--------|-------|------------|--------|
+| R-001 | {{risk_001_description}} | {{risk_001_category}} | {{risk_001_probability}} | {{risk_001_impact}} | {{risk_001_owner}} | {{risk_001_mitigation}} | {{risk_001_status}} |
+| R-002 | {{risk_002_description}} | {{risk_002_category}} | {{risk_002_probability}} | {{risk_002_impact}} | {{risk_002_owner}} | {{risk_002_mitigation}} | {{risk_002_status}} |
+| R-003 | {{risk_003_description}} | {{risk_003_category}} | {{risk_003_probability}} | {{risk_003_impact}} | {{risk_003_owner}} | {{risk_003_mitigation}} | {{risk_003_status}} |
+| R-004 | {{risk_004_description}} | {{risk_004_category}} | {{risk_004_probability}} | {{risk_004_impact}} | {{risk_004_owner}} | {{risk_004_mitigation}} | {{risk_004_status}} |
+| R-005 | {{risk_005_description}} | {{risk_005_category}} | {{risk_005_probability}} | {{risk_005_impact}} | {{risk_005_owner}} | {{risk_005_mitigation}} | {{risk_005_status}} |
+
+## Risk Categories Reference
+<!-- Use these standard categories when classifying risks: -->
+- **Technical** — architecture, infrastructure, data, integration
+- **AI/ML** — model quality, data quality, bias, drift, explainability
+- **Commercial** — budget, timeline, ROI, market
+- **Regulatory** — compliance, GDPR, AI Act, data sovereignty
+- **Organisational** — skills, stakeholder, change management
+- **Operational** — deployment, support, monitoring, SLA
+- **External** — vendor, dependency, market conditions
+
+## Top 5 Initial Risks
+
+<!-- Narrative summary of the five most significant risks at project inception. Helps reviewers quickly understand the risk profile without reading the full table. -->
+
+1. **{{top_risk_1_title}}**: {{top_risk_1_summary}}
+2. **{{top_risk_2_title}}**: {{top_risk_2_summary}}
+3. **{{top_risk_3_title}}**: {{top_risk_3_summary}}
+4. **{{top_risk_4_title}}**: {{top_risk_4_summary}}
+5. **{{top_risk_5_title}}**: {{top_risk_5_summary}}
+
+## Review History
+| Date | Reviewer | Changes Made |
+|------|----------|--------------|
+| {{date}} | {{owner}} | Initial creation |
+
+## Completeness Checklist
+- [ ] All risk categories considered (Technical, AI/ML, Commercial, Regulatory, Organisational, Operational, External)
+- [ ] Each risk has a named owner
+- [ ] Mitigation strategy proposed for all high/critical risks
+- [ ] Top 5 initial risks summarised in narrative form
+- [ ] Register ID linked to opportunity brief

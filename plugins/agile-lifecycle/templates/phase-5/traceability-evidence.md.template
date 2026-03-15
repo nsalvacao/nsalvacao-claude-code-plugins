@@ -1,0 +1,38 @@
+# Traceability Evidence Matrix
+
+| Field | Value |
+|-------|-------|
+| ID | {{matrix_id}} |
+| Project | {{project_name}} |
+| Version | {{version}} |
+| Date | {{date}} |
+| Produced By | {{produced_by}} |
+
+## Requirement-to-Evidence Traceability
+
+| Requirement ID | Requirement Description | Test Case(s) | Test Result | Evidence Artefact | Status |
+|----------------|------------------------|--------------|-------------|-------------------|--------|
+| {{req_id_1}} | {{req_desc_1}} | {{test_cases_1}} | {{result_1}} | {{evidence_1}} | {{status_1}} |
+| {{req_id_2}} | {{req_desc_2}} | {{test_cases_2}} | {{result_2}} | {{evidence_2}} | {{status_2}} |
+
+## Coverage Summary
+
+| Metric | Value |
+|--------|-------|
+| Total Requirements | {{total_reqs}} |
+| Requirements with Tests | {{reqs_with_tests}} |
+| Requirements with Passing Tests | {{reqs_passing}} |
+| Requirements with Failing Tests | {{reqs_failing}} |
+| Untested Requirements | {{reqs_untested}} |
+| Overall Coverage | {{coverage}}% |
+
+## Untested or Failing Requirements
+<!-- List any requirements not covered or with failing tests — these must be resolved or accepted before gate -->
+{{untested_or_failing}}
+
+## Completeness Checklist
+- [ ] All requirements listed
+- [ ] Each requirement has at least one test case
+- [ ] Test results recorded
+- [ ] Coverage % calculated
+- [ ] Untested/failing requirements addressed

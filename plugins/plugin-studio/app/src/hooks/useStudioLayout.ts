@@ -1,28 +1,41 @@
 import { useEffect, useState } from 'react';
-import type { StudioLayoutState } from '../types/studio.ts';
+import type { StudioLayoutState, TreePanelMode, WorkspaceViewMode } from '../types/studio.ts';
 
-const STORAGE_KEY = 'plugin-studio.layout.v1';
-export const MIN_LEFT_WIDTH = 220;
-export const MAX_LEFT_WIDTH = 420;
-export const MIN_CENTER_SPLIT = 0.35;
-export const MAX_CENTER_SPLIT = 0.65;
-const MIN_BOTTOM_HEIGHT = 120;
-const MAX_BOTTOM_HEIGHT = 320;
+const STORAGE_KEY = 'plugin-studio.layout.v4';
+export const COMPACT_LEFT_WIDTH = 72;
+export const MIN_LEFT_WIDTH = 240;
+export const MAX_LEFT_WIDTH = 360;
+export const MIN_CENTER_SPLIT = 0.38;
+export const MAX_CENTER_SPLIT = 0.68;
+export const AI_RAIL_WIDTH = 56;
+export const MIN_BOTTOM_HEIGHT = 108;
+export const MAX_BOTTOM_HEIGHT = 208;
 
 const DEFAULT_LAYOUT: StudioLayoutState = {
+  leftMode: 'expanded',
   leftWidth: 280,
-  centerSplit: 0.5,
-  rightOpen: true,
-  bottomOpen: true,
-  bottomHeight: 196,
+  centerSplit: 0.52,
+  rightOpen: false,
+  bottomOpen: false,
+  bottomHeight: 144,
+  workspaceMode: 'split',
 };
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
+function isTreePanelMode(value: unknown): value is TreePanelMode {
+  return value === 'expanded' || value === 'compact' || value === 'collapsed';
+}
+
+function isWorkspaceViewMode(value: unknown): value is WorkspaceViewMode {
+  return value === 'edit' || value === 'preview' || value === 'split';
+}
+
 function normalizeLayout(payload: Partial<StudioLayoutState>): StudioLayoutState {
   return {
+    leftMode: isTreePanelMode(payload.leftMode) ? payload.leftMode : DEFAULT_LAYOUT.leftMode,
     leftWidth: clamp(
       typeof payload.leftWidth === 'number' ? payload.leftWidth : DEFAULT_LAYOUT.leftWidth,
       MIN_LEFT_WIDTH,
@@ -40,6 +53,9 @@ function normalizeLayout(payload: Partial<StudioLayoutState>): StudioLayoutState
       MIN_BOTTOM_HEIGHT,
       MAX_BOTTOM_HEIGHT,
     ),
+    workspaceMode: isWorkspaceViewMode(payload.workspaceMode)
+      ? payload.workspaceMode
+      : DEFAULT_LAYOUT.workspaceMode,
   };
 }
 
@@ -75,6 +91,7 @@ export function useStudioLayout() {
   function updateLeftWidth(nextWidth: number) {
     setLayout((previous) => ({
       ...previous,
+      leftMode: 'expanded',
       leftWidth: clamp(nextWidth, MIN_LEFT_WIDTH, MAX_LEFT_WIDTH),
     }));
   }
@@ -86,10 +103,45 @@ export function useStudioLayout() {
     }));
   }
 
+  function setLeftMode(nextMode: TreePanelMode) {
+    setLayout((previous) => ({
+      ...previous,
+      leftMode: nextMode,
+    }));
+  }
+
+  function cycleLeftMode() {
+    setLayout((previous) => {
+      if (previous.leftMode === 'expanded') {
+        return { ...previous, leftMode: 'compact' };
+      }
+
+      if (previous.leftMode === 'compact') {
+        return { ...previous, leftMode: 'collapsed' };
+      }
+
+      return { ...previous, leftMode: 'expanded' };
+    });
+  }
+
+  function toggleLeftPanel() {
+    setLayout((previous) => ({
+      ...previous,
+      leftMode: previous.leftMode === 'collapsed' ? 'expanded' : 'collapsed',
+    }));
+  }
+
   function toggleRightPanel() {
     setLayout((previous) => ({
       ...previous,
       rightOpen: !previous.rightOpen,
+    }));
+  }
+
+  function setRightPanelOpen(nextOpen: boolean) {
+    setLayout((previous) => ({
+      ...previous,
+      rightOpen: nextOpen,
     }));
   }
 
@@ -100,11 +152,31 @@ export function useStudioLayout() {
     }));
   }
 
+  function setWorkspaceMode(nextMode: WorkspaceViewMode) {
+    setLayout((previous) => ({
+      ...previous,
+      workspaceMode: nextMode,
+    }));
+  }
+
+  function updateBottomHeight(nextHeight: number) {
+    setLayout((previous) => ({
+      ...previous,
+      bottomHeight: clamp(nextHeight, MIN_BOTTOM_HEIGHT, MAX_BOTTOM_HEIGHT),
+    }));
+  }
+
   return {
     layout,
+    setLeftMode,
+    cycleLeftMode,
+    toggleLeftPanel,
     updateLeftWidth,
     updateCenterSplit,
+    setRightPanelOpen,
     toggleRightPanel,
     toggleBottomPanel,
+    setWorkspaceMode,
+    updateBottomHeight,
   };
 }

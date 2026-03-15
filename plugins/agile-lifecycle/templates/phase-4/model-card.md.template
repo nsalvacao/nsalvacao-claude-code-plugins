@@ -1,0 +1,111 @@
+# Model Card
+
+| Field | Value |
+|-------|-------|
+| Model Name | {{model_name}} |
+| Version | {{model_version}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 4 — Build and Integrate |
+| Status | {{status}} |
+
+## Model Details
+
+| Field | Value |
+|-------|-------|
+| Model Type | {{model_type}} |
+| Architecture | {{model_architecture}} |
+| Framework / Library | {{model_framework}} |
+| License | {{model_license}} |
+| Parent Model / Base | {{parent_model}} |
+| Fine-tuned | {{fine_tuned}} |
+
+## Training Data
+
+### Data Sources
+{{training_data_sources}}
+
+### Data Size and Split
+| Split | Size | Notes |
+|-------|------|-------|
+| Training | {{train_size}} | {{train_notes}} |
+| Validation | {{val_size}} | {{val_notes}} |
+| Test | {{test_size}} | {{test_notes}} |
+
+### Preprocessing Steps
+{{preprocessing_steps}}
+
+### Known Data Limitations
+{{data_limitations}}
+
+## Performance Metrics
+
+| Metric | Value | Evaluation Set | Notes |
+|--------|-------|----------------|-------|
+| {{metric_1}} | {{metric_1_value}} | {{metric_1_eval_set}} | {{metric_1_notes}} |
+| {{metric_2}} | {{metric_2_value}} | {{metric_2_eval_set}} | {{metric_2_notes}} |
+| {{metric_3}} | {{metric_3_value}} | {{metric_3_eval_set}} | {{metric_3_notes}} |
+| Latency (p50) | {{latency_p50}} | {{latency_eval_set}} | |
+| Latency (p99) | {{latency_p99}} | {{latency_eval_set}} | |
+
+### Performance by Subgroup
+<!-- Document performance disaggregated by relevant demographic or contextual subgroups. -->
+{{performance_by_subgroup}}
+
+## Intended Use
+
+### Primary Use Cases
+{{primary_use_cases}}
+
+### Intended Users
+{{intended_users}}
+
+## Out-of-Scope Use
+<!-- Explicitly document use cases that this model should NOT be used for. -->
+{{out_of_scope_use}}
+
+## Limitations
+
+### Technical Limitations
+{{technical_limitations}}
+
+### Robustness Limitations
+{{robustness_limitations}}
+
+### Data Distribution Limitations
+{{distribution_limitations}}
+
+## Ethical Considerations
+
+### Bias Assessment
+{{bias_assessment}}
+
+### Fairness Constraints
+{{fairness_constraints}}
+
+### Privacy Considerations
+{{privacy_considerations}}
+
+### Regulatory Compliance
+{{regulatory_compliance}}
+
+## Monitoring Plan
+
+| Aspect | Metric | Threshold | Frequency | Action if Exceeded |
+|--------|--------|-----------|-----------|-------------------|
+| Performance | {{monitoring_metric_1}} | {{monitoring_threshold_1}} | {{monitoring_frequency_1}} | {{monitoring_action_1}} |
+| Drift | {{monitoring_metric_2}} | {{monitoring_threshold_2}} | {{monitoring_frequency_2}} | {{monitoring_action_2}} |
+| Data Quality | {{monitoring_metric_3}} | {{monitoring_threshold_3}} | {{monitoring_frequency_3}} | {{monitoring_action_3}} |
+
+## References
+{{references}}
+
+## Completeness Checklist
+- [ ] Model type and architecture documented
+- [ ] Training data described with sources and limitations
+- [ ] Performance metrics on held-out test set
+- [ ] Performance by subgroup documented
+- [ ] Intended use and out-of-scope use clearly stated
+- [ ] Limitations documented (technical, robustness, data)
+- [ ] Bias assessment completed
+- [ ] Monitoring plan with thresholds defined

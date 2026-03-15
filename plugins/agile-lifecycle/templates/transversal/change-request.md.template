@@ -1,0 +1,58 @@
+# Change Request
+
+| Field | Value |
+|-------|-------|
+| ID | {{change_id}} |
+| Title | {{title}} |
+| Requested By | {{requested_by}} |
+| Request Date | {{request_date}} |
+| Phase | {{phase}} |
+| Classification | {{classification}} |
+| Decision | {{decision}} |
+
+<!-- classification: incremental | significant | emergency -->
+<!-- decision: approved | rejected | deferred -->
+
+## Description
+<!-- What is the proposed change? Be specific about scope. -->
+{{description}}
+
+## Rationale
+<!-- Why is this change needed? What problem does it solve? -->
+{{rationale}}
+
+## Impact Assessment
+
+| Dimension | Impact | Description |
+|-----------|--------|-------------|
+| Schedule | {{schedule_impact}} | {{schedule_desc}} |
+| Cost | {{cost_impact}} | {{cost_desc}} |
+| Scope | {{scope_impact}} | {{scope_desc}} |
+| Quality | {{quality_impact}} | {{quality_desc}} |
+| Risk | {{risk_impact}} | {{risk_desc}} |
+
+## Alternatives Considered
+<!-- What alternatives were evaluated before this change request? -->
+{{alternatives}}
+
+## Re-Gate Required
+<!-- Does this change require re-running any gates? (yes/no + which gates) -->
+{{re_gate_required}}
+
+## Decision Rationale
+<!-- Why was the decision made? -->
+{{decision_rationale}}
+
+## Decision Authority
+{{decision_authority}}
+
+## Implementation Plan
+<!-- If approved: how will this change be implemented? -->
+{{implementation_plan}}
+
+## Completeness Checklist
+- [ ] Change clearly described
+- [ ] Impact assessment complete for all dimensions
+- [ ] Alternatives considered
+- [ ] Re-gate requirement assessed
+- [ ] Decision made by appropriate authority

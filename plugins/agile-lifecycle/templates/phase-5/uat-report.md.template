@@ -1,0 +1,73 @@
+# User Acceptance Test Report
+
+| Field | Value |
+|-------|-------|
+| ID | {{report_id}} |
+| Project | {{project_name}} |
+| Version | {{version}} |
+| UAT Period | {{uat_period}} |
+| Facilitator | {{facilitator}} |
+| Date | {{date}} |
+| Outcome | {{outcome}} |
+
+<!-- outcome: ACCEPTED | REJECTED | CONDITIONAL -->
+
+## Participants
+
+| Name | Role | Organisation | Sessions Attended |
+|------|------|-------------|------------------|
+| {{name_1}} | {{role_1}} | {{org_1}} | {{sessions_1}} |
+
+## Test Scope
+<!-- What scenarios were covered in UAT? -->
+{{test_scope}}
+
+## Scenarios Executed
+
+| Scenario | Passed | Issues Found | Notes |
+|----------|--------|-------------|-------|
+| {{scenario_1}} | {{passed_1}} | {{issues_1}} | {{notes_1}} |
+
+## Summary
+
+| Metric | Value |
+|--------|-------|
+| Scenarios Executed | {{total_scenarios}} |
+| Passed | {{passed_count}} |
+| Failed | {{failed_count}} |
+| Pass Rate | {{pass_rate}}% |
+
+## User Feedback
+
+### Positive Feedback
+{{positive_feedback}}
+
+### Issues Identified
+
+| ID | Description | Severity | Blocking | Resolution |
+|----|-------------|----------|----------|------------|
+| {{issue_id}} | {{issue_desc}} | {{severity}} | {{blocking}} | {{resolution}} |
+
+## Acceptance Decision
+<!-- Rationale for ACCEPTED/REJECTED/CONDITIONAL -->
+{{acceptance_rationale}}
+
+## Conditions (if CONDITIONAL)
+
+| Condition | Owner | Due Date | Status |
+|-----------|-------|----------|--------|
+| {{condition_1}} | {{owner_1}} | {{due_1}} | {{status_1}} |
+
+## Sign-offs
+
+| Stakeholder | Role | Decision | Date |
+|-------------|------|----------|------|
+| {{stakeholder_1}} | {{role_1}} | {{decision_1}} | {{date_1}} |
+
+## Completeness Checklist
+- [ ] All required participants attended
+- [ ] All planned scenarios executed
+- [ ] Issues documented with severity
+- [ ] Blocking issues resolved or accepted
+- [ ] Acceptance decision documented with rationale
+- [ ] Sign-offs obtained from required stakeholders

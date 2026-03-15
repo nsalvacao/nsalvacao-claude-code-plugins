@@ -1,0 +1,44 @@
+# Improvement Backlog
+
+| Field | Value |
+|-------|-------|
+| Project | {{project_name}} |
+| Last Updated | {{date}} |
+| Owner | {{owner}} |
+
+## Active Improvements
+
+| ID | Description | Source | Priority | Owner | Target Sprint | Status |
+|----|-------------|--------|----------|-------|--------------|--------|
+| {{id_1}} | {{desc_1}} | {{source_1}} | {{priority_1}} | {{owner_1}} | {{sprint_1}} | {{status_1}} |
+| {{id_2}} | {{desc_2}} | {{source_2}} | {{priority_2}} | {{owner_2}} | {{sprint_2}} | {{status_2}} |
+
+<!-- source: retrospective | incident | user-feedback | monitoring | ai-analysis -->
+<!-- priority: critical | high | medium | low -->
+<!-- status: new | in_progress | done | deferred | cancelled -->
+
+## Completed This Period
+
+| ID | Description | Completed Date | Outcome |
+|----|-------------|---------------|---------|
+| {{done_id_1}} | {{done_desc_1}} | {{done_date_1}} | {{done_outcome_1}} |
+
+## Deferred / Cancelled
+
+| ID | Description | Reason |
+|----|-------------|--------|
+| {{def_id_1}} | {{def_desc_1}} | {{def_reason_1}} |
+
+## Summary
+
+| Priority | Count | In Progress | Done This Period |
+|----------|-------|-------------|-----------------|
+| Critical | {{crit_count}} | {{crit_progress}} | {{crit_done}} |
+| High | {{high_count}} | {{high_progress}} | {{high_done}} |
+| Medium | {{med_count}} | {{med_progress}} | {{med_done}} |
+
+## Completeness Checklist
+- [ ] All action items from retrospectives added
+- [ ] Priorities assigned
+- [ ] Owners assigned
+- [ ] Status current for all items

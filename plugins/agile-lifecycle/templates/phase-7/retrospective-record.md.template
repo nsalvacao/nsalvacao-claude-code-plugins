@@ -1,0 +1,50 @@
+# Retrospective Record
+
+| Field | Value |
+|-------|-------|
+| ID | {{retro_id}} |
+| Scope | {{scope}} |
+| Date | {{date}} |
+| Facilitator | {{facilitator}} |
+| Participants | {{participants}} |
+
+<!-- scope: sprint | phase | lifecycle | operational -->
+
+## What Went Well
+<!-- Positive outcomes, practices to continue -->
+| # | Item | Votes |
+|---|------|-------|
+| 1 | {{went_well_1}} | {{votes_1}} |
+| 2 | {{went_well_2}} | {{votes_2}} |
+| 3 | {{went_well_3}} | {{votes_3}} |
+
+## What to Improve
+<!-- Pain points, problems, things to change -->
+| # | Item | Root Cause | Votes |
+|---|------|-----------|-------|
+| 1 | {{improve_1}} | {{cause_1}} | {{votes_i1}} |
+| 2 | {{improve_2}} | {{cause_2}} | {{votes_i2}} |
+| 3 | {{improve_3}} | {{cause_3}} | {{votes_i3}} |
+
+## Action Items
+
+| # | Action | Owner | Due Date | Status |
+|---|--------|-------|----------|--------|
+| 1 | {{action_1}} | {{owner_1}} | {{due_1}} | {{status_1}} |
+| 2 | {{action_2}} | {{owner_2}} | {{due_2}} | {{status_2}} |
+| 3 | {{action_3}} | {{owner_3}} | {{due_3}} | {{status_3}} |
+
+## AI Experiment Learnings (if applicable)
+<!-- What did we learn from AI experiments this sprint/period? -->
+{{ai_learnings}}
+
+## Follow-up from Previous Retrospective
+| Previous Action | Status | Notes |
+|----------------|--------|-------|
+| {{prev_action_1}} | {{prev_status_1}} | {{prev_notes_1}} |
+
+## Completeness Checklist
+- [ ] All sections completed
+- [ ] Action items have owners and due dates
+- [ ] Previous actions reviewed
+- [ ] AI experiment learnings captured (if applicable)

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/sprint-health",
+  "title": "Sprint Health Record",
+  "description": "Health snapshot for a sprint, capturing velocity, commitment ratio, defect counts, blocked items, scope creep, and team morale.",
+  "type": "object",
+  "required": ["sprint_id", "phase", "measurement_date", "velocity", "commitment_ratio", "defect_count"],
+  "properties": {
+    "sprint_id": {
+      "type": "string",
+      "description": "Sprint identifier (e.g. S4-001)"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase in which this sprint occurs"
+    },
+    "measurement_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this health record was captured (ISO 8601)"
+    },
+    "velocity": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Story points completed this sprint"
+    },
+    "planned_velocity": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Story points planned at sprint planning"
+    },
+    "commitment_ratio": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Ratio of completed to committed story points (0.0-1.0; target >= 0.8)"
+    },
+    "defect_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of defects identified during this sprint"
+    },
+    "blocked_items": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of backlog items that are currently blocked"
+    },
+    "scope_creep_pct": {
+      "type": "number",
+      "description": "Percentage of sprint scope added after planning (positive = increase)"
+    },
+    "team_morale": {
+      "type": "string",
+      "enum": ["red", "amber", "green"],
+      "description": "Team morale RAG status based on survey or facilitator assessment"
+    },
+    "ai_experiment_success_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Proportion of AI experiments in this sprint that met their hypothesis (0.0-1.0)"
+    },
+    "retrospective_actions_open": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of retrospective actions still open from previous sprints"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional observations about sprint health"
+    }
+  }
+}

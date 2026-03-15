@@ -1,0 +1,62 @@
+# Hypercare Report
+
+| Field | Value |
+|-------|-------|
+| ID | {{report_id}} |
+| Project | {{project_name}} |
+| Version | {{version}} |
+| Hypercare Start | {{start_date}} |
+| Hypercare End | {{end_date}} |
+| Report Date | {{date}} |
+| Exit Recommendation | {{exit_recommendation}} |
+
+<!-- exit_recommendation: EXIT_HYPERCARE | EXTEND_HYPERCARE -->
+
+## Monitoring Summary
+
+| Metric | Target | Week 1 | Week 2 | Week 3 | Week 4 | Status |
+|--------|--------|--------|--------|--------|--------|--------|
+| Availability | {{avail_target}} | {{avail_w1}} | {{avail_w2}} | {{avail_w3}} | {{avail_w4}} | {{avail_status}} |
+| Error rate | {{error_target}} | {{error_w1}} | {{error_w2}} | {{error_w3}} | {{error_w4}} | {{error_status}} |
+| Latency p99 | {{lat_target}} | {{lat_w1}} | {{lat_w2}} | {{lat_w3}} | {{lat_w4}} | {{lat_status}} |
+
+## Incident Summary
+
+| Severity | Count | Avg MTTR | Max MTTR | Open |
+|----------|-------|----------|----------|------|
+| P1 | {{p1_count}} | {{p1_avg_mttr}} | {{p1_max_mttr}} | {{p1_open}} |
+| P2 | {{p2_count}} | {{p2_avg_mttr}} | {{p2_max_mttr}} | {{p2_open}} |
+| P3 | {{p3_count}} | {{p3_avg_mttr}} | {{p3_max_mttr}} | {{p3_open}} |
+
+## AI Model Performance (if applicable)
+
+| Metric | Baseline | Current | Drift? |
+|--------|----------|---------|--------|
+| {{ai_metric_1}} | {{ai_baseline_1}} | {{ai_current_1}} | {{ai_drift_1}} |
+
+## User Feedback Summary
+{{user_feedback_summary}}
+
+## Key Actions Taken
+{{actions_taken}}
+
+## Exit Criteria Assessment
+
+| Criterion | Target | Actual | Met? |
+|-----------|--------|--------|------|
+| Stability window (no P1 for N days) | {{stability_target}} | {{stability_actual}} | {{stability_met}} |
+| Error rate stable | < {{error_exit}} | {{error_actual}} | {{error_met}} |
+| No open P1/P2 incidents | 0 | {{open_critical}} | {{incidents_met}} |
+
+## Recommendation Details
+{{exit_rationale}}
+
+## Conditions to Exit (if EXTEND)
+{{extension_conditions}}
+
+## Completeness Checklist
+- [ ] Monitoring data for full hypercare period included
+- [ ] All incidents documented with MTTR
+- [ ] AI model performance tracked (if applicable)
+- [ ] Exit criteria assessed
+- [ ] Exit recommendation with rationale

@@ -1,0 +1,94 @@
+# AI Experiment Log
+
+| Field | Value |
+|-------|-------|
+| ID | {{experiment_id}} |
+| Hypothesis | {{hypothesis_ref}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Sprint | {{sprint_number}} |
+| Phase | 4 — Build and Integrate |
+| Status | {{status}} |
+
+## Experiment Objective
+<!-- What question is this experiment designed to answer? Link to the hypothesis from the Hypothesis Canvas. -->
+{{experiment_objective}}
+
+## Hypothesis
+<!-- State the specific, testable hypothesis for this experiment. -->
+> We believe that **{{hypothesis_statement}}**, which we will validate by **{{validation_method}}**.
+
+## Dataset
+
+| Aspect | Detail |
+|--------|--------|
+| Dataset Name | {{dataset_name}} |
+| Version | {{dataset_version}} |
+| Size (train) | {{dataset_train_size}} |
+| Size (validation) | {{dataset_val_size}} |
+| Size (test) | {{dataset_test_size}} |
+| Data Source | {{dataset_source}} |
+| Preprocessing | {{dataset_preprocessing}} |
+| Known Issues | {{dataset_known_issues}} |
+
+## Model / Approach
+
+| Aspect | Detail |
+|--------|--------|
+| Model Type | {{model_type}} |
+| Framework | {{framework}} |
+| Architecture | {{architecture}} |
+| Baseline Comparison | {{baseline}} |
+
+## Hyperparameters
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| {{param_1}} | {{param_1_value}} | {{param_1_notes}} |
+| {{param_2}} | {{param_2_value}} | {{param_2_notes}} |
+| {{param_3}} | {{param_3_value}} | {{param_3_notes}} |
+| {{param_4}} | {{param_4_value}} | {{param_4_notes}} |
+
+## Results
+
+### Performance Metrics
+
+| Metric | Baseline | This Run | Target | Delta |
+|--------|----------|----------|--------|-------|
+| {{metric_1}} | {{baseline_1}} | {{result_1}} | {{target_1}} | {{delta_1}} |
+| {{metric_2}} | {{baseline_2}} | {{result_2}} | {{target_2}} | {{delta_2}} |
+| {{metric_3}} | {{baseline_3}} | {{result_3}} | {{target_3}} | {{delta_3}} |
+| Latency (p50) | {{latency_baseline_p50}} | {{latency_result_p50}} | {{latency_target_p50}} | {{latency_delta_p50}} |
+| Latency (p99) | {{latency_baseline_p99}} | {{latency_result_p99}} | {{latency_target_p99}} | {{latency_delta_p99}} |
+
+### Training Details
+**Training Duration:** {{training_duration}}
+**Compute Used:** {{compute_used}}
+**Final Loss:** {{final_loss}}
+**Convergence:** {{convergence_status}}
+
+## Observations
+<!-- What patterns, surprises, or failure modes did you observe? What do the results tell us? -->
+{{observations}}
+
+## Next Steps
+<!-- Based on these results, what should be done next? Run another experiment? Promote to production? Adjust hyperparameters? -->
+{{next_steps}}
+
+## Conclusion
+
+**Hypothesis Validated:** {{hypothesis_validated}}
+<!-- Yes / No / Partially -->
+
+**Rationale:**
+{{conclusion_rationale}}
+
+## Completeness Checklist
+- [ ] Experiment objective clearly linked to project hypothesis
+- [ ] Dataset documented with version and known issues
+- [ ] Hyperparameters recorded
+- [ ] Results include baseline comparison
+- [ ] Latency metrics included
+- [ ] Observations document unexpected findings
+- [ ] Next steps defined based on results
+- [ ] Conclusion states whether hypothesis was validated

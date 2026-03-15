@@ -10,6 +10,7 @@ logs/
 .env
 .env.*
 !.env.example
+!.dev/.env.example
 
 # Temporary files
 *.tmp
@@ -31,7 +32,6 @@ pnpm-debug.log*
 yarn-error.log*
 
 # Build outputs
-dist/
 build/
 coverage/
 
@@ -43,7 +43,9 @@ coverage/
 .codex/
 .claude/CLAUDE.md
 /.claude
-/.dev
+!/.dev/
+/.dev/*
+!/.dev/.env.example
 CLAUDE.md
 dashboard.html
 /memory

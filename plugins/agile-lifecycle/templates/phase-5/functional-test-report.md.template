@@ -1,0 +1,62 @@
+# Functional Test Report
+
+| Field | Value |
+|-------|-------|
+| ID | {{report_id}} |
+| Sprint / Iteration | {{sprint}} |
+| Test Period | {{test_period}} |
+| Environment | {{environment}} |
+| Tester | {{tester}} |
+| Date | {{date}} |
+| Recommendation | {{recommendation}} |
+
+<!-- recommendation: PASS | FAIL | CONDITIONAL -->
+
+## Test Scope
+<!-- What was tested? Link to acceptance criteria catalog. -->
+{{test_scope}}
+
+## Summary
+
+| Metric | Value |
+|--------|-------|
+| Total Test Cases | {{total_tests}} |
+| Passed | {{passed}} |
+| Failed | {{failed}} |
+| Blocked | {{blocked}} |
+| Pass Rate | {{pass_rate}}% |
+| Coverage (requirements) | {{coverage}}% |
+
+## Results by Test Type
+
+| Test Type | Total | Passed | Failed | Notes |
+|-----------|-------|--------|--------|-------|
+| Functional / E2E | {{func_total}} | {{func_pass}} | {{func_fail}} | {{func_notes}} |
+| Regression | {{reg_total}} | {{reg_pass}} | {{reg_fail}} | {{reg_notes}} |
+| UAT Scenarios | {{uat_total}} | {{uat_pass}} | {{uat_fail}} | {{uat_notes}} |
+| Performance | {{perf_total}} | {{perf_pass}} | {{perf_fail}} | {{perf_notes}} |
+
+## Critical Defects
+
+| ID | Description | Severity | Status |
+|----|-------------|----------|--------|
+| {{defect_id}} | {{defect_desc}} | {{severity}} | {{status}} |
+
+## Traceability Summary
+<!-- % of requirements with passing tests -->
+{{traceability_summary}}
+
+## Recommendation Details
+<!-- Rationale for PASS/FAIL/CONDITIONAL recommendation -->
+{{recommendation_rationale}}
+
+## Conditions (if CONDITIONAL)
+<!-- What must be resolved before go-live? -->
+{{conditions}}
+
+## Completeness Checklist
+- [ ] All test cases executed
+- [ ] Pass rate documented
+- [ ] Critical defects listed with status
+- [ ] Traceability coverage documented
+- [ ] Recommendation stated with rationale

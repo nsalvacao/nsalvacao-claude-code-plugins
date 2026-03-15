@@ -1,0 +1,70 @@
+# Sprint Backlog
+
+| Field | Value |
+|-------|-------|
+| Sprint | {{sprint_number}} |
+| Sprint Goal | {{sprint_goal}} |
+| Start Date | {{sprint_start_date}} |
+| End Date | {{sprint_end_date}} |
+| Team | {{team}} |
+| Owner | {{owner}} |
+| Phase | 3 — Discovery and Backlog Readiness |
+| Status | {{status}} |
+
+## Sprint Goal
+<!-- A single, concise statement of what this sprint aims to achieve. The team commits to this goal. -->
+> {{sprint_goal_statement}}
+
+## Committed Items
+
+<!-- List all user stories, tasks, and enablers committed to this sprint. -->
+<!-- Priority: Must / Should / Could -->
+<!-- Type: Story / Bug / Enabler / Spike / Technical Debt -->
+
+| ID | Title | Type | Story Points | Owner | Acceptance Criteria Ref | Priority |
+|----|-------|------|--------------|-------|------------------------|----------|
+| {{item_1_id}} | {{item_1_title}} | {{item_1_type}} | {{item_1_points}} | {{item_1_owner}} | {{item_1_ac_ref}} | {{item_1_priority}} |
+| {{item_2_id}} | {{item_2_title}} | {{item_2_type}} | {{item_2_points}} | {{item_2_owner}} | {{item_2_ac_ref}} | {{item_2_priority}} |
+| {{item_3_id}} | {{item_3_title}} | {{item_3_type}} | {{item_3_points}} | {{item_3_owner}} | {{item_3_ac_ref}} | {{item_3_priority}} |
+| {{item_4_id}} | {{item_4_title}} | {{item_4_type}} | {{item_4_points}} | {{item_4_owner}} | {{item_4_ac_ref}} | {{item_4_priority}} |
+| {{item_5_id}} | {{item_5_title}} | {{item_5_type}} | {{item_5_points}} | {{item_5_owner}} | {{item_5_ac_ref}} | {{item_5_priority}} |
+
+**Total Committed Points:** {{total_committed_points}}
+
+## Capacity Planning
+
+| Team Member | Available Days | Capacity (SP) | Allocated (SP) |
+|-------------|---------------|----------------|----------------|
+| {{member_1}} | {{member_1_days}} | {{member_1_capacity}} | {{member_1_allocated}} |
+| {{member_2}} | {{member_2_days}} | {{member_2_capacity}} | {{member_2_allocated}} |
+| {{member_3}} | {{member_3_days}} | {{member_3_capacity}} | {{member_3_allocated}} |
+| **Total** | — | {{total_capacity}} | {{total_allocated}} |
+
+**Velocity Reference (last 3 sprints):** {{velocity_reference}}
+**Buffer / Slack:** {{buffer_percentage}}%
+
+## Dependencies This Sprint
+
+| Item ID | Depends On | Status | Risk |
+|---------|------------|--------|------|
+| {{dep_item_id}} | {{dep_on}} | {{dep_status}} | {{dep_risk}} |
+
+## Sprint Risks
+
+<!-- Risks specific to this sprint that may prevent achieving the sprint goal. -->
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| {{sprint_risk_1}} | {{sprint_risk_1_prob}} | {{sprint_risk_1_impact}} | {{sprint_risk_1_mitigation}} |
+
+## Definition of Done Reference
+<!-- Link to the Definition of Done applicable to this sprint. -->
+{{dod_reference}}
+
+## Completeness Checklist
+- [ ] Sprint goal is clear and agreed by team
+- [ ] All committed items have story points and an owner
+- [ ] Acceptance criteria references documented for all stories
+- [ ] Team capacity calculated and compared to committed points
+- [ ] Dependencies identified and status checked
+- [ ] Sprint risks documented
+- [ ] DoD reference linked

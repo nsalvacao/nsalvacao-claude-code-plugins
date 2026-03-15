@@ -1,38 +1,85 @@
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useServerStatus } from '../../hooks/useServerStatus.ts';
+import { useWorkbenchDemoState } from '../../hooks/useWorkbenchDemoState.ts';
 import {
+  AI_RAIL_WIDTH,
+  COMPACT_LEFT_WIDTH,
   MAX_CENTER_SPLIT,
   MAX_LEFT_WIDTH,
   MIN_CENTER_SPLIT,
   MIN_LEFT_WIDTH,
   useStudioLayout,
 } from '../../hooks/useStudioLayout.ts';
-import { getActivePluginInfo } from '../../lib/plugin-path.ts';
-import { PanelFrame } from './PanelFrame.tsx';
+import { getActivePluginInfo, getHeaderBreadcrumbs } from '../../lib/plugin-path.ts';
+import { AiRail } from './AiRail.tsx';
+import { CommandPaletteModal } from './CommandPaletteModal.tsx';
+import { EditorTabs } from './EditorTabs.tsx';
+
 import { ResizeHandle } from './ResizeHandle.tsx';
-import { StatusBar } from './StatusBar.tsx';
+import { StatusStrip } from './StatusStrip.tsx';
 import { StudioHeader } from './StudioHeader.tsx';
-import { AiPlaceholder } from './placeholders/AiPlaceholder.tsx';
+import { ToastHost } from './ToastHost.tsx';
+import { TreeRail } from './TreeRail.tsx';
+import { ValidationRail } from './ValidationRail.tsx';
+import { WorkspaceHeader } from './WorkspaceHeader.tsx';
 import { EditorPlaceholder } from './placeholders/EditorPlaceholder.tsx';
 import { PreviewPlaceholder } from './placeholders/PreviewPlaceholder.tsx';
-import { TreePlaceholder } from './placeholders/TreePlaceholder.tsx';
-import { ValidationPlaceholder } from './placeholders/ValidationPlaceholder.tsx';
 
 const KEYBOARD_LEFT_RESIZE_STEP_PX = 16;
 const KEYBOARD_CENTER_RESIZE_STEP = 0.02;
+const MIN_WORKBENCH_WIDTH = 360;
+
+function getAiOpenWidth(viewportWidth: number) {
+  return Math.min(320, Math.max(240, viewportWidth * 0.26));
+}
 
 export function PluginStudioShell() {
   const serverStatus = useServerStatus();
   const {
     layout,
+    setLeftMode,
+    cycleLeftMode,
     updateLeftWidth,
     updateCenterSplit,
+    setRightPanelOpen,
     toggleRightPanel,
     toggleBottomPanel,
+    setWorkspaceMode,
   } = useStudioLayout();
   const editorPreviewRef = useRef<HTMLDivElement | null>(null);
   const [activePlugin, setActivePlugin] = useState(() => getActivePluginInfo(window.location.search));
+  const {
+    activeDemoDocument,
+    activeDocument,
+    activeGroupId,
+    commandPaletteActions,
+    commandPaletteOpen,
+    countsByGroup,
+    documents,
+    openTabDocuments,
+    chatMessages,
+    treeFilter,
+    toasts,
+    validationIssues,
+    visibleDocuments,
+    visibleGroups,
+    closeTab,
+    closeCommandPalette,
+    openCommandPalette,
+    pushToast,
+    revealActiveFile,
+    runValidationDemo,
+    selectFile,
+    selectGroup,
+    sendAiDemoMessage,
+    setTreeFilter,
+    toggleCommandPalette,
+    triggerAiLens,
+  } = useWorkbenchDemoState(activePlugin);
+  const breadcrumbs = getHeaderBreadcrumbs(activePlugin, activeDocument);
+  const showEditor = layout.workspaceMode !== 'preview';
+  const showPreview = layout.workspaceMode !== 'edit';
 
   useEffect(() => {
     function syncPluginFromLocation() {
@@ -44,6 +91,56 @@ export function PluginStudioShell() {
       window.removeEventListener('popstate', syncPluginFromLocation);
     };
   }, []);
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        toggleCommandPalette();
+        return;
+      }
+
+      if (event.key === 'Escape' && commandPaletteOpen) {
+        event.preventDefault();
+        closeCommandPalette();
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [closeCommandPalette, commandPaletteOpen, toggleCommandPalette]);
+
+  useEffect(() => {
+    function enforceResponsiveBounds() {
+      const viewportWidth = window.innerWidth;
+      const treeWidth = layout.leftMode === 'expanded'
+        ? layout.leftWidth
+        : layout.leftMode === 'compact'
+          ? COMPACT_LEFT_WIDTH
+          : 0;
+      const aiWidth = layout.rightOpen ? getAiOpenWidth(viewportWidth) : AI_RAIL_WIDTH;
+      const availableWidth = viewportWidth - treeWidth - aiWidth - 32;
+
+      if (availableWidth < MIN_WORKBENCH_WIDTH) {
+        if (layout.leftMode === 'expanded') {
+          setLeftMode('compact');
+          return;
+        }
+
+        if (layout.rightOpen) {
+          setRightPanelOpen(false);
+        }
+      }
+    }
+
+    enforceResponsiveBounds();
+    window.addEventListener('resize', enforceResponsiveBounds);
+    return () => {
+      window.removeEventListener('resize', enforceResponsiveBounds);
+    };
+  }, [layout.leftMode, layout.leftWidth, layout.rightOpen, setLeftMode, setRightPanelOpen]);
 
   function startLeftResize(event: ReactPointerEvent<HTMLDivElement>) {
     event.preventDefault();
@@ -115,59 +212,153 @@ export function PluginStudioShell() {
     updateCenterSplit(layout.centerSplit + (direction * KEYBOARD_CENTER_RESIZE_STEP));
   }
 
+  function handleReveal() {
+    if (layout.leftMode !== 'expanded') {
+      setLeftMode('expanded');
+    }
+    revealActiveFile();
+  }
+
+  function handleAskAi() {
+    if (!layout.rightOpen) {
+      setRightPanelOpen(true);
+    }
+
+    triggerAiLens();
+  }
+
+  function handleSelectIssue(issueId: string) {
+    const issue = validationIssues.find((candidate) => candidate.id === issueId);
+    if (!issue) return;
+
+    selectFile(issue.targetFileId);
+    pushToast(`Opened ${issue.location} from validation.`, 'success');
+  }
+
+  function handleRunAll() {
+    if (!layout.bottomOpen) {
+      toggleBottomPanel();
+    }
+    runValidationDemo();
+  }
+
+  function handleCommandAction(actionId: string) {
+    switch (actionId) {
+      case 'toggle-ai-panel':
+        toggleRightPanel();
+        pushToast(layout.rightOpen ? 'AI drawer moved back to rail.' : 'AI drawer opened.', 'info');
+        return;
+      case 'toggle-validation':
+        toggleBottomPanel();
+        return;
+      case 'cycle-tree':
+        cycleLeftMode();
+        return;
+      case 'switch-preview':
+        setWorkspaceMode('preview');
+        return;
+      case 'switch-split':
+      case 'open-active-file':
+        setWorkspaceMode('split');
+        return;
+      default:
+        pushToast(`Action "${actionId}" is ready for the next phase.`, 'info');
+    }
+  }
+
   return (
     <div className="studio-shell">
-      <div className="studio-shell__orb studio-shell__orb--amber" aria-hidden="true" />
-      <div className="studio-shell__orb studio-shell__orb--cyan" aria-hidden="true" />
-
       <StudioHeader
         activePlugin={activePlugin}
+        activeDocument={activeDocument}
+        breadcrumbs={breadcrumbs}
+        serverStatus={serverStatus}
+        leftMode={layout.leftMode}
         rightOpen={layout.rightOpen}
+        onCycleTree={cycleLeftMode}
+        onOpenCommandPalette={openCommandPalette}
         onToggleAi={toggleRightPanel}
       />
 
-      <main className="flex min-h-0 flex-1 flex-col px-3 py-3">
-        <div className="flex min-h-0 flex-1 flex-col gap-3">
-          <div className="flex min-h-0 flex-1 gap-0">
-            <aside style={{ width: layout.leftWidth }} className="min-h-0 shrink-0">
-              <PanelFrame
-                title="Plugin Tree"
-                subtitle="Anatomy-first navigation shell for issue #6"
-                badge="Issue #6"
-                tone="amber"
-                bodyClassName="min-h-0 flex-1"
-              >
-                <TreePlaceholder activePlugin={activePlugin} />
-              </PanelFrame>
-            </aside>
+      <main className="studio-main">
+          {layout.leftMode === 'collapsed' ? (
+            <button
+              type="button"
+              className="studio-left-edge-trigger"
+              onClick={() => setLeftMode('expanded')}
+            >
+              TREE
+            </button>
+          ) : (
+            <>
+              <TreeRail
+                activeFileId={activeDemoDocument?.id ?? null}
+                activeGroupId={activeGroupId}
+                activePlugin={activePlugin}
+                countsByGroup={countsByGroup}
+                groups={visibleGroups}
+                mode={layout.leftMode}
+                treeFilter={treeFilter}
+                visibleDocuments={visibleDocuments}
+                expandedWidth={layout.leftWidth}
+                onSelectFile={selectFile}
+                onSelectGroup={selectGroup}
+                onSetMode={setLeftMode}
+                onTreeFilterChange={setTreeFilter}
+              />
 
-            <ResizeHandle
-              label="Resize plugin tree"
-              onPointerDown={startLeftResize}
-              valueNow={layout.leftWidth}
-              valueMin={MIN_LEFT_WIDTH}
-              valueMax={MAX_LEFT_WIDTH}
-              onStep={stepLeftResize}
+              {layout.leftMode === 'expanded' ? (
+                <ResizeHandle
+                  label="Resize plugin tree"
+                  onPointerDown={startLeftResize}
+                  valueNow={layout.leftWidth}
+                  valueMin={MIN_LEFT_WIDTH}
+                  valueMax={MAX_LEFT_WIDTH}
+                  onStep={stepLeftResize}
+                />
+              ) : null}
+            </>
+          )}
+
+          <section className="workbench">
+            <WorkspaceHeader
+              activeDocument={activeDocument}
+              workspaceMode={layout.workspaceMode}
+              onReveal={handleReveal}
+              onSetWorkspaceMode={setWorkspaceMode}
             />
 
-            <div className="flex min-w-0 flex-1 gap-3">
-              <section className="flex min-w-0 flex-1 flex-col gap-3">
-                <div ref={editorPreviewRef} className="flex min-h-0 flex-1">
-                  <div
-                    style={{ width: `${layout.centerSplit * 100}%` }}
-                    className="min-w-0 shrink-0"
-                  >
-                    <PanelFrame
-                      title="Editor"
-                      subtitle="Split-first shell; Monaco lands next"
-                      badge="Issue #7"
-                      tone="cyan"
-                      bodyClassName="min-h-0 flex-1"
-                    >
-                      <EditorPlaceholder />
-                    </PanelFrame>
+            <div
+              ref={editorPreviewRef}
+              className="workbench-content"
+              data-mode={layout.workspaceMode}
+            >
+              {showEditor ? (
+                <div
+                  style={showPreview ? { width: `${layout.centerSplit * 100}%` } : undefined}
+                  className="pane"
+                >
+                  <div className="pane-header">
+                    <span className="pane-title">Editor</span>
+                    <span className="pane-badge">Issue #7</span>
                   </div>
 
+                  <EditorTabs
+                    activeFileId={activeDemoDocument?.id ?? null}
+                    documents={openTabDocuments}
+                    onClose={closeTab}
+                    onSelect={selectFile}
+                  />
+
+                  <EditorPlaceholder
+                    document={activeDemoDocument}
+                    onAskAi={handleAskAi}
+                  />
+                </div>
+              ) : null}
+
+              {showEditor && showPreview ? (
+                <div className="pane-border">
                   <ResizeHandle
                     label="Resize editor and preview"
                     onPointerDown={startCenterResize}
@@ -176,106 +367,83 @@ export function PluginStudioShell() {
                     valueMax={Math.round(MAX_CENTER_SPLIT * 100)}
                     onStep={stepCenterResize}
                   />
-
-                  <div className="min-w-0 flex-1">
-                    <PanelFrame
-                      title="Preview"
-                      subtitle="Reading mode placeholder for markdown, JSON and YAML"
-                      badge="Issue #8"
-                      tone="olive"
-                      bodyClassName="min-h-0 flex-1"
-                    >
-                      <PreviewPlaceholder />
-                    </PanelFrame>
-                  </div>
                 </div>
-              </section>
+              ) : null}
 
-              <aside
-                style={{ width: layout.rightOpen ? 320 : 56 }}
-                className="min-h-0 shrink-0 transition-[width] duration-200 ease-out"
-              >
-                {layout.rightOpen ? (
-                  <PanelFrame
-                    title="AI Assistant"
-                    subtitle="Contextual sidebar shell for the v0.2 track"
-                    badge="Issue #13"
-                    tone="cyan"
-                    actions={(
-                      <button
-                        type="button"
-                        className="studio-shell-button"
-                        onClick={toggleRightPanel}
-                      >
-                        COLLAPSE
-                      </button>
-                    )}
-                    bodyClassName="min-h-0 flex-1"
-                  >
-                    <AiPlaceholder />
-                  </PanelFrame>
-                ) : (
-                  <div className="studio-ai-rail">
-                    <button
-                      type="button"
-                      className="studio-shell-button studio-shell-button--primary rotate-180 [writing-mode:vertical-rl]"
-                      onClick={toggleRightPanel}
-                    >
-                      AI
-                    </button>
+              {showPreview ? (
+                <div className="pane">
+                  <div className="pane-header">
+                    <span className="pane-title">Preview</span>
+                    <span className="pane-badge">Reading mode</span>
                   </div>
-                )}
-              </aside>
+
+                  <PreviewPlaceholder document={activeDemoDocument} />
+                </div>
+              ) : null}
             </div>
-          </div>
-
-          <section
-            style={{ height: layout.bottomOpen ? layout.bottomHeight : 48 }}
-            className="shrink-0 transition-[height] duration-200 ease-out"
-          >
-            {layout.bottomOpen ? (
-              <PanelFrame
-                title="Validation"
-                subtitle="Bottom rail shell for the native validation backend from issue #4"
-                badge="Issue #9"
-                tone="amber"
-                actions={(
-                  <button
-                    type="button"
-                    className="studio-shell-button"
-                    onClick={toggleBottomPanel}
-                  >
-                    COLLAPSE
-                  </button>
-                )}
-                bodyClassName="min-h-0 flex-1"
-              >
-                <ValidationPlaceholder activePlugin={activePlugin} />
-              </PanelFrame>
-            ) : (
-              <div className="studio-bottom-rail">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--studio-accent-amber)]">
-                    Validation rail
-                  </p>
-                  <p className="mt-1 text-sm text-slate-300">
-                    Collapsed shell, ready for issue #9.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  className="studio-shell-button studio-shell-button--primary"
-                  onClick={toggleBottomPanel}
-                >
-                  EXPAND
-                </button>
-              </div>
-            )}
           </section>
-        </div>
-      </main>
 
-      <StatusBar serverStatus={serverStatus} />
+          <AiRail
+            activeDocument={activeDocument}
+            chatMessages={chatMessages}
+            document={activeDemoDocument}
+            open={layout.rightOpen}
+            onSend={(prompt) => {
+              if (!layout.rightOpen) {
+                setRightPanelOpen(true);
+              }
+              sendAiDemoMessage(prompt);
+            }}
+            onToggle={toggleRightPanel}
+          />
+        </main>
+
+        <ValidationRail
+          activeDocument={activeDocument}
+          issues={validationIssues}
+          open={layout.bottomOpen}
+          height={layout.bottomHeight}
+          onRunAll={handleRunAll}
+          onSelectIssue={(issue) => handleSelectIssue(issue.id)}
+          onToggle={toggleBottomPanel}
+        />
+
+        <StatusStrip
+          serverStatus={serverStatus}
+          activePlugin={activePlugin}
+          activeDocument={activeDocument}
+          validationIssues={validationIssues}
+          layout={layout}
+          onOpenValidation={() => {
+            if (!layout.bottomOpen) {
+              toggleBottomPanel();
+            }
+          }}
+          onRuntimeClick={() => {
+            pushToast(
+              serverStatus.connection === 'connected'
+                ? 'Runtime is connected and stable.'
+                : serverStatus.connection === 'disconnected'
+                  ? 'Runtime is currently offline.'
+                  : 'Runtime health check is in progress.',
+              serverStatus.connection === 'connected' ? 'success' : 'warning',
+            );
+          }}
+          onVersionClick={() => {
+            pushToast('Workbench shell restyle is based on the V1.3 prototype.', 'info');
+          }}
+        />
+
+      <CommandPaletteModal
+        actions={commandPaletteActions}
+        documents={documents}
+        open={commandPaletteOpen}
+        onClose={closeCommandPalette}
+        onRunAction={handleCommandAction}
+        onSelectFile={selectFile}
+      />
+
+      <ToastHost toasts={toasts} />
     </div>
   );
 }

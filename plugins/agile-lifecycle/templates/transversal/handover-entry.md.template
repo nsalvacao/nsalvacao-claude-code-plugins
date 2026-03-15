@@ -1,0 +1,34 @@
+# Handover Log Entry
+
+| Field | Value |
+|-------|-------|
+| ID | {{handover_id}} |
+| From Phase | {{from_phase}} |
+| To Phase | {{to_phase}} |
+| Handover Date | {{handover_date}} |
+| Handed By | {{handed_by}} |
+| Received By | {{received_by}} |
+| Status | {{status}} |
+
+<!-- status: pending | accepted | rejected | conditional -->
+
+## Artefacts Handed
+
+| Artefact | Path | Status |
+|----------|------|--------|
+| {{artefact_1}} | {{path_1}} | {{status_1}} |
+| {{artefact_2}} | {{path_2}} | {{status_2}} |
+
+## Conditions of Acceptance
+<!-- Any conditions the receiving team has for accepting this handover -->
+{{conditions}}
+
+## Open Items
+<!-- Items not yet complete that the receiving team needs to be aware of -->
+{{open_items}}
+
+## Sign-off Date
+{{sign_off_date}}
+
+## Notes
+{{notes}}

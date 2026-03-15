@@ -1,0 +1,111 @@
+# Gate D Review Pack — Build Quality Gate
+
+| Field | Value |
+|-------|-------|
+| ID | {{gate_id}} |
+| Date | {{date}} |
+| Project | {{project}} |
+| Owner | {{owner}} |
+| Review Date | {{review_date}} |
+| Phase | 4 — Build and Integrate |
+| Status | {{status}} |
+
+## Gate D Objectives
+<!-- Gate D is the Build Quality Gate. It confirms that delivery is functionally complete to sufficient quality to enter formal validation (Phase 5). All critical defects must be resolved, integration must be stable, and AI/ML model evaluation must meet targets. -->
+
+Gate D validates:
+- All committed features are built and meet acceptance criteria
+- No open Critical defects; High defects have accepted remediation plans
+- Integration is stable across all integration points
+- AI/ML model evaluation meets performance thresholds
+- Code quality metrics meet agreed targets
+- Security scan completed with no critical findings
+
+## Test Results Summary
+
+| Test Type | Total | Passed | Failed | Skipped | Pass Rate |
+|-----------|-------|--------|--------|---------|-----------|
+| Unit | {{unit_total}} | {{unit_passed}} | {{unit_failed}} | {{unit_skipped}} | {{unit_pass_rate}}% |
+| Integration | {{int_total}} | {{int_passed}} | {{int_failed}} | {{int_skipped}} | {{int_pass_rate}}% |
+| E2E | {{e2e_total}} | {{e2e_passed}} | {{e2e_failed}} | {{e2e_skipped}} | {{e2e_pass_rate}}% |
+| Performance | {{perf_total}} | {{perf_passed}} | {{perf_failed}} | {{perf_skipped}} | {{perf_pass_rate}}% |
+
+## Code Quality Metrics
+
+| Metric | Target | Actual | Status |
+|--------|--------|--------|--------|
+| Unit Test Coverage | {{coverage_target}}% | {{coverage_actual}}% | {{coverage_status}} |
+| Critical Code Smells | 0 | {{critical_smells}} | {{smells_status}} |
+| Duplicated Lines | <{{dup_target}}% | {{dup_actual}}% | {{dup_status}} |
+| Technical Debt Ratio | <{{td_target}}% | {{td_actual}}% | {{td_status}} |
+
+## Integration Status
+
+| Integration Point | Status | Last Validated | Notes |
+|-------------------|--------|----------------|-------|
+| {{integration_1}} | {{integration_1_status}} | {{integration_1_date}} | {{integration_1_notes}} |
+| {{integration_2}} | {{integration_2_status}} | {{integration_2_date}} | {{integration_2_notes}} |
+| {{integration_3}} | {{integration_3_status}} | {{integration_3_date}} | {{integration_3_notes}} |
+
+## AI Model Evaluation Results
+
+| Metric | Target | Actual | Status |
+|--------|--------|--------|--------|
+| {{ai_metric_1}} | {{ai_target_1}} | {{ai_actual_1}} | {{ai_status_1}} |
+| {{ai_metric_2}} | {{ai_target_2}} | {{ai_actual_2}} | {{ai_status_2}} |
+| {{ai_metric_3}} | {{ai_target_3}} | {{ai_actual_3}} | {{ai_status_3}} |
+| Latency (p99) | {{ai_latency_target}} | {{ai_latency_actual}} | {{ai_latency_status}} |
+
+## Red-Team / Adversarial Results (if LLM/GenAI)
+**Red-Team Completed:** {{red_team_completed}}
+**Critical Findings:** {{red_team_critical}}
+**Summary:** {{red_team_summary}}
+
+## Security Scan
+
+**Scan Tool:** {{security_scan_tool}}
+**Scan Date:** {{security_scan_date}}
+**Critical Findings:** {{security_critical_findings}}
+**High Findings:** {{security_high_findings}}
+**Status:** {{security_status}}
+
+## Defect Status
+
+| Severity | Open | Accepted (with rationale) | Resolved |
+|----------|------|--------------------------|----------|
+| Critical | {{critical_open}} | {{critical_accepted}} | {{critical_resolved}} |
+| High | {{high_open}} | {{high_accepted}} | {{high_resolved}} |
+
+**Justification for accepted open defects:**
+{{accepted_defect_justification}}
+
+## Go / No-Go Recommendation
+
+**Recommendation:** {{gate_recommendation}}
+<!-- PASS | FAIL | WAIVED -->
+
+**Rationale:**
+{{gate_rationale}}
+
+**Conditions (if WAIVED):**
+{{gate_conditions}}
+
+## Sign-off Required
+
+| Role | Name | Approval | Date |
+|------|------|----------|------|
+| Product Owner | {{po_name}} | {{po_approval}} | {{po_date}} |
+| Technical Lead | {{tech_lead_name}} | {{tech_lead_approval}} | {{tech_lead_date}} |
+| QA Lead | {{qa_lead_name}} | {{qa_lead_approval}} | {{qa_lead_date}} |
+| AI/ML Lead | {{ai_lead_name}} | {{ai_lead_approval}} | {{ai_lead_date}} |
+| Gate Reviewer | {{gate_reviewer_name}} | {{gate_reviewer_approval}} | {{gate_reviewer_date}} |
+
+## Completeness Checklist
+- [ ] Test results summary covers all test types
+- [ ] Code quality metrics meet targets or exceptions documented
+- [ ] All integration points validated
+- [ ] AI model evaluation meets performance thresholds
+- [ ] Red-team completed for LLM/GenAI products
+- [ ] Security scan completed with no critical open findings
+- [ ] No open Critical defects (or accepted with formal rationale)
+- [ ] Go/No-Go recommendation clear with rationale

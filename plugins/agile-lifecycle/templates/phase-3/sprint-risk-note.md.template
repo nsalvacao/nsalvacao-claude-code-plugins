@@ -1,0 +1,64 @@
+# Sprint Risk Note
+
+| Field | Value |
+|-------|-------|
+| ID | {{risk_note_id}} |
+| Sprint | {{sprint_number}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 3 — Discovery and Backlog Readiness |
+| Status | {{status}} |
+
+## Purpose
+<!-- Sprint Risk Notes are produced at the end of each sprint to capture new risks, update existing risk statuses, and flag blockers that have not been resolved. -->
+
+## New Risks Identified This Sprint
+
+<!-- Document any risks first identified during this sprint that should be added to the project Risk Register. -->
+
+| ID | Description | Category | Probability | Impact | Owner | Mitigation |
+|----|-------------|----------|-------------|--------|-------|------------|
+| {{new_risk_1_id}} | {{new_risk_1_desc}} | {{new_risk_1_cat}} | {{new_risk_1_prob}} | {{new_risk_1_impact}} | {{new_risk_1_owner}} | {{new_risk_1_mitigation}} |
+| {{new_risk_2_id}} | {{new_risk_2_desc}} | {{new_risk_2_cat}} | {{new_risk_2_prob}} | {{new_risk_2_impact}} | {{new_risk_2_owner}} | {{new_risk_2_mitigation}} |
+
+## Risk Status Updates
+
+<!-- Update the status of existing risks from the project risk register. -->
+
+| Risk ID | Previous Status | Current Status | Notes |
+|---------|----------------|----------------|-------|
+| {{updated_risk_1_id}} | {{updated_risk_1_prev}} | {{updated_risk_1_curr}} | {{updated_risk_1_notes}} |
+| {{updated_risk_2_id}} | {{updated_risk_2_prev}} | {{updated_risk_2_curr}} | {{updated_risk_2_notes}} |
+| {{updated_risk_3_id}} | {{updated_risk_3_prev}} | {{updated_risk_3_curr}} | {{updated_risk_3_notes}} |
+
+## Blocked Items
+
+<!-- Items blocked during this sprint and not yet resolved. These carry forward as risks to the next sprint. -->
+
+| Item ID | Description | Blocked By | Since | Impact on Sprint Goal | Action Required |
+|---------|-------------|------------|-------|----------------------|-----------------|
+| {{blocked_1_id}} | {{blocked_1_desc}} | {{blocked_1_by}} | {{blocked_1_since}} | {{blocked_1_impact}} | {{blocked_1_action}} |
+| {{blocked_2_id}} | {{blocked_2_desc}} | {{blocked_2_by}} | {{blocked_2_since}} | {{blocked_2_impact}} | {{blocked_2_action}} |
+
+## Mitigation Actions Taken This Sprint
+
+<!-- Document risk mitigation actions taken during this sprint. -->
+
+| Risk ID | Action Taken | Outcome | By Whom |
+|---------|-------------|---------|---------|
+| {{action_risk_1_id}} | {{action_1_taken}} | {{action_1_outcome}} | {{action_1_by}} |
+| {{action_risk_2_id}} | {{action_2_taken}} | {{action_2_outcome}} | {{action_2_by}} |
+
+## Sprint Risk Summary
+**Overall Sprint Risk Level:** {{overall_sprint_risk_level}}
+<!-- Low / Medium / High / Critical -->
+
+**Key Message:**
+{{sprint_risk_key_message}}
+
+## Completeness Checklist
+- [ ] New risks identified and added to project risk register
+- [ ] Existing risk statuses updated
+- [ ] Blocked items documented with action owners
+- [ ] Mitigation actions taken documented with outcomes
+- [ ] Overall sprint risk level assessed

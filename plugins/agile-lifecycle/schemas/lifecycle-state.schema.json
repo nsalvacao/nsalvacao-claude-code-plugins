@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/lifecycle-state",
+  "title": "Lifecycle State",
+  "description": "Machine-readable state of the entire lifecycle, tracking phase statuses, gates passed, and tailoring configuration.",
+  "type": "object",
+  "required": ["project_id", "project_name", "current_phase", "phases", "last_updated"],
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Unique project identifier"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "Human-readable project name"
+    },
+    "current_phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Phase currently in progress"
+    },
+    "product_type": {
+      "type": "string",
+      "description": "Product type used for tailoring (e.g. SaaS, CLI, AI/ML, data-product)"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this lifecycle state was last updated (ISO 8601)"
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["phase", "status"],
+        "properties": {
+          "phase": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7,
+            "description": "Phase number"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["not_started", "in_progress", "blocked", "ready_for_review", "ready_for_gate", "approved", "rejected", "waived", "closed"],
+            "description": "Current status of this phase"
+          },
+          "gate": {
+            "type": "string",
+            "description": "Gate that closes this phase (e.g. A, B)"
+          },
+          "gate_outcome": {
+            "type": "string",
+            "enum": ["pass", "fail", "waived", "deferred", "pending"],
+            "description": "Outcome of the gate review for this phase"
+          },
+          "subfases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["subfase", "status"],
+              "properties": {
+                "subfase": { "type": "string" },
+                "status": {
+                  "type": "string",
+                  "enum": ["not_started", "in_progress", "blocked", "ready_for_review", "ready_for_gate", "approved", "rejected", "waived", "closed"]
+                },
+                "owner": { "type": "string" },
+                "start_date": { "type": "string", "format": "date" },
+                "end_date": { "type": "string", "format": "date" }
+              }
+            },
+            "description": "Status of individual subfases within this phase"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Phase start date (ISO 8601)"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Phase end date or planned end date (ISO 8601)"
+          }
+        }
+      },
+      "description": "Status of each lifecycle phase"
+    },
+    "tailoring": {
+      "type": "object",
+      "description": "Tailoring configuration applied to this lifecycle",
+      "properties": {
+        "profile": {
+          "type": "string",
+          "description": "Tailoring profile name (e.g. saas-standard, ml-regulated)"
+        },
+        "gates_optional": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Gates that are optional under the applied tailoring profile"
+        },
+        "phases_lightweight": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "description": "Phases running in lightweight mode under the applied profile"
+        },
+        "overrides": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rule": { "type": "string" },
+              "reason": { "type": "string" },
+              "approved_by": { "type": "string" }
+            }
+          },
+          "description": "Explicit overrides from the standard profile"
+        }
+      }
+    }
+  }
+}

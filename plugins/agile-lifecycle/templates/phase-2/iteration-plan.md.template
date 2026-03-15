@@ -1,0 +1,94 @@
+# Iteration Plan
+
+| Field | Value |
+|-------|-------|
+| ID | {{plan_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 2 — Inception and Product Framing |
+| Status | {{status}} |
+
+## Iteration Overview
+<!-- High-level description of the iteration strategy: how many iterations, what does each aim to achieve? -->
+{{iteration_overview}}
+
+## Iteration Phases Breakdown
+
+<!-- Define each planned iteration with objectives and expected outputs. -->
+
+### Phase 3 — Discovery & Backlog Readiness
+**Duration:** {{phase_3_duration}}
+**Objective:** {{phase_3_objective}}
+**Key Outputs:** {{phase_3_outputs}}
+**Gate:** Gate C — Backlog Readiness Review
+
+### Phase 4 — Build & Integrate (Iterations)
+**Number of Iterations:** {{phase_4_iteration_count}}
+**Iteration Duration:** {{phase_4_iteration_duration}}
+**Objective Per Iteration:** {{phase_4_objective}}
+**Key Outputs:** {{phase_4_outputs}}
+**Gate:** Gate D — Build Quality Gate
+
+### Phase 5 — Validate & Gate
+**Duration:** {{phase_5_duration}}
+**Objective:** {{phase_5_objective}}
+**Key Outputs:** {{phase_5_outputs}}
+**Gate:** Gate E — Release Readiness Gate
+
+### Phase 6 — Release & Deploy
+**Duration:** {{phase_6_duration}}
+**Rollout Strategy:** {{phase_6_rollout_strategy}}
+**Gate:** Gate F — Operations Readiness Gate
+
+## Milestones
+
+| Milestone | Phase | Target Date | Success Criterion |
+|-----------|-------|-------------|-------------------|
+| Gate A Complete | 1 | {{gate_a_date}} | PASS or WAIVED |
+| Gate B Complete | 2 | {{gate_b_date}} | PASS or WAIVED |
+| MVP Feature-Complete | 4 | {{mvp_date}} | {{mvp_criterion}} |
+| Gate D Complete | 4 | {{gate_d_date}} | PASS or WAIVED |
+| UAT Complete | 5 | {{uat_date}} | {{uat_criterion}} |
+| Gate E Complete | 5 | {{gate_e_date}} | PASS or WAIVED |
+| Production Release | 6 | {{release_date}} | {{release_criterion}} |
+| Gate F Complete | 6 | {{gate_f_date}} | PASS or WAIVED |
+
+## Team Structure
+
+| Role | Name / Allocation | Responsibility |
+|------|------------------|----------------|
+| Product Owner | {{po_name}} | {{po_responsibility}} |
+| Tech Lead | {{tech_lead_name}} | {{tech_lead_responsibility}} |
+| AI/ML Lead | {{ai_lead_name}} | {{ai_lead_responsibility}} |
+| Delivery Lead | {{delivery_lead_name}} | {{delivery_lead_responsibility}} |
+| Development Team | {{dev_team}} | {{dev_team_responsibility}} |
+
+## Cadence
+
+| Ceremony | Frequency | Duration | Participants |
+|----------|-----------|----------|--------------|
+| Sprint Planning | {{planning_frequency}} | {{planning_duration}} | {{planning_participants}} |
+| Daily Standup | Daily | 15 minutes | Dev team |
+| Sprint Review | {{review_frequency}} | {{review_duration}} | {{review_participants}} |
+| Sprint Retrospective | {{retro_frequency}} | {{retro_duration}} | {{retro_participants}} |
+| Gate Review | Per gate | {{gate_duration}} | {{gate_participants}} |
+
+## Release Approach
+<!-- How will the product be released? Canary, blue/green, feature flags, phased rollout? -->
+{{release_approach}}
+
+## Risk Mitigation Plan
+
+| Risk | Mitigation | Iteration Affected |
+|------|------------|-------------------|
+| {{iter_risk_1}} | {{iter_risk_1_mitigation}} | {{iter_risk_1_iteration}} |
+| {{iter_risk_2}} | {{iter_risk_2_mitigation}} | {{iter_risk_2_iteration}} |
+| {{iter_risk_3}} | {{iter_risk_3_mitigation}} | {{iter_risk_3_iteration}} |
+
+## Completeness Checklist
+- [ ] All phases covered with duration, objective, and outputs
+- [ ] Milestones defined with target dates and success criteria
+- [ ] Team structure documented with role allocations
+- [ ] Cadence agreed and documented
+- [ ] Release approach defined
+- [ ] Top risks identified with mitigations per iteration

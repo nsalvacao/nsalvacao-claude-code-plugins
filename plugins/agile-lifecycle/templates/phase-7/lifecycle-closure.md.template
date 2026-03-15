@@ -1,0 +1,74 @@
+# Lifecycle Closure
+
+| Field | Value |
+|-------|-------|
+| ID | {{closure_id}} |
+| Project | {{project_name}} |
+| Version | {{version}} |
+| Closure Type | {{closure_type}} |
+| Decision Date | {{decision_date}} |
+| Approver | {{approver}} |
+
+<!-- closure_type: next-iteration | retire | sustain -->
+
+## Iteration Outcomes
+
+### Goals Achieved vs. Planned
+
+| Goal | Target | Actual | Status |
+|------|--------|--------|--------|
+| {{goal_1}} | {{target_1}} | {{actual_1}} | {{status_1}} |
+| {{goal_2}} | {{target_2}} | {{actual_2}} | {{status_2}} |
+
+### Key Business Outcomes
+{{business_outcomes}}
+
+### AI/ML Outcomes (if applicable)
+{{ai_outcomes}}
+
+## Lessons Learned
+
+### What Worked Well
+{{what_worked}}
+
+### What to Improve
+{{what_to_improve}}
+
+### Key Insights for Next Iteration
+{{key_insights}}
+
+## Artefact Archive
+**Archive Location:** {{archive_location}}
+
+All lifecycle artefacts for this iteration are archived at the above location.
+
+| Artefact Category | Count | Archive Path |
+|-----------------|-------|-------------|
+| Phase 1-2 artefacts | {{p12_count}} | {{p12_path}} |
+| Phase 3-4 artefacts | {{p34_count}} | {{p34_path}} |
+| Phase 5-6 artefacts | {{p56_count}} | {{p56_path}} |
+| Phase 7 artefacts | {{p7_count}} | {{p7_path}} |
+
+## Next Steps
+
+**Decision:** {{closure_type}}
+
+| Next Step | Owner | Due Date |
+|-----------|-------|----------|
+| {{next_step_1}} | {{next_owner_1}} | {{next_due_1}} |
+| {{next_step_2}} | {{next_owner_2}} | {{next_due_2}} |
+
+## Sign-offs
+
+| Role | Name | Date |
+|------|------|------|
+| Product Manager | {{pm}} | {{pm_date}} |
+| Executive Sponsor | {{sponsor}} | {{sponsor_date}} |
+
+## Completeness Checklist
+- [ ] Outcomes documented (achieved vs. planned)
+- [ ] Lessons learned captured
+- [ ] All artefacts archived and location documented
+- [ ] Next steps defined
+- [ ] Closure type decided and approved
+- [ ] Sign-offs obtained

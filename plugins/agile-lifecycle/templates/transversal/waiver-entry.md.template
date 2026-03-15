@@ -1,0 +1,39 @@
+# Waiver Entry
+
+| Field | Value |
+|-------|-------|
+| ID | {{waiver_id}} |
+| Gate | {{gate}} |
+| Criterion Waived | {{criterion}} |
+| Requested By | {{requested_by}} |
+| Approved By | {{approved_by}} |
+| Approval Date | {{approval_date}} |
+| Expiry Date | {{expiry_date}} |
+
+## Justification
+<!-- Why is this criterion being waived? What compensating controls exist? -->
+{{justification}}
+
+## Risk Accepted
+<!-- What residual risk is being accepted by granting this waiver? -->
+{{risk_accepted}}
+
+## Residual Risk Level
+<!-- low | medium | high | critical -->
+{{residual_risk_level}}
+
+## Conditions
+<!-- Any conditions that must be met for the waiver to be valid -->
+{{conditions}}
+
+## Monitoring Plan
+<!-- How will the waived risk be monitored post-release? -->
+{{monitoring_plan}}
+
+## Completeness Checklist
+- [ ] Criterion clearly identified
+- [ ] Justification documented
+- [ ] Residual risk assessed
+- [ ] Conditions specified
+- [ ] Monitoring plan defined
+- [ ] Approved by designated authority

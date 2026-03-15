@@ -1,0 +1,86 @@
+# Feature Specification
+
+| Field | Value |
+|-------|-------|
+| ID | {{feature_id}} |
+| Title | {{feature_title}} |
+| Owner | {{owner}} |
+| Sprint | {{sprint_number}} |
+| Date | {{date}} |
+| Phase | 4 — Build and Integrate |
+| Status | {{status}} |
+
+## Description
+<!-- Detailed description of the feature. What does it do? Who uses it? How does it fit into the overall product? -->
+{{feature_description}}
+
+## User Stories Covered
+| Story ID | Title | Priority |
+|----------|-------|----------|
+| {{story_1_id}} | {{story_1_title}} | {{story_1_priority}} |
+| {{story_2_id}} | {{story_2_title}} | {{story_2_priority}} |
+
+## Acceptance Criteria
+
+### Functional Criteria
+<!-- List the functional acceptance criteria. Reference BDD scenarios from the acceptance-criteria.md.template. -->
+{{functional_criteria}}
+
+### Non-Functional Criteria
+| NFR | Criterion |
+|-----|-----------|
+| Performance | {{nfr_performance}} |
+| Security | {{nfr_security}} |
+| Accessibility | {{nfr_accessibility}} |
+| Scalability | {{nfr_scalability}} |
+
+## Technical Approach
+<!-- How will this feature be implemented? Architecture, key components, data flow, API design. -->
+{{technical_approach}}
+
+### API Contract (if applicable)
+```
+{{api_contract}}
+```
+
+### Data Model Changes (if applicable)
+```
+{{data_model_changes}}
+```
+
+## Dependencies
+
+| Dependency | Type | Status | Owner |
+|------------|------|--------|-------|
+| {{dep_1}} | {{dep_1_type}} | {{dep_1_status}} | {{dep_1_owner}} |
+| {{dep_2}} | {{dep_2_type}} | {{dep_2_status}} | {{dep_2_owner}} |
+
+## Test Requirements
+
+| Test Type | Coverage Target | Notes |
+|-----------|----------------|-------|
+| Unit | {{unit_target}}% | {{unit_notes}} |
+| Integration | {{integration_target}}% | {{integration_notes}} |
+| E2E | {{e2e_target}} scenarios | {{e2e_notes}} |
+
+## AI/ML Specifics (if applicable)
+<!-- Complete if this feature involves AI/ML predictions, recommendations, or decisions. -->
+**Model Used:** {{model_used}}
+**Input Data:** {{input_data}}
+**Output:** {{output}}
+**Performance Threshold:** {{performance_threshold}}
+**Fallback:** {{fallback}}
+
+## Out of Scope
+<!-- Explicitly list what is NOT included in this feature to prevent scope creep. -->
+{{out_of_scope}}
+
+## Completeness Checklist
+- [ ] Feature description is clear and unambiguous
+- [ ] All user stories covered are listed
+- [ ] Acceptance criteria are testable and complete
+- [ ] Technical approach documented at sufficient depth
+- [ ] Dependencies identified with owners
+- [ ] Test requirements defined
+- [ ] AI/ML specifics documented (if applicable)
+- [ ] Out of scope clearly stated

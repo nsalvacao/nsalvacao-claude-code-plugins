@@ -1,0 +1,62 @@
+# Gate Review Report
+
+| Field | Value |
+|-------|-------|
+| Gate | {{gate}} |
+| Review Date | {{review_date}} |
+| Reviewer | {{reviewer}} |
+| Project | {{project_name}} |
+| Phase | {{phase}} |
+| Outcome | {{outcome}} |
+
+<!-- outcome: PASS | FAIL | WAIVED | DEFERRED -->
+
+## Gate Criteria Assessment
+
+| Criterion | Status | Evidence | Notes |
+|-----------|--------|----------|-------|
+| {{criterion_1}} | {{status_1}} | {{evidence_ref_1}} | {{notes_1}} |
+| {{criterion_2}} | {{status_2}} | {{evidence_ref_2}} | {{notes_2}} |
+| {{criterion_3}} | {{status_3}} | {{evidence_ref_3}} | {{notes_3}} |
+
+<!-- status per criterion: PASS | FAIL | WAIVED -->
+
+## Waivers Granted
+
+| Criterion | Justification | Approved By | Expiry |
+|-----------|--------------|-------------|--------|
+| {{waived_criterion}} | {{waiver_justification}} | {{waiver_approver}} | {{waiver_expiry}} |
+
+## Key Findings
+
+### Strengths
+<!-- What was done particularly well? -->
+{{strengths}}
+
+### Concerns
+<!-- What issues or concerns were noted? -->
+{{concerns}}
+
+### Conditions (if PASS with conditions)
+<!-- Any conditions that must be met before or after go-live -->
+{{conditions}}
+
+## Next Steps
+
+| Action | Owner | Due Date |
+|--------|-------|----------|
+| {{action_1}} | {{owner_1}} | {{due_date_1}} |
+
+## Sign-offs
+
+| Role | Name | Signature/Date |
+|------|------|----------------|
+| Gate Reviewer | {{reviewer}} | {{review_date}} |
+| Project Sponsor | {{sponsor}} | {{sponsor_date}} |
+
+## Completeness Checklist
+- [ ] All criteria assessed with evidence referenced
+- [ ] Waivers documented and approved
+- [ ] Outcome clearly stated (PASS/FAIL/WAIVED)
+- [ ] Next steps defined with owners and due dates
+- [ ] Sign-offs obtained

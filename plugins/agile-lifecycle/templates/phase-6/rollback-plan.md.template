@@ -1,0 +1,52 @@
+# Rollback Plan
+
+| Field | Value |
+|-------|-------|
+| ID | {{plan_id}} |
+| Version | {{version}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Rehearsed | {{rehearsed}} |
+
+## Rollback Triggers
+<!-- Specific conditions that initiate rollback -->
+| Trigger | Threshold | Who Decides |
+|---------|-----------|-------------|
+| {{trigger_1}} | {{threshold_1}} | {{decider_1}} |
+| {{trigger_2}} | {{threshold_2}} | {{decider_2}} |
+
+## Rollback Steps
+
+| Step | Action | Executor | Estimated Time | Verification |
+|------|--------|----------|---------------|-------------|
+| 1 | {{step_1}} | {{executor_1}} | {{time_1}} | {{verify_1}} |
+| 2 | {{step_2}} | {{executor_2}} | {{time_2}} | {{verify_2}} |
+| 3 | {{step_3}} | {{executor_3}} | {{time_3}} | {{verify_3}} |
+
+**Total Estimated Rollback Time:** {{total_time}}
+
+## Data Rollback Considerations
+<!-- Is data migration or rollback required? What are the data risks? -->
+{{data_considerations}}
+
+## Communication During Rollback
+
+| Audience | Message | Channel | Timing |
+|----------|---------|---------|--------|
+| Engineering | Rollback initiated | {{channel_1}} | Immediate |
+| Support | System issue, investigating | {{channel_2}} | Within 5min |
+| Executives | Rollback in progress | {{channel_3}} | Within 15min |
+
+## Post-Rollback Validation
+<!-- What must be verified after rollback to confirm system is stable? -->
+{{post_rollback_validation}}
+
+## Root Cause Process
+After successful rollback: initiate incident retrospective within 24h.
+
+## Completeness Checklist
+- [ ] Rollback triggers specific and measurable
+- [ ] Steps numbered and timed
+- [ ] Data rollback considerations addressed
+- [ ] Communication plan defined
+- [ ] Plan rehearsed before go-live

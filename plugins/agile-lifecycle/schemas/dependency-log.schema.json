@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/dependency-log",
+  "title": "Dependency Log Entry",
+  "description": "A single entry in the dependency log, tracking cross-team, external, or infrastructure dependencies that affect delivery.",
+  "type": "object",
+  "required": ["id", "description", "owner", "dependent_team", "phase", "status", "due_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique dependency identifier (e.g. DEP-001)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Clear description of the dependency and what it blocks or enables"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Person or team responsible for delivering or resolving this dependency"
+    },
+    "dependent_team": {
+      "type": "string",
+      "description": "Team or workstream that depends on this item being resolved"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase in which this dependency is needed"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "in-progress", "resolved", "blocked"],
+      "description": "Current status of the dependency"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date by which this dependency must be resolved (ISO 8601)"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["internal", "external", "regulatory", "data", "infrastructure"],
+      "description": "Type of dependency for classification and escalation routing"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Risk level if this dependency is not resolved by due date"
+    },
+    "escalation_path": {
+      "type": "string",
+      "description": "Escalation chain if the dependency cannot be resolved by the owner"
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the dependency was logged (ISO 8601)"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the entry was last updated (ISO 8601)"
+    },
+    "resolution_notes": {
+      "type": "string",
+      "description": "How the dependency was resolved or why it was closed"
+    }
+  }
+}

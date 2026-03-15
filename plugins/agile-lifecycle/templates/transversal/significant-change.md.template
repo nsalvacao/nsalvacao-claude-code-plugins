@@ -1,0 +1,54 @@
+# Significant Change Record
+
+| Field | Value |
+|-------|-------|
+| ID | {{change_id}} |
+| Title | {{title}} |
+| Date | {{date}} |
+| Phase | {{phase}} |
+| Classification | Significant |
+| Approved By | {{approved_by}} |
+
+## Change Description
+<!-- Detailed description of what is changing -->
+{{change_description}}
+
+## Trigger
+<!-- What triggered this significant change? (e.g., regulatory requirement, strategic pivot, user feedback) -->
+{{trigger}}
+
+## Impact Areas
+
+| Area | Impact Level | Description |
+|------|-------------|-------------|
+| Scope | {{scope_impact}} | {{scope_desc}} |
+| Architecture | {{arch_impact}} | {{arch_desc}} |
+| Timeline | {{timeline_impact}} | {{timeline_desc}} |
+| Budget | {{budget_impact}} | {{budget_desc}} |
+| Team | {{team_impact}} | {{team_desc}} |
+| Risk Profile | {{risk_impact}} | {{risk_desc}} |
+
+## Change Log Reference
+<!-- Reference to change-log entry -->
+{{change_log_ref}}
+
+## Gate Implications
+<!-- Which gates, if any, need to be re-run? -->
+{{gate_implications}}
+
+## Stakeholders Notified
+
+| Stakeholder | Role | Notified Date | Response |
+|-------------|------|--------------|----------|
+| {{stakeholder_1}} | {{role_1}} | {{date_1}} | {{response_1}} |
+
+## Implementation Plan
+{{implementation_plan}}
+
+## Completeness Checklist
+- [ ] Change classified as significant (not incremental)
+- [ ] All impact areas assessed
+- [ ] Gate implications determined
+- [ ] Stakeholders notified
+- [ ] Change log updated
+- [ ] Approved by decision authority

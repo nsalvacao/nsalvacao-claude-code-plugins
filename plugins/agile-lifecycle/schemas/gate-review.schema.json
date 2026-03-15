@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/gate-review",
+  "title": "Gate Review Record",
+  "description": "The formal record of a gate review, capturing criteria checked, waivers granted, outcome, and conditions for proceeding.",
+  "type": "object",
+  "required": ["id", "gate", "phase", "review_date", "reviewer", "outcome", "criteria_checked"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique gate review record identifier (e.g. GR-A-001)"
+    },
+    "gate": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E", "F"],
+      "description": "Gate identifier"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase at which this gate review occurs"
+    },
+    "review_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the gate review was conducted (ISO 8601)"
+    },
+    "reviewer": {
+      "type": "string",
+      "description": "Person or role who conducted the gate review"
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["pass", "fail", "waived", "deferred"],
+      "description": "Outcome of the gate review"
+    },
+    "criteria_checked": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["criterion", "status", "evidence"],
+        "properties": {
+          "criterion": {
+            "type": "string",
+            "description": "The gate criterion being checked"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "fail", "waived", "not-applicable"],
+            "description": "Result for this specific criterion"
+          },
+          "evidence": {
+            "type": "string",
+            "description": "Reference to evidence supporting the pass or waiver decision"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes on this criterion"
+          }
+        }
+      },
+      "description": "List of gate criteria and their individual results"
+    },
+    "waivers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["criterion", "justification", "approved_by"],
+        "properties": {
+          "criterion": {
+            "type": "string",
+            "description": "The criterion being waived"
+          },
+          "justification": {
+            "type": "string",
+            "description": "Justification for granting the waiver"
+          },
+          "approved_by": {
+            "type": "string",
+            "description": "Person or role who approved the waiver"
+          },
+          "expiry_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date when the waiver expires and must be reviewed"
+          },
+          "residual_risk": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"],
+            "description": "Residual risk accepted by granting this waiver"
+          }
+        }
+      },
+      "description": "Formal waivers granted during this gate review"
+    },
+    "next_gate_conditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Conditions that must be met before the next gate review"
+    },
+    "deferred_to": {
+      "type": "string",
+      "format": "date",
+      "description": "If deferred, the date by which the gate review must be repeated"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes from the gate reviewer"
+    }
+  }
+}

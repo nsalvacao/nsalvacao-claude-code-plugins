@@ -41,11 +41,11 @@ export function ResizeHandle({
       aria-valuemin={valueMin}
       aria-valuemax={valueMax}
       tabIndex={0}
-      className="studio-resize-handle shrink-0"
+      className="resize-handle"
       onPointerDown={onPointerDown}
       onKeyDown={handleKeyDown}
     >
-      <div className="studio-resize-handle__line" />
+      <div className="resize-indicator" />
     </div>
   );
 }

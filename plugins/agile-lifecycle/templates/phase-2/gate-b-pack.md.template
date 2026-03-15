@@ -1,0 +1,90 @@
+# Gate B Review Pack
+
+| Field | Value |
+|-------|-------|
+| ID | {{gate_id}} |
+| Date | {{date}} |
+| Project | {{project}} |
+| Owner | {{owner}} |
+| Review Date | {{review_date}} |
+| Phase | 2 — Inception and Product Framing |
+| Status | {{status}} |
+
+## Gate B Objectives
+<!-- Gate B confirms that the inception phase is complete: the solution is architected, the iteration plan is agreed, risks are understood, and the team is ready to begin structured discovery and delivery. -->
+
+Gate B validates:
+- Solution is defined at a sufficient level of detail
+- Architecture key decisions have been made and documented
+- Iteration plan covers all delivery phases with realistic timelines
+- Risk and assumption registers are up to date
+- Team is structured and ways of working are agreed
+
+## Architecture Review
+
+### Key Architecture Decisions Made
+| ADR ID | Decision | Status |
+|--------|----------|--------|
+| {{adr_1_id}} | {{adr_1_title}} | {{adr_1_status}} |
+| {{adr_2_id}} | {{adr_2_title}} | {{adr_2_status}} |
+| {{adr_3_id}} | {{adr_3_title}} | {{adr_3_status}} |
+
+### Architecture Concerns
+<!-- Any concerns about the architecture that reviewers should assess. -->
+{{architecture_concerns}}
+
+## Iteration Plan Review
+**Total Iterations Planned:** {{total_iterations}}
+**Target Release Date:** {{target_release_date}}
+**Key Assumptions in Plan:** {{plan_key_assumptions}}
+
+**Plan Confidence Level:** {{plan_confidence}}
+<!-- Low / Medium / High — with rationale -->
+{{plan_confidence_rationale}}
+
+## Artefacts Produced
+
+| Artefact | Status | Reviewer |
+|----------|--------|----------|
+| Solution Brief | {{solution_brief_status}} | {{solution_brief_reviewer}} |
+| Architecture Decision Records | {{adr_status}} | {{adr_reviewer}} |
+| Iteration Plan | {{iter_plan_status}} | {{iter_plan_reviewer}} |
+| Risk Register (Phase 2) | {{risk_register_status}} | {{risk_register_reviewer}} |
+| Assumption Register | {{assumption_register_status}} | {{assumption_register_reviewer}} |
+| Dependency Map | {{dependency_map_status}} | {{dependency_map_reviewer}} |
+
+## Risk Register Review
+
+**Open High/Critical Risks:** {{open_high_critical_count}}
+
+**Top 3 Risks Accepted for Delivery:**
+1. {{accepted_risk_1}} — Rationale: {{accepted_risk_1_rationale}}
+2. {{accepted_risk_2}} — Rationale: {{accepted_risk_2_rationale}}
+3. {{accepted_risk_3}} — Rationale: {{accepted_risk_3_rationale}}
+
+## Go / No-Go Recommendation
+
+**Recommendation:** {{gate_recommendation}}
+<!-- PASS | FAIL | WAIVED -->
+
+**Rationale:**
+{{gate_rationale}}
+
+**Conditions (if WAIVED):**
+{{gate_conditions}}
+
+## Sign-off Required
+
+| Role | Name | Approval | Date |
+|------|------|----------|------|
+| Product Owner / Sponsor | {{sponsor_name}} | {{sponsor_approval}} | {{sponsor_date}} |
+| Architecture Lead | {{arch_lead_name}} | {{arch_lead_approval}} | {{arch_lead_date}} |
+| Gate Reviewer | {{gate_reviewer_name}} | {{gate_reviewer_approval}} | {{gate_reviewer_date}} |
+
+## Completeness Checklist
+- [ ] Architecture decisions reviewed and accepted
+- [ ] Iteration plan reviewed with confidence level assessed
+- [ ] All mandatory artefacts in Approved or Reviewed state
+- [ ] Risk register reviewed with open items acknowledged
+- [ ] Go/No-Go recommendation clear with rationale
+- [ ] Sign-off authorities identified

@@ -1,0 +1,86 @@
+# Acceptance Criteria
+
+| Field | Value |
+|-------|-------|
+| ID | {{ac_id}} |
+| Feature / Story | {{feature_title}} |
+| Story ID | {{story_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 3 — Discovery and Backlog Readiness |
+| Status | {{status}} |
+
+## User Story
+<!-- Standard user story format: As a [user], I want [capability] so that [benefit]. -->
+> As a **{{user_role}}**, I want **{{capability}}** so that **{{benefit}}**.
+
+## Acceptance Criteria (BDD Format)
+
+<!-- Write acceptance criteria using Given/When/Then format. Each scenario tests a distinct aspect of the story. -->
+
+### Scenario 1: {{scenario_1_title}}
+```gherkin
+Given {{scenario_1_given}}
+When {{scenario_1_when}}
+Then {{scenario_1_then}}
+```
+
+### Scenario 2: {{scenario_2_title}}
+```gherkin
+Given {{scenario_2_given}}
+When {{scenario_2_when}}
+Then {{scenario_2_then}}
+```
+
+### Scenario 3: {{scenario_3_title}} (Edge Case)
+```gherkin
+Given {{scenario_3_given}}
+When {{scenario_3_when}}
+Then {{scenario_3_then}}
+```
+
+### Scenario 4: {{scenario_4_title}} (Failure / Error Case)
+```gherkin
+Given {{scenario_4_given}}
+When {{scenario_4_when}}
+Then {{scenario_4_then}}
+```
+
+## AI-Specific Criteria
+<!-- For stories involving AI/ML predictions, recommendations, or decisions — add specific AI acceptance criteria. -->
+
+### Model Performance Threshold
+<!-- Minimum acceptable model performance for this story to be accepted. -->
+{{ai_performance_threshold}}
+
+### Bias and Fairness Criteria
+<!-- Any fairness constraints: e.g., "model predictions must not differ by >X% across demographic groups." -->
+{{ai_fairness_criteria}}
+
+### Explainability Requirement
+<!-- Is an explanation of the AI decision required? If so, what format? -->
+{{ai_explainability_requirement}}
+
+### Fallback Behaviour
+<!-- What should happen if the AI model is unavailable, fails, or returns low-confidence predictions? -->
+{{ai_fallback_behaviour}}
+
+## Non-Functional Acceptance Criteria
+
+| NFR | Criterion | Measurement Method |
+|-----|-----------|-------------------|
+| Performance | {{nfr_performance_criterion}} | {{nfr_performance_method}} |
+| Security | {{nfr_security_criterion}} | {{nfr_security_method}} |
+| Accessibility | {{nfr_accessibility_criterion}} | {{nfr_accessibility_method}} |
+
+## Definition of Done Reference
+<!-- This story is done when all acceptance criteria above are verified AND the Definition of Done is satisfied. -->
+**DoD Reference:** {{dod_reference}}
+
+## Completeness Checklist
+- [ ] User story written in standard As a/I want/So that format
+- [ ] At least 3 BDD scenarios written (happy path, edge case, failure case)
+- [ ] AI-specific criteria defined where story involves AI/ML
+- [ ] Non-functional acceptance criteria specified
+- [ ] Definition of Done reference linked
+- [ ] Criteria reviewed and accepted by Product Owner

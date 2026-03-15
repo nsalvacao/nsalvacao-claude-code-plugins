@@ -1,0 +1,94 @@
+# Dataset Documentation
+
+| Field | Value |
+|-------|-------|
+| Dataset Name | {{dataset_name}} |
+| Version | {{dataset_version}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 4 — Build and Integrate |
+| Status | {{status}} |
+
+## Description
+<!-- What is this dataset? What does it contain? What purpose does it serve in the product? -->
+{{dataset_description}}
+
+## Source
+
+| Field | Value |
+|-------|-------|
+| Primary Source | {{primary_source}} |
+| Collection Method | {{collection_method}} |
+| Collection Period | {{collection_period}} |
+| Geographic Coverage | {{geographic_coverage}} |
+| Data Controller | {{data_controller}} |
+| Data Processor | {{data_processor}} |
+
+## Size and Format
+
+| Aspect | Detail |
+|--------|--------|
+| Total Records | {{total_records}} |
+| Total Size | {{total_size}} |
+| File Format | {{file_format}} |
+| Encoding | {{encoding}} |
+| Schema / Structure | {{schema_reference}} |
+
+## Preprocessing Steps
+<!-- Document all transformations applied to raw data. This must be reproducible. -->
+
+1. **{{step_1_name}}**: {{step_1_description}}
+2. **{{step_2_name}}**: {{step_2_description}}
+3. **{{step_3_name}}**: {{step_3_description}}
+4. **{{step_4_name}}**: {{step_4_description}}
+
+## Quality Assessment
+
+| Dimension | Assessment | Score | Notes |
+|-----------|------------|-------|-------|
+| Completeness | {{completeness_assessment}} | {{completeness_score}}/5 | {{completeness_notes}} |
+| Accuracy | {{accuracy_assessment}} | {{accuracy_score}}/5 | {{accuracy_notes}} |
+| Freshness | {{freshness_assessment}} | {{freshness_score}}/5 | {{freshness_notes}} |
+| Consistency | {{consistency_assessment}} | {{consistency_score}}/5 | {{consistency_notes}} |
+| Labeling Quality | {{labeling_assessment}} | {{labeling_score}}/5 | {{labeling_notes}} |
+
+**Overall Quality Score:** {{overall_quality_score}}/5
+
+## Known Issues
+<!-- Document any known data quality issues, biases, or limitations that users of this dataset should be aware of. -->
+{{known_issues}}
+
+## Usage Restrictions
+
+| Restriction | Detail |
+|-------------|--------|
+| License | {{data_license}} |
+| PII Present | {{pii_present}} |
+| Anonymisation Applied | {{anonymisation_applied}} |
+| Consent Basis | {{consent_basis}} |
+| Permitted Uses | {{permitted_uses}} |
+| Prohibited Uses | {{prohibited_uses}} |
+| Retention Policy | {{retention_policy}} |
+
+## Access and Storage
+
+| Aspect | Detail |
+|--------|--------|
+| Storage Location | {{storage_location}} |
+| Access Control | {{access_control}} |
+| Encryption | {{encryption}} |
+| Backup Policy | {{backup_policy}} |
+
+## Version History
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| {{dataset_version}} | {{date}} | Initial documentation | {{owner}} |
+
+## Completeness Checklist
+- [ ] Dataset described clearly with purpose in the product
+- [ ] Source documented with collection method and period
+- [ ] Preprocessing steps documented in reproducible form
+- [ ] Quality assessment completed across all dimensions
+- [ ] Known issues and biases documented
+- [ ] Usage restrictions and legal basis documented
+- [ ] Access and storage controls documented

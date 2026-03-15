@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/assumption-register",
+  "title": "Assumption Register Entry",
+  "description": "A single entry in the assumption register, documenting a project assumption, its owner, validation status, and impact if wrong.",
+  "type": "object",
+  "required": ["id", "description", "owner", "phase", "status", "due_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique assumption identifier (e.g. ASM-001)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Clear statement of the assumption being made"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Person or role responsible for validating this assumption"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase in which this assumption must be validated"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "validated", "invalidated", "deferred"],
+      "description": "Current validation status of the assumption"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date by which this assumption must be validated (ISO 8601)"
+    },
+    "resolution": {
+      "type": "string",
+      "description": "Description of how the assumption was validated or why it was invalidated"
+    },
+    "impact_if_wrong": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Severity of impact on the project if this assumption proves incorrect"
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the assumption was documented (ISO 8601)"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the assumption entry was last updated (ISO 8601)"
+    },
+    "related_risk_id": {
+      "type": "string",
+      "description": "Reference to a risk register entry if this assumption feeds a risk"
+    }
+  }
+}

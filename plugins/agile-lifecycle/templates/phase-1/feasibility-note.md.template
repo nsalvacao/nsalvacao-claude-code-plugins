@@ -1,0 +1,84 @@
+# Feasibility Note
+
+| Field | Value |
+|-------|-------|
+| ID | {{feasibility_id}} |
+| Date | {{date}} |
+| Analyst | {{analyst}} |
+| Opportunity Ref | {{opportunity_ref}} |
+| Phase | 1 — Opportunity and Portfolio Framing |
+| Status | {{status}} |
+
+## Technical Feasibility
+
+### Data Availability
+<!-- Is data available, accessible, and in sufficient volume/quality to support the AI/ML use case? -->
+{{data_availability}}
+
+### Infrastructure
+<!-- Is the required compute, storage, and deployment infrastructure available or procurable within constraints? -->
+{{infrastructure_assessment}}
+
+### Skills and Capabilities
+<!-- Does the team have the technical skills required? What gaps exist and how would they be filled? -->
+{{skills_assessment}}
+
+## Commercial Feasibility
+
+### Budget Estimate
+<!-- High-level cost estimate: development, infrastructure, licensing, maintenance. Ranges are acceptable at this stage. -->
+{{budget_estimate}}
+
+### Timeline Estimate
+<!-- High-level timeline from kickoff to first production release. Ranges are acceptable. -->
+{{timeline_estimate}}
+
+### ROI Hypothesis
+<!-- Expected return on investment or value creation. What is the business case? -->
+{{roi_hypothesis}}
+
+## AI/ML Feasibility
+
+### Data Quality
+<!-- Quality of available data: completeness, accuracy, freshness, labeling coverage. -->
+{{data_quality}}
+
+### Data Volume
+<!-- Is there sufficient volume of data for training, validation, and ongoing operation? -->
+{{data_volume}}
+
+### Labeling Requirements
+<!-- If supervised learning: what labeling effort is required? Is labeled data available? -->
+{{labeling_requirements}}
+
+### Model Complexity Estimate
+<!-- What type of model is likely required? Off-the-shelf vs. custom? Estimated complexity. -->
+{{model_complexity}}
+
+## Risk Summary
+
+<!-- Document the top 3 risks identified during this feasibility analysis. -->
+
+| # | Risk | Probability | Impact | Note |
+|---|------|-------------|--------|------|
+| 1 | {{risk_1_description}} | {{risk_1_probability}} | {{risk_1_impact}} | {{risk_1_note}} |
+| 2 | {{risk_2_description}} | {{risk_2_probability}} | {{risk_2_impact}} | {{risk_2_note}} |
+| 3 | {{risk_3_description}} | {{risk_3_probability}} | {{risk_3_impact}} | {{risk_3_note}} |
+
+## Recommendation
+
+<!-- State clearly: PROCEED / HOLD / KILL — with rationale. -->
+**Decision:** {{recommendation}}
+
+**Rationale:**
+{{recommendation_rationale}}
+
+**Conditions (if HOLD):**
+{{hold_conditions}}
+
+## Completeness Checklist
+- [ ] Technical feasibility assessed: data, infrastructure, skills
+- [ ] Commercial feasibility assessed: budget, timeline, ROI
+- [ ] AI/ML feasibility assessed: data quality, volume, labeling
+- [ ] Top 3 risks identified with probability and impact
+- [ ] Clear recommendation made (PROCEED / HOLD / KILL) with rationale

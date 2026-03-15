@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/evidence-index",
+  "title": "Evidence Index Entry",
+  "description": "A single entry in the evidence index, tracking an artefact or record that serves as evidence for gate compliance.",
+  "type": "object",
+  "required": ["id", "title", "type", "phase", "gate", "status", "path", "created_by", "created_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique evidence identifier (e.g. EV-001)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Human-readable title of the evidence item"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["document", "test-result", "approval-record", "metric-report", "review-record", "sign-off"],
+      "description": "Type of evidence item"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase for which this evidence was produced"
+    },
+    "gate": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E", "F", "none"],
+      "description": "Gate that this evidence satisfies (none if not gate-specific)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["exists", "reviewed", "approved"],
+      "description": "Evidence threshold status: exists (produced), reviewed (quality checked), approved (formally accepted)"
+    },
+    "path": {
+      "type": "string",
+      "description": "Relative path to the evidence file or URL to the evidence location"
+    },
+    "created_by": {
+      "type": "string",
+      "description": "Person or role who produced this evidence"
+    },
+    "created_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the evidence was produced (ISO 8601)"
+    },
+    "reviewed_by": {
+      "type": "string",
+      "description": "Person or role who reviewed this evidence"
+    },
+    "reviewed_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the evidence was reviewed (ISO 8601)"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Person or role who formally approved this evidence"
+    },
+    "approved_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the evidence was approved (ISO 8601)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of what this evidence demonstrates"
+    }
+  }
+}

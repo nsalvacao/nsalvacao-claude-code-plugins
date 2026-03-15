@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/waiver-log",
+  "title": "Waiver Log Entry",
+  "description": "A formal waiver record documenting the decision to waive a gate criterion, including justification, conditions, and residual risk acceptance.",
+  "type": "object",
+  "required": ["id", "gate", "criterion", "justification", "requested_by", "approved_by", "approval_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique waiver identifier (e.g. WVR-001)"
+    },
+    "gate": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E", "F"],
+      "description": "Gate for which this waiver applies"
+    },
+    "criterion": {
+      "type": "string",
+      "description": "The specific gate criterion being waived"
+    },
+    "justification": {
+      "type": "string",
+      "description": "Formal justification for granting the waiver — must be substantive"
+    },
+    "requested_by": {
+      "type": "string",
+      "description": "Person or role requesting the waiver"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Person or role who approved the waiver (must have appropriate authority)"
+    },
+    "approval_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the waiver was approved (ISO 8601)"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when the waiver expires and must be reviewed or renewed"
+    },
+    "conditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Conditions attached to the waiver that must be fulfilled"
+    },
+    "risk_accepted": {
+      "type": "boolean",
+      "description": "Whether the approver has formally accepted the residual risk"
+    },
+    "residual_risk": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Level of residual risk accepted by granting this waiver"
+    },
+    "gate_review_id": {
+      "type": "string",
+      "description": "Reference to the gate review record in which this waiver was granted"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "expired", "fulfilled", "revoked"],
+      "description": "Current status of the waiver"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+# Opportunity Brief
+
+| Field | Value |
+|-------|-------|
+| ID | {{opportunity_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Sponsor | {{sponsor}} |
+| Phase | 1 — Opportunity and Portfolio Framing |
+| Status | {{status}} |
+
+## Problem or Opportunity
+<!-- Describe the problem or opportunity clearly. Be specific: who is affected, what is the current pain, what is the scale? -->
+{{problem_description}}
+
+## Expected Business Outcome
+<!-- What measurable outcome do we expect if this succeeds? Tie to business KPIs where possible. -->
+{{expected_outcome}}
+
+## Why AI/ML is Justified
+<!-- Explain why AI or ML is necessary, useful, or justifiable here. What makes this a good fit for AI vs. a simpler solution? -->
+{{ai_justification}}
+
+## Fallback if AI Fails
+<!-- What happens if the AI component fails or is removed? Is the product still viable? Describe the non-AI fallback. -->
+{{fallback_scenario}}
+
+## Initial Constraints
+<!-- Budget, timeline, technology, regulatory, team skill, or market constraints known at this stage. -->
+{{constraints}}
+
+## Key Stakeholders
+<!-- List key stakeholders: name, role, interest in this opportunity. -->
+| Name | Role | Interest |
+|------|------|----------|
+| {{stakeholder_1_name}} | {{stakeholder_1_role}} | {{stakeholder_1_interest}} |
+| {{stakeholder_2_name}} | {{stakeholder_2_role}} | {{stakeholder_2_interest}} |
+
+## Initial Risk Indicators
+<!-- Flag any early red flags, unknowns, or risks that could affect viability. These will be formalised in the Risk Register. -->
+{{initial_risks}}
+
+## Notes
+<!-- Additional context, links to prior research, related projects, or references. -->
+{{notes}}
+
+## Completeness Checklist
+- [ ] Problem or opportunity clearly described with scope and affected users
+- [ ] Expected business outcome identified and linked to measurable KPIs
+- [ ] AI/ML justification articulated (why AI, not just what AI)
+- [ ] Fallback scenario considered if AI component is removed
+- [ ] Initial constraints documented (budget, timeline, tech, regulatory)
+- [ ] Key stakeholders identified with roles and interests
+- [ ] Initial risk indicators flagged

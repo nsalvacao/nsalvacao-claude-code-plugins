@@ -39,13 +39,13 @@ export function PanelFrame({
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <span className="studio-panel-dot" aria-hidden="true" />
-            <h2 className="truncate text-sm font-semibold uppercase tracking-[0.22em] text-slate-100">
+            <h2 className="truncate text-xs font-semibold uppercase tracking-[0.28em] text-slate-100">
               {title}
             </h2>
             {badge ? <span className="studio-badge">{badge}</span> : null}
           </div>
           {subtitle ? (
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm leading-6 text-slate-400">
               {subtitle}
             </p>
           ) : null}

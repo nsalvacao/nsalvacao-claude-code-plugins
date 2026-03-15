@@ -1,0 +1,55 @@
+# Deployment Record
+
+| Field | Value |
+|-------|-------|
+| ID | {{deployment_id}} |
+| Version | {{version}} |
+| Environment | production |
+| Date | {{date}} |
+| Executor | {{executor}} |
+| Final Status | {{final_status}} |
+| Rollback Triggered | {{rollback_triggered}} |
+
+<!-- final_status: SUCCESS | FAILED | ROLLED_BACK -->
+
+## Deployment Steps
+
+| Step | Description | Start Time | End Time | Status | Notes |
+|------|-------------|-----------|---------|--------|-------|
+| 1 | Pre-deployment verification | {{step1_start}} | {{step1_end}} | {{step1_status}} | {{step1_notes}} |
+| 2 | Deploy to production | {{step2_start}} | {{step2_end}} | {{step2_status}} | {{step2_notes}} |
+| 3 | Smoke tests | {{step3_start}} | {{step3_end}} | {{step3_status}} | {{step3_notes}} |
+| 4 | Monitoring window | {{step4_start}} | {{step4_end}} | {{step4_status}} | {{step4_notes}} |
+| 5 | Go-live declaration | {{step5_start}} | {{step5_end}} | {{step5_status}} | {{step5_notes}} |
+
+## Health Metrics at Go-Live
+
+| Metric | Go-Live Value | Threshold | Status |
+|--------|-------------|-----------|--------|
+| Error rate | {{error_rate}} | {{error_threshold}} | {{error_status}} |
+| Latency p99 | {{latency_p99}} | {{latency_threshold}} | {{latency_status}} |
+| Throughput | {{throughput}} | {{throughput_threshold}} | {{throughput_status}} |
+
+## Issues Encountered
+
+| Time | Issue | Severity | Resolution |
+|------|-------|----------|------------|
+| {{issue_time}} | {{issue_desc}} | {{issue_severity}} | {{issue_resolution}} |
+
+## Rollback Record (if triggered)
+**Rollback Decision Time:** {{rollback_time}}
+**Rollback Trigger:** {{rollback_trigger}}
+**Decision Made By:** {{rollback_decision_by}}
+**Rollback Completed:** {{rollback_completed}}
+
+## Go-Live Notification
+Sent to: {{notification_recipients}}
+Time: {{notification_time}}
+Message: {{notification_message}}
+
+## Completeness Checklist
+- [ ] All deployment steps recorded with timestamps
+- [ ] Health metrics captured at go-live
+- [ ] Issues documented with resolution
+- [ ] Rollback record complete (if triggered)
+- [ ] Go-live notification sent

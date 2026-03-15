@@ -20,14 +20,12 @@
 ## Evidence Required for Gate D
 | Artefact | Template | Evidence Level |
 |----------|----------|----------------|
-| Validation Evidence (aggregate) | `templates/phase-4/validation-evidence.md.template` | Mandatory (approved) |
 | Definition of Done (release level) | — | Mandatory (approved) |
 | Sprint Health Records | — | Mandatory (reviewed) |
-| Risk Register (current) | `templates/transversal/risk-register-entry.md.template` | Mandatory (reviewed) |
+| Risk Register (current) | `templates/transversal/risk-entry.md.template` | Mandatory (reviewed) |
 | Security Assessment | — | Mandatory (approved) |
 | Performance Test Results | — | Mandatory (reviewed) |
-| Release Readiness Pack (draft) | `templates/phase-5/release-readiness-pack.md.template` | Mandatory (reviewed) |
-| Experiment Log | `templates/phase-4/experiment-log.md.template` | Conditional (if AI/ML in scope) |
+| AI Experiment Log | `templates/phase-4/ai-experiment-log.md.template` | Conditional (if AI/ML in scope) |
 | Red-team Evidence (if LLM) | — | Conditional (reviewed; cannot be waived for public LLMs) |
 
 ## Key Skills

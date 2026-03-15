@@ -19,15 +19,10 @@
 ## Evidence Required for Gate B
 | Artefact | Template | Evidence Level |
 |----------|----------|----------------|
-| Product Vision | `templates/phase-2/product-vision.md.template` | Mandatory (reviewed) |
-| Product Goal Set | `templates/phase-2/product-goal-set.md.template` | Mandatory (reviewed) |
-| Working Model | `templates/phase-2/working-model.md.template` | Mandatory (approved) |
-| Governance Model | `templates/phase-2/governance-model.md.template` | Mandatory (approved) |
-| Role-Responsibility Map | `templates/phase-2/role-responsibility-map.md.template` | Mandatory (reviewed) |
-| Initial Architecture Pack | `templates/phase-2/initial-architecture-pack.md.template` | Mandatory (reviewed) |
-| Initial ADR | `templates/phase-2/initial-adr.md.template` | Mandatory (exists) |
-| Initial Roadmap | `templates/phase-2/initial-roadmap.md.template` | Mandatory (reviewed) |
-| Inception Closure Pack | `templates/phase-2/inception-closure-pack.md.template` | Mandatory (reviewed) |
+| Solution Brief | `templates/phase-2/solution-brief.md.template` | Mandatory (reviewed) |
+| Architecture Decision | `templates/phase-2/architecture-decision.md.template` | Mandatory (reviewed) |
+| Iteration Plan | `templates/phase-2/iteration-plan.md.template` | Mandatory (reviewed) |
+| Gate B Pack | `templates/phase-2/gate-b-pack.md.template` | Mandatory (reviewed) |
 
 ## Key Skills
 - `phase-contract` — use when creating the Phase 2 contract and validating entry criteria

@@ -73,7 +73,7 @@ Then:
 
 ## Skills
 
-phase-contract · gate-checklist · artefact-authoring · risk-management · metrics-tracking · sprint-facilitation · ai-lifecycle · change-control · operational-readiness · lifecycle-tailoring · evidence-management · retrospective · definition-of-done
+phase-contract · gate-checklist · artefact-authoring · risk-management · metrics-tracking · sprint-facilitation · ai-lifecycle · change-control · operational-readiness · lifecycle-tailoring · evidence-management · retrospective · definition-of-done · backlog-management · phase-contract-enforcement · responsibility-flows
 
 ## Tailoring
 
@@ -84,6 +84,19 @@ phase-contract · gate-checklist · artefact-authoring · risk-management · met
 /agile-tailoring mvp         # MVP/prototype (Phases 1-3 only)
 ```
 
+## Limitations
+
+This plugin does **not** include:
+
+- **Team collaboration tracking** — No issue tracker or sprint board integration. Use your existing Jira/Linear/GitHub Issues workflow; the plugin provides governance overlays on top.
+- **Real-time metrics dashboards** — Metrics are generated on-demand via `/agile-metrics-report`, not streamed live.
+- **Automated testing/CI-CD orchestration** — The plugin validates testing strategy and QA readiness but does not run or manage CI/CD pipelines.
+- **Resource capacity planning** — No workload balancing or team allocation tools. Assumes teams manage capacity externally.
+- **Budget/cost tracking** — Financial governance is out of scope; focus is on product lifecycle and quality gates.
+- **Stakeholder communication templates** — Provides structure and agents; you author the actual comms.
+
+The framework is **gated-iterative, not waterfall**. Gates are decision checkpoints, not hard blockers—you can waive or re-plan before proceeding.
+
 ## Documentation
 
 - `docs/getting-started.md` — Quick start guide
@@ -91,7 +104,7 @@ phase-contract · gate-checklist · artefact-authoring · risk-management · met
 - `docs/phase-guide.md` — Phase-by-phase guide
 - `docs/gate-guide.md` — Gate operating model
 - `docs/agent-index.md` — All 31 agents
-- `docs/skill-index.md` — All 13 skills
+- `docs/skill-index.md` — All 16 skills
 - `docs/command-reference.md` — All 11 commands
 - `docs/ai-product-guide.md` — AI/ML specific guidance
 

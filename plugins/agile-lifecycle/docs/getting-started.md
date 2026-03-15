@@ -1,6 +1,6 @@
 # Getting Started with agile-lifecycle
 
-The `agile-lifecycle` plugin implements a hybrid gated-iterative lifecycle framework for AI/ML and digital products. It provides 31 specialized agents, 13 skills, 11 slash commands, and comprehensive artefact management across 7 phases and 6 formal gates.
+The `agile-lifecycle` plugin implements a hybrid gated-iterative lifecycle framework for AI/ML and digital products. It provides 31 specialized agents, 16 skills, 11 slash commands, and comprehensive artefact management across 7 phases and 6 formal gates.
 
 ## Prerequisites
 
@@ -23,7 +23,7 @@ This creates the lifecycle structure, prompts for project name and type, and boo
 /agile-phase-start 1
 ```
 
-The `opportunity-framing` agent will guide you through Subfase 1.1.
+The `opportunity-framing` agent will guide you through Sub-phase 1.1.
 
 ### 3. Check status at any time
 

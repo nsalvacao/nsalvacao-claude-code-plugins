@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.2.0] - 2026-03-15
+
+### Added
+- `docs/genai-overlay.md` — AI/ML-specific lifecycle extensions and GenAI decision frameworks
+- `docs/tailoring-guide.md` — Configuration guide for tailoring the lifecycle to different product types (SaaS, AI/ML, web, MVP)
+- `tests/validate-plugin.sh` — Static validation suite with 6 core checks (manifest, agents CRLF, skills, commands, hooks schema, documentation)
+- 7 missing SKILL.md files implementing all 16 skills referenced in the plugin
+
+### Changed
+- Updated skill count from 13 to 16 across all descriptions (README, plugin.json, skill-index.md)
+- Expanded Phase 7 documentation for operational readiness and continuous improvement
+- Improved documentation coverage across all phase guides
+- Enhanced genai-overlay with additional AI/ML-specific decision frameworks and tailoring patterns
+
+### Fixed
+- Corrected template references in all 7 phase-essentials files
+- Converted bold Quality/Output/Edge headings to Markdown level-2 headings in 4 transversal agents
+- Phase-essentials and structural quality improvements across all 31 agents and 10 documentation files
+- Documentation alignment with current 16-skill architecture
+
 ## [0.1.0] - 2026-03-15
 
 ### Added

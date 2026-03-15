@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "waterfall-lifecycle/gate-io-matrix",
+  "title": "Gate I/O Matrix",
+  "description": "Defines inputs, outputs, pass criteria, and waiver conditions for each quality gate (A–H) in the waterfall lifecycle.",
+  "type": "object",
+  "required": ["A", "B", "C", "D", "E", "F", "G", "H"],
+  "properties": {
+    "A": { "$ref": "#/$defs/gateDefinition" },
+    "B": { "$ref": "#/$defs/gateDefinition" },
+    "C": { "$ref": "#/$defs/gateDefinition" },
+    "D": { "$ref": "#/$defs/gateDefinition" },
+    "E": { "$ref": "#/$defs/gateDefinition" },
+    "F": { "$ref": "#/$defs/gateDefinition" },
+    "G": { "$ref": "#/$defs/gateDefinition" },
+    "H": { "$ref": "#/$defs/gateDefinition" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "evidenceThreshold": {
+      "type": "string",
+      "enum": ["exists", "reviewed", "approved"],
+      "description": "Minimum evidence threshold required for this artefact at gate"
+    },
+    "gateDefinition": {
+      "type": "object",
+      "required": ["phase_transition", "inputs", "outputs", "pass_criteria", "waiver_conditions"],
+      "properties": {
+        "phase_transition": {
+          "type": "string",
+          "description": "Description of the phase transition this gate governs (e.g. Phase 1 → Phase 2)"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["artefact_id", "evidence_threshold"],
+            "properties": {
+              "artefact_id": {
+                "type": "string",
+                "description": "Identifier of the artefact required as input at this gate"
+              },
+              "evidence_threshold": {
+                "$ref": "#/$defs/evidenceThreshold"
+              }
+            }
+          },
+          "description": "Artefacts and their minimum evidence thresholds required to enter this gate review"
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["artefact_id", "closure_obligation"],
+            "properties": {
+              "artefact_id": {
+                "type": "string",
+                "description": "Identifier of the artefact produced or updated at this gate"
+              },
+              "closure_obligation": {
+                "type": "boolean",
+                "description": "Whether this artefact must be formally closed/signed off at this gate"
+              }
+            }
+          },
+          "description": "Artefacts produced or updated as a result of passing this gate"
+        },
+        "pass_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Conditions that must all be satisfied for this gate to pass"
+        },
+        "waiver_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Conditions under which a gate requirement may be formally waived"
+        }
+      }
+    }
+  }
+}

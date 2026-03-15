@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "waterfall-lifecycle/clarification-log",
+  "title": "Clarification Log Entry",
+  "description": "A single entry in the clarification log, tracking open questions and decisions that must be resolved before proceeding to gate review.",
+  "type": "object",
+  "required": ["id", "question", "owner", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique clarification identifier (e.g. CLR-001)"
+    },
+    "question": {
+      "type": "string",
+      "description": "The open question or decision that needs resolution"
+    },
+    "context": {
+      "type": "string",
+      "description": "Background context explaining why this clarification is needed"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Person or role responsible for resolving this clarification"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date",
+      "description": "Date by which this clarification must be resolved (ISO 8601)"
+    },
+    "impact_if_unresolved": {
+      "type": "string",
+      "description": "Description of impact on scope, timeline, or design if this clarification is not resolved"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "resolved", "escalated", "waived"],
+      "description": "Current status of the clarification"
+    },
+    "resolution": {
+      "type": "string",
+      "description": "The answer or resolution to the question"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the clarification was resolved (ISO 8601)"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "waterfall-lifecycle/risk-register",
+  "title": "Risk Register Entry",
+  "description": "A single entry in the waterfall project risk register, capturing likelihood, impact, score, mitigation, and current status.",
+  "type": "object",
+  "required": ["id", "title", "description", "phase", "category", "likelihood", "impact", "score", "status", "owner"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique risk identifier (e.g. RISK-001)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short title summarising the risk"
+    },
+    "description": {
+      "type": "string",
+      "description": "Clear description of the risk event and its potential effect"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8,
+      "description": "Lifecycle phase in which this risk was identified or is most relevant"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["technical", "business", "data", "ai", "legal", "operational", "external"],
+      "description": "Risk category for classification and reporting"
+    },
+    "likelihood": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Likelihood of the risk materialising (1=very low, 5=very high)"
+    },
+    "impact": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Severity of impact if the risk materialises (1=negligible, 5=critical)"
+    },
+    "score": {
+      "type": "number",
+      "description": "Computed risk score (typically likelihood × impact)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "mitigated", "accepted", "closed"],
+      "description": "Current status of the risk"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Person or role responsible for monitoring and managing this risk"
+    },
+    "mitigation_plan": {
+      "type": "string",
+      "description": "Planned actions to reduce probability or impact of the risk"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date by which mitigation actions must be completed (ISO 8601)"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the risk was first identified (ISO 8601)"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the risk entry was last updated (ISO 8601)"
+    }
+  }
+}

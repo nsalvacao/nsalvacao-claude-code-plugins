@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "waterfall-lifecycle/assumption-register",
+  "title": "Assumption Register Entry",
+  "description": "A single entry in the assumption register, documenting a project assumption, its owner, validation status, and impact if proven invalid.",
+  "type": "object",
+  "required": ["id", "description", "type", "owner", "origin_phase", "evidence_available", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique assumption identifier (e.g. ASM-001)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Clear statement of the assumption being made"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["technical", "business", "data", "ai", "legal", "external"],
+      "description": "Assumption category for classification and reporting"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Person or role responsible for validating this assumption"
+    },
+    "origin_phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8,
+      "description": "Lifecycle phase in which this assumption was first documented"
+    },
+    "evidence_available": {
+      "type": "boolean",
+      "description": "Whether supporting evidence for this assumption currently exists"
+    },
+    "validation_deadline": {
+      "type": "string",
+      "format": "date",
+      "description": "Date by which this assumption must be validated (ISO 8601)"
+    },
+    "impact_if_invalid": {
+      "type": "string",
+      "description": "Description of consequences to scope, timeline, or design if this assumption proves wrong"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "validated", "invalidated", "accepted"],
+      "description": "Current validation status of the assumption"
+    }
+  }
+}

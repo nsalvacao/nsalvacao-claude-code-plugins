@@ -33,8 +33,7 @@ Consult `references/ai-overlay.md` for the full phase-by-phase AI activity list.
 - **Phase 3**: Training data requirements, experiment backlog creation
 - **Phase 4**: Experiment loop (hypothesis → train → evaluate → decide), model card creation
 - **Phase 5**: AI validation (accuracy, bias, fairness, safety, red-team for LLMs)
-- **Phase 6**: Drift monitoring, retraining triggers, model performance reporting
-- **Phase 7**: Model retirement, dataset archiving, model card archiving
+- **Phase 6–7**: Drift monitoring, retraining triggers, model performance reporting, version management
 
 ### Step 3: Design and Track Experiments
 For each AI experiment in Phase 4:

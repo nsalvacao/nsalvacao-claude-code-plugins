@@ -64,7 +64,7 @@ Activate the GenAI overlay when your project:
 - [ ] **Prompt Injection Testing:** Sprint DoD includes testing user-facing LLM features for injection vulnerabilities
 - [ ] **Minimum Evaluation:** 20+ evaluation examples per feature before production
 
-**AI Delivery Loop (Subfase 4.3):** research → prompt design → evaluate → refine → adopt
+**AI Delivery Loop (Sub-phase 4.3):** research → prompt design → evaluate → refine → adopt
 
 ### Phase 5 — Validation & Release
 

@@ -12,7 +12,6 @@ set -e
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Counters
@@ -25,7 +24,6 @@ PLUGIN_DIR="plugins/agile-lifecycle"
 SKILLS_DIR="${PLUGIN_DIR}/skills"
 AGENTS_DIR="${PLUGIN_DIR}/agents"
 DOCS_DIR="${PLUGIN_DIR}/docs"
-TEMPLATES_DIR="${PLUGIN_DIR}/templates"
 PLUGIN_JSON="${PLUGIN_DIR}/.claude-plugin/plugin.json"
 MARKETPLACE_JSON=".claude-plugin/marketplace.json"
 
@@ -51,8 +49,6 @@ while IFS= read -r skill_file; do
   if [ -z "$skill_file" ]; then
     continue
   fi
-
-  skill_name=$(basename "$(dirname "$skill_file")")
 
   # Check for name field
   if ! grep -q "^name:" "$skill_file"; then
@@ -144,13 +140,14 @@ echo "--------------------------------------"
 # Extract all template references from docs
 TEMP_REFS=$(grep -rho "templates/[a-z0-9/_-]*\.template" "$DOCS_DIR" 2>/dev/null || true)
 
-for ref in $TEMP_REFS; do
+while IFS= read -r ref; do
+  [ -z "$ref" ] && continue
   template_file="${PLUGIN_DIR}/${ref}"
   if [ ! -f "$template_file" ]; then
     BROKEN_REFS=$((BROKEN_REFS + 1))
     echo -e "  ${RED}FAIL${NC}: Broken reference in docs: ${ref} (file not found)"
   fi
-done
+done <<< "$TEMP_REFS"
 
 if [ $BROKEN_REFS -eq 0 ]; then
   UNIQUE_REFS=$(echo "$TEMP_REFS" | sort | uniq | wc -l)

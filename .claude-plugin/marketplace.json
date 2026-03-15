@@ -101,7 +101,7 @@
     },
     {
       "name": "agile-lifecycle",
-      "description": "Hybrid gated-iterative lifecycle framework for AI/ML products — 7 phases, 6 formal gates (A–F), 31 agents, 13 skills, and full artefact management. Enterprise agile with governance overlay.",
+      "description": "Hybrid gated-iterative lifecycle framework for AI/ML products — 7 phases, 6 formal gates (A–F), 31 agents, 16 skills, and full artefact management. Enterprise agile with governance overlay.",
       "version": "0.1.0",
       "author": {
         "name": "Nuno Salvacao",

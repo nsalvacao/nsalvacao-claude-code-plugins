@@ -60,16 +60,12 @@ cat > "$STATE_FILE" <<STATEJSON
     "7": { "status": "not_started", "name": "Retire or Replace" }
   },
   "gates": {
-    "A": { "status": "pending" },
-    "B": { "status": "pending" },
-    "C": { "status": "pending" },
-    "D": { "status": "pending" },
-    "E": { "status": "pending" },
-    "F": { "status": "pending" },
-    "G": { "status": "pending" },
-    "H": { "status": "pending" },
-    "I": { "status": "pending" },
-    "J": { "status": "pending" }
+    "A": { "status": "pending", "name": "Portfolio Entry" },
+    "B": { "status": "pending", "name": "Inception Closure" },
+    "C": { "status": "pending", "name": "Backlog Readiness" },
+    "D": { "status": "pending", "name": "Release Authorization" },
+    "E": { "status": "pending", "name": "Operations Handover" },
+    "F": { "status": "pending", "name": "Governance Review" }
   },
   "open_risks": 0,
   "open_assumptions": 0,

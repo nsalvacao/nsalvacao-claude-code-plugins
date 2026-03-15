@@ -40,7 +40,7 @@ def check_metric(label, value, warn_threshold, crit_threshold, higher_is_worse=T
         return
     if higher_is_worse:
         if value >= crit_threshold:
-            print(f"  CRIT: {label} = {value} (threshold: <{warn_threshold})")
+            print(f"  CRIT: {label} = {value} (threshold: <{crit_threshold})")
             warnings += 1
         elif value >= warn_threshold:
             print(f"  WARN: {label} = {value} (threshold: <{warn_threshold})")
@@ -49,7 +49,7 @@ def check_metric(label, value, warn_threshold, crit_threshold, higher_is_worse=T
             print(f"  OK:   {label} = {value}")
     else:
         if value <= crit_threshold:
-            print(f"  CRIT: {label} = {value} (threshold: >{warn_threshold})")
+            print(f"  CRIT: {label} = {value} (threshold: >{crit_threshold})")
             warnings += 1
         elif value <= warn_threshold:
             print(f"  WARN: {label} = {value} (threshold: >{warn_threshold})")
@@ -61,21 +61,21 @@ sprint_id = data.get("sprint_id", "unknown")
 print(f"Sprint: {sprint_id}")
 print("")
 
-# Commitment ratio: committed / completed (lower is worse)
-committed = data.get("committed_points")
-completed = data.get("completed_points")
-if committed and committed > 0 and completed is not None:
-    ratio = round(completed / committed, 2)
-    check_metric("Commitment ratio", ratio, 0.7, 0.5, higher_is_worse=False)
-else:
-    print("  SKIP: Commitment ratio — missing committed/completed points")
+# Commitment ratio: read direct field (schema) or calculate from points (fallback)
+commitment_ratio = data.get("commitment_ratio")
+if commitment_ratio is None:
+    committed = data.get("committed_points")
+    completed = data.get("completed_points")
+    if committed and committed > 0 and completed is not None:
+        commitment_ratio = round(completed / committed, 2)
+check_metric("Commitment ratio", commitment_ratio, 0.7, 0.5, higher_is_worse=False)
 
 # Carry-over rate
 carryover = data.get("carryover_items", 0)
 check_metric("Carry-over items", carryover, 3, 5)
 
-# Defects found
-defects = data.get("defects_found", 0)
+# Defects: read schema field name with fallback to legacy name
+defects = data.get("defect_count", data.get("defects_found", 0))
 check_metric("Defects found", defects, 5, 10)
 
 # Velocity trend (3-sprint avg vs current)

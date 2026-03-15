@@ -62,7 +62,7 @@ unmet = []
 
 for item in items:
     label = item.get("criterion", item.get("label", str(item)))
-    done = item.get("met", item.get("done", item.get("status") == "met"))
+    done = item.get("met", item.get("done", item.get("status") in ("met", "pass")))
     if done:
         met += 1
         print(f"  OK:   {label}")

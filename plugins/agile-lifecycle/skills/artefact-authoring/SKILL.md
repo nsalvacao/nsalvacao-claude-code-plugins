@@ -54,7 +54,7 @@ Each template includes a completeness checklist at the bottom. Work through ever
 
 ### Step 7: Register in Evidence Index
 After the artefact is complete:
-- Create an evidence index entry (template: `templates/transversal/evidence-index-entry.md.template`)
+- Create an evidence index entry (template: `templates/transversal/evidence-entry.md.template`)
 - Record: artefact ID, type, path, author, review status, gate it satisfies
 - Update the artefact manifest if one is maintained for the project
 

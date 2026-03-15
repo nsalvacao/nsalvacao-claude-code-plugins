@@ -29,10 +29,14 @@ for pair in "$@"; do
   fi
   key="${pair%%=*}"
   value="${pair#*=}"
-  # Escape special characters in value for sed
-  # shellcheck disable=SC2016
-  escaped_value=$(printf '%s\n' "$value" | sed 's/[[\.*^$()+?{|]/\\&/g')
-  sed -i "s|{{${key}}}|${escaped_value}|g" "$OUTPUT_FILE"
+  # Use Python for replacement: safe for any value (handles &, |, backslashes, newlines),
+  # portable across macOS/BSD and Linux without sed -i quirks.
+  python3 - "$key" "$value" "$OUTPUT_FILE" <<'PYEOF'
+import sys
+k, v, fp = sys.argv[1], sys.argv[2], sys.argv[3]
+content = open(fp, encoding='utf-8').read()
+open(fp, 'w', encoding='utf-8').write(content.replace('{{' + k + '}}', v))
+PYEOF
 done
 
 # Report any remaining unfilled placeholders

@@ -36,7 +36,7 @@ Retrospective insights feed into the continuous improvement backlog and can trig
    - Gate outcomes and any waivers granted
    - Open risks that materialised
    - Artefact quality assessment
-5. Records action items in the improvement backlog using `templates/phase-6/improvement-backlog.md.template`.
+5. Records action items in the improvement backlog using `templates/phase-7/improvement-backlog.md.template`.
 6. Checks if any improvement triggers a change recommendation — escalates to `/agile-change-request` if significant.
 7. Updates metrics with retrospective completion marker.
 

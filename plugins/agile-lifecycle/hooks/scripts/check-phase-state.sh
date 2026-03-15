@@ -64,7 +64,7 @@ phases = data.get("phases", {})
 gates = data.get("gates", {})
 
 # Warn if Phase 2+ is in_progress but Gate A is still pending
-gate_unlock = {"A": "2", "B": "3", "C": "4", "F": "5", "G": "6", "J": "7"}
+gate_unlock = {"A": "2", "B": "3", "C": "4", "D": "5", "E": "6", "F": "7"}
 for gate_label, unlocks_phase in gate_unlock.items():
     gate_status = gates.get(gate_label, {}).get("status", "pending")
     phase_status = phases.get(unlocks_phase, {}).get("status", "not_started")

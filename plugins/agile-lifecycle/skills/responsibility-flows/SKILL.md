@@ -1,6 +1,6 @@
 ---
 name: responsibility-flows
-description: Use when creating RACI charts, mapping accountability by activity, resolving accountability gaps, or producing the Role-Responsibility Map artefact. Triggers when entering Phase 2 (Architecture) or Phase 3 (Discovery), or when team structure changes during delivery.
+description: "This skill should be used when creating RACI charts, mapping accountability by activity, resolving accountability gaps, or producing the Role-Responsibility Map artefact. Triggers when entering Phase 2 (Architecture) or Phase 3 (Discovery), or when team structure changes during delivery."
 ---
 
 # Responsibility Flows

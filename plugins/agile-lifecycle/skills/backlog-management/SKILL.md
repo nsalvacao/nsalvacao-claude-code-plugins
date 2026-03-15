@@ -1,6 +1,6 @@
 ---
 name: backlog-management
-description: Use when shaping the product backlog, prioritizing stories, or preparing items for sprint readiness. Triggers when entering Phase 3 (Discovery), transitioning to Phase 4 (Delivery), or when backlog health needs assessment.
+description: "This skill should be used when shaping the product backlog, prioritizing stories, or preparing items for sprint readiness. Triggers when entering Phase 3 (Discovery), transitioning to Phase 4 (Delivery), or when backlog health needs assessment."
 ---
 
 # Backlog Management

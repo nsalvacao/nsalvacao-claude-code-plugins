@@ -1,6 +1,6 @@
 ---
 name: change-control
-description: Use when evaluating if a change is incremental or significant, when processing a change request, or when updating the change log. Triggers when scope, requirements, or architecture changes are proposed.
+description: "This skill should be used when evaluating if a change is incremental or significant, when processing a change request, or when updating the change log. Triggers when scope, requirements, or architecture changes are proposed."
 ---
 
 # Change Control

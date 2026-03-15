@@ -16,6 +16,7 @@ import os from 'node:os';
 import { EventEmitter } from 'node:events';
 
 import {
+  withTimeout,
   sanitizePath,
   isValidPluginRoot,
   classifyFile,
@@ -75,6 +76,56 @@ function mockRes() {
   };
   return res;
 }
+
+// ---------------------------------------------------------------------------
+// withTimeout
+// ---------------------------------------------------------------------------
+
+describe('withTimeout', () => {
+  it('preserves ETIMEDOUT behavior when the wrapped promise stalls', async () => {
+    await assert.rejects(
+      withTimeout(new Promise(() => {}), 5),
+      (error) => error instanceof Error && error.code === 'ETIMEDOUT',
+    );
+  });
+
+  it('clears the timer after the wrapped promise resolves', async () => {
+    const originalSetTimeout = globalThis.setTimeout;
+    const originalClearTimeout = globalThis.clearTimeout;
+    let scheduledTimer = null;
+    let clearCount = 0;
+
+    globalThis.setTimeout = ((fn, ms) => {
+      scheduledTimer = {
+        fn,
+        ms,
+        cleared: false,
+        unref() {
+          return this;
+        },
+      };
+      return scheduledTimer;
+    });
+
+    globalThis.clearTimeout = ((timer) => {
+      if (timer === scheduledTimer) {
+        timer.cleared = true;
+        clearCount += 1;
+      }
+    });
+
+    try {
+      assert.equal(await withTimeout(Promise.resolve('ok'), 5), 'ok');
+      assert.ok(scheduledTimer);
+      assert.equal(scheduledTimer.ms, 5);
+      assert.equal(scheduledTimer.cleared, true);
+      assert.equal(clearCount, 1);
+    } finally {
+      globalThis.setTimeout = originalSetTimeout;
+      globalThis.clearTimeout = originalClearTimeout;
+    }
+  });
+});
 
 // ---------------------------------------------------------------------------
 // sanitizePath

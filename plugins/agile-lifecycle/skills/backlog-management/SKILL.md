@@ -23,13 +23,13 @@ Review existing backlog items and their current status. Load `references/artefac
 
 ### Step 2: Create Backlog Items from Discovery Output
 For each feature or capability identified in Phase 3:
-- Use `templates/phase-3/backlog-item.md.template` to structure each item
+- Use `templates/phase-3/sprint-backlog.md.template` to structure each item
 - Set: `id`, `title`, `epic` (parent feature), `user_story` (As a / I want / So that), `business_value`, `priority`
 - Tag with phase origin and source artefact reference
 - Link to any related assumption or risk entries
 
 ### Step 3: Write Acceptance Criteria
-For each backlog item, define acceptance criteria using the format in `templates/phase-3/acceptance-criteria-catalog.md.template`:
+For each backlog item, define acceptance criteria using the format in `templates/phase-3/acceptance-criteria.md.template`:
 - Each criterion must be independently verifiable
 - Use Given/When/Then where behaviour is involved
 - Include non-functional requirements as separate criteria (performance, security, accessibility)
@@ -76,8 +76,8 @@ At the end of each sprint and before each gate review, assess backlog health:
 5. **Backlog health is a delivery risk** — low readiness ratio is an early warning sign for sprint planning failure.
 
 ## Reference Materials
-- `templates/phase-3/backlog-item.md.template` — Backlog item structure and required fields
-- `templates/phase-3/acceptance-criteria-catalog.md.template` — Acceptance criteria patterns
+- `templates/phase-3/sprint-backlog.md.template` — Sprint backlog and backlog item structure
+- `templates/phase-3/acceptance-criteria.md.template` — Acceptance criteria patterns
 - `references/artefact-catalog.md` — Mandatory backlog artefacts by phase
 - Schema: `schemas/sprint-contract.schema.json`
 

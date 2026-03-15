@@ -30,13 +30,13 @@ Load `references/lifecycle-overview.md` for the standard phase map and default g
 ### Step 2: Select a Tailoring Profile
 Match the context to one of the standard profiles (or define a hybrid):
 
-**MVP/Startup profile**: Compress Phases 1–2 into a single framing week. Gate A and B are informal checkpoints. Phase 3 runs in parallel with early Phase 4 sprints. Gate C is a team self-assessment. Mandatory artefacts reduced to: phase contract, risk register, backlog.
+- **MVP/Startup profile**: Compress Phases 1–2 into a single framing week. Gate A and B are informal checkpoints. Phase 3 runs in parallel with early Phase 4 sprints. Gate C is a team self-assessment. Mandatory artefacts reduced to: phase contract, risk register, backlog.
 
-**Data platform profile**: Full Phase 1–2 required. Gate A mandatory (data governance sign-off). Phase 3 must include data model artefacts. Gate C includes data quality and lineage evidence. Phase 5 (Hardening) has extended test windows.
+- **Data platform profile**: Full Phase 1–2 required. Gate A mandatory (data governance sign-off). Phase 3 must include data model artefacts. Gate C includes data quality and lineage evidence. Phase 5 (Hardening) has extended test windows.
 
-**Enterprise integration profile**: All phases and gates mandatory. Phase 2 must produce integration architecture. Gate B requires architecture review board sign-off. Phase 4 has a mandatory security sprint. Gate E requires operational readiness review.
+- **Enterprise integration profile**: All phases and gates mandatory. Phase 2 must produce integration architecture. Gate B requires architecture review board sign-off. Phase 4 has a mandatory security sprint. Gate E requires operational readiness review.
 
-**Regulated product profile**: All phases, all gates, all artefacts mandatory. Additional compliance artefacts required (audit log, traceability matrix, validation protocol). Gate reviews require external or independent reviewer sign-off.
+- **Regulated product profile**: All phases, all gates, all artefacts mandatory. Additional compliance artefacts required (audit log, traceability matrix, validation protocol). Gate reviews require external or independent reviewer sign-off.
 
 ### Step 3: Define Phase Compression and Skip Rules
 For the selected profile, document which phases can be compressed or skipped:

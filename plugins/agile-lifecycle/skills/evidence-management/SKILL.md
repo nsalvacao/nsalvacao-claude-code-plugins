@@ -22,7 +22,7 @@ Gate reviews require a curated, traceable evidence pack that proves all exit cri
 Determine which gate (A–F) is being prepared. Load `references/gate-criteria-reference.md` for the specific gate's mandatory evidence. Cross-reference with the phase contract exit criteria (`schemas/phase-contract.schema.json`) to confirm alignment.
 
 ### Step 2: Create or Update the Evidence Index
-Open the evidence index for the current phase. Use `templates/transversal/evidence-index-entry.md.template` for each new entry. Required fields per entry:
+Open the evidence index for the current phase. Use `templates/transversal/evidence-entry.md.template` for each new entry. Required fields per entry:
 - `id`: unique artefact identifier (e.g., `EV-P3-001`)
 - `artefact_name`: human-readable name
 - `artefact_type`: document | schema | test-result | sign-off | metric
@@ -80,7 +80,7 @@ After the gate review is complete:
 
 ## Reference Materials
 - `references/gate-criteria-reference.md` — Mandatory evidence per gate (A–F)
-- `templates/transversal/evidence-index-entry.md.template` — Evidence index entry structure
+- `templates/transversal/evidence-entry.md.template` — Evidence index entry structure
 - `templates/transversal/gate-review-report.md.template` — Gate review report template
 - `templates/transversal/waiver-entry.md.template` — Waiver record template
 - Schema: `schemas/evidence-index.schema.json`

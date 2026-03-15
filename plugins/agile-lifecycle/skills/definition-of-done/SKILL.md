@@ -19,7 +19,7 @@ The Definition of Done (DoD) is a formal, team-agreed checklist that distinguish
 ## Instructions
 
 ### Step 1: Load the DoD Schema and Template
-Open `schemas/definition-of-done.schema.json` to understand the mandatory structure. Use `templates/phase-3/definition-of-done.md.template` to create or update the DoD document. The DoD document is a project-level artefact — it is not per-sprint.
+Open `schemas/definition-of-done.schema.json` to understand the mandatory structure. Use `templates/phase-3/dod-checklist.md.template` to create or update the DoD document. The DoD document is a project-level artefact — it is not per-sprint.
 
 ### Step 2: Define Story-Level Done Criteria
 A story is done when ALL of the following are true (adapt to project context):
@@ -77,10 +77,10 @@ Review the DoD at each phase gate and after major retrospectives:
 5. **The DoD is an evidence artefact** — it is referenced in gate reviews as proof of quality standards applied.
 
 ## Reference Materials
-- `templates/phase-3/definition-of-done.md.template` — DoD template with story/sprint/release sections
+- `templates/phase-3/dod-checklist.md.template` — DoD checklist template with story/sprint/release sections
 - Schema: `schemas/definition-of-done.schema.json`
 - `references/artefact-catalog.md` — DoD as mandatory artefact for Phase 3 exit
-- `templates/phase-3/test-strategy.md.template` — Test strategy complements DoD at sprint and release level
+- `templates/phase-3/test-plan.md.template` — Test plan template complements DoD at sprint and release level
 
 ## Quality Checks
 - DoD document exists as a formal project artefact before Phase 4 starts

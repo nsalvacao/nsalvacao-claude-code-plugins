@@ -23,7 +23,7 @@ Identify whether this is a sprint retrospective or a phase retrospective:
 - **Sprint retrospective**: 45–60 min, end of every sprint, team-level, focuses on process and collaboration
 - **Phase retrospective**: 90–120 min, post-gate, broader audience (can include stakeholders), focuses on phase governance and delivery quality
 
-Load `templates/phase-4/retrospective.md.template` for the sprint format. For phase retrospectives, use the same template extended with phase-level sections.
+Structure the session using the retrospective schema in `schemas/retrospective.schema.json`. For phase retrospectives, extend with phase-level sections covering contract adherence, RACI effectiveness, and governance quality.
 
 ### Step 2: Prepare the Session
 Before the session:
@@ -56,7 +56,7 @@ Facilitation rules:
 ### Step 5: Define Action Items
 From the prioritised themes:
 - Select 1–3 action items (no more — focus over completeness)
-- For each action item, define using `templates/phase-4/retrospective.md.template`:
+- For each action item, define with the following fields (validate against `schemas/retrospective.schema.json`):
   - `action`: specific, concrete change to be made
   - `owner`: named person (not a role — a real name)
   - `due_date`: specific date within the next sprint or phase
@@ -87,7 +87,6 @@ At each phase gate, run a phase retrospective in addition to the sprint retrospe
 5. **Improvement is iterative** — 1–3 focused actions per sprint, consistently followed through, outperforms 10 aspirational actions never completed.
 
 ## Reference Materials
-- `templates/phase-4/retrospective.md.template` — Retrospective facilitation and action item template
 - Schema: `schemas/retrospective.schema.json`
 - `references/artefact-catalog.md` — Phase retrospective as mandatory phase gate artefact
 - `skills/sprint-facilitation/SKILL.md` — Sprint ceremony context; Step 5 references this skill

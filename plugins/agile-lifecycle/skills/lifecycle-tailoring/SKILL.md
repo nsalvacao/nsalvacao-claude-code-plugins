@@ -1,6 +1,6 @@
 ---
 name: lifecycle-tailoring
-description: Use when adapting the agile lifecycle framework to a specific product type, team size, or delivery context. Triggers when starting Phase 1 (Framing) or Phase 2 (Architecture), or when governance intensity needs to be calibrated.
+description: This skill should be used when a project needs the lifecycle framework adapted to its specific product type (MVP, startup, data platform, enterprise, or regulated product), team size, or risk profile. Triggers when the user asks "what phases are mandatory for us", "can we skip Gate B", "we're building an MVP — what's the minimum governance", or when Phase 1 is starting and the governance configuration must be decided.
 ---
 
 # Lifecycle Tailoring

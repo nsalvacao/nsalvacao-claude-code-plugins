@@ -1,6 +1,6 @@
 ---
 name: ai-lifecycle
-description: Use when working with AI/ML specific lifecycle activities — model development, experiment tracking, AI validation, model operations. Triggers when the project involves AI/ML components.
+description: This skill should be used when a project includes AI/ML components and needs guidance on experiment design, model card creation, AI validation, bias and fairness assessment, LLM red-teaming, or drift monitoring configuration. Applies when a user asks to design an AI experiment, plan model validation, set up ML monitoring, or assess AI-specific gate criteria (Gates D and E).
 ---
 
 # AI Lifecycle

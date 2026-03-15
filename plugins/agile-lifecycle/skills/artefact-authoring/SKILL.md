@@ -1,6 +1,6 @@
 ---
 name: artefact-authoring
-description: Use when creating or filling lifecycle artefacts, when selecting the right template, or when validating artefact completeness against schema.
+description: This skill should be used when a user needs to create, fill, or validate a lifecycle artefact using the framework's template library — including selecting the correct template for a phase or gate artefact, filling all mandatory fields, removing guidance comments, and validating against a JSON schema. Triggers when the user says "create the [artefact name]", "fill in the template for", or "is this artefact gate-ready".
 ---
 
 # Artefact Authoring

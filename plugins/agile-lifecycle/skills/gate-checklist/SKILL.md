@@ -1,6 +1,6 @@
 ---
 name: gate-checklist
-description: Use when conducting a formal gate review (Gates A-F), when validating gate criteria, or when deciding PASS/FAIL/WAIVED for a lifecycle gate.
+description: This skill should be used when conducting a formal gate review (Gates A-F), when validating gate criteria, or when deciding PASS/FAIL/WAIVED for a lifecycle gate.
 ---
 
 # Gate Checklist

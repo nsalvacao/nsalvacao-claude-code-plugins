@@ -1,6 +1,6 @@
 ---
 name: risk-management
-description: Use when managing risks, assumptions, clarifications, or dependencies. Triggers when adding new risks, updating risk status, identifying assumptions, or tracking open decisions.
+description: This skill should be used when managing risks, assumptions, clarifications, or dependencies. Triggers when adding new risks, updating risk status, identifying assumptions, or tracking open decisions.
 ---
 
 # Risk Management

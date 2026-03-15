@@ -1,6 +1,6 @@
 ---
 name: retrospective
-description: Use when facilitating sprint retrospectives or phase retrospectives, managing an improvement backlog, or tracking retrospective action items. Triggers at the end of each sprint, at each phase gate, or when the team needs a structured process improvement session.
+description: This skill should be used when a full sprint or phase retrospective needs facilitation, when the improvement backlog needs management, or when retrospective action items from a prior sprint need follow-up. This is the primary retrospective skill — sprint-facilitation references it for deep retrospective guidance. Triggers when a user asks for a retrospective format, wants to track improvement actions, or is running a phase retrospective as a gate artefact.
 ---
 
 # Retrospective

@@ -1,6 +1,6 @@
 ---
 name: definition-of-done
-description: Use when defining, applying, or updating the Definition of Done. Triggers when Phase 4 is about to start, when a story is declared complete, or when quality standards need to be updated across sprint and release levels.
+description: This skill should be used when defining, applying, or updating the Definition of Done. Triggers when Phase 4 is about to start, when a story is declared complete, or when quality standards need to be updated across sprint and release levels.
 ---
 
 # Definition of Done

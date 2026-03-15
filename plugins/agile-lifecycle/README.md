@@ -2,7 +2,7 @@
 
 > Hybrid gated-iterative lifecycle framework for AI/ML and digital products
 
-A Claude Code plugin that operationalizes enterprise agile lifecycle management with **7 phases**, **6 formal gates**, **31 specialized agents**, **13 skills**, and comprehensive artefact management.
+A Claude Code plugin that operationalizes enterprise agile lifecycle management with **7 phases**, **6 formal gates**, **31 specialized agents**, **16 skills**, and comprehensive artefact management.
 
 ## Overview
 

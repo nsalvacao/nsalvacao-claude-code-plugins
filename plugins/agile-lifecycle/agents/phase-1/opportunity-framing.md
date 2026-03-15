@@ -1,7 +1,7 @@
 ---
 name: opportunity-framing
 description: |-
-  Use this agent when starting Phase 1 of the lifecycle — framing the opportunity, articulating the business problem, building the AI justification, and mapping stakeholders. Examples: "Let's frame our AI opportunity", "I need to write an opportunity statement", "Help me articulate the business case for using AI here", "Map out our stakeholders for this initiative". Examples:
+  Use this agent when starting Phase 1 of the lifecycle — framing the opportunity, articulating the business problem, building the AI justification, and mapping stakeholders. Examples: "Let's frame our AI opportunity", "I need to write an opportunity statement", "Help me articulate the business case for using AI here", "Map out our stakeholders for this initiative"
 
   <example>
   Context: An executive sponsor has identified a potential AI initiative but needs it formally framed before board approval.

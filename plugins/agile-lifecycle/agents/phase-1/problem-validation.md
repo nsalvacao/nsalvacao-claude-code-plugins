@@ -1,7 +1,7 @@
 ---
 name: problem-validation
 description: |-
-  Use this agent to validate the problem with evidence through user research, pain point mapping, and market context analysis. Examples: "Validate our problem statement with user research", "Map user pain points for this problem", "What evidence do we have that this problem is real?", "Conduct a user journey analysis", "Confirm the problem is worth solving before we go further". Examples:
+  Use this agent to validate the problem with evidence through user research, pain point mapping, and market context analysis. Examples: "Validate our problem statement with user research", "Map user pain points for this problem", "What evidence do we have that this problem is real?", "Conduct a user journey analysis", "Confirm the problem is worth solving before we go further"
 
   <example>
   Context: Product team has framed a problem around manual data entry but hasn't confirmed users actually experience this as painful.

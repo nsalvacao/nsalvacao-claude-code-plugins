@@ -3,8 +3,6 @@ name: functional-validation
 description: |-
   Use when executing end-to-end functional validation, preparing UAT, or producing the Functional Test Report. Triggers at Subfase 5.1 or when functional completeness needs to be assessed. Example: user asks "run functional validation" or "prepare UAT".
 
-  Examples:
-
   <example>
   Context: Phase 5 starts and the built system needs user acceptance testing with real users before Gate E.
   user: "Phase 4 is complete — set up and run UAT for the recommendation system"

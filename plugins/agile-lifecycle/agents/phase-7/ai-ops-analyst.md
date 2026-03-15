@@ -1,7 +1,7 @@
 ---
 name: ai-ops-analyst
 description: |-
-  Use when monitoring AI/ML model performance in production — drift detection, retraining decisions, AI monitoring reports, or model version management. Triggers at Subfase 7.2 or when AI model health needs assessment. Example: user asks "check for model drift" or "generate AI monitoring report". Examples:
+  Use when monitoring AI/ML model performance in production — drift detection, retraining decisions, AI monitoring reports, or model version management. Triggers at Subfase 7.2 or when AI model health needs assessment. Example: user asks "check for model drift" or "generate AI monitoring report"
 
   <example>
   Context: ML model has been in production for 2 months and the team needs to check for performance degradation.

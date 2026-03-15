@@ -1,7 +1,7 @@
 ---
 name: gate-reviewer
 description: |-
-  Use this agent when the user asks to run a gate review, formal approval checkpoint, or quality gate. Examples: "Run gate A review", "We need to pass Gate D before release", "Perform the formal gate check for phase 2", "Is our evidence sufficient for Gate B?". Examples:
+  Use this agent when the user asks to run a gate review, formal approval checkpoint, or quality gate. Examples: "Run gate A review", "We need to pass Gate D before release", "Perform the formal gate check for phase 2", "Is our evidence sufficient for Gate B?"
 
   <example>
   Context: Phase 2 work is complete and the team needs to pass Gate B before starting Phase 3.

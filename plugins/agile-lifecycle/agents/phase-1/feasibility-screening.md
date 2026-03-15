@@ -1,7 +1,7 @@
 ---
 name: feasibility-screening
 description: |-
-  Use this agent to screen technical and commercial feasibility of an AI initiative. Examples: "Assess feasibility of this AI solution", "Is our data good enough for this model?", "Check technical constraints before we commit", "Go/no-go assessment for the opportunity", "Can we build this with the data we have?". Examples:
+  Use this agent to screen technical and commercial feasibility of an AI initiative. Examples: "Assess feasibility of this AI solution", "Is our data good enough for this model?", "Check technical constraints before we commit", "Go/no-go assessment for the opportunity", "Can we build this with the data we have?"
 
   <example>
   Context: Team wants to know if building a real-time fraud detection model is technically feasible given their infrastructure.

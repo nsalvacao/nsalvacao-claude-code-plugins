@@ -1,7 +1,7 @@
 ---
 name: continuous-improvement
 description: |-
-  Use when driving continuous improvement cycles — retrospectives, improvement backlog management, change recommendations, or iteration decisions. Triggers at Subfase 7.3 or when improvement opportunities need capturing and prioritizing. Example: user asks "run a retrospective" or "prioritize the improvement backlog". Examples:
+  Use when driving continuous improvement cycles — retrospectives, improvement backlog management, change recommendations, or iteration decisions. Triggers at Subfase 7.3 or when improvement opportunities need capturing and prioritizing. Example: user asks "run a retrospective" or "prioritize the improvement backlog"
 
   <example>
   Context: End of Q1 with the product in production; team needs to run a lifecycle retrospective and identify improvement priorities.

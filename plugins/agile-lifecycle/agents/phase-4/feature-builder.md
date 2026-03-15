@@ -3,8 +3,6 @@ name: feature-builder
 description: |-
   Use this agent when executing a sprint to guide feature implementation, code review, and unit testing. Examples: "Help me implement this feature against the acceptance criteria", "Review this code for quality", "What unit tests should I write for this component?", "Guide the implementation of this sprint backlog item", "How should I structure this feature code?"
 
-  Examples:
-
   <example>
   Context: Developer is implementing a sprint backlog item and needs guidance on meeting acceptance criteria.
   user: "Help me implement the user notification feature — here are the acceptance criteria"

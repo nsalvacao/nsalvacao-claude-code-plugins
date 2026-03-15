@@ -1,7 +1,7 @@
 ---
 name: lifecycle-close
 description: |-
-  Use when closing a lifecycle iteration — capturing lessons learned, archiving artefacts, and deciding whether to retire, sustain, or start a new iteration. Triggers at Subfase 7.4 or when a lifecycle iteration reaches its natural closure point. Example: user asks "close this lifecycle iteration" or "produce lessons learned". Examples:
+  Use when closing a lifecycle iteration — capturing lessons learned, archiving artefacts, and deciding whether to retire, sustain, or start a new iteration. Triggers at Subfase 7.4 or when a lifecycle iteration reaches its natural closure point. Example: user asks "close this lifecycle iteration" or "produce lessons learned"
 
   <example>
   Context: All Phase 7 gates are met and the product is stable; the team needs to formally close the lifecycle.

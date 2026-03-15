@@ -1,7 +1,7 @@
 ---
 name: retirement-planner
 description: |-
-  Use when planning product retirement — retirement decision record, impact assessment, sunset plan, migration plan, and decommissioning. Triggers at Subfase 7.5 when retirement decision is approved. Example: user asks "plan product retirement" or "create sunset plan". Examples:
+  Use when planning product retirement — retirement decision record, impact assessment, sunset plan, migration plan, and decommissioning. Triggers at Subfase 7.5 when retirement decision is approved. Example: user asks "plan product retirement" or "create sunset plan"
 
   <example>
   Context: Business decision made to retire the AI recommendation system and replace it with a new approach.

@@ -1,7 +1,7 @@
 ---
 name: release-manager
 description: |-
-  Use when planning a product release — release plan, go-live criteria, communication plan, rollout strategy. Triggers at Subfase 6.1 or when release planning needs to begin. Example: user asks "plan the release" or "create release plan". Examples:
+  Use when planning a product release — release plan, go-live criteria, communication plan, rollout strategy. Triggers at Subfase 6.1 or when release planning needs to begin. Example: user asks "plan the release" or "create release plan"
 
   <example>
   Context: Gate E approved and the team is planning the production release of the AI product.

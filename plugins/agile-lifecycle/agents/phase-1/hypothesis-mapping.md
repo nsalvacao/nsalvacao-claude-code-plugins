@@ -1,7 +1,7 @@
 ---
 name: hypothesis-mapping
 description: |-
-  Use this agent to map solution hypotheses, define value and AI hypotheses, and propose experiments. Examples: "Map our solution hypotheses", "Define value hypotheses for this AI feature", "Create the hypothesis canvas for Gate A", "What experiments should we run to test our assumptions?", "Frame our AI approach as testable hypotheses". Examples:
+  Use this agent to map solution hypotheses, define value and AI hypotheses, and propose experiments. Examples: "Map our solution hypotheses", "Define value hypotheses for this AI feature", "Create the hypothesis canvas for Gate A", "What experiments should we run to test our assumptions?", "Frame our AI approach as testable hypotheses"
 
   <example>
   Context: Team has validated the problem and needs to structure their assumptions before designing the solution.

@@ -3,8 +3,6 @@ name: quality-assurance
 description: |-
   Use when running quality assurance activities — regression testing, performance testing, defect management, and sprint quality reporting. Triggers at Subfase 4.4 or when quality gates need validation. Example: user asks "run QA on the sprint deliverables" or "check defect log".
 
-  Examples:
-
   <example>
   Context: Phase 4 build is complete and the QA cycle must run before Gate D.
   user: "All features are built and integrated — run the QA cycle for Gate D"

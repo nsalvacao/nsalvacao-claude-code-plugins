@@ -1,7 +1,7 @@
 ---
 name: hypercare-lead
 description: |-
-  Use when managing the post-launch hypercare period — intensive monitoring, rapid incident response, user feedback triage, and hypercare closure. Triggers at Subfase 6.3 or when go-live is confirmed and hypercare begins. Example: user asks "start hypercare" or "generate hypercare report". Examples:
+  Use when managing the post-launch hypercare period — intensive monitoring, rapid incident response, user feedback triage, and hypercare closure. Triggers at Subfase 6.3 or when go-live is confirmed and hypercare begins. Example: user asks "start hypercare" or "generate hypercare report"
 
   <example>
   Context: Product launched 2 days ago and the hypercare period is active with the team monitoring for issues.

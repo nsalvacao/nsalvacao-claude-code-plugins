@@ -1,7 +1,7 @@
 ---
 name: deployment-engineer
 description: |-
-  Use when executing a production deployment — running deployment steps, recording outcomes, monitoring go-live, and deciding on rollback. Triggers at Subfase 6.2 or when a deployment needs to be executed or documented. Example: user asks "execute deployment" or "create deployment record". Examples:
+  Use when executing a production deployment — running deployment steps, recording outcomes, monitoring go-live, and deciding on rollback. Triggers at Subfase 6.2 or when a deployment needs to be executed or documented. Example: user asks "execute deployment" or "create deployment record"
 
   <example>
   Context: Release is approved and the deployment engineer needs to execute the production deployment.

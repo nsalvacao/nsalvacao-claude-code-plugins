@@ -1,7 +1,7 @@
 ---
 name: risk-assumption-tracker
 description: |-
-  Use this agent when the user asks to add or update risks, assumptions, clarifications, or dependencies. Examples: "Log this risk", "Add an assumption about data quality", "Update the status of risk R-003", "What assumptions are past due?", "Show me all open clarifications", "Track this dependency on the data team". Examples:
+  Use this agent when the user asks to add or update risks, assumptions, clarifications, or dependencies. Examples: "Log this risk", "Add an assumption about data quality", "Update the status of risk R-003", "What assumptions are past due?", "Show me all open clarifications", "Track this dependency on the data team"
 
   <example>
   Context: Team is in Phase 2 and has identified that a key data source may not be accessible.

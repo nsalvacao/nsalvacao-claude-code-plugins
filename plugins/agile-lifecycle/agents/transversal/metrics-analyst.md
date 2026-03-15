@@ -1,7 +1,7 @@
 ---
 name: metrics-analyst
 description: |-
-  Use this agent when the user asks for metrics, reports, performance analysis, or KPI tracking. Examples: "Generate a metrics report", "What's our velocity this sprint?", "Show me AI model performance metrics", "How are we tracking against quality targets?", "Generate the governance metrics report", "Compare our delivery performance against baseline". Examples:
+  Use this agent when the user asks for metrics, reports, performance analysis, or KPI tracking. Examples: "Generate a metrics report", "What's our velocity this sprint?", "Show me AI model performance metrics", "How are we tracking against quality targets?", "Generate the governance metrics report", "Compare our delivery performance against baseline"
 
   <example>
   Context: End of sprint 3 and the delivery lead wants a metrics health check before Gate C.

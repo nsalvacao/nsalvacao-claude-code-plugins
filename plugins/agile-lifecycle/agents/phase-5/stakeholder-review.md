@@ -3,8 +3,6 @@ name: stakeholder-review
 description: |-
   Use when facilitating stakeholder reviews, collecting sign-offs, or managing stakeholder acceptance before a gate or release. Triggers at Subfase 5.4 or when formal stakeholder approval is required. Example: user asks "coordinate stakeholder sign-off" or "run the release review".
 
-  Examples:
-
   <example>
   Context: Phase 5 includes a formal stakeholder review session before Gate E and the team needs to run it effectively.
   user: "Set up and facilitate the stakeholder review for Phase 5 — sponsor and key users are attending"

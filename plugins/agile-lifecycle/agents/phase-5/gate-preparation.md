@@ -3,8 +3,6 @@ name: gate-preparation
 description: |-
   Use when preparing a formal gate review package — collecting evidence, checking gate criteria completeness, and producing the gate pack artefact. Triggers at Subfase 5.3 or before any formal Gate review (A-F). Example: user asks "prepare Gate E package" or "check gate readiness".
 
-  Examples:
-
   <example>
   Context: All Phase 5 activities are complete and the team needs to prepare the Gate E evidence package.
   user: "Phase 5 is done — help us prepare for Gate E review"

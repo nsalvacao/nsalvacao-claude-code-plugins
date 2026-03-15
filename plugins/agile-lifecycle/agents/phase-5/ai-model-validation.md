@@ -3,8 +3,6 @@ name: ai-model-validation
 description: |-
   Use when validating AI/ML model performance, bias, fairness, safety, or conducting red-team evaluation. Triggers at Subfase 5.2 or when AI/ML components need formal validation before release. Example: user asks "validate the AI model" or "run red-team evaluation".
 
-  Examples:
-
   <example>
   Context: Model has been trained and integrated; Phase 5 requires formal model validation before production approval.
   user: "Validate the recommendation model against our Phase 1 success criteria before Gate E"

@@ -3,8 +3,6 @@ name: integration-engineer
 description: |-
   Use this agent to integrate components, test API contracts, and validate service integrations. Examples: "Integrate these services and test the API", "Run integration tests for this sprint", "Test the integration between the ML model and the API layer", "Validate our component integrations", "What integration tests should we run?", "Generate the integration test record"
 
-  Examples:
-
   <example>
   Context: Individual features are unit-tested and ready; now integration testing must confirm the system works end-to-end.
   user: "All features are built — guide us through integration testing for the full system"

@@ -1,7 +1,7 @@
 ---
 name: operations-monitor
 description: |-
-  Use when monitoring production operations — SLA tracking, incident management, service reporting, or capacity planning. Triggers at Subfase 7.1 or when service health needs assessment. Example: user asks "generate service report" or "check SLA compliance". Examples:
+  Use when monitoring production operations — SLA tracking, incident management, service reporting, or capacity planning. Triggers at Subfase 7.1 or when service health needs assessment. Example: user asks "generate service report" or "check SLA compliance"
 
   <example>
   Context: Product is in Phase 7 steady-state operations and the team needs to review operational health.

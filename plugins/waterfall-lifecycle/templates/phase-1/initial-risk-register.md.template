@@ -1,0 +1,49 @@
+# Initial Risk Register
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Subfase | 1.3 — Risk Identification |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Risk Register Table
+<!-- Document all identified risks. Likelihood: 1 (rare) to 5 (almost certain). Impact: 1 (negligible) to 5 (critical). Score = Likelihood × Impact. Status: Open / Mitigated / Accepted / Closed. -->
+| ID | Title | Category | Likelihood | Impact | Score | Status | Owner | Mitigation Plan |
+|----|-------|----------|-----------|--------|-------|--------|-------|----------------|
+| R01 | {{risk_1_title}} | {{risk_1_category}} | {{risk_1_likelihood}} | {{risk_1_impact}} | {{risk_1_score}} | {{risk_1_status}} | {{risk_1_owner}} | {{risk_1_mitigation}} |
+| R02 | {{risk_2_title}} | {{risk_2_category}} | {{risk_2_likelihood}} | {{risk_2_impact}} | {{risk_2_score}} | {{risk_2_status}} | {{risk_2_owner}} | {{risk_2_mitigation}} |
+| R03 | {{risk_3_title}} | {{risk_3_category}} | {{risk_3_likelihood}} | {{risk_3_impact}} | {{risk_3_score}} | {{risk_3_status}} | {{risk_3_owner}} | {{risk_3_mitigation}} |
+| R04 | {{risk_4_title}} | {{risk_4_category}} | {{risk_4_likelihood}} | {{risk_4_impact}} | {{risk_4_score}} | {{risk_4_status}} | {{risk_4_owner}} | {{risk_4_mitigation}} |
+| R05 | {{risk_5_title}} | {{risk_5_category}} | {{risk_5_likelihood}} | {{risk_5_impact}} | {{risk_5_score}} | {{risk_5_status}} | {{risk_5_owner}} | {{risk_5_mitigation}} |
+| R06 | {{risk_6_title}} | {{risk_6_category}} | {{risk_6_likelihood}} | {{risk_6_impact}} | {{risk_6_score}} | {{risk_6_status}} | {{risk_6_owner}} | {{risk_6_mitigation}} |
+| R07 | {{risk_7_title}} | {{risk_7_category}} | {{risk_7_likelihood}} | {{risk_7_impact}} | {{risk_7_score}} | {{risk_7_status}} | {{risk_7_owner}} | {{risk_7_mitigation}} |
+
+<!-- Risk categories: Technical / Data / AI-ML / Financial / Organisational / Legal-Compliance / External / Schedule -->
+
+## Top 5 Risks Summary
+<!-- Highlight the five highest-scoring risks for executive visibility. Update this section whenever the register changes. -->
+| Priority | Risk ID | Title | Score | Key Mitigation |
+|----------|---------|-------|-------|----------------|
+| 1 | {{top1_id}} | {{top1_title}} | {{top1_score}} | {{top1_mitigation}} |
+| 2 | {{top2_id}} | {{top2_title}} | {{top2_score}} | {{top2_mitigation}} |
+| 3 | {{top3_id}} | {{top3_title}} | {{top3_score}} | {{top3_mitigation}} |
+| 4 | {{top4_id}} | {{top4_title}} | {{top4_score}} | {{top4_mitigation}} |
+| 5 | {{top5_id}} | {{top5_title}} | {{top5_score}} | {{top5_mitigation}} |
+
+## Completeness Checklist
+- [ ] At least one risk identified per relevant category (Technical, Data, AI-ML, Financial, Organisational)
+- [ ] All risks scored with Likelihood × Impact
+- [ ] Each risk has a named owner and mitigation plan
+- [ ] Top 5 risks summarised for executive review
+- [ ] Risk register reviewed with project sponsor and technical lead
+- [ ] No open critical risks (score ≥ 20) without a documented mitigation plan
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for formal handover to the next subfase or gate review. -->
+- [ ] Initial Risk Register reviewed and accepted by project sponsor
+- [ ] All high-score risks (score ≥ 15) have owners confirmed
+- [ ] Risk register will be carried forward and updated throughout all subsequent phases
+- [ ] Document version controlled and stored in the project artefact repository
+- [ ] Risks cross-referenced in the Project Charter risks summary section

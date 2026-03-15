@@ -1,0 +1,69 @@
+# Data Feasibility Note
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Subfase | 1.2 — Feasibility Analysis |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Data Sources Identified
+<!-- List all known or candidate data sources required by the solution. Include internal systems, external providers, and open datasets. -->
+| ID | Source Name | Type | Owner / Provider | Availability | Notes |
+|----|-------------|------|-----------------|-------------|-------|
+| D01 | {{source_1_name}} | {{source_1_type}} | {{source_1_owner}} | {{source_1_availability}} | {{source_1_notes}} |
+| D02 | {{source_2_name}} | {{source_2_type}} | {{source_2_owner}} | {{source_2_availability}} | {{source_2_notes}} |
+| D03 | {{source_3_name}} | {{source_3_type}} | {{source_3_owner}} | {{source_3_availability}} | {{source_3_notes}} |
+
+## Data Quality Assessment
+<!-- Assess data quality across key dimensions. Rating: High / Medium / Low. -->
+| Dimension | Rating | Notes |
+|-----------|--------|-------|
+| Completeness | {{completeness_rating}} | {{completeness_notes}} |
+| Accuracy | {{accuracy_rating}} | {{accuracy_notes}} |
+| Consistency | {{consistency_rating}} | {{consistency_notes}} |
+| Timeliness | {{timeliness_rating}} | {{timeliness_notes}} |
+| Uniqueness | {{uniqueness_rating}} | {{uniqueness_notes}} |
+
+**Overall Data Quality Rating:** {{overall_quality_rating}}
+
+{{data_quality_narrative}}
+
+## Data Access and Licensing
+<!-- Describe access mechanisms, authentication requirements, and any licensing or contractual constraints on data use. -->
+| Source ID | Access Method | Authentication | Licence / Contract | Constraints |
+|-----------|--------------|----------------|-------------------|------------|
+| {{access_source_1}} | {{access_method_1}} | {{auth_1}} | {{licence_1}} | {{constraints_1}} |
+| {{access_source_2}} | {{access_method_2}} | {{auth_2}} | {{licence_2}} | {{constraints_2}} |
+
+## Data Volume Estimates
+<!-- Provide estimates of data volume and growth. This informs infrastructure and compute planning. -->
+| Data Source | Current Volume | Growth Rate | Retention Period | Storage Estimate |
+|-------------|---------------|-------------|-----------------|-----------------|
+| {{vol_source_1}} | {{current_vol_1}} | {{growth_1}} | {{retention_1}} | {{storage_1}} |
+| {{vol_source_2}} | {{current_vol_2}} | {{growth_2}} | {{retention_2}} | {{storage_2}} |
+
+## Data Gaps
+<!-- Document known data gaps that could affect the solution. For each gap, state the impact and proposed resolution. -->
+| Gap ID | Description | Impact | Proposed Resolution | Owner |
+|--------|-------------|--------|--------------------|----|
+| G01 | {{gap_1_desc}} | {{gap_1_impact}} | {{gap_1_resolution}} | {{gap_1_owner}} |
+| G02 | {{gap_2_desc}} | {{gap_2_impact}} | {{gap_2_resolution}} | {{gap_2_owner}} |
+| G03 | {{gap_3_desc}} | {{gap_3_impact}} | {{gap_3_resolution}} | {{gap_3_owner}} |
+
+## Completeness Checklist
+- [ ] All required data sources identified with owner and availability status
+- [ ] Data quality assessed across all five dimensions (completeness, accuracy, consistency, timeliness, uniqueness)
+- [ ] Access mechanisms and licensing constraints documented for each source
+- [ ] Volume and growth estimates provided
+- [ ] Data gaps identified with impact assessment and resolution plan
+- [ ] Data privacy and compliance implications noted (reference Feasibility Assessment legal section)
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for formal handover to the next subfase or gate review. -->
+- [ ] Data Feasibility Note reviewed by data owner or data engineer
+- [ ] All critical data gaps have an assigned owner and resolution plan
+- [ ] Licensing/access constraints reviewed with legal or procurement
+- [ ] Document version controlled and stored in the project artefact repository
+- [ ] Referenced in the Feasibility Assessment

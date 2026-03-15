@@ -1,0 +1,52 @@
+# Stakeholder Map
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Subfase | 1.1 — Problem and Vision Definition |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Stakeholder Table
+<!-- Identify all relevant stakeholders. Interest: High/Medium/Low. Influence: High/Medium/Low. Engagement level: Inform/Consult/Collaborate/Lead. -->
+| ID | Name | Role | Interest | Influence | Engagement Level | Notes |
+|----|------|------|----------|-----------|-----------------|-------|
+| S01 | {{stakeholder_1_name}} | {{stakeholder_1_role}} | {{stakeholder_1_interest}} | {{stakeholder_1_influence}} | {{stakeholder_1_engagement}} | {{stakeholder_1_notes}} |
+| S02 | {{stakeholder_2_name}} | {{stakeholder_2_role}} | {{stakeholder_2_interest}} | {{stakeholder_2_influence}} | {{stakeholder_2_engagement}} | {{stakeholder_2_notes}} |
+| S03 | {{stakeholder_3_name}} | {{stakeholder_3_role}} | {{stakeholder_3_interest}} | {{stakeholder_3_influence}} | {{stakeholder_3_engagement}} | {{stakeholder_3_notes}} |
+| S04 | {{stakeholder_4_name}} | {{stakeholder_4_role}} | {{stakeholder_4_interest}} | {{stakeholder_4_influence}} | {{stakeholder_4_engagement}} | {{stakeholder_4_notes}} |
+| S05 | {{stakeholder_5_name}} | {{stakeholder_5_role}} | {{stakeholder_5_interest}} | {{stakeholder_5_influence}} | {{stakeholder_5_engagement}} | {{stakeholder_5_notes}} |
+
+## Communication Plan
+<!-- Define how, when, and what to communicate to each stakeholder group. Frequency: Weekly/Bi-weekly/Monthly/Ad-hoc. -->
+| Stakeholder ID | Channel | Frequency | Content | Responsible |
+|---------------|---------|-----------|---------|-------------|
+| {{comm_stakeholder_1}} | {{channel_1}} | {{frequency_1}} | {{content_1}} | {{responsible_1}} |
+| {{comm_stakeholder_2}} | {{channel_2}} | {{frequency_2}} | {{content_2}} | {{responsible_2}} |
+| {{comm_stakeholder_3}} | {{channel_3}} | {{frequency_3}} | {{content_3}} | {{responsible_3}} |
+
+## Decision Authority
+<!-- Clarify who holds decision-making authority for each key decision type. This prevents ambiguity during formal handover stages. -->
+| Decision Type | Authority | Escalation Path |
+|---------------|-----------|----------------|
+| Budget approval | {{budget_authority}} | {{budget_escalation}} |
+| Scope changes | {{scope_authority}} | {{scope_escalation}} |
+| Technical direction | {{tech_authority}} | {{tech_escalation}} |
+| Go/No-Go at gates | {{gate_authority}} | {{gate_escalation}} |
+| AI/ML approach | {{ai_authority}} | {{ai_escalation}} |
+
+## Completeness Checklist
+- [ ] All key stakeholders identified with roles and contact details
+- [ ] Interest and influence levels assessed for each stakeholder
+- [ ] Engagement level defined (Inform/Consult/Collaborate/Lead)
+- [ ] Communication plan covers frequency and channel for each stakeholder group
+- [ ] Decision authority table completed for all key decision types
+- [ ] Escalation paths defined
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for formal handover to the next subfase or gate review. -->
+- [ ] Stakeholder Map reviewed and agreed with project sponsor
+- [ ] Communication plan confirmed with all Lead-level stakeholders
+- [ ] Decision authority validated with governance body
+- [ ] Document version controlled and stored in the project artefact repository

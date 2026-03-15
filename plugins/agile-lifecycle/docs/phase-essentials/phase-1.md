@@ -19,14 +19,11 @@
 ## Evidence Required for Gate A
 | Artefact | Template | Evidence Level |
 |----------|----------|----------------|
-| Opportunity Statement | `templates/phase-1/opportunity-statement.md.template` | Mandatory (reviewed) |
-| Value Hypothesis | `templates/phase-1/value-hypothesis.md.template` | Mandatory (reviewed) |
+| Opportunity Brief | `templates/phase-1/opportunity-brief.md.template` | Mandatory (reviewed) |
+| Hypothesis Canvas | `templates/phase-1/hypothesis-canvas.md.template` | Mandatory (reviewed) |
 | Stakeholder Map | `templates/phase-1/stakeholder-map.md.template` | Mandatory (exists) |
-| Early Feasibility Note | `templates/phase-1/early-feasibility-note.md.template` | Mandatory (reviewed) |
-| AI/Data Feasibility Note | `templates/phase-1/ai-data-feasibility-note.md.template` | Mandatory (reviewed) |
-| Initial Risk Note | `templates/phase-1/initial-risk-note.md.template` | Mandatory (exists) |
-| Funding Recommendation | `templates/phase-1/funding-recommendation.md.template` | Mandatory (reviewed) |
-| Portfolio Decision Record | `templates/phase-1/portfolio-decision-record.md.template` | Mandatory (exists) |
+| Feasibility Note | `templates/phase-1/feasibility-note.md.template` | Mandatory (reviewed) |
+| Initial Risk Register | `templates/phase-1/risk-register-init.md.template` | Mandatory (exists) |
 
 ## Key Skills
 - `gate-checklist` — use when preparing the Gate A review and validating evidence

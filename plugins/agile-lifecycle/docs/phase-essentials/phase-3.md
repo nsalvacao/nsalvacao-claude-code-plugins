@@ -19,13 +19,8 @@
 ## Evidence Required for Gate C
 | Artefact | Template | Evidence Level |
 |----------|----------|----------------|
-| Discovery Findings | `templates/phase-3/discovery-findings.md.template` | Mandatory (reviewed) |
-| Pain Point Map | `templates/phase-3/pain-point-map.md.template` | Mandatory (exists) |
-| User Journey Map | `templates/phase-3/user-journey-map.md.template` | Conditional (waivable for internal tooling) |
-| Acceptance Criteria Catalog | `templates/phase-3/acceptance-criteria-catalog.md.template` | Mandatory (reviewed) |
-| AI Backlog Items | `templates/phase-3/ai-backlog-items.md.template` | Conditional (waivable if no AI in Phase 4) |
-| Data Readiness Notes | `templates/phase-3/data-readiness-notes.md.template` | Mandatory (reviewed) |
-| Readiness Notes | `templates/phase-3/readiness-notes.md.template` | Mandatory (approved) |
+| Acceptance Criteria | `templates/phase-3/acceptance-criteria.md.template` | Mandatory (reviewed) |
+| Sprint Backlog | `templates/phase-3/sprint-backlog.md.template` | Conditional (waivable if no AI in Phase 4) |
 
 ## Key Skills
 - `backlog-management` — use when shaping requirements and prioritizing the backlog in subfase 3.2

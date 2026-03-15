@@ -19,11 +19,11 @@
 ## Evidence Required for Gate E
 | Artefact | Template | Evidence Level |
 |----------|----------|----------------|
-| Deployment Record | `templates/phase-5/deployment-record.md.template` | Mandatory (approved) |
-| Rollout Log | `templates/phase-5/rollout-log.md.template` | Mandatory (reviewed) |
-| Operational Transition Pack | `templates/phase-5/operational-transition-pack.md.template` | Mandatory (approved) |
-| Support Acceptance | `templates/phase-5/support-acceptance.md.template` | Mandatory (approved; cannot be waived) |
-| Hypercare Report | `templates/phase-5/hypercare-report.md.template` | Mandatory (reviewed) |
+| Deployment Record | `templates/phase-6/deployment-record.md.template` | Mandatory (approved) |
+| Release Plan | `templates/phase-6/release-plan.md.template` | Mandatory (reviewed) |
+| Operations Handover | `templates/phase-6/operations-handover.md.template` | Mandatory (approved) |
+| UAT Report | `templates/phase-5/uat-report.md.template` | Mandatory (approved; cannot be waived) |
+| Hypercare Report | `templates/phase-6/hypercare-report.md.template` | Mandatory (reviewed) |
 | SLO Baseline Data | — | Mandatory (exists) |
 
 ## Key Skills

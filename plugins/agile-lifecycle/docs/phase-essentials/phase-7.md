@@ -18,11 +18,7 @@
 ## Evidence Required for Lifecycle Close
 | Artefact | Template | Evidence Level |
 |----------|----------|----------------|
-| Retirement Decision Record | `templates/phase-7/retirement-decision-record.md.template` | Mandatory (approved) |
-| Impact Assessment | `templates/phase-7/impact-assessment.md.template` | Mandatory (reviewed) |
-| Sunset Plan | `templates/phase-7/sunset-plan.md.template` | Mandatory (reviewed) |
-| Decommissioning Record | `templates/phase-7/decommissioning-record.md.template` | Mandatory (approved) |
-| Final Closure Pack | `templates/phase-7/final-closure-pack.md.template` | Mandatory (approved) |
+| Lifecycle Closure | `templates/phase-7/lifecycle-closure.md.template` | Mandatory (approved) |
 
 ## Key Skills
 - `artefact-authoring` — use when creating Retirement Decision Record, Sunset Plan, and Final Closure Pack

@@ -19,12 +19,10 @@
 ## Evidence Required for Gate F
 | Artefact | Template | Evidence Level |
 |----------|----------|----------------|
-| Service Reports (current period) | `templates/phase-6/service-report.md.template` | Mandatory (reviewed) |
-| Product Analytics Reports | `templates/phase-6/product-analytics-report.md.template` | Mandatory (reviewed) |
-| AI Monitoring Reports | `templates/phase-6/ai-monitoring-report.md.template` | Conditional (if AI/ML in scope) |
-| Improvement Backlog | `templates/phase-6/improvement-backlog.md.template` | Mandatory (reviewed) |
-| Risk Register (current) | `templates/transversal/risk-register-entry.md.template` | Mandatory (reviewed) |
-| Change Recommendations | `templates/phase-6/change-recommendation.md.template` | Conditional (exists if changes proposed) |
+| Service Reports (current period) | `templates/phase-7/service-report.md.template` | Mandatory (reviewed) |
+| AI Monitoring Reports | `templates/phase-7/ai-monitoring-report.md.template` | Conditional (if AI/ML in scope) |
+| Improvement Backlog | `templates/phase-7/improvement-backlog.md.template` | Mandatory (reviewed) |
+| Risk Register (current) | `templates/transversal/risk-entry.md.template` | Mandatory (reviewed) |
 
 ## Key Skills
 - `metrics-tracking` — use when recording and reporting service metrics and AI monitoring data

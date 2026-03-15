@@ -1,0 +1,95 @@
+# Feasibility Assessment
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Subfase | 1.2 — Feasibility Analysis |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Technical Feasibility
+<!-- Assess whether the proposed solution is technically achievable with current or acquirable technology. Consider infrastructure, integration complexity, and team capabilities. -->
+**Rating:** {{technical_feasibility_rating}}
+<!-- Options: Feasible / Feasible with conditions / Not feasible -->
+
+{{technical_feasibility_narrative}}
+
+## Data Feasibility
+<!-- Assess whether the data required to support the solution (and any AI/ML components) is available, accessible, and of sufficient quality. Reference the Data Feasibility Note for detail. -->
+**Rating:** {{data_feasibility_rating}}
+<!-- Options: Feasible / Feasible with conditions / Not feasible -->
+
+{{data_feasibility_narrative}}
+
+## AI/ML Feasibility
+<!-- Assess whether the AI/ML approach is viable given the data, compute, and team expertise available. Reference the AI Feasibility Note for detail. -->
+**Rating:** {{ai_feasibility_rating}}
+<!-- Options: Feasible / Feasible with conditions / Not feasible -->
+
+{{ai_feasibility_narrative}}
+
+## Organisational Feasibility
+<!-- Assess whether the organisation has the capacity, skills, culture, and change readiness to adopt the solution. Consider training needs, change management, and stakeholder buy-in. -->
+**Rating:** {{org_feasibility_rating}}
+<!-- Options: Feasible / Feasible with conditions / Not feasible -->
+
+{{org_feasibility_narrative}}
+
+## Financial Feasibility
+<!-- Assess whether the project is financially viable. Include estimated investment, expected ROI, and break-even timeline. Reference budget estimates if available. -->
+**Rating:** {{financial_feasibility_rating}}
+<!-- Options: Feasible / Feasible with conditions / Not feasible -->
+
+| Cost Category | Estimate | Confidence |
+|---------------|----------|------------|
+| Development | {{dev_cost}} | {{dev_confidence}} |
+| Infrastructure | {{infra_cost}} | {{infra_confidence}} |
+| Licensing / Data | {{licence_cost}} | {{licence_confidence}} |
+| Change Management | {{change_cost}} | {{change_confidence}} |
+| Total Estimate | {{total_cost}} | {{total_confidence}} |
+
+{{financial_feasibility_narrative}}
+
+## Legal and Compliance
+<!-- Identify applicable legal, regulatory, or compliance requirements. Include data privacy (GDPR, CCPA), sector-specific regulations, and IP considerations. -->
+| Requirement | Applicable | Notes |
+|-------------|-----------|-------|
+| GDPR / Data Privacy | {{gdpr_applicable}} | {{gdpr_notes}} |
+| Sector Regulation | {{sector_reg_applicable}} | {{sector_reg_notes}} |
+| IP / Licensing | {{ip_applicable}} | {{ip_notes}} |
+| AI Act / Model Risk | {{ai_act_applicable}} | {{ai_act_notes}} |
+| Other | {{other_applicable}} | {{other_notes}} |
+
+## Overall Feasibility Verdict
+<!-- State the overall feasibility verdict based on all dimensions assessed above. -->
+**Verdict:** {{overall_verdict}}
+<!-- Options: feasible / not_feasible / conditional -->
+
+{{overall_verdict_rationale}}
+
+## Conditions and Mitigations
+<!-- If the verdict is conditional, list all conditions that must be met before the project can proceed. -->
+| # | Condition | Owner | Due Date | Status |
+|---|-----------|-------|----------|--------|
+| 1 | {{condition_1}} | {{condition_owner_1}} | {{condition_due_1}} | {{condition_status_1}} |
+| 2 | {{condition_2}} | {{condition_owner_2}} | {{condition_due_2}} | {{condition_status_2}} |
+| 3 | {{condition_3}} | {{condition_owner_3}} | {{condition_due_3}} | {{condition_status_3}} |
+
+## Completeness Checklist
+- [ ] All six feasibility dimensions assessed with a rating
+- [ ] Each rating supported by a written narrative
+- [ ] Financial feasibility includes cost breakdown with confidence levels
+- [ ] Legal and compliance requirements enumerated
+- [ ] Overall verdict is one of: feasible / not_feasible / conditional
+- [ ] All conditions documented with owner and due date (if conditional)
+- [ ] Data Feasibility Note referenced or attached
+- [ ] AI Feasibility Note referenced or attached
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for formal handover to the next subfase or gate review. -->
+- [ ] Feasibility Assessment reviewed and signed off by technical lead and sponsor
+- [ ] All conditional items have assigned owners and due dates
+- [ ] Legal/compliance review completed or formally deferred with rationale
+- [ ] Document version controlled and stored in the project artefact repository
+- [ ] Linked to Data Feasibility Note and AI Feasibility Note

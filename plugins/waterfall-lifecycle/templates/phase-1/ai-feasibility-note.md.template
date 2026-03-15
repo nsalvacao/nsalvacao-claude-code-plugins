@@ -1,0 +1,89 @@
+# AI Feasibility Note
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Subfase | 1.2 — Feasibility Analysis |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## AI/ML Approach
+<!-- Describe the proposed AI/ML approach at a high level. What problem does the AI component solve? How does it fit into the overall solution architecture? -->
+{{ai_approach_description}}
+
+## Model Type and Rationale
+<!-- State the proposed model type(s) and explain why this approach is appropriate for the problem. Consider accuracy requirements, latency, explainability, and regulatory constraints. -->
+| Model Type | Rationale | Alternatives Considered |
+|-----------|-----------|------------------------|
+| {{model_type_1}} | {{model_rationale_1}} | {{model_alternatives_1}} |
+| {{model_type_2}} | {{model_rationale_2}} | {{model_alternatives_2}} |
+
+## Training Data Requirements
+<!-- Describe the data required to train and evaluate the model(s). Refer to the Data Feasibility Note for sourcing detail. -->
+| Requirement | Description | Status |
+|-------------|-------------|--------|
+| Minimum labelled examples | {{min_labels}} | {{labels_status}} |
+| Feature set | {{feature_set}} | {{features_status}} |
+| Historical data window | {{data_window}} | {{window_status}} |
+| Data freshness requirement | {{data_freshness}} | {{freshness_status}} |
+| Label quality / annotation | {{label_quality}} | {{label_quality_status}} |
+
+## GenAI/LLM Considerations (if applicable)
+<!-- Complete this section only if the solution includes a generative AI or large language model component. -->
+**Applicable:** {{genai_applicable}}
+<!-- yes / no / under evaluation -->
+
+| Topic | Detail |
+|-------|--------|
+| LLM provider / model | {{llm_provider}} |
+| Prompt strategy | {{prompt_strategy}} |
+| Context window requirements | {{context_window}} |
+| Hallucination risk and mitigations | {{hallucination_mitigations}} |
+| Fine-tuning required | {{fine_tuning_required}} |
+| RAG / retrieval augmentation | {{rag_approach}} |
+| Cost per inference estimate | {{inference_cost}} |
+
+## Performance Targets
+<!-- Define measurable performance targets the AI component must meet before it can be accepted into production. -->
+| Metric | Target | Minimum Acceptable | Measurement Method |
+|--------|--------|-------------------|-------------------|
+| {{metric_1}} | {{target_1}} | {{min_1}} | {{method_1}} |
+| {{metric_2}} | {{target_2}} | {{min_2}} | {{method_2}} |
+| {{metric_3}} | {{target_3}} | {{min_3}} | {{method_3}} |
+
+## Fallback Mechanism
+<!-- Describe the fallback if the AI component fails, underperforms, or is unavailable at runtime. The solution must remain viable without AI. -->
+**Fallback strategy:** {{fallback_strategy}}
+
+{{fallback_narrative}}
+
+## Ethical and Bias Considerations
+<!-- Identify potential ethical risks, bias sources, and fairness requirements. Reference applicable AI governance frameworks or regulations (e.g., EU AI Act). -->
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|-----------|
+| {{ethical_risk_1}} | {{likelihood_1}} | {{impact_1}} | {{mitigation_1}} |
+| {{ethical_risk_2}} | {{likelihood_2}} | {{impact_2}} | {{mitigation_2}} |
+| {{ethical_risk_3}} | {{likelihood_3}} | {{impact_3}} | {{mitigation_3}} |
+
+**EU AI Act risk category:** {{ai_act_category}}
+<!-- Unacceptable / High / Limited / Minimal -->
+
+## Completeness Checklist
+- [ ] AI/ML approach described at a solution architecture level
+- [ ] Model type(s) selected with explicit rationale and alternatives considered
+- [ ] Training data requirements documented and cross-referenced with Data Feasibility Note
+- [ ] GenAI/LLM section completed if applicable (or marked not applicable)
+- [ ] Measurable performance targets defined with minimum acceptable thresholds
+- [ ] Fallback mechanism documented — solution must be viable without AI
+- [ ] Ethical and bias risks identified with mitigations
+- [ ] EU AI Act or applicable AI governance category assigned
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for formal handover to the next subfase or gate review. -->
+- [ ] AI Feasibility Note reviewed by ML lead or technical architect
+- [ ] Performance targets agreed with product owner
+- [ ] Ethical risk assessment reviewed with compliance or governance team
+- [ ] Fallback mechanism accepted by product owner and sponsor
+- [ ] Document version controlled and stored in the project artefact repository
+- [ ] Referenced in the Feasibility Assessment

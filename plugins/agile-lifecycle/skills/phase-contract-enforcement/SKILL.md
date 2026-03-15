@@ -1,6 +1,6 @@
 ---
 name: phase-contract-enforcement
-description: "This skill should be used when tracking deviations from signed phase contracts, managing scope changes that affect contracts, or escalating contract violations. Triggers when a change request arrives, when a phase is running beyond its contract bounds, or when a gate review reveals contractual non-compliance."
+description: This skill should be used when tracking deviations from signed phase contracts, managing scope changes that affect contracts, or escalating contract violations. Triggers when a change request arrives, when a phase is running beyond its contract bounds, or when a gate review reveals contractual non-compliance.
 ---
 
 # Phase Contract Enforcement

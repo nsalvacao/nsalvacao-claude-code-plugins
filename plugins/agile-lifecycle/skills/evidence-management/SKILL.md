@@ -1,6 +1,6 @@
 ---
 name: evidence-management
-description: "This skill should be used when assembling gate evidence packs, tracking artefact completeness, or managing waivers before any gate review (A–F). Triggers when a phase is approaching its gate or when evidence index needs to be updated."
+description: This skill should be used when assembling gate evidence packs, tracking artefact completeness, or managing waivers before any gate review (A–F). Triggers when a phase is approaching its gate or when evidence index needs to be updated.
 ---
 
 # Evidence Management

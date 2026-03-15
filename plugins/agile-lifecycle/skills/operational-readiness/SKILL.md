@@ -1,6 +1,6 @@
 ---
 name: operational-readiness
-description: "This skill should be used when preparing for production deployment, assessing operational readiness, or planning the ops transition. Triggers before Gate E (release readiness) or when transitioning to Phase 6."
+description: This skill should be used when preparing for production deployment, assessing operational readiness, or planning the ops transition. Triggers before Gate E (release readiness) or when transitioning to Phase 6.
 ---
 
 # Operational Readiness

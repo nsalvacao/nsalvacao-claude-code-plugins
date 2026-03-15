@@ -108,7 +108,8 @@
         "email": "nuno.salvacao@gmail.com"
       },
       "source": "./plugins/agile-lifecycle",
-      "category": "productivity"
+      "category": "productivity",
+      "tags": ["agile", "lifecycle", "project-management", "ai-ml", "gates", "phases"]
     }
   ]
 }

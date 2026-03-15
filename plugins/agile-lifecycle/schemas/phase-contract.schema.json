@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/phase-contract",
+  "title": "Phase Contract",
+  "description": "Operational contract for a lifecycle phase or subfase, capturing entry/exit criteria, artefacts, assumptions, clarifications, and sign-off authority.",
+  "type": "object",
+  "required": ["id", "phase", "subfase", "status", "owner", "created", "entry_criteria", "exit_criteria", "artefacts_required", "sign_off_authority"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this phase contract (e.g. PC-1.1-001)"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase number (1-7)"
+    },
+    "subfase": {
+      "type": "string",
+      "description": "Subfase identifier (e.g. 1.1, 2.3, 4.5)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "blocked", "ready_for_review", "ready_for_gate", "approved", "rejected", "waived", "closed"],
+      "description": "Current status of the phase contract"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Person or role responsible for fulfilling this contract"
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the contract was created (ISO 8601)"
+    },
+    "gate": {
+      "type": "string",
+      "description": "Gate identifier that closes this phase or subfase (e.g. A, B, C)"
+    },
+    "entry_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Conditions that must be true before this phase/subfase can start"
+    },
+    "exit_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Conditions that must be true before this phase/subfase is considered complete"
+    },
+    "artefacts_required": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Artefacts that must exist at the start of or during this phase"
+    },
+    "artefacts_produced": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Artefacts that must be produced as outputs of this phase"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "owner", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "owner": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["open", "validated", "invalidated", "deferred"]
+          },
+          "due_date": { "type": "string", "format": "date" }
+        }
+      },
+      "description": "Assumptions that underpin this phase contract"
+    },
+    "clarifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "question", "raised_by", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "question": { "type": "string" },
+          "raised_by": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["open", "answered", "deferred", "cancelled"]
+          },
+          "answer": { "type": "string" },
+          "answered_by": { "type": "string" }
+        }
+      },
+      "description": "Open decisions or clarifications needed for this phase"
+    },
+    "sign_off_authority": {
+      "type": "string",
+      "description": "Role or person with authority to formally sign off this phase contract"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or context for this phase contract"
+    }
+  }
+}

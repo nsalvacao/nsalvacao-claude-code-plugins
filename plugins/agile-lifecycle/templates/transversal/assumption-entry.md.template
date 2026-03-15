@@ -1,0 +1,37 @@
+# Assumption Register Entry
+
+| Field | Value |
+|-------|-------|
+| ID | {{assumption_id}} |
+| Date | {{date}} |
+| Phase | {{phase}} |
+| Owner | {{owner}} |
+| Due Date | {{due_date}} |
+| Status | {{status}} |
+
+## Assumption
+<!-- State the assumption clearly: what are we taking for granted? -->
+{{assumption_description}}
+
+## Rationale
+<!-- Why is this assumption being made? What evidence supports it? -->
+{{rationale}}
+
+## Impact if Wrong
+<!-- What happens if this assumption turns out to be false? (low|medium|high|critical) -->
+{{impact_if_wrong}}
+
+## Validation Plan
+<!-- How and when will this assumption be validated? -->
+{{validation_plan}}
+
+## Resolution
+<!-- How was this assumption validated or invalidated? (fill when resolved) -->
+{{resolution}}
+
+## Completeness Checklist
+- [ ] Assumption stated clearly
+- [ ] Owner assigned
+- [ ] Due date set
+- [ ] Impact if wrong assessed
+- [ ] Validation plan defined

@@ -1,0 +1,65 @@
+# Code Review Record
+
+| Field | Value |
+|-------|-------|
+| ID | {{review_id}} |
+| PR / Branch | {{pr_reference}} |
+| Reviewer | {{reviewer}} |
+| Author | {{author}} |
+| Date | {{date}} |
+| Sprint | {{sprint_number}} |
+| Phase | 4 — Build and Integrate |
+| Status | {{status}} |
+
+## Files Reviewed
+
+<!-- List all files included in this code review. -->
+| File | Change Type | Lines Changed |
+|------|-------------|---------------|
+| {{file_1}} | {{file_1_change_type}} | {{file_1_lines}} |
+| {{file_2}} | {{file_2_change_type}} | {{file_2_lines}} |
+| {{file_3}} | {{file_3_change_type}} | {{file_3_lines}} |
+
+## Findings
+
+<!-- Severity: Critical / High / Medium / Low / Info -->
+<!-- Status: Open / Resolved / Accepted / Won't Fix -->
+
+| # | Severity | File | Line | Description | Resolution | Status |
+|---|----------|------|------|-------------|------------|--------|
+| 1 | {{finding_1_severity}} | {{finding_1_file}} | {{finding_1_line}} | {{finding_1_desc}} | {{finding_1_resolution}} | {{finding_1_status}} |
+| 2 | {{finding_2_severity}} | {{finding_2_file}} | {{finding_2_line}} | {{finding_2_desc}} | {{finding_2_resolution}} | {{finding_2_status}} |
+| 3 | {{finding_3_severity}} | {{finding_3_file}} | {{finding_3_line}} | {{finding_3_desc}} | {{finding_3_resolution}} | {{finding_3_status}} |
+| 4 | {{finding_4_severity}} | {{finding_4_file}} | {{finding_4_line}} | {{finding_4_desc}} | {{finding_4_resolution}} | {{finding_4_status}} |
+
+**Total Findings:** {{total_findings}}
+**Critical / High:** {{critical_high_count}}
+**Open Findings:** {{open_findings_count}}
+
+## Summary Assessment
+
+### Strengths
+<!-- What was done well in this code submission? -->
+{{code_strengths}}
+
+### Concerns
+<!-- Any structural, architectural, or maintainability concerns not captured as individual findings. -->
+{{code_concerns}}
+
+## Approval Status
+
+**Approved:** {{approval_status}}
+<!-- APPROVED / APPROVED WITH CONDITIONS / CHANGES REQUESTED / REJECTED -->
+
+**Conditions (if applicable):**
+{{approval_conditions}}
+
+**Follow-up Required:**
+{{follow_up_required}}
+
+## Completeness Checklist
+- [ ] All files in the PR reviewed
+- [ ] All Critical and High findings have a resolution or accepted rationale
+- [ ] Security review completed (no credentials, injection risks, data exposure)
+- [ ] Test coverage verified
+- [ ] Approval status recorded clearly

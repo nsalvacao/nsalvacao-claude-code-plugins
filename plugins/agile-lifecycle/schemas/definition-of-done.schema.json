@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/definition-of-done",
+  "title": "Definition of Done Checklist",
+  "description": "A Definition of Done checklist at story, sprint, phase, or release level, with individual criterion verification records.",
+  "type": "object",
+  "required": ["id", "phase", "sprint", "level", "items", "status", "verified_by", "verification_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique DoD checklist identifier (e.g. DOD-S4-001)"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase to which this DoD applies"
+    },
+    "sprint": {
+      "type": "string",
+      "description": "Sprint identifier (e.g. S4-001) or release identifier if applicable"
+    },
+    "level": {
+      "type": "string",
+      "enum": ["story", "sprint", "phase", "release"],
+      "description": "Level at which this DoD applies"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["criterion", "status"],
+        "properties": {
+          "criterion": {
+            "type": "string",
+            "description": "The specific done criterion to be checked"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["not_checked", "pass", "fail", "not-applicable"],
+            "description": "Result for this criterion"
+          },
+          "verified_by": {
+            "type": "string",
+            "description": "Person or role who verified this criterion"
+          },
+          "verified_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date this criterion was verified (ISO 8601)"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Notes on this criterion"
+          }
+        }
+      },
+      "description": "Individual criteria in this Definition of Done"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "complete"],
+      "description": "Overall completion status of the DoD checklist"
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "complete"],
+      "description": "Summary status derived from individual criterion results"
+    },
+    "verified_by": {
+      "type": "string",
+      "description": "Person or role who verified the overall DoD completion"
+    },
+    "verification_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the DoD was verified as complete (ISO 8601)"
+    },
+    "exceptions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of criteria exceptions with justification"
+    }
+  }
+}

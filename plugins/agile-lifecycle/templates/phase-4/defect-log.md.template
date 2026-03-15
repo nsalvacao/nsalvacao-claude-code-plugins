@@ -1,0 +1,54 @@
+# Defect Log
+
+| Field | Value |
+|-------|-------|
+| ID | {{defect_log_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Sprint | {{sprint_number}} |
+| Phase | 4 — Build and Integrate |
+| Status | {{status}} |
+
+## Defect Register
+
+<!-- Severity: Critical / High / Medium / Low -->
+<!-- Status: Open / In Progress / Fixed / Verified / Rejected / Deferred -->
+<!-- Component: the module, service, or area where the defect was found -->
+
+| ID | Title | Severity | Component | Status | Assigned To | Found in Sprint | Resolved in Sprint | Notes |
+|----|-------|----------|-----------|--------|-------------|-----------------|-------------------|-------|
+| D-001 | {{d001_title}} | {{d001_severity}} | {{d001_component}} | {{d001_status}} | {{d001_assignee}} | {{d001_found_sprint}} | {{d001_resolved_sprint}} | {{d001_notes}} |
+| D-002 | {{d002_title}} | {{d002_severity}} | {{d002_component}} | {{d002_status}} | {{d002_assignee}} | {{d002_found_sprint}} | {{d002_resolved_sprint}} | {{d002_notes}} |
+| D-003 | {{d003_title}} | {{d003_severity}} | {{d003_component}} | {{d003_status}} | {{d003_assignee}} | {{d003_found_sprint}} | {{d003_resolved_sprint}} | {{d003_notes}} |
+| D-004 | {{d004_title}} | {{d004_severity}} | {{d004_component}} | {{d004_status}} | {{d004_assignee}} | {{d004_found_sprint}} | {{d004_resolved_sprint}} | {{d004_notes}} |
+| D-005 | {{d005_title}} | {{d005_severity}} | {{d005_component}} | {{d005_status}} | {{d005_assignee}} | {{d005_found_sprint}} | {{d005_resolved_sprint}} | {{d005_notes}} |
+
+## Defect Summary
+
+| Severity | Open | In Progress | Fixed / Verified | Total |
+|----------|------|-------------|------------------|-------|
+| Critical | {{critical_open}} | {{critical_in_progress}} | {{critical_fixed}} | {{critical_total}} |
+| High | {{high_open}} | {{high_in_progress}} | {{high_fixed}} | {{high_total}} |
+| Medium | {{medium_open}} | {{medium_in_progress}} | {{medium_fixed}} | {{medium_total}} |
+| Low | {{low_open}} | {{low_in_progress}} | {{low_fixed}} | {{low_total}} |
+| **Total** | {{total_open}} | {{total_in_progress}} | {{total_fixed}} | {{grand_total}} |
+
+## Defect Aging
+
+<!-- Flag any defects open for more than 2 sprints. -->
+
+| Defect ID | Age (Sprints) | Severity | Blocker? | Escalation Status |
+|-----------|---------------|----------|----------|-------------------|
+| {{aged_defect_1_id}} | {{aged_defect_1_age}} | {{aged_defect_1_severity}} | {{aged_defect_1_blocker}} | {{aged_defect_1_escalation}} |
+
+## AI/ML-Specific Defects
+
+<!-- Document defects related specifically to AI/ML components: model failures, data pipeline issues, prediction errors. -->
+{{ai_ml_defects}}
+
+## Completeness Checklist
+- [ ] All defects from current sprint documented with severity and owner
+- [ ] Summary table up to date
+- [ ] Aged defects (>2 sprints) flagged with escalation status
+- [ ] No Critical defects left open without escalation
+- [ ] AI/ML-specific defects called out separately

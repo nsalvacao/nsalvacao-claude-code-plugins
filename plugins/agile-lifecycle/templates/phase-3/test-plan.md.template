@@ -1,0 +1,100 @@
+# Test Plan
+
+| Field | Value |
+|-------|-------|
+| ID | {{test_plan_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Sprint / Phase | {{sprint_or_phase}} |
+| Phase | 3 — Discovery and Backlog Readiness |
+| Status | {{status}} |
+
+## Test Strategy Overview
+<!-- High-level description of the testing approach for this sprint/phase. What is in scope? What is out of scope? What is the testing objective? -->
+{{test_strategy_overview}}
+
+## Test Types
+
+### Unit Testing
+**Coverage Target:** {{unit_coverage_target}}%
+**Framework:** {{unit_framework}}
+**Owner:** {{unit_owner}}
+**Scope:** {{unit_scope}}
+
+### Integration Testing
+**Scope:** {{integration_scope}}
+**Environments:** {{integration_environments}}
+**Owner:** {{integration_owner}}
+**Key Integration Points:** {{key_integration_points}}
+
+### End-to-End Testing
+**Scope:** {{e2e_scope}}
+**User Journeys Covered:** {{e2e_user_journeys}}
+**Tools:** {{e2e_tools}}
+**Owner:** {{e2e_owner}}
+
+### Performance Testing
+**Type:** {{perf_type}}
+<!-- Load / Stress / Soak / Spike -->
+**Performance Targets:**
+- Response time: {{perf_response_time}}
+- Throughput: {{perf_throughput}}
+- Concurrent users: {{perf_concurrent_users}}
+**Tools:** {{perf_tools}}
+**Owner:** {{perf_owner}}
+
+### AI / ML Model Testing
+**Model Evaluation Metrics:**
+- Accuracy / F1 / AUC: {{ml_metrics}}
+- Latency: {{ml_latency}}
+- Throughput (predictions/sec): {{ml_throughput}}
+**Bias Testing:** {{ml_bias_testing}}
+**Drift Detection:** {{ml_drift_detection}}
+**Adversarial Testing:** {{ml_adversarial_testing}}
+**Owner:** {{ml_test_owner}}
+
+## Test Data Requirements
+
+| Dataset | Source | Volume | Sensitivity | Preparation Required |
+|---------|--------|--------|-------------|----------------------|
+| {{dataset_1}} | {{dataset_1_source}} | {{dataset_1_volume}} | {{dataset_1_sensitivity}} | {{dataset_1_prep}} |
+| {{dataset_2}} | {{dataset_2_source}} | {{dataset_2_volume}} | {{dataset_2_sensitivity}} | {{dataset_2_prep}} |
+| {{dataset_3}} | {{dataset_3_source}} | {{dataset_3_volume}} | {{dataset_3_sensitivity}} | {{dataset_3_prep}} |
+
+## Coverage Targets
+
+| Test Type | Coverage Target | Current Coverage | Status |
+|-----------|----------------|-----------------|--------|
+| Unit | {{unit_target}}% | {{unit_current}}% | {{unit_status}} |
+| Integration | {{integration_target}}% | {{integration_current}}% | {{integration_status}} |
+| E2E (user journeys) | {{e2e_target}}% | {{e2e_current}}% | {{e2e_status}} |
+| Acceptance Criteria | {{ac_target}}% | {{ac_current}}% | {{ac_status}} |
+
+## Tools and Infrastructure
+
+| Purpose | Tool | Version | Environment |
+|---------|------|---------|-------------|
+| Unit testing | {{tool_unit}} | {{tool_unit_version}} | {{tool_unit_env}} |
+| Integration testing | {{tool_integration}} | {{tool_integration_version}} | {{tool_integration_env}} |
+| E2E testing | {{tool_e2e}} | {{tool_e2e_version}} | {{tool_e2e_env}} |
+| Performance testing | {{tool_perf}} | {{tool_perf_version}} | {{tool_perf_env}} |
+| Code coverage | {{tool_coverage}} | {{tool_coverage_version}} | {{tool_coverage_env}} |
+
+## Test Schedule
+
+| Activity | Start | End | Owner |
+|----------|-------|-----|-------|
+| Test environment setup | {{env_setup_start}} | {{env_setup_end}} | {{env_setup_owner}} |
+| Unit tests (continuous) | {{unit_start}} | {{unit_end}} | {{unit_schedule_owner}} |
+| Integration testing | {{int_start}} | {{int_end}} | {{int_schedule_owner}} |
+| E2E testing | {{e2e_start}} | {{e2e_end}} | {{e2e_schedule_owner}} |
+| Performance testing | {{perf_start}} | {{perf_end}} | {{perf_schedule_owner}} |
+| AI model evaluation | {{ml_eval_start}} | {{ml_eval_end}} | {{ml_eval_owner}} |
+
+## Completeness Checklist
+- [ ] Test strategy overview describes scope and objective
+- [ ] All applicable test types covered (unit, integration, E2E, performance, AI)
+- [ ] Test data requirements documented with sensitivity classification
+- [ ] Coverage targets defined per test type
+- [ ] Tools identified with environments
+- [ ] Test schedule defined with owners

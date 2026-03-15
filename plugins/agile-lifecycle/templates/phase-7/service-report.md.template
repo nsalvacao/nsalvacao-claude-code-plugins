@@ -1,0 +1,50 @@
+# Service Report
+
+| Field | Value |
+|-------|-------|
+| ID | {{report_id}} |
+| System | {{system_name}} |
+| Period | {{period}} |
+| Date | {{date}} |
+| Prepared By | {{prepared_by}} |
+
+## SLA Performance
+
+| SLA | Target | Actual | Status |
+|-----|--------|--------|--------|
+| Availability | {{avail_target}} | {{avail_actual}} | {{avail_status}} |
+| Error rate | < {{error_target}}% | {{error_actual}}% | {{error_status}} |
+| Latency p99 | < {{latency_target}}ms | {{latency_actual}}ms | {{latency_status}} |
+| Incidents MTTR (P1) | < {{mttr_target}} | {{mttr_actual}} | {{mttr_status}} |
+
+## Incident Summary
+
+| Severity | Count | MTTR | Impact |
+|----------|-------|------|--------|
+| P1 | {{p1_count}} | {{p1_mttr}} | {{p1_impact}} |
+| P2 | {{p2_count}} | {{p2_mttr}} | {{p2_impact}} |
+| P3/P4 | {{p34_count}} | {{p34_mttr}} | {{p34_impact}} |
+
+## Change Log Summary
+| Change | Date | Impact | Status |
+|--------|------|--------|--------|
+| {{change_1}} | {{change_date_1}} | {{change_impact_1}} | {{change_status_1}} |
+
+## AI Model Performance (if applicable)
+| Metric | Baseline | Current | Trend |
+|--------|----------|---------|-------|
+| {{ai_metric}} | {{ai_baseline}} | {{ai_current}} | {{ai_trend}} |
+
+## Capacity Trends
+{{capacity_trends}}
+
+## Recommendations
+{{recommendations}}
+
+## Completeness Checklist
+- [ ] SLA performance for all commitments documented
+- [ ] All incidents included with MTTR
+- [ ] Change log summarized
+- [ ] AI metrics tracked (if applicable)
+- [ ] Capacity trends noted
+- [ ] Recommendations for next period

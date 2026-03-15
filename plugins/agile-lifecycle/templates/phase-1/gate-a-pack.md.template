@@ -1,0 +1,86 @@
+# Gate A Review Pack
+
+| Field | Value |
+|-------|-------|
+| ID | {{gate_id}} |
+| Date | {{date}} |
+| Project | {{project}} |
+| Owner | {{owner}} |
+| Review Date | {{review_date}} |
+| Phase | 1 — Opportunity and Portfolio Framing |
+| Status | {{status}} |
+
+## Gate A Objectives
+<!-- Gate A confirms that the opportunity is well understood, feasibility has been assessed, and there is sufficient justification to proceed to Phase 2 (Inception). -->
+
+Gate A validates:
+- The opportunity is clearly defined and aligned to business strategy
+- Feasibility has been assessed across technical, commercial, and AI/ML dimensions
+- Key stakeholders are identified and engaged
+- Risks are understood and initial mitigations planned
+- There is a clear decision: PROCEED / HOLD / KILL
+
+## Artefacts Produced
+
+<!-- Confirm which artefacts have been produced for Gate A. All mandatory artefacts must be present and reviewed. -->
+
+| Artefact | Template Used | Status | Location | Reviewer |
+|----------|---------------|--------|----------|----------|
+| Opportunity Brief | opportunity-brief.md.template | {{opp_brief_status}} | {{opp_brief_location}} | {{opp_brief_reviewer}} |
+| Feasibility Note | feasibility-note.md.template | {{feasibility_status}} | {{feasibility_location}} | {{feasibility_reviewer}} |
+| Hypothesis Canvas | hypothesis-canvas.md.template | {{hypothesis_status}} | {{hypothesis_location}} | {{hypothesis_reviewer}} |
+| Risk Register (Initial) | risk-register-init.md.template | {{risk_register_status}} | {{risk_register_location}} | {{risk_register_reviewer}} |
+| Stakeholder Map | stakeholder-map.md.template | {{stakeholder_map_status}} | {{stakeholder_map_location}} | {{stakeholder_map_reviewer}} |
+
+## Key Decisions Made
+
+<!-- Document significant decisions made during Phase 1 that the gate reviewer should be aware of. -->
+
+| # | Decision | Rationale | Decision Date | Made By |
+|---|----------|-----------|---------------|---------|
+| 1 | {{decision_1}} | {{decision_1_rationale}} | {{decision_1_date}} | {{decision_1_by}} |
+| 2 | {{decision_2}} | {{decision_2_rationale}} | {{decision_2_date}} | {{decision_2_by}} |
+| 3 | {{decision_3}} | {{decision_3_rationale}} | {{decision_3_date}} | {{decision_3_by}} |
+
+## Evidence Summary
+
+<!-- What evidence supports the recommendation? Link to specific artefacts or data. -->
+{{evidence_summary}}
+
+## Outstanding Risks
+
+<!-- Any risks that remain open or unmitigated going into Gate A review. -->
+
+| Risk ID | Description | Probability | Impact | Acceptance Rationale |
+|---------|-------------|-------------|--------|----------------------|
+| {{outstanding_risk_1_id}} | {{outstanding_risk_1_desc}} | {{outstanding_risk_1_prob}} | {{outstanding_risk_1_impact}} | {{outstanding_risk_1_rationale}} |
+| {{outstanding_risk_2_id}} | {{outstanding_risk_2_desc}} | {{outstanding_risk_2_prob}} | {{outstanding_risk_2_impact}} | {{outstanding_risk_2_rationale}} |
+
+## Gate Recommendation
+
+<!-- State the recommendation clearly. Include rationale and any conditions. -->
+**Recommendation:** {{gate_recommendation}}
+<!-- Options: PASS — proceed to Phase 2 | FAIL — do not proceed, return to Phase 1 | WAIVED — proceed with documented exceptions -->
+
+**Rationale:**
+{{gate_rationale}}
+
+**Conditions (if WAIVED):**
+{{gate_conditions}}
+
+## Sign-off Required
+
+| Role | Name | Signature / Approval | Date |
+|------|------|----------------------|------|
+| Product Owner / Sponsor | {{sponsor_name}} | {{sponsor_approval}} | {{sponsor_date}} |
+| Technical Lead | {{tech_lead_name}} | {{tech_lead_approval}} | {{tech_lead_date}} |
+| Gate Reviewer | {{gate_reviewer_name}} | {{gate_reviewer_approval}} | {{gate_reviewer_date}} |
+
+## Completeness Checklist
+- [ ] All mandatory artefacts listed with status (Approved / Reviewed / Draft)
+- [ ] All mandatory artefacts are in Approved or Reviewed state
+- [ ] Key decisions documented with rationale and decision maker
+- [ ] Evidence summary references specific artefacts
+- [ ] Outstanding risks acknowledged with acceptance rationale
+- [ ] Gate recommendation is clear (PASS / FAIL / WAIVED)
+- [ ] Sign-off authorities identified and confirmed

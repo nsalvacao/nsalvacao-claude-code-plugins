@@ -1,0 +1,92 @@
+# Definition of Done Checklist
+
+| Field | Value |
+|-------|-------|
+| ID | {{dod_id}} |
+| Date | {{date}} |
+| Sprint | {{sprint_number}} |
+| Owner | {{owner}} |
+| Phase | 3 — Discovery and Backlog Readiness |
+| Status | {{status}} |
+
+## Story-Level DoD
+
+<!-- Every user story must satisfy ALL story-level DoD criteria before it can be considered done. -->
+
+### Functional
+- [ ] All acceptance criteria verified and passed
+- [ ] All BDD scenarios pass automated or manual verification
+- [ ] No open P1 or P2 defects on this story
+- [ ] Edge cases and error paths tested
+- [ ] Feature/story reviewed by Product Owner and accepted
+
+### Code Quality
+- [ ] Code reviewed by at least one peer (code review record updated)
+- [ ] No critical or high findings from code review outstanding
+- [ ] Code style and linting checks pass
+- [ ] No secrets or credentials in code
+- [ ] All TODOs resolved or tracked in backlog
+
+### Testing
+- [ ] Unit tests written and passing (coverage target met)
+- [ ] Integration tests written and passing where applicable
+- [ ] No regression introduced in existing tests
+- [ ] Test results committed to repository
+
+### Documentation
+- [ ] API documentation updated (if applicable)
+- [ ] README / inline documentation updated (if applicable)
+- [ ] Architectural decisions recorded (ADR if applicable)
+
+### AI/ML Additions (if story involves AI/ML)
+- [ ] Model evaluation results documented in experiment log
+- [ ] Performance thresholds from acceptance criteria met
+- [ ] Bias assessment completed
+- [ ] Explainability requirements satisfied
+- [ ] Fallback behaviour tested and verified
+
+## Sprint-Level DoD
+
+<!-- The sprint is done when ALL stories meet Story-Level DoD AND all sprint-level criteria are met. -->
+
+- [ ] All committed stories meet Story-Level DoD
+- [ ] Sprint goal achieved (or formally re-scoped with Product Owner)
+- [ ] Sprint review demo prepared and conducted
+- [ ] Sprint retrospective held and action items recorded
+- [ ] Sprint velocity recorded
+- [ ] Backlog groomed for next sprint
+- [ ] Risk register updated with any new or changed risks
+- [ ] Assumption register updated
+
+## Phase-Level DoD
+
+<!-- The phase is done when all sprints complete AND phase-level evidence exists. -->
+
+- [ ] All phase artefacts produced and in Approved or Reviewed state
+- [ ] Gate review pack prepared
+- [ ] Gate review conducted and outcome recorded
+- [ ] All open high/critical defects resolved or accepted (with rationale)
+- [ ] Evidence index updated
+- [ ] Handover to next phase completed
+
+## AI/ML Additions (Phase Level)
+
+- [ ] Model evaluation report produced for phase
+- [ ] Drift baseline established
+- [ ] Data pipeline validated and documented
+- [ ] Red-team or adversarial evaluation completed (if GenAI/LLM)
+
+## Exception Log
+
+<!-- Document any DoD criteria that were explicitly waived for specific stories or sprints. Each exception must have a justification and an owner. -->
+
+| ID | Item Waived | Story / Sprint | Justification | Owner | Accepted By |
+|----|-------------|----------------|---------------|-------|-------------|
+| E-001 | {{waived_item_1}} | {{waived_item_1_scope}} | {{waived_item_1_justification}} | {{waived_item_1_owner}} | {{waived_item_1_accepted_by}} |
+
+## Completeness Checklist
+- [ ] Story-level DoD agreed by team
+- [ ] Sprint-level DoD agreed by team
+- [ ] Phase-level DoD agreed by team and Product Owner
+- [ ] AI/ML additions included where product involves AI/ML
+- [ ] Exception log maintained for any waivers

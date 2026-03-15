@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/handover-log",
+  "title": "Handover Log Entry",
+  "description": "Records the formal handover of responsibility between phases or subfases, including artefacts transferred and acceptance status.",
+  "type": "object",
+  "required": ["id", "from_phase", "to_phase", "handover_date", "handed_by", "received_by", "artefacts_handed", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique handover log identifier (e.g. HO-001)"
+    },
+    "from_phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Phase handing over responsibility"
+    },
+    "from_subfase": {
+      "type": "string",
+      "description": "Subfase handing over (e.g. 1.3)"
+    },
+    "to_phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Phase receiving responsibility"
+    },
+    "to_subfase": {
+      "type": "string",
+      "description": "Subfase receiving (e.g. 2.1)"
+    },
+    "handover_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the handover was initiated (ISO 8601)"
+    },
+    "handed_by": {
+      "type": "string",
+      "description": "Person or role handing over responsibility"
+    },
+    "received_by": {
+      "type": "string",
+      "description": "Person or role accepting responsibility"
+    },
+    "artefacts_handed": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "List of artefact IDs or names formally transferred in this handover"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "accepted", "rejected", "conditional"],
+      "description": "Status of the handover acceptance"
+    },
+    "conditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Conditions that must be met for a conditional acceptance"
+    },
+    "sign_off_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the handover was formally signed off (ISO 8601)"
+    },
+    "rejection_reason": {
+      "type": "string",
+      "description": "Reason for rejection if status is rejected"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the handover"
+    }
+  }
+}

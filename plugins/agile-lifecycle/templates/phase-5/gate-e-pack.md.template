@@ -1,0 +1,66 @@
+# Gate E — Release Readiness Review Pack
+
+| Field | Value |
+|-------|-------|
+| Gate | E — Release Readiness |
+| Project | {{project_name}} |
+| Version | {{version}} |
+| Review Date | {{review_date}} |
+| Prepared By | {{prepared_by}} |
+| Recommendation | {{recommendation}} |
+
+<!-- recommendation: PROCEED TO RELEASE | HOLD | CONDITIONAL -->
+
+## Gate E Objective
+Gate E confirms the product is ready for production release. All functional validation, AI model validation (if applicable), UAT, and stakeholder sign-offs must be complete.
+
+## Artefacts and Evidence
+
+| Artefact | Path | Evidence Level | Status |
+|----------|------|---------------|--------|
+| Functional Test Report | {{ftr_path}} | approved | {{ftr_status}} |
+| AI Validation Report | {{avr_path}} | approved | {{avr_status}} |
+| UAT Report | {{uat_path}} | approved | {{uat_status}} |
+| Residual Risk Note | {{rrn_path}} | reviewed | {{rrn_status}} |
+| Waiver Log | {{wl_path}} | approved | {{wl_status}} |
+| Traceability Evidence | {{te_path}} | reviewed | {{te_status}} |
+| Release Plan | {{rp_path}} | approved | {{rp_status}} |
+
+## Gate Criteria Status
+
+| Criterion | Status | Evidence | Notes |
+|-----------|--------|----------|-------|
+| All functional test cases pass (or failures formally accepted) | {{crit_1_status}} | {{crit_1_ev}} | {{crit_1_notes}} |
+| Coverage meets DoD threshold | {{crit_2_status}} | {{crit_2_ev}} | {{crit_2_notes}} |
+| AI model meets performance thresholds (if AI) | {{crit_3_status}} | {{crit_3_ev}} | {{crit_3_notes}} |
+| Red-team complete with mitigations (if LLM) | {{crit_4_status}} | {{crit_4_ev}} | {{crit_4_notes}} |
+| UAT accepted by Product Owner | {{crit_5_status}} | {{crit_5_ev}} | {{crit_5_notes}} |
+| Residual risks accepted by authority | {{crit_6_status}} | {{crit_6_ev}} | {{crit_6_notes}} |
+| Release Plan approved | {{crit_7_status}} | {{crit_7_ev}} | {{crit_7_notes}} |
+| Deployment environment ready | {{crit_8_status}} | {{crit_8_ev}} | {{crit_8_notes}} |
+
+## Waivers
+{{waivers_summary}}
+
+## Outstanding Conditions
+<!-- Any conditions that must be met before or immediately after go-live -->
+{{conditions}}
+
+## Recommendation Rationale
+{{recommendation_rationale}}
+
+## Sign-offs Required
+
+| Role | Sign-off Obtained | Date |
+|------|------------------|------|
+| Product Owner | {{po_signoff}} | {{po_date}} |
+| Engineering Manager | {{em_signoff}} | {{em_date}} |
+| Project Sponsor | {{sponsor_signoff}} | {{sponsor_date}} |
+
+## Completeness Checklist
+- [ ] All artefacts produced at required evidence level
+- [ ] All gate criteria assessed
+- [ ] Waivers documented and approved
+- [ ] Conditions tracked with owners
+- [ ] Recommendation clear with rationale
+- [ ] All required sign-offs obtained

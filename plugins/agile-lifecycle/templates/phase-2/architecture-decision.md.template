@@ -1,0 +1,70 @@
+# Architecture Decision Record (ADR)
+
+| Field | Value |
+|-------|-------|
+| ID | {{adr_id}} |
+| Title | {{adr_title}} |
+| Date | {{date}} |
+| Decider | {{decider}} |
+| Phase | 2 — Inception and Product Framing |
+| Status | {{status}} |
+
+<!-- Status options: Proposed | Accepted | Deprecated | Superseded by {{adr_id}} -->
+
+## Context
+<!-- What is the situation that motivates this decision? What forces, constraints, or requirements apply? -->
+{{context}}
+
+## Decision
+<!-- What is the decision that was made? State it clearly and concisely. -->
+{{decision}}
+
+## Consequences
+
+### Positive Consequences
+<!-- What becomes easier or possible as a result of this decision? -->
+{{positive_consequences}}
+
+### Negative Consequences
+<!-- What trade-offs or downsides are accepted as a result of this decision? -->
+{{negative_consequences}}
+
+### Neutral Consequences
+<!-- Other expected consequences that are neither positive nor negative. -->
+{{neutral_consequences}}
+
+## Alternatives Considered
+
+<!-- What other options were evaluated? Why were they not chosen? -->
+
+### Alternative 1: {{alternative_1_name}}
+**Description:** {{alternative_1_description}}
+**Reason Rejected:** {{alternative_1_rejection_reason}}
+
+### Alternative 2: {{alternative_2_name}}
+**Description:** {{alternative_2_description}}
+**Reason Rejected:** {{alternative_2_rejection_reason}}
+
+### Alternative 3: {{alternative_3_name}}
+**Description:** {{alternative_3_description}}
+**Reason Rejected:** {{alternative_3_rejection_reason}}
+
+## Related Decisions
+<!-- Link to related ADRs that influenced or were influenced by this decision. -->
+{{related_decisions}}
+
+## Review Date
+<!-- When should this decision be reviewed? e.g., after Phase 3, after first production release -->
+{{review_date}}
+
+## References
+<!-- Links to relevant documentation, benchmarks, blog posts, or standards. -->
+{{references}}
+
+## Completeness Checklist
+- [ ] Context explains the forces and constraints driving the decision
+- [ ] Decision is stated clearly and unambiguously
+- [ ] Positive, negative, and neutral consequences documented
+- [ ] At least 2 alternatives considered with rejection rationale
+- [ ] Related decisions linked
+- [ ] Decider and date recorded

@@ -1,0 +1,103 @@
+# Gate C Review Pack — Sprint Readiness
+
+| Field | Value |
+|-------|-------|
+| ID | {{gate_id}} |
+| Date | {{date}} |
+| Project | {{project}} |
+| Owner | {{owner}} |
+| Review Date | {{review_date}} |
+| Phase | 3 — Discovery and Backlog Readiness |
+| Status | {{status}} |
+
+## Gate C Objectives
+<!-- Gate C (Backlog Readiness Review) confirms that the team is ready to begin iterative delivery. The backlog is sufficiently groomed, acceptance criteria are defined, the test plan is approved, and team capacity is confirmed. -->
+
+Gate C validates:
+- Product backlog is groomed and prioritised for at least 2 sprints ahead
+- Acceptance criteria are defined for all Sprint 1 committed items
+- Test plan is approved
+- Team capacity is confirmed for Sprint 1
+- Definition of Done is agreed by the team
+- Technical environment (dev, test) is ready
+
+## Backlog Readiness
+
+**Total Backlog Items:** {{total_backlog_items}}
+**Items with Acceptance Criteria:** {{items_with_ac}} ({{items_with_ac_percentage}}%)
+**Items Ready for Sprint 1:** {{items_ready_sprint_1}}
+**Sprint 1 Committed Points:** {{sprint_1_committed_points}}
+**Team Velocity Estimate:** {{velocity_estimate}} SP/sprint
+
+**Backlog Confidence:** {{backlog_confidence}}
+<!-- Low / Medium / High -->
+{{backlog_confidence_rationale}}
+
+## Acceptance Criteria Review
+
+| Sprint | AC Coverage | Quality Assessment | Notes |
+|--------|-------------|-------------------|-------|
+| Sprint 1 | {{sprint_1_ac_coverage}}% | {{sprint_1_ac_quality}} | {{sprint_1_ac_notes}} |
+| Sprint 2 | {{sprint_2_ac_coverage}}% | {{sprint_2_ac_quality}} | {{sprint_2_ac_notes}} |
+
+## Test Plan Status
+
+**Test Plan ID:** {{test_plan_id}}
+**Test Plan Status:** {{test_plan_status}}
+<!-- Approved / Under Review / Draft -->
+**Test Environment Ready:** {{test_env_ready}}
+**Test Data Available:** {{test_data_available}}
+
+## Team Capacity Confirmation
+
+| Team Member | Role | Confirmed for Sprint 1 | Notes |
+|-------------|------|------------------------|-------|
+| {{member_1}} | {{member_1_role}} | {{member_1_confirmed}} | {{member_1_notes}} |
+| {{member_2}} | {{member_2_role}} | {{member_2_confirmed}} | {{member_2_notes}} |
+| {{member_3}} | {{member_3_role}} | {{member_3_confirmed}} | {{member_3_notes}} |
+
+## Definition of Done Agreement
+
+**DoD ID:** {{dod_id}}
+**DoD Status:** {{dod_status}}
+<!-- Agreed / Under Discussion / Not Started -->
+**Team Agreed DoD:** {{team_agreed_dod}}
+**Product Owner Signed Off DoD:** {{po_signed_dod}}
+
+## Artefacts Produced
+
+| Artefact | Status |
+|----------|--------|
+| Sprint Backlog (Sprint 1) | {{sprint_backlog_status}} |
+| Acceptance Criteria (Sprint 1 items) | {{ac_status}} |
+| Test Plan | {{test_plan_artefact_status}} |
+| DoD Checklist | {{dod_status}} |
+| Sprint Risk Note | {{risk_note_status}} |
+
+## Go / No-Go Recommendation
+
+**Recommendation:** {{gate_recommendation}}
+<!-- PASS | FAIL | WAIVED -->
+
+**Rationale:**
+{{gate_rationale}}
+
+**Conditions (if WAIVED):**
+{{gate_conditions}}
+
+## Sign-off Required
+
+| Role | Name | Approval | Date |
+|------|------|----------|------|
+| Product Owner | {{po_name}} | {{po_approval}} | {{po_date}} |
+| Delivery Lead | {{delivery_lead_name}} | {{delivery_lead_approval}} | {{delivery_lead_date}} |
+| Gate Reviewer | {{gate_reviewer_name}} | {{gate_reviewer_approval}} | {{gate_reviewer_date}} |
+
+## Completeness Checklist
+- [ ] Backlog groomed for at least 2 sprints ahead
+- [ ] Sprint 1 acceptance criteria 100% complete
+- [ ] Test plan approved
+- [ ] Team capacity confirmed for Sprint 1
+- [ ] DoD agreed by team and Product Owner
+- [ ] Technical environment ready for Sprint 1
+- [ ] Go/No-Go recommendation documented

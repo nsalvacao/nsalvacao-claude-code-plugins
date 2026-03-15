@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/clarification-log",
+  "title": "Clarification Log Entry",
+  "description": "A single entry in the clarification log, tracking open questions and decisions that must be resolved before proceeding.",
+  "type": "object",
+  "required": ["id", "question", "raised_by", "phase", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique clarification identifier (e.g. CLR-001)"
+    },
+    "question": {
+      "type": "string",
+      "description": "The open question or decision that needs resolution"
+    },
+    "raised_by": {
+      "type": "string",
+      "description": "Person or role who raised this clarification"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase in which this clarification was raised"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "answered", "deferred", "cancelled"],
+      "description": "Current status of the clarification"
+    },
+    "raised_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the clarification was raised (ISO 8601)"
+    },
+    "answer": {
+      "type": "string",
+      "description": "The answer or resolution to the question"
+    },
+    "answered_by": {
+      "type": "string",
+      "description": "Person or role who provided the answer"
+    },
+    "answered_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the clarification was answered (ISO 8601)"
+    },
+    "impact": {
+      "type": "string",
+      "description": "Description of impact on scope, timeline, or design if not resolved"
+    },
+    "blocker": {
+      "type": "boolean",
+      "description": "Whether this clarification blocks progress on current work"
+    }
+  }
+}

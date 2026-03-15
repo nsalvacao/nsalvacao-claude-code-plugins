@@ -1,0 +1,78 @@
+# Release Plan
+
+| Field | Value |
+|-------|-------|
+| ID | {{release_id}} |
+| Release Name | {{release_name}} |
+| Version | {{version}} |
+| Go-Live Date | {{go_live_date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Release Scope
+{{release_scope}}
+
+## Rollout Strategy
+<!-- full | phased | canary | blue-green | shadow-then-canary (for AI/ML) -->
+**Strategy:** {{rollout_strategy}}
+
+**Rationale:** {{rollout_rationale}}
+
+### Rollout Phases (if phased/canary)
+
+| Phase | Audience % | Start Date | Success Criteria | Duration |
+|-------|-----------|-----------|-----------------|----------|
+| Shadow | {{shadow_pct}} | {{shadow_start}} | {{shadow_criteria}} | {{shadow_duration}} |
+| Canary | {{canary_pct}} | {{canary_start}} | {{canary_criteria}} | {{canary_duration}} |
+| Full | 100% | {{full_start}} | {{full_criteria}} | — |
+
+## Go-Live Criteria
+<!-- Specific, measurable conditions that confirm go-live is successful -->
+| Criterion | Threshold | Measurement Method |
+|-----------|-----------|-------------------|
+| Error rate | < {{error_threshold}}% | {{error_measurement}} |
+| Latency p99 | < {{latency_threshold}}ms | {{latency_measurement}} |
+| Throughput | > {{throughput_threshold}} req/s | {{throughput_measurement}} |
+| Smoke tests | 100% pass | {{smoke_measurement}} |
+
+## Rollback Triggers
+<!-- Conditions that automatically trigger rollback -->
+| Trigger | Threshold | Action |
+|---------|-----------|--------|
+| Error rate | > {{rb_error_threshold}}% | Immediate rollback |
+| P1 incident | Any | Rollback assessment within 15min |
+| Latency p99 | > {{rb_latency_threshold}}ms for {{rb_duration}} | Rollback assessment |
+
+## Communication Plan
+
+| Audience | Message | Channel | Timing |
+|----------|---------|---------|--------|
+| Engineering | Deploy go-ahead | {{eng_channel}} | {{eng_timing}} |
+| Support team | Release notes + known issues | {{support_channel}} | {{support_timing}} |
+| Users | Release announcement | {{user_channel}} | {{user_timing}} |
+| Executives | Go-live confirmation | {{exec_channel}} | {{exec_timing}} |
+
+## Go-Live Checklist
+- [ ] Gate E approved (or conditions met)
+- [ ] Deployment environment verified
+- [ ] Rollback plan rehearsed
+- [ ] Monitoring dashboards live
+- [ ] On-call rotation active
+- [ ] Communications scheduled
+- [ ] Support team briefed
+
+## Approval
+
+| Role | Name | Date |
+|------|------|------|
+| Release Manager | {{release_manager}} | {{rm_date}} |
+| Engineering Manager | {{eng_manager}} | {{em_date}} |
+| CTO / VP Engineering | {{cto}} | {{cto_date}} |
+
+## Completeness Checklist
+- [ ] Release scope documented
+- [ ] Rollout strategy defined with rationale
+- [ ] Go-live criteria specific and measurable
+- [ ] Rollback triggers defined
+- [ ] Communication plan complete
+- [ ] Go-live checklist signed off

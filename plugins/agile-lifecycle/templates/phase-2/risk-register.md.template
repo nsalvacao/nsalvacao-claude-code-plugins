@@ -1,0 +1,49 @@
+# Risk Register — Phase 2
+
+| Field | Value |
+|-------|-------|
+| ID | {{register_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 2 — Inception and Product Framing |
+| Status | {{status}} |
+
+## Risk Register
+
+<!-- Comprehensive risk register updated at each phase gate. All risks from Phase 1 must be carried forward with updated status. -->
+<!-- Probability: low / medium / high / critical -->
+<!-- Impact: low / medium / high / critical -->
+<!-- Category: Technical / AI/ML / Commercial / Regulatory / Organisational / Operational / External -->
+<!-- Status: open / mitigated / accepted / closed -->
+
+| ID | Description | Category | Probability | Impact | Owner | Mitigation Strategy | Contingency Plan | Status | Phase Opened |
+|----|-------------|----------|-------------|--------|-------|---------------------|------------------|--------|--------------|
+| R-001 | {{r001_desc}} | {{r001_cat}} | {{r001_prob}} | {{r001_impact}} | {{r001_owner}} | {{r001_mitigation}} | {{r001_contingency}} | {{r001_status}} | {{r001_phase}} |
+| R-002 | {{r002_desc}} | {{r002_cat}} | {{r002_prob}} | {{r002_impact}} | {{r002_owner}} | {{r002_mitigation}} | {{r002_contingency}} | {{r002_status}} | {{r002_phase}} |
+| R-003 | {{r003_desc}} | {{r003_cat}} | {{r003_prob}} | {{r003_impact}} | {{r003_owner}} | {{r003_mitigation}} | {{r003_contingency}} | {{r003_status}} | {{r003_phase}} |
+| R-004 | {{r004_desc}} | {{r004_cat}} | {{r004_prob}} | {{r004_impact}} | {{r004_owner}} | {{r004_mitigation}} | {{r004_contingency}} | {{r004_status}} | {{r004_phase}} |
+| R-005 | {{r005_desc}} | {{r005_cat}} | {{r005_prob}} | {{r005_impact}} | {{r005_owner}} | {{r005_mitigation}} | {{r005_contingency}} | {{r005_status}} | {{r005_phase}} |
+
+## Risk Summary
+
+### High / Critical Risks Requiring Immediate Attention
+{{high_critical_risks_summary}}
+
+### Risks Closed Since Phase 1
+{{closed_risks_summary}}
+
+### New Risks Identified in Phase 2
+{{new_risks_summary}}
+
+## Review Log
+| Date | Reviewer | Summary of Changes |
+|------|----------|--------------------|
+| {{review_date_1}} | {{reviewer_1}} | {{review_changes_1}} |
+
+## Completeness Checklist
+- [ ] All Phase 1 risks carried forward with updated status
+- [ ] New risks identified in Phase 2 added with all fields populated
+- [ ] Each risk has a named owner
+- [ ] Contingency plans documented for high/critical risks
+- [ ] Closed risks marked with resolution date and reason
+- [ ] Summary sections completed

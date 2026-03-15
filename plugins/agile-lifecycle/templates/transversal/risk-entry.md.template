@@ -1,0 +1,46 @@
+# Risk Register Entry
+
+| Field | Value |
+|-------|-------|
+| ID | {{risk_id}} |
+| Date | {{date}} |
+| Phase | {{phase}} |
+| Category | {{category}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Description
+<!-- Describe the risk clearly: what could go wrong and why -->
+{{risk_description}}
+
+## Probability
+<!-- low | medium | high | critical -->
+{{probability}}
+
+## Impact
+<!-- low | medium | high | critical (impact if risk materialises) -->
+{{impact}}
+
+## Mitigation
+<!-- What actions reduce the probability of this risk occurring? -->
+{{mitigation}}
+
+## Contingency
+<!-- What will we do if this risk materialises despite mitigation? -->
+{{contingency}}
+
+## Resolution
+<!-- How was this risk resolved or closed? (fill when status = mitigated/accepted/closed) -->
+{{resolution}}
+
+## History
+| Date | Update | By |
+|------|--------|----|
+| {{date}} | Risk logged | {{owner}} |
+
+## Completeness Checklist
+- [ ] Risk clearly described (what and why)
+- [ ] Probability and impact assessed
+- [ ] Owner assigned
+- [ ] Mitigation defined
+- [ ] Contingency defined

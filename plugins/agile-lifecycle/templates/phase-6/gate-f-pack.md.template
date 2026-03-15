@@ -1,0 +1,63 @@
+# Gate F — Operations & Hypercare Completion Review Pack
+
+| Field | Value |
+|-------|-------|
+| Gate | F — Operations & Hypercare Completion |
+| Project | {{project_name}} |
+| Version | {{version}} |
+| Review Date | {{review_date}} |
+| Prepared By | {{prepared_by}} |
+| Recommendation | {{recommendation}} |
+
+<!-- recommendation: CLOSED | HOLD | NEXT_ITERATION -->
+
+## Gate F Objective
+Gate F confirms hypercare is complete, the operations team has formally accepted the system, and the lifecycle is ready to enter steady-state operations (Phase 7) or begin a new iteration.
+
+## Artefacts and Evidence
+
+| Artefact | Path | Evidence Level | Status |
+|----------|------|---------------|--------|
+| Hypercare Report | {{hypercare_path}} | approved | {{hypercare_status}} |
+| Operations Handover | {{handover_path}} | accepted | {{handover_status}} |
+| Service Report (initial) | {{service_path}} | reviewed | {{service_status}} |
+
+## Gate Criteria Status
+
+| Criterion | Status | Evidence | Notes |
+|-----------|--------|----------|-------|
+| Hypercare exit criteria met | {{crit_1}} | {{ev_1}} | {{notes_1}} |
+| No open P1/P2 incidents | {{crit_2}} | {{ev_2}} | {{notes_2}} |
+| Operations team trained | {{crit_3}} | {{ev_3}} | {{notes_3}} |
+| Runbooks in place and tested | {{crit_4}} | {{ev_4}} | {{notes_4}} |
+| SLAs agreed and monitored | {{crit_5}} | {{ev_5}} | {{notes_5}} |
+| Operations handover formally accepted | {{crit_6}} | {{ev_6}} | {{notes_6}} |
+
+## Lifecycle Phase Decision
+<!-- What happens after Gate F? -->
+**Decision:** {{lifecycle_decision}}
+
+<!-- Options: steady-state-operations | new-iteration-phase-1 | new-iteration-phase-3 | initiate-retirement -->
+
+**Rationale:** {{decision_rationale}}
+
+## Conditions (if any)
+{{conditions}}
+
+## Recommendation Rationale
+{{recommendation_rationale}}
+
+## Sign-offs
+
+| Role | Sign-off Obtained | Date |
+|------|------------------|------|
+| Operations Lead | {{ops_lead_signoff}} | {{ops_date}} |
+| Engineering Manager | {{em_signoff}} | {{em_date}} |
+| Product Manager | {{pm_signoff}} | {{pm_date}} |
+
+## Completeness Checklist
+- [ ] All gate criteria assessed
+- [ ] Hypercare report approved
+- [ ] Operations handover accepted
+- [ ] Lifecycle decision documented
+- [ ] All required sign-offs obtained

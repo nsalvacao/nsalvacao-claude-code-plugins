@@ -1,0 +1,80 @@
+# Solution Brief
+
+| Field | Value |
+|-------|-------|
+| ID | {{solution_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 2 — Inception and Product Framing |
+| Gate | B |
+| Status | {{status}} |
+
+## Solution Description
+<!-- High-level description of the proposed solution. What are we building? Who is it for? What problem does it solve? -->
+{{solution_description}}
+
+## Architecture Approach
+<!-- Describe the high-level architectural approach. Monolith, microservices, event-driven, serverless? How does AI/ML fit into the architecture? -->
+{{architecture_approach}}
+
+## Technology Stack
+
+### Frontend / UI
+{{tech_frontend}}
+
+### Backend / APIs
+{{tech_backend}}
+
+### AI / ML Layer
+{{tech_ai_ml}}
+
+### Data Layer
+{{tech_data}}
+
+### Infrastructure / Cloud
+{{tech_infrastructure}}
+
+### Key Libraries and Frameworks
+{{tech_libraries}}
+
+## Key Constraints
+<!-- What constraints shape the solution? Regulatory, security, performance, budget, team skills, existing systems. -->
+{{key_constraints}}
+
+## Build vs Buy Decisions
+
+| Component | Decision | Rationale | Vendor / Tool (if Buy) |
+|-----------|----------|-----------|------------------------|
+| {{component_1}} | {{bvb_decision_1}} | {{bvb_rationale_1}} | {{bvb_vendor_1}} |
+| {{component_2}} | {{bvb_decision_2}} | {{bvb_rationale_2}} | {{bvb_vendor_2}} |
+| {{component_3}} | {{bvb_decision_3}} | {{bvb_rationale_3}} | {{bvb_vendor_3}} |
+
+## Integration Points
+<!-- What existing systems, services, or data sources does this solution integrate with? -->
+| System | Integration Type | Owner | Notes |
+|--------|-----------------|-------|-------|
+| {{system_1}} | {{integration_1_type}} | {{system_1_owner}} | {{system_1_notes}} |
+| {{system_2}} | {{integration_2_type}} | {{system_2_owner}} | {{system_2_notes}} |
+
+## Non-Functional Requirements
+<!-- Key NFRs that shape the architecture: performance, scalability, availability, security, compliance. -->
+| NFR | Target | Rationale |
+|-----|--------|-----------|
+| Performance | {{nfr_performance}} | {{nfr_performance_rationale}} |
+| Availability | {{nfr_availability}} | {{nfr_availability_rationale}} |
+| Scalability | {{nfr_scalability}} | {{nfr_scalability_rationale}} |
+| Security | {{nfr_security}} | {{nfr_security_rationale}} |
+| Compliance | {{nfr_compliance}} | {{nfr_compliance_rationale}} |
+
+## Open Questions
+<!-- Architecture or solution questions not yet resolved. Track resolution in the clarification log. -->
+{{open_questions}}
+
+## Completeness Checklist
+- [ ] Solution described at a level sufficient for Phase 2 planning
+- [ ] Architecture approach defined with AI/ML layer called out
+- [ ] Technology stack selected with rationale
+- [ ] Key constraints documented
+- [ ] Build vs buy decisions made for major components
+- [ ] Integration points identified with owners
+- [ ] Non-functional requirements defined with targets

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/change-log",
+  "title": "Change Log Entry",
+  "description": "A single entry in the project change log, recording a change request, its classification, impact assessment, and approval status.",
+  "type": "object",
+  "required": ["id", "description", "phase", "type", "status", "requested_by", "requested_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique change log identifier (e.g. CHG-001)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the change being requested or logged"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase in which this change was raised"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["incremental", "significant"],
+      "description": "Classification of the change: incremental (within agreed scope) or significant (scope/cost/timeline impact)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["requested", "under-review", "approved", "rejected", "implemented"],
+      "description": "Current status of the change"
+    },
+    "requested_by": {
+      "type": "string",
+      "description": "Person or role who requested the change"
+    },
+    "requested_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the change was requested (ISO 8601)"
+    },
+    "impact_assessment": {
+      "type": "object",
+      "description": "Assessment of the change impact across key dimensions",
+      "properties": {
+        "schedule": {
+          "type": "string",
+          "description": "Impact on project schedule (e.g. +2 weeks, none)"
+        },
+        "cost": {
+          "type": "string",
+          "description": "Impact on project budget (e.g. +5%, none)"
+        },
+        "scope": {
+          "type": "string",
+          "description": "Description of scope changes"
+        },
+        "quality": {
+          "type": "string",
+          "description": "Impact on quality or test coverage"
+        },
+        "risk": {
+          "type": "string",
+          "description": "New or changed risks introduced by this change"
+        }
+      }
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Person or role who approved the change"
+    },
+    "approved_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the change was approved (ISO 8601)"
+    },
+    "re_gate_required": {
+      "type": "boolean",
+      "description": "Whether this change requires a re-gate review"
+    },
+    "change_request_id": {
+      "type": "string",
+      "description": "Reference to a formal change request document if applicable"
+    }
+  }
+}

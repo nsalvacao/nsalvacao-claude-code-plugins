@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/change-request",
+  "title": "Change Request",
+  "description": "A formal change request document for significant changes that require governance review and approval.",
+  "type": "object",
+  "required": ["id", "title", "description", "requested_by", "phase", "classification", "impact"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique change request identifier (e.g. CR-001)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short title of the change request"
+    },
+    "description": {
+      "type": "string",
+      "description": "Full description of the proposed change, including rationale and alternatives considered"
+    },
+    "requested_by": {
+      "type": "string",
+      "description": "Person or role requesting the change"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase in which this change request is raised"
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["incremental", "significant", "emergency"],
+      "description": "Classification of the change: incremental (within scope), significant (impacts baseline), emergency (immediate action needed)"
+    },
+    "impact": {
+      "type": "object",
+      "description": "Quantified impact assessment across key project dimensions",
+      "properties": {
+        "schedule_impact_days": {
+          "type": "integer",
+          "description": "Schedule impact in calendar days (positive = delay, negative = acceleration)"
+        },
+        "cost_impact_pct": {
+          "type": "number",
+          "description": "Cost impact as percentage of total budget (positive = increase)"
+        },
+        "scope_description": {
+          "type": "string",
+          "description": "Description of scope additions, removals, or modifications"
+        },
+        "risk_change": {
+          "type": "string",
+          "description": "Description of how the risk profile changes with this request"
+        }
+      }
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["approved", "rejected", "deferred"],
+      "description": "Governance decision on the change request"
+    },
+    "decision_authority": {
+      "type": "string",
+      "description": "Role or body that made the decision (e.g. Steering Committee, Product Owner)"
+    },
+    "decision_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the decision was made (ISO 8601)"
+    },
+    "re_gate_required": {
+      "type": "boolean",
+      "description": "Whether this change requires a re-gate review before implementation"
+    },
+    "conditions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Conditions attached to a deferred or conditional approval"
+    },
+    "implementation_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Planned date for implementing the approved change (ISO 8601)"
+    }
+  }
+}

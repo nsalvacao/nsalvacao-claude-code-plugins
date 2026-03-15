@@ -1,0 +1,79 @@
+# Operations Handover
+
+| Field | Value |
+|-------|-------|
+| ID | {{handover_id}} |
+| System | {{system_name}} |
+| Version | {{version}} |
+| Handover Date | {{date}} |
+| Handed By | {{handed_by}} |
+| Received By | {{received_by}} |
+| Status | {{status}} |
+
+## System Overview
+{{system_overview}}
+
+## Architecture Summary
+<!-- Brief architecture overview with link to full architecture docs -->
+{{architecture_summary}}
+
+## Runbook Locations
+
+| Runbook | Path / URL | Coverage |
+|---------|-----------|----------|
+| Operations Runbook | {{ops_runbook}} | General operations |
+| Incident Response | {{incident_runbook}} | Incident handling |
+| AI Model Operations | {{ai_runbook}} | AI/ML specific (if applicable) |
+| Rollback Procedures | {{rollback_runbook}} | Emergency rollback |
+
+## SLA Commitments
+
+| SLA | Target | Measurement | Reporting |
+|-----|--------|-------------|-----------|
+| Availability | {{availability_sla}} | {{avail_measurement}} | Monthly |
+| Response time p99 | {{latency_sla}} | {{latency_measurement}} | Monthly |
+| Recovery time (P1) | {{rto}} | Incident log | Per incident |
+
+## Monitoring & Alerting
+
+| Tool | URL | Access | What it monitors |
+|------|-----|--------|-----------------|
+| {{monitoring_tool}} | {{monitoring_url}} | {{monitoring_access}} | {{what_monitored}} |
+
+## Escalation Path
+
+| Severity | First Contact | Escalation 1 | Escalation 2 | Response SLA |
+|----------|--------------|-------------|-------------|-------------|
+| P1 | {{p1_first}} | {{p1_esc1}} | {{p1_esc2}} | {{p1_sla}} |
+| P2 | {{p2_first}} | {{p2_esc1}} | {{p2_esc2}} | {{p2_sla}} |
+| P3 | {{p3_first}} | {{p3_esc1}} | — | {{p3_sla}} |
+
+## Known Issues
+| Issue | Workaround | Expected Fix |
+|-------|-----------|-------------|
+| {{issue_1}} | {{workaround_1}} | {{fix_date_1}} |
+
+## Contact List
+
+| Role | Name | Contact |
+|------|------|---------|
+| Primary On-call | {{primary_oncall}} | {{primary_contact}} |
+| Engineering Lead | {{eng_lead}} | {{eng_contact}} |
+| Product Manager | {{pm}} | {{pm_contact}} |
+
+## Acceptance
+
+| | Handed By | Received By |
+|-|-----------|------------|
+| Name | {{handed_by}} | {{received_by}} |
+| Date | {{handover_date}} | {{acceptance_date}} |
+| Conditions | — | {{acceptance_conditions}} |
+
+## Completeness Checklist
+- [ ] System overview accurate
+- [ ] All runbooks accessible and up-to-date
+- [ ] SLA commitments documented
+- [ ] Monitoring and alerting verified
+- [ ] Escalation path agreed
+- [ ] Ops team trained
+- [ ] Formal acceptance obtained

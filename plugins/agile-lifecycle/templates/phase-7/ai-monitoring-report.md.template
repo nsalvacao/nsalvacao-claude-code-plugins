@@ -1,0 +1,54 @@
+# AI Monitoring Report
+
+| Field | Value |
+|-------|-------|
+| ID | {{report_id}} |
+| Model | {{model_name}} |
+| Version | {{model_version}} |
+| Period | {{period}} |
+| Date | {{date}} |
+| Prepared By | {{prepared_by}} |
+
+## Performance Trends
+
+| Metric | Baseline | Last Period | This Period | Trend | Status |
+|--------|----------|------------|-------------|-------|--------|
+| Accuracy / F1 | {{base_acc}} | {{prev_acc}} | {{curr_acc}} | {{trend_acc}} | {{status_acc}} |
+| Latency p99 | {{base_lat}} | {{prev_lat}} | {{curr_lat}} | {{trend_lat}} | {{status_lat}} |
+| Throughput | {{base_thr}} | {{prev_thr}} | {{curr_thr}} | {{trend_thr}} | {{status_thr}} |
+| Cost (if LLM) | {{base_cost}} | {{prev_cost}} | {{curr_cost}} | {{trend_cost}} | {{status_cost}} |
+
+## Drift Analysis
+
+| Drift Type | Detected? | Severity | Details |
+|-----------|-----------|----------|---------|
+| Data drift (input features) | {{data_drift_detected}} | {{data_drift_severity}} | {{data_drift_details}} |
+| Concept drift (predictions) | {{concept_drift_detected}} | {{concept_drift_severity}} | {{concept_drift_details}} |
+| Output quality drift | {{output_drift_detected}} | {{output_drift_severity}} | {{output_drift_details}} |
+
+## Retraining Decision
+**Retraining Triggered:** {{retraining_triggered}}
+
+**Trigger Reason:** {{retraining_reason}}
+
+**Retraining Actions:** {{retraining_actions}}
+
+## LLM-Specific (if applicable)
+| Metric | Value | Trend |
+|--------|-------|-------|
+| Avg token cost / request | {{token_cost}} | {{token_trend}} |
+| Quality score (feedback) | {{quality_score}} | {{quality_trend}} |
+| Prompt version | {{prompt_version}} | — |
+
+## Anomalies
+{{anomalies}}
+
+## Recommendations
+{{recommendations}}
+
+## Completeness Checklist
+- [ ] Performance trends documented for all key metrics
+- [ ] Drift analysis completed
+- [ ] Retraining decision documented (with rationale)
+- [ ] LLM-specific metrics tracked (if applicable)
+- [ ] Anomalies and recommendations included

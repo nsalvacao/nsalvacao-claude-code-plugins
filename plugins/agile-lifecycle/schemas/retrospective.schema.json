@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/retrospective",
+  "title": "Retrospective Record",
+  "description": "Record of a sprint, phase, or lifecycle retrospective, capturing what went well, improvement areas, actions, and AI/ML experiment learnings.",
+  "type": "object",
+  "required": ["id", "scope", "phase", "date", "facilitator", "what_went_well", "what_to_improve", "actions"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique retrospective identifier (e.g. RETRO-S4-001)"
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["sprint", "phase", "lifecycle"],
+      "description": "Scope of the retrospective: sprint-level, phase-level, or full lifecycle"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase to which this retrospective applies"
+    },
+    "sprint_id": {
+      "type": "string",
+      "description": "Sprint identifier if this is a sprint retrospective"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the retrospective was conducted (ISO 8601)"
+    },
+    "facilitator": {
+      "type": "string",
+      "description": "Person or role who facilitated the retrospective"
+    },
+    "participants": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of participants in the retrospective"
+    },
+    "what_went_well": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Things that went well and should be continued or celebrated"
+    },
+    "what_to_improve": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Areas identified for improvement"
+    },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["description", "owner", "due_date", "status"],
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Description of the improvement action"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Person or role responsible for this action"
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Target completion date (ISO 8601)"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["open", "in-progress", "complete", "cancelled"],
+            "description": "Current status of the action"
+          }
+        }
+      },
+      "description": "Actions arising from the retrospective"
+    },
+    "ai_experiment_learnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Specific learnings from AI/ML experiments run during this sprint or phase"
+    },
+    "team_health_summary": {
+      "type": "string",
+      "description": "Brief summary of team health observations from this retrospective"
+    }
+  }
+}

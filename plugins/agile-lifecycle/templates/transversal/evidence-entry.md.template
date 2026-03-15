@@ -1,0 +1,32 @@
+# Evidence Index Entry
+
+| Field | Value |
+|-------|-------|
+| ID | {{evidence_id}} |
+| Title | {{title}} |
+| Type | {{type}} |
+| Phase | {{phase}} |
+| Gate | {{gate}} |
+| Path | {{path}} |
+| Created By | {{created_by}} |
+| Created Date | {{created_date}} |
+| Status | {{status}} |
+
+<!-- type: document | test-result | approval-record | metric-report | review-record | sign-off -->
+<!-- status: exists | reviewed | approved -->
+
+## Description
+<!-- Brief description of what this evidence demonstrates -->
+{{description}}
+
+## Reviewed By
+{{reviewed_by}}
+
+## Approved By
+{{approved_by}}
+
+## Approval Date
+{{approval_date}}
+
+## Notes
+{{notes}}

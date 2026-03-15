@@ -1,0 +1,37 @@
+# Clarification Log Entry
+
+| Field | Value |
+|-------|-------|
+| ID | {{clarification_id}} |
+| Raised Date | {{raised_date}} |
+| Phase | {{phase}} |
+| Raised By | {{raised_by}} |
+| Status | {{status}} |
+
+## Question
+<!-- State the open question or decision that needs clarification -->
+{{question}}
+
+## Context
+<!-- Why does this need clarification? What depends on the answer? -->
+{{context}}
+
+## Impact
+<!-- What is blocked or at risk until this is clarified? -->
+{{impact}}
+
+## Answer
+<!-- Fill when answered -->
+{{answer}}
+
+## Answered By
+{{answered_by}}
+
+## Answered Date
+{{answered_date}}
+
+## Completeness Checklist
+- [ ] Question clearly stated
+- [ ] Impact documented
+- [ ] Owner assigned to get answer
+- [ ] Answer recorded when resolved

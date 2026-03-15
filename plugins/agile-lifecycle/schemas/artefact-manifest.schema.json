@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/artefact-manifest",
+  "title": "Artefact Manifest",
+  "description": "Manifest of all artefacts produced or required for a lifecycle phase, tracking production status and closure obligations.",
+  "type": "object",
+  "required": ["project_id", "phase", "artefacts"],
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Unique project identifier"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase this manifest covers"
+    },
+    "generated_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this manifest was generated or last refreshed (ISO 8601)"
+    },
+    "artefacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type", "path", "status", "phase", "required"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique artefact identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable artefact name"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["document", "record", "report", "template-instance", "schema-instance", "approval", "test-result"],
+            "description": "Type of artefact"
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path to the artefact file"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["not_started", "in_progress", "complete", "approved", "superseded"],
+            "description": "Production status of this artefact"
+          },
+          "phase": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7,
+            "description": "Phase in which this artefact is produced"
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether this artefact is mandatory (true) or optional (false)"
+          },
+          "produced_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date the artefact was produced (ISO 8601)"
+          },
+          "producer": {
+            "type": "string",
+            "description": "Person or role who produced this artefact"
+          },
+          "closure_gate": {
+            "type": "string",
+            "description": "Gate at which this artefact must be formally closed"
+          },
+          "closure_obligation": {
+            "type": "string",
+            "description": "Description of the closure obligation (e.g. reviewed and approved at Gate B)"
+          }
+        }
+      },
+      "description": "List of artefacts in this manifest"
+    }
+  }
+}

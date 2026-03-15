@@ -1,0 +1,36 @@
+# Residual Risk Note
+
+| Field | Value |
+|-------|-------|
+| ID | {{note_id}} |
+| Date | {{date}} |
+| Phase | Phase 5 — Validate & Gate |
+| Owner | {{owner}} |
+| Accepted By | {{accepted_by}} |
+
+## Residual Risks Going Into Production
+
+| Risk ID | Description | Original Probability | Original Impact | Residual Probability | Residual Impact | Mitigation Applied | Monitoring Plan |
+|---------|-------------|---------------------|-----------------|---------------------|-----------------|-------------------|-----------------|
+| {{risk_id_1}} | {{desc_1}} | {{orig_prob_1}} | {{orig_impact_1}} | {{res_prob_1}} | {{res_impact_1}} | {{mitigation_1}} | {{monitoring_1}} |
+
+## Acceptance Rationale
+<!-- Why is it acceptable to go live with these residual risks? -->
+{{acceptance_rationale}}
+
+## Monitoring and Escalation
+
+For each residual risk, monitoring is in place:
+- Alert threshold: {{alert_threshold}}
+- Escalation path: {{escalation_path}}
+- Review frequency: {{review_frequency}}
+
+## Sign-off
+{{accepted_by}} accepts these residual risks on behalf of {{accepting_organization}} on {{acceptance_date}}.
+
+## Completeness Checklist
+- [ ] All residual risks from QA and validation listed
+- [ ] Residual probability and impact assessed (not just original)
+- [ ] Acceptance rationale documented
+- [ ] Monitoring plan defined for each risk
+- [ ] Accepted by designated authority

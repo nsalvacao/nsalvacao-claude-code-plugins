@@ -1,0 +1,29 @@
+# Waiver Log
+
+| Field | Value |
+|-------|-------|
+| ID | {{log_id}} |
+| Gate | {{gate}} |
+| Project | {{project_name}} |
+| Date | {{date}} |
+
+## Waivers Granted
+
+| Waiver ID | Criterion Waived | Justification | Risk Level | Approved By | Expiry | Conditions |
+|-----------|-----------------|---------------|------------|-------------|--------|------------|
+| {{waiver_id_1}} | {{criterion_1}} | {{justification_1}} | {{risk_1}} | {{approver_1}} | {{expiry_1}} | {{conditions_1}} |
+
+## Waiver Policy Summary
+
+All waivers must:
+1. Have documented justification
+2. Have assessed residual risk level
+3. Be approved by the designated authority (see `references/gate-criteria-reference.md`)
+4. Have an expiry date or closure condition
+5. Have a monitoring plan for the accepted risk
+
+## Completeness Checklist
+- [ ] All waivers documented with full details
+- [ ] Residual risk level assessed for each waiver
+- [ ] Approved by designated authority
+- [ ] Conditions and monitoring defined

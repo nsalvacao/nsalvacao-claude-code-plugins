@@ -1,0 +1,69 @@
+# AI Model Validation Report
+
+| Field | Value |
+|-------|-------|
+| ID | {{report_id}} |
+| Model Name | {{model_name}} |
+| Model Version | {{model_version}} |
+| Validation Date | {{date}} |
+| Validator | {{validator}} |
+| Recommendation | {{recommendation}} |
+
+<!-- recommendation: PASS | FAIL | CONDITIONAL -->
+
+## Performance Metrics
+
+| Metric | Baseline | Target | Actual | Status |
+|--------|----------|--------|--------|--------|
+| Accuracy / F1 | {{baseline_acc}} | {{target_acc}} | {{actual_acc}} | {{status_acc}} |
+| Precision | {{baseline_prec}} | {{target_prec}} | {{actual_prec}} | {{status_prec}} |
+| Recall | {{baseline_rec}} | {{target_rec}} | {{actual_rec}} | {{status_rec}} |
+| Latency p50 | {{baseline_p50}} | {{target_p50}} | {{actual_p50}} | {{status_p50}} |
+| Latency p99 | {{baseline_p99}} | {{target_p99}} | {{actual_p99}} | {{status_p99}} |
+| Throughput | {{baseline_thr}} | {{target_thr}} | {{actual_thr}} | {{status_thr}} |
+
+## Bias & Fairness Assessment
+
+| Attribute | Group | Metric | Value | Threshold | Status |
+|-----------|-------|--------|-------|-----------|--------|
+| {{attribute_1}} | {{group_1}} | {{metric_1}} | {{value_1}} | {{threshold_1}} | {{status_1}} |
+
+## Safety Evaluation
+
+| Test Category | Findings | Pass/Fail |
+|---------------|----------|-----------|
+| Adversarial inputs | {{adversarial_findings}} | {{adversarial_status}} |
+| Out-of-distribution | {{ood_findings}} | {{ood_status}} |
+| Constraint compliance | {{constraint_findings}} | {{constraint_status}} |
+
+## Red-Team Results (LLM Only)
+<!-- Leave blank if not an LLM project -->
+
+| Attack Category | Attempts | Successes | Mitigations Applied |
+|-----------------|----------|-----------|---------------------|
+| Prompt injection | {{pi_attempts}} | {{pi_success}} | {{pi_mitigations}} |
+| Jailbreaking | {{jb_attempts}} | {{jb_success}} | {{jb_mitigations}} |
+| Harmful content | {{hc_attempts}} | {{hc_success}} | {{hc_mitigations}} |
+| Data leakage | {{dl_attempts}} | {{dl_success}} | {{dl_mitigations}} |
+
+## Key Findings
+
+### Strengths
+{{strengths}}
+
+### Concerns / Residual Risks
+{{concerns}}
+
+## Recommendation Rationale
+{{recommendation_rationale}}
+
+## Conditions (if CONDITIONAL)
+{{conditions}}
+
+## Completeness Checklist
+- [ ] Performance metrics vs. baseline documented
+- [ ] Bias assessment complete for all relevant groups
+- [ ] Safety evaluation complete
+- [ ] Red-team completed (if LLM)
+- [ ] Recommendation stated with rationale
+- [ ] Model Card updated with validation results

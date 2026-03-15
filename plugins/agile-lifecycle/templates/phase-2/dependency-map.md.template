@@ -1,0 +1,61 @@
+# Dependency Map
+
+| Field | Value |
+|-------|-------|
+| ID | {{dep_map_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Phase | 2 — Inception and Product Framing |
+| Status | {{status}} |
+
+## External Dependencies
+
+<!-- Dependencies on systems, services, or teams outside this project's direct control. -->
+<!-- Type: API / Data / Platform / Vendor / Regulatory / Team -->
+<!-- Status: identified / confirmed / at-risk / blocked / resolved -->
+
+| ID | Dependency | Type | External Owner | Required By | Status | Risk Level |
+|----|------------|------|----------------|-------------|--------|------------|
+| D-EXT-001 | {{ext_dep_1}} | {{ext_dep_1_type}} | {{ext_dep_1_owner}} | {{ext_dep_1_required_by}} | {{ext_dep_1_status}} | {{ext_dep_1_risk}} |
+| D-EXT-002 | {{ext_dep_2}} | {{ext_dep_2_type}} | {{ext_dep_2_owner}} | {{ext_dep_2_required_by}} | {{ext_dep_2_status}} | {{ext_dep_2_risk}} |
+| D-EXT-003 | {{ext_dep_3}} | {{ext_dep_3_type}} | {{ext_dep_3_owner}} | {{ext_dep_3_required_by}} | {{ext_dep_3_status}} | {{ext_dep_3_risk}} |
+
+## Internal Dependencies
+
+<!-- Dependencies within the organisation but outside this team: other teams, shared services, platform teams. -->
+
+| ID | Dependency | Type | Internal Owner | Required By | Status | Risk Level |
+|----|------------|------|----------------|-------------|--------|------------|
+| D-INT-001 | {{int_dep_1}} | {{int_dep_1_type}} | {{int_dep_1_owner}} | {{int_dep_1_required_by}} | {{int_dep_1_status}} | {{int_dep_1_risk}} |
+| D-INT-002 | {{int_dep_2}} | {{int_dep_2_type}} | {{int_dep_2_owner}} | {{int_dep_2_required_by}} | {{int_dep_2_status}} | {{int_dep_2_risk}} |
+
+## Dependency Risk Assessment
+
+<!-- For each high/critical risk dependency, document the specific risk and its potential impact on the project timeline. -->
+{{dependency_risk_assessment}}
+
+## Mitigation Plan
+
+<!-- How will the team mitigate or manage high-risk dependencies? Include alternatives where possible. -->
+
+| Dependency ID | Mitigation Approach | Alternative (if dep fails) | Owner |
+|---------------|---------------------|---------------------------|-------|
+| {{dep_mit_1_id}} | {{dep_mit_1_approach}} | {{dep_mit_1_alternative}} | {{dep_mit_1_owner}} |
+| {{dep_mit_2_id}} | {{dep_mit_2_approach}} | {{dep_mit_2_alternative}} | {{dep_mit_2_owner}} |
+
+## Escalation Path
+
+<!-- Who to escalate to if a dependency is blocked and cannot be resolved at team level? -->
+| Level | Escalation Contact | When to Escalate |
+|-------|-------------------|------------------|
+| Team | {{team_escalation}} | Dependency at-risk for >{{team_threshold}} |
+| Management | {{mgmt_escalation}} | Dependency blocked for >{{mgmt_threshold}} |
+| Executive | {{exec_escalation}} | Delivery at risk due to blocked dependency |
+
+## Completeness Checklist
+- [ ] All external dependencies identified with owners
+- [ ] All internal dependencies identified with owners
+- [ ] Risk levels assessed for each dependency
+- [ ] Mitigation plans defined for high/critical risk dependencies
+- [ ] Alternatives documented where feasible
+- [ ] Escalation path defined and communicated

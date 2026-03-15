@@ -1,0 +1,75 @@
+# Hypothesis Canvas
+
+| Field | Value |
+|-------|-------|
+| ID | {{canvas_id}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Opportunity Ref | {{opportunity_ref}} |
+| Phase | 1 — Opportunity and Portfolio Framing |
+| Status | {{status}} |
+
+## Core Problem Hypothesis
+<!-- What is our primary hypothesis about the problem? State it as a testable claim: "We believe that [user/customer] experiences [problem] because [reason]." -->
+{{problem_hypothesis}}
+
+## Value Hypothesis
+<!-- What value do we expect to create if the product succeeds? "We believe that [solution] will [outcome] for [user], resulting in [measurable value]." -->
+{{value_hypothesis}}
+
+## AI Hypothesis
+<!-- Why is AI/ML the right approach here? "We believe that an AI-based approach will outperform non-AI alternatives because [reason], and this can be validated by [evidence]." -->
+{{ai_hypothesis}}
+
+## Experiment Proposals
+
+<!-- Design the top 3 experiments or proofs of concept that would validate or invalidate your hypotheses. Each experiment should have a clear pass/fail criterion. -->
+
+### Experiment 1
+**Name:** {{experiment_1_name}}
+**Objective:** {{experiment_1_objective}}
+**Method:** {{experiment_1_method}}
+**Success Criterion:** {{experiment_1_success_criterion}}
+**Duration Estimate:** {{experiment_1_duration}}
+
+### Experiment 2
+**Name:** {{experiment_2_name}}
+**Objective:** {{experiment_2_objective}}
+**Method:** {{experiment_2_method}}
+**Success Criterion:** {{experiment_2_success_criterion}}
+**Duration Estimate:** {{experiment_2_duration}}
+
+### Experiment 3
+**Name:** {{experiment_3_name}}
+**Objective:** {{experiment_3_objective}}
+**Method:** {{experiment_3_method}}
+**Success Criterion:** {{experiment_3_success_criterion}}
+**Duration Estimate:** {{experiment_3_duration}}
+
+## Success Metrics
+<!-- What metrics will confirm that the hypotheses are validated? Include leading and lagging indicators. -->
+| Metric | Baseline | Target | Measurement Method |
+|--------|----------|--------|--------------------|
+| {{metric_1_name}} | {{metric_1_baseline}} | {{metric_1_target}} | {{metric_1_method}} |
+| {{metric_2_name}} | {{metric_2_baseline}} | {{metric_2_target}} | {{metric_2_method}} |
+| {{metric_3_name}} | {{metric_3_baseline}} | {{metric_3_target}} | {{metric_3_method}} |
+
+## Key Assumptions
+<!-- What are we assuming to be true that has not yet been validated? Rank by risk. -->
+| # | Assumption | Risk if Wrong | How to Validate |
+|---|------------|---------------|-----------------|
+| 1 | {{assumption_1}} | {{assumption_1_risk}} | {{assumption_1_validation}} |
+| 2 | {{assumption_2}} | {{assumption_2_risk}} | {{assumption_2_validation}} |
+| 3 | {{assumption_3}} | {{assumption_3_risk}} | {{assumption_3_validation}} |
+
+## Key Risks
+<!-- What could prevent us from validating these hypotheses? -->
+{{key_risks}}
+
+## Completeness Checklist
+- [ ] Core problem hypothesis documented in testable format
+- [ ] Value hypothesis articulated with measurable expected outcome
+- [ ] AI hypothesis explains why AI outperforms alternatives
+- [ ] At least 3 experiments designed with clear success criteria
+- [ ] Success metrics defined with baseline and targets
+- [ ] Key assumptions documented with risk and validation approach

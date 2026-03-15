@@ -1,0 +1,24 @@
+{
+  "name": "agile-lifecycle",
+  "version": "0.1.0",
+  "description": "Hybrid gated-iterative lifecycle framework for AI/ML products — 7 phases, 10 gates, 31 agents, 13 skills, and full artefact management. Enterprise agile with governance overlay.",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com",
+    "url": "https://www.linkedin.com/in/nsalvacao/"
+  },
+  "keywords": [
+    "agile",
+    "lifecycle",
+    "product-management",
+    "ai-governance",
+    "phase-gates",
+    "enterprise-agile",
+    "iterative",
+    "artefact-management",
+    "multi-agent"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins"
+}

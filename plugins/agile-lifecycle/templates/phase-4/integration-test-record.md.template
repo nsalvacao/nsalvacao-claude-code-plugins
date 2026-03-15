@@ -1,0 +1,75 @@
+# Integration Test Record
+
+| Field | Value |
+|-------|-------|
+| ID | {{record_id}} |
+| Test Date | {{test_date}} |
+| Environment | {{environment}} |
+| Sprint | {{sprint_number}} |
+| Tester | {{tester}} |
+| Phase | 4 — Build and Integrate |
+| Status | {{status}} |
+
+## Test Scope
+<!-- What integration points or system interfaces were tested in this record? -->
+{{test_scope}}
+
+## Environment Details
+
+| Component | Version | Environment URL | Health Status |
+|-----------|---------|-----------------|---------------|
+| {{component_1}} | {{component_1_version}} | {{component_1_url}} | {{component_1_health}} |
+| {{component_2}} | {{component_2_version}} | {{component_2_url}} | {{component_2_health}} |
+| {{component_3}} | {{component_3_version}} | {{component_3_url}} | {{component_3_health}} |
+
+## Test Cases
+
+<!-- Result: PASS / FAIL / SKIP / BLOCKED -->
+
+| ID | Test Case | Integration Point | Preconditions | Steps | Expected Result | Actual Result | Result |
+|----|-----------|-------------------|---------------|-------|-----------------|---------------|--------|
+| IT-001 | {{tc_1_title}} | {{tc_1_integration}} | {{tc_1_preconditions}} | {{tc_1_steps}} | {{tc_1_expected}} | {{tc_1_actual}} | {{tc_1_result}} |
+| IT-002 | {{tc_2_title}} | {{tc_2_integration}} | {{tc_2_preconditions}} | {{tc_2_steps}} | {{tc_2_expected}} | {{tc_2_actual}} | {{tc_2_result}} |
+| IT-003 | {{tc_3_title}} | {{tc_3_integration}} | {{tc_3_preconditions}} | {{tc_3_steps}} | {{tc_3_expected}} | {{tc_3_actual}} | {{tc_3_result}} |
+| IT-004 | {{tc_4_title}} | {{tc_4_integration}} | {{tc_4_preconditions}} | {{tc_4_steps}} | {{tc_4_expected}} | {{tc_4_actual}} | {{tc_4_result}} |
+
+## Pass / Fail Summary
+
+| Result | Count |
+|--------|-------|
+| PASS | {{pass_count}} |
+| FAIL | {{fail_count}} |
+| SKIP | {{skip_count}} |
+| BLOCKED | {{blocked_count}} |
+| **Total** | {{total_count}} |
+
+## Issues Found
+
+| ID | Description | Severity | Integration Point | Status | Assigned To |
+|----|-------------|----------|-------------------|--------|-------------|
+| {{issue_1_id}} | {{issue_1_desc}} | {{issue_1_severity}} | {{issue_1_integration}} | {{issue_1_status}} | {{issue_1_assignee}} |
+| {{issue_2_id}} | {{issue_2_desc}} | {{issue_2_severity}} | {{issue_2_integration}} | {{issue_2_status}} | {{issue_2_assignee}} |
+
+## Remediation
+
+<!-- For any failing test cases or issues, document the remediation plan. -->
+{{remediation_plan}}
+
+**Retest Required:** {{retest_required}}
+**Retest Date:** {{retest_date}}
+
+## Overall Assessment
+
+**Integration Status:** {{integration_status}}
+<!-- PASS / FAIL / CONDITIONAL PASS -->
+
+**Assessment:**
+{{overall_assessment}}
+
+## Completeness Checklist
+- [ ] All in-scope integration points tested
+- [ ] Environment health verified before testing
+- [ ] All Critical/High issues documented with remediation plan
+- [ ] Pass/fail summary accurate
+- [ ] Retest plan defined for all failed tests
+- [ ] Overall assessment documented

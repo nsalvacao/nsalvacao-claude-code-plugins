@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agile-lifecycle/sprint-contract",
+  "title": "Sprint Contract",
+  "description": "Operational contract for a sprint within a delivery phase, capturing goal, committed items, capacity, and acceptance criteria.",
+  "type": "object",
+  "required": ["id", "sprint_number", "phase", "goal", "committed_items", "capacity_points", "status", "start_date", "end_date"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this sprint contract (e.g. SC-4-001)"
+    },
+    "sprint_number": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Sequential sprint number within the project"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Lifecycle phase in which this sprint occurs"
+    },
+    "goal": {
+      "type": "string",
+      "description": "The sprint goal — a single clear statement of what the team aims to achieve"
+    },
+    "committed_items": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "List of backlog item IDs or titles committed to this sprint"
+    },
+    "capacity_points": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Team capacity in story points for this sprint"
+    },
+    "velocity_actual": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Actual story points completed by end of sprint"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["planning", "active", "review", "complete", "cancelled"],
+      "description": "Current status of the sprint"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Sprint start date (ISO 8601)"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Sprint end date / planned end date (ISO 8601)"
+    },
+    "acceptance_criteria_complete": {
+      "type": "boolean",
+      "description": "Whether all acceptance criteria for committed items have been verified"
+    },
+    "retrospective_id": {
+      "type": "string",
+      "description": "Reference to the retrospective record for this sprint"
+    },
+    "health_record_id": {
+      "type": "string",
+      "description": "Reference to the sprint health record"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or context for this sprint"
+    }
+  }
+}

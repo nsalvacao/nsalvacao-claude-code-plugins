@@ -1,6 +1,6 @@
 # Skill Index
 
-All 13 skills in the agile-lifecycle plugin with trigger conditions.
+All 16 skills in the agile-lifecycle plugin with trigger conditions.
 
 | Skill | Directory | Triggers When |
 |-------|-----------|--------------|
@@ -17,6 +17,9 @@ All 13 skills in the agile-lifecycle plugin with trigger conditions.
 | evidence-management | `skills/evidence-management/` | Collecting, organizing, validating evidence for gates or phase completion |
 | retrospective | `skills/retrospective/` | Facilitating or structuring retrospectives (sprint, phase, lifecycle) |
 | definition-of-done | `skills/definition-of-done/` | Defining, reviewing, or verifying DoD criteria at story/sprint/phase/release level |
+| backlog-management | `skills/backlog-management/` | Shaping, prioritizing, or refining the product backlog; running backlog grooming sessions |
+| phase-contract-enforcement | `skills/phase-contract-enforcement/` | Tracking deviations from a signed phase contract, enforcing obligations and escalating blockers |
+| responsibility-flows | `skills/responsibility-flows/` | Mapping RACI charts, resolving accountability gaps, producing role responsibility maps |
 
 ## Quick Reference: Goal → Skill
 
@@ -35,3 +38,6 @@ All 13 skills in the agile-lifecycle plugin with trigger conditions.
 | Manage gate evidence | `evidence-management` |
 | Run a retrospective | `retrospective` |
 | Check definition of done | `definition-of-done` |
+| Build or groom the backlog | `backlog-management` |
+| Enforce phase contract obligations | `phase-contract-enforcement` |
+| Map RACI and responsibility flows | `responsibility-flows` |

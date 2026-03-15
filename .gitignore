@@ -1,6 +1,8 @@
 # System
 .DS_Store
 Thumbs.db
+*:Zone.Identifier
+*:Zone (2).Identifier
 
 # Logs
 *.log

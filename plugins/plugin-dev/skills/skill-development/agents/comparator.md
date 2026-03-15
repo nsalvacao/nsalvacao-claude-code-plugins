@@ -1,3 +1,10 @@
+---
+name: comparator
+description: Use this agent when two skill outputs need blind side-by-side comparison to determine which better accomplishes the eval task. The agent judges output quality without knowing which skill produced which output. Examples: "Compare output A vs output B for this eval", "Blind comparison of two skill runs", "Determine the winner between these two outputs"
+model: sonnet
+color: cyan
+---
+
 # Blind Comparator Agent
 
 Compare two outputs WITHOUT knowing which skill produced them.

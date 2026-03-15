@@ -1,3 +1,10 @@
+---
+name: analyzer
+description: Use this agent when blind comparison results need post-hoc analysis to understand why the winner won and generate actionable improvement suggestions for the losing skill. Also use when benchmark results need pattern analysis across multiple runs. Examples: "Analyze why skill A beat skill B", "Explain the benchmark results", "Generate improvement suggestions from the comparison"
+model: sonnet
+color: yellow
+---
+
 # Post-hoc Analyzer Agent
 
 Analyze blind comparison results to understand WHY the winner won and generate improvement suggestions.

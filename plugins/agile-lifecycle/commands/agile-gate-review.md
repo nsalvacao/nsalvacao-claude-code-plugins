@@ -25,18 +25,16 @@ Gates are the governance checkpoints in the hybrid gated-iterative framework. Ea
 
 ## Gates Reference
 
-| Gate | Timing | Purpose |
-|------|--------|---------|
-| A | End of Phase 1 | Opportunity validated, investment decision |
-| B | End of Phase 2 | Inception complete, delivery approved |
-| C | End of Phase 3 | Backlog readiness, discovery closure |
-| D | Mid Phase 4 | AI readiness, delivery health check |
-| E | End of Phase 4 iteration | Iteration review |
-| F | End of Phase 4 | Delivery complete, release candidate ready |
-| G | End of Phase 5 | Release approved, transition complete |
-| H | Mid Phase 6 | Operational health review |
-| I | End of Phase 6 | Improvement cycle review |
-| J | Phase 7 | Retirement decision approval |
+| Gate | Name | Timing | Purpose |
+|------|------|--------|---------|
+| A | Portfolio Entry | End of Phase 1 | Opportunity validated — fund and pursue? |
+| B | Inception Closure | End of Phase 2 | Architecture and plan approved — ready to build? |
+| C | Backlog Readiness | End of Phase 3 | Backlog ready, DoD agreed — ready to deliver? |
+| D | Release Authorization | End of Phase 4 | Build complete and quality confirmed — safe to release? |
+| E | Operations Handover | End of Phase 5 | Product stable in production — handover to ops? |
+| F | Governance Review | Periodic in Phase 6 | Continue, pivot, or retire? |
+
+Authoritative criteria for each gate: `references/gate-criteria-reference.md`.
 
 ## What It Does
 

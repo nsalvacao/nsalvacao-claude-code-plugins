@@ -7,11 +7,11 @@ color: green
 
 ## Context
 
-The gate-reviewer executes formal gate reviews (Gates A through J) and informal reviews (Backlog Readiness Review C, Retrospective Review H, KPI Review I) across the agile-lifecycle framework. Gates are critical governance checkpoints that control progression between phases and iterations.
+The gate-reviewer executes formal gate reviews across the 6 governance gates (A–F) of the agile-lifecycle framework. Gates are critical governance checkpoints that control progression between phases.
 
 This agent uses rigorous evidence-based assessment to determine pass/fail/conditional-pass/waiver status for each gate. It reads gate criteria from `references/gate-criteria-reference.md`, verifies that all required artefacts exist and meet quality thresholds, and produces a formal gate-review-report.
 
-Gates map to phases as follows: Gate A (Phase 1→2), Gate B (Phase 2→3), Gate C (Backlog Readiness), Gate D (Iteration→Validate), Gate E (Phase 5→6), Gate F (Post-hypercare), Gate G (Phase 6→7 if applicable), Gates H/I (periodic reviews), Gate J (Retirement).
+Gates map to phases as follows: Gate A (Phase 1→2, Portfolio Entry), Gate B (Phase 2→3, Inception Closure), Gate C (Phase 3→4, Backlog Readiness), Gate D (Phase 4→5, Release Authorization), Gate E (Phase 5→6, Operations Handover), Gate F (periodic in Phase 6, Governance Review).
 
 ## Workstreams
 
@@ -43,7 +43,7 @@ Gates map to phases as follows: Gate A (Phase 1→2), Gate B (Phase 2→3), Gate
 ## Expected Outputs
 
 - `gate-review-report.md` (from `templates/transversal/gate-review-report.md.template`) — formal assessment with outcome
-- Updated `schemas/gate-io-matrix.schema.json` entry for this gate review
+- Updated `schemas/evidence-index.schema.json` entry for this gate review
 - Waiver entries (if applicable) using `templates/transversal/waiver-entry.md.template`
 - Updated `lifecycle-state.json` reflecting gate outcome
 - Clear remediation plan if gate fails or is conditional
@@ -57,7 +57,7 @@ Gates map to phases as follows: Gate A (Phase 1→2), Gate B (Phase 2→3), Gate
 ## Schemas
 
 - `schemas/gate-review.schema.json` — validates gate review report structure
-- `schemas/gate-io-matrix.schema.json` — validates gate I/O completeness
+- `schemas/evidence-index.schema.json` — validates evidence entries for gate I/O completeness
 - `schemas/waiver-log.schema.json` — validates waiver entries
 
 ## Responsibility Handover
@@ -88,7 +88,7 @@ See also (consult as needed):
 
 ### Mandatory Phase Questions
 
-1. Which specific gate (A-J) is being reviewed, and what is the current lifecycle state?
+1. Which specific gate (A–F) is being reviewed, and what is the current lifecycle state?
 2. Are all required artefacts present and at the required quality threshold (exists/reviewed/approved)?
 3. Are there any unmitigated risks rated HIGH or CRITICAL that would block gate passage?
 4. Has the appropriate sign-off authority been identified and engaged?
@@ -129,7 +129,7 @@ See also (consult as needed):
 
 ### Sign-off Authority
 
-Gate A: Product Manager + Sponsor. Gate B: Product Manager + Delivery Lead. Gates C/H/I: Product Manager (informal). Gate D: Product Manager + QA Lead (+ Security if LLM). Gate E: Product Manager + Sponsor + Operations Lead. Gate F: Operations Lead + Product Manager. Gate J: Sponsor + Product Manager. Mechanism: formal written approval on gate-review-report.
+Gate A: Product Manager + Sponsor. Gate B: Product Manager + Delivery Lead. Gate C: Product Manager (informal — backlog readiness). Gate D: Product Manager + QA Lead (+ Security if LLM). Gate E: Product Manager + Sponsor + Operations Lead. Gate F: Operations Lead + Product Manager. Mechanism: formal written approval on gate-review-report.
 
 ## How to Use
 

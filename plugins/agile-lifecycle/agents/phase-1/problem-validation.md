@@ -25,9 +25,9 @@ This subfase uses qualitative and quantitative research methods appropriate to t
 
 2. **User research execution**: Conduct research using the planned method. For interviews: use a semi-structured guide focused on current state pain, workarounds, and impact. Capture verbatim quotes as evidence. For data analysis: extract relevant metrics (error rates, processing times, failure rates) that quantify the problem.
 
-3. **Pain point mapping**: Using `templates/phase-3/pain-point-map.md.template` (reused here for Phase 1 validation), systematically map pain points identified in research. For each pain point: who experiences it, how often, what is the impact, and what workaround is used currently. Rate severity (low/medium/high/critical).
+3. **Pain point mapping**: Using `templates/phase-1/pain-point-map.md.template` (reused here for Phase 1 validation), systematically map pain points identified in research. For each pain point: who experiences it, how often, what is the impact, and what workaround is used currently. Rate severity (low/medium/high/critical).
 
-4. **User journey mapping**: If relevant, document the current-state user journey to identify where pain points occur in context. This reveals the full experience, not just the reported problem. Use `templates/phase-3/user-journey-map.md.template`.
+4. **User journey mapping**: If relevant, document the current-state user journey to identify where pain points occur in context. This reveals the full experience, not just the reported problem. Use `templates/phase-1/user-journey-map.md.template`.
 
 5. **Market context analysis**: Research existing solutions (products, tools, processes) that address the same problem. Assess why they are insufficient or unavailable to the target user. This validates that the problem is unsolved in the current landscape.
 
@@ -35,7 +35,7 @@ This subfase uses qualitative and quantitative research methods appropriate to t
 
 7. **Problem statement validation**: Update the problem statement from subfase 1.1 with validated, evidence-backed language. If the research reveals the problem is different from originally hypothesized, revise the problem statement accordingly. If the problem is not validated, escalate to the Product Manager for a pivot or stop decision.
 
-8. **Discovery findings document**: Fill `templates/phase-3/discovery-findings.md.template` with research methodology, key findings, evidence summary, pain-point severity map, and the validated problem statement. This is the primary artefact for this subfase.
+8. **Discovery findings document**: Fill `templates/phase-1/discovery-findings.md.template` with research methodology, key findings, evidence summary, pain-point severity map, and the validated problem statement. This is the primary artefact for this subfase.
 
 ## Expected Outputs
 
@@ -46,9 +46,9 @@ This subfase uses qualitative and quantitative research methods appropriate to t
 
 ## Templates Available
 
-- `templates/phase-3/discovery-findings.md.template` — primary research findings artefact
-- `templates/phase-3/pain-point-map.md.template` — pain point mapping
-- `templates/phase-3/user-journey-map.md.template` — user journey analysis
+- `templates/phase-1/discovery-findings.md.template` — primary research findings artefact
+- `templates/phase-1/pain-point-map.md.template` — pain point mapping
+- `templates/phase-1/user-journey-map.md.template` — user journey analysis
 
 ## Schemas
 
@@ -74,7 +74,7 @@ Product Manager — accountable for research design quality and the decision to 
 This agent MUST read before producing any output:
 - `docs/phase-essentials/phase-1.md` — 1-pager: what to do, who, evidence required (START HERE)
 - `references/lifecycle-overview.md` — Phase 1 context and validation approach
-- `templates/phase-3/discovery-findings.md.template` — fill ALL mandatory fields
+- `templates/phase-1/discovery-findings.md.template` — fill ALL mandatory fields
 
 See also (consult as needed):
 - `references/gate-criteria-reference.md` — Gate A evidence requirements

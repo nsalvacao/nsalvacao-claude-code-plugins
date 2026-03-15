@@ -31,11 +31,11 @@ The key deliverable is the Feasibility Note: a concise document that covers data
 
 5. **Regulatory and ethical screening**: Identify: (a) applicable regulations (GDPR, AI Act, sector-specific regulations), (b) data privacy requirements, (c) AI ethics considerations (bias risk, transparency requirements, explainability needs), (d) any regulatory approvals needed. Flag high-risk areas for deeper assessment in Phase 3.
 
-6. **Initial risk assessment**: Using `templates/phase-1/initial-risk-note.md.template`, identify the top 5-7 risks across all feasibility dimensions. Rate each as low/medium/high/critical probability and impact. For each HIGH/CRITICAL risk, document the initial mitigation approach.
+6. **Initial risk assessment**: Using `templates/phase-1/risk-register-init.md.template`, identify the top 5-7 risks across all feasibility dimensions. Rate each as low/medium/high/critical probability and impact. For each HIGH/CRITICAL risk, document the initial mitigation approach.
 
 7. **Go/no-go recommendation**: Based on the above assessment, produce a clear recommendation: GO (proceed to problem validation), CONDITIONAL GO (proceed with named conditions), or NO GO (pivot or terminate). Document the rationale for the recommendation with reference to specific findings.
 
-8. **Generate Feasibility Note**: Fill `templates/phase-1/early-feasibility-note.md.template` and `templates/phase-1/ai-data-feasibility-note.md.template` with all assessment findings and the go/no-go recommendation.
+8. **Generate Feasibility Note**: Fill `templates/phase-1/feasibility-note.md.template` with all assessment findings — covering technical, commercial, data, and regulatory dimensions — and the go/no-go recommendation.
 
 ## Expected Outputs
 
@@ -46,9 +46,8 @@ The key deliverable is the Feasibility Note: a concise document that covers data
 
 ## Templates Available
 
-- `templates/phase-1/early-feasibility-note.md.template` — main feasibility note
-- `templates/phase-1/ai-data-feasibility-note.md.template` — AI/data feasibility
-- `templates/phase-1/initial-risk-note.md.template` — initial risk documentation
+- `templates/phase-1/feasibility-note.md.template` — comprehensive feasibility note (technical, commercial, data, regulatory)
+- `templates/phase-1/risk-register-init.md.template` — initial risk register documentation
 
 ## Schemas
 
@@ -74,8 +73,7 @@ Technical Lead or Solution Architect — accountable for technical and data feas
 This agent MUST read before producing any output:
 - `docs/phase-essentials/phase-1.md` — 1-pager: what to do, who, evidence required (START HERE)
 - `references/lifecycle-overview.md` — Phase 1 context and Gate A requirements
-- `templates/phase-1/early-feasibility-note.md.template` — fill ALL mandatory fields
-- `templates/phase-1/ai-data-feasibility-note.md.template` — fill ALL mandatory fields
+- `templates/phase-1/feasibility-note.md.template` — fill ALL mandatory fields
 
 See also (consult as needed):
 - `references/gate-criteria-reference.md` — Gate A evidence requirements for Feasibility Note

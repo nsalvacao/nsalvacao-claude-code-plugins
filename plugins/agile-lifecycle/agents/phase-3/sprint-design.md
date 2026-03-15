@@ -34,28 +34,24 @@ Sprint design bridges the strategic iteration plan from Phase 2 with the daily e
 
 6. **Dependency identification**: For each sprint item, identify: (a) internal dependencies between items, (b) external dependencies on other teams or systems. Create dependency log entries for external dependencies via risk-assumption-tracker. Flag any dependencies that are not yet resolved.
 
-7. **Definition of Done confirmation**: Confirm the Definition of Done for this sprint — what quality criteria must ALL sprint items meet to be considered done? For AI/ML items, confirm model evaluation criteria are included. Document DoD using `templates/transversal/definition-of-done-by-phase.md.template`.
+7. **Definition of Done confirmation**: Confirm the Definition of Done for this sprint — what quality criteria must ALL sprint items meet to be considered done? For AI/ML items, confirm model evaluation criteria are included. Document DoD using `templates/phase-3/dod-checklist.md.template`.
 
-8. **Sprint plan document**: Generate the Sprint Plan using `templates/phase-4/iteration-plan.md.template` with: sprint goal, committed backlog items, task breakdown, team capacity, dependency map, and DoD. This is the primary Sprint Backlog artefact.
+8. **Sprint plan document**: Generate the Sprint Plan using `templates/phase-3/sprint-backlog.md.template` with: sprint goal, committed backlog items, task breakdown, team capacity, dependency map, and DoD. This is the primary Sprint Backlog artefact.
 
 ## Expected Outputs
 
-- `iteration-plan.md` — Sprint Plan with goal, committed backlog, task breakdown, and capacity
+- `sprint-backlog.md` — Sprint Plan with goal, committed backlog, task breakdown, and capacity
 - Sprint Backlog committed and visible to the team
 - Dependency log entries for external dependencies
 - Definition of Done for this sprint documented
 
 ## Templates Available
 
-- `templates/phase-4/iteration-plan.md.template` — sprint plan document
-- `templates/phase-4/iteration-goal.md.template` — sprint goal definition
-- `templates/phase-4/committed-work-set.md.template` — committed backlog
-- `templates/transversal/definition-of-done-by-phase.md.template` — DoD definition
+- `templates/phase-3/sprint-backlog.md.template` — sprint plan document with committed backlog
+- `templates/phase-3/dod-checklist.md.template` — Definition of Done checklist
 
 ## Schemas
 
-- `schemas/product-backlog.schema.json` — validates backlog item structure
-- `schemas/acceptance-criteria.schema.json` — validates acceptance criteria format
 - `schemas/dependency-log.schema.json` — validates dependency entries
 
 ## Responsibility Handover
@@ -77,7 +73,7 @@ Delivery Lead or Scrum Master — accountable for facilitating the sprint planni
 This agent MUST read before producing any output:
 - `docs/phase-essentials/phase-3.md` — 1-pager: what to do, who, evidence required (START HERE)
 - `references/lifecycle-overview.md` — Phase 3 sprint design approach
-- `templates/phase-4/iteration-plan.md.template` — fill ALL mandatory fields
+- `templates/phase-3/sprint-backlog.md.template` — fill ALL mandatory fields
 
 See also (consult as needed):
 - `references/gate-criteria-reference.md` — Gate C (Backlog Readiness) requirements
@@ -118,7 +114,7 @@ See also (consult as needed):
 
 ### Evidence Required
 
-- `iteration-plan.md` with sprint goal, committed backlog, task breakdown, and capacity
+- `sprint-backlog.md` with sprint goal, committed backlog, task breakdown, and capacity
 - Sprint Backlog in the team's backlog management tool (reference from plan)
 - Definition of Done confirmed for this sprint
 

@@ -96,9 +96,9 @@ export function getAiProviderPreference() {
 
 // Preparation-only config loading. Runtime provider wiring stays elsewhere.
 export function getAiProviderConfig(options = {}) {
-  const envFilePath = resolveEnvFilePath(
-    options.envFilePath ?? process.env.PLUGIN_STUDIO_AI_ENV_FILE ?? DEFAULT_DEV_ENV_PATH,
-  );
+  const envFilePath = options.envFilePath
+    ?? process.env.PLUGIN_STUDIO_AI_ENV_FILE
+    ?? DEFAULT_DEV_ENV_PATH;
   const parsedFileEnv = parseEnvFile(envFilePath);
 
   return {

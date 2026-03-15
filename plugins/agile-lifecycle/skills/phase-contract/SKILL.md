@@ -74,7 +74,6 @@ When all exit criteria are met:
 5. **Sign-off authority is defined upfront** — ambiguity about who can approve a phase creates delays at gate time.
 
 ## Reference Materials
-- `references/lifecycle-overview.md` — Mandatory fields, optional fields, validation rules, phase entry/exit criteria
 - `references/lifecycle-overview.md` — Phase context, entry/exit criteria per phase
 - `docs/phase-essentials/phase-N.md` — 1-pager per phase (start here)
 - Schema: `schemas/phase-contract.schema.json`

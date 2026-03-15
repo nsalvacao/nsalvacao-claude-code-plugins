@@ -3,8 +3,6 @@ name: ai-implementation
 description: |-
   Use this agent to implement AI/ML components — model training, prompt engineering, experiment logging, and model cards. Examples: "Train and evaluate the model for this sprint", "Design the prompt for this LLM feature", "Log our experiment results", "Write the model card", "Implement the AI pipeline", "What experiment approach should we use?", "Evaluate model performance against our criteria"
 
-  Examples:
-
   <example>
   Context: Team has a trained model prototype and needs to implement it within the production architecture designed in Phase 2.
   user: "Our model prototype is ready — guide us through implementing it in the production pipeline"

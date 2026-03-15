@@ -88,16 +88,21 @@ export function classifyFile(components, rel, absPath) {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-function withTimeout(promise) {
+export function withTimeout(promise, timeoutMs = TIMEOUT_MS) {
+  let timer = null;
+
   return Promise.race([
-    promise,
-    new Promise((_, reject) =>
-      setTimeout(
+    Promise.resolve(promise),
+    new Promise((_, reject) => {
+      timer = setTimeout(
         () => reject(Object.assign(new Error('Operation timed out'), { code: 'ETIMEDOUT' })),
-        TIMEOUT_MS,
-      ).unref(),
-    ),
-  ]);
+        timeoutMs,
+      );
+      if (typeof timer?.unref === 'function') timer.unref();
+    }),
+  ]).finally(() => {
+    if (timer) clearTimeout(timer);
+  });
 }
 
 async function walk(rootDir, dir, components) {

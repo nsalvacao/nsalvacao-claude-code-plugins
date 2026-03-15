@@ -13,6 +13,8 @@ logs/
 .env.*
 !.env.example
 !.dev/.env.example
+/.dev/.env
+/.dev/.env.*
 
 # Temporary files
 *.tmp

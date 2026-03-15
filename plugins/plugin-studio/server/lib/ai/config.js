@@ -12,6 +12,14 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '../../../../../');
 const DEFAULT_DEV_ENV_PATH = path.join(REPO_ROOT, '.dev', '.env');
 
+function resolveEnvFilePath(filePath) {
+  if (typeof filePath !== 'string' || !filePath.trim()) {
+    return DEFAULT_DEV_ENV_PATH;
+  }
+
+  return path.isAbsolute(filePath) ? filePath : path.resolve(REPO_ROOT, filePath.trim());
+}
+
 function stripWrappingQuotes(value) {
   if (
     (value.startsWith('"') && value.endsWith('"'))
@@ -23,17 +31,44 @@ function stripWrappingQuotes(value) {
   return value;
 }
 
+function stripInlineComment(value) {
+  let quote = null;
+
+  for (let i = 0; i < value.length; i += 1) {
+    const char = value[i];
+    const previous = value[i - 1];
+
+    if ((char === '"' || char === '\'') && previous !== '\\') {
+      if (!quote) {
+        quote = char;
+      } else if (quote === char) {
+        quote = null;
+      }
+      continue;
+    }
+
+    if (char === '#' && !quote) {
+      return value.slice(0, i).trimEnd();
+    }
+  }
+
+  return value;
+}
+
 function parseEnvFile(filePath) {
   try {
-    const raw = fs.readFileSync(filePath, 'utf8');
+    const resolvedPath = resolveEnvFilePath(filePath);
+    if (!fs.statSync(resolvedPath).isFile()) return {};
+
+    const raw = fs.readFileSync(resolvedPath, 'utf8').replace(/^\uFEFF/, '');
     const parsed = {};
 
     for (const line of raw.split(/\r?\n/)) {
       const trimmed = line.trim();
       if (!trimmed || trimmed.startsWith('#')) continue;
-      const match = trimmed.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
+      const match = trimmed.match(/^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
       if (!match) continue;
-      parsed[match[1]] = stripWrappingQuotes(match[2].trim());
+      parsed[match[1]] = stripWrappingQuotes(stripInlineComment(match[2].trim()).trim());
     }
 
     return parsed;
@@ -59,8 +94,11 @@ export function getAiProviderPreference() {
   };
 }
 
+// Preparation-only config loading. Runtime provider wiring stays elsewhere.
 export function getAiProviderConfig(options = {}) {
-  const envFilePath = options.envFilePath ?? process.env.PLUGIN_STUDIO_AI_ENV_FILE ?? DEFAULT_DEV_ENV_PATH;
+  const envFilePath = resolveEnvFilePath(
+    options.envFilePath ?? process.env.PLUGIN_STUDIO_AI_ENV_FILE ?? DEFAULT_DEV_ENV_PATH,
+  );
   const parsedFileEnv = parseEnvFile(envFilePath);
 
   return {

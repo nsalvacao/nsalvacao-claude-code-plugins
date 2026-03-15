@@ -21,13 +21,12 @@ export function WorkspaceHeader({
       <ContextBar activeDocument={activeDocument} />
 
       <div className="workspace-controls">
-        <div className="mode-switch" role="tablist" aria-label="Workspace mode">
+        <div className="mode-switch" role="group" aria-label="Workspace mode">
           {VIEW_MODES.map((mode) => (
             <button
               key={mode}
               type="button"
-              role="tab"
-              aria-selected={workspaceMode === mode}
+              aria-pressed={workspaceMode === mode}
               className={`mode-btn ${workspaceMode === mode ? 'active' : ''}`}
               onClick={() => onSetWorkspaceMode(mode)}
             >

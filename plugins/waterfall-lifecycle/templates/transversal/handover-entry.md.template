@@ -1,0 +1,146 @@
+<!-- handover-entry.md.template | waterfall-lifecycle -->
+<!-- guidance: Complete one entry per phase transition handover. Dual sign-off is mandatory before proceeding. -->
+
+| Field | Value |
+|-------|-------|
+| Phase Transition | {{from_phase}} → {{to_phase}} |
+| Date | {{date}} |
+| Handover From | {{from_owner}} |
+| Handover To | {{to_owner}} |
+
+---
+
+## Handover Summary
+
+<!-- guidance: 3–5 sentence summary of the state of the project at handover. -->
+<!-- guidance: Include what was delivered, what was deferred, and any significant decisions made during {{from_phase}}. -->
+
+{{summary}}
+
+---
+
+## Artefacts Transferred
+
+<!-- guidance: List every artefact produced in {{from_phase}} that is being handed over. -->
+<!-- guidance: status options: final / draft / in-review / deferred -->
+
+| Artefact ID | Location | Status | Notes |
+|-------------|----------|--------|-------|
+| | | | |
+| | | | |
+| | | | |
+
+<!-- guidance: Location should be a repository path, document URL, or storage reference — not just a name. -->
+<!-- guidance: Add rows as needed. -->
+
+---
+
+## Open Items Transferred
+
+<!-- guidance: List all open risks, assumptions, and clarifications being transferred to the incoming team. -->
+
+### Open Risks
+
+| Risk ID | Title | Score | Mitigation Status | Notes |
+|---------|-------|-------|-------------------|-------|
+| | | | | |
+
+### Open Assumptions
+
+| Assumption ID | Description | Validation Deadline | Notes |
+|---------------|-------------|---------------------|-------|
+| | | | |
+
+### Open Clarifications
+
+| Clarification ID | Question | Deadline | Notes |
+|------------------|----------|----------|-------|
+| | | | |
+
+<!-- guidance: These items are transferred, not resolved. The incoming owner assumes responsibility. -->
+
+---
+
+## Technical Briefing Notes
+
+{{technical_briefing}}
+
+<!-- guidance: Document key technical decisions, architecture choices, tooling constraints, and known -->
+<!-- guidance: technical debt that the incoming team must be aware of to continue work effectively. -->
+
+---
+
+## Operational Constraints and Warnings
+
+{{operational_constraints}}
+
+<!-- guidance: Document non-technical constraints: regulatory deadlines, vendor dependencies, -->
+<!-- guidance: stakeholder sensitivities, budget thresholds, or team capacity limitations. -->
+<!-- guidance: Be explicit — omitting known constraints creates risk for the incoming owner. -->
+
+---
+
+## Gate Status at Handover
+
+| Field | Value |
+|-------|-------|
+| Gate ID | {{gate_id}} |
+| Gate Decision | {{gate_decision}} |
+| Gate Review Date | {{gate_review_date}} |
+| Conditions Outstanding | {{conditions_outstanding}} |
+
+<!-- guidance: This handover should only proceed after the gate for {{from_phase}} has been formally closed. -->
+<!-- guidance: If conditions are outstanding, list them explicitly in the Conditions Outstanding field. -->
+
+---
+
+## Formal Sign-off
+
+<!-- guidance: All three parties must sign. The handover is not complete until all signatures are obtained. -->
+
+| Role | Name | Date | Signature |
+|------|------|------|-----------|
+| Outgoing ({{from_phase}} owner) | {{from_owner}} | {{date}} | |
+| Incoming ({{to_phase}} owner) | {{to_owner}} | {{date}} | |
+| Sponsor/Governance | {{sponsor}} | {{date}} | |
+
+<!-- guidance: Digital signature, initials, or recorded acknowledgement in meeting minutes are all acceptable. -->
+<!-- guidance: Document the signature method used if not a wet signature. -->
+
+---
+
+## Completeness Checklist
+
+- [ ] Phase transition fields correctly populated
+- [ ] Summary accurately reflects state of project at handover point
+- [ ] All artefacts from {{from_phase}} listed with location and status
+- [ ] Open risks transferred with current score and mitigation status
+- [ ] Open assumptions transferred with validation deadlines
+- [ ] Open clarifications transferred with deadlines
+- [ ] Technical briefing notes sufficient for incoming team to continue without knowledge loss
+- [ ] Operational constraints and warnings documented
+- [ ] Gate status recorded and gate has been formally closed (or waived)
+- [ ] Formal sign-off obtained from all three parties
+
+---
+
+## Handover Readiness
+
+<!-- guidance: This section is completed by the incoming owner ({{to_owner}}) after reviewing all sections above. -->
+
+**Incoming Owner Readiness Statement**
+
+{{readiness_statement}}
+
+<!-- guidance: The incoming owner confirms they have reviewed all transferred artefacts and open items, -->
+<!-- guidance: understand the technical and operational context, and accept responsibility for {{to_phase}}. -->
+
+| Readiness Confirmed | ☐ Yes — ready to proceed | ☐ No — blockers identified below |
+|---------------------|--------------------------|----------------------------------|
+
+**Blockers (if not ready)**
+
+{{readiness_blockers}}
+
+<!-- guidance: If not ready, list specific blockers with owners and resolution dates. -->
+<!-- guidance: The handover is on hold until blockers are resolved and incoming owner confirms readiness. -->

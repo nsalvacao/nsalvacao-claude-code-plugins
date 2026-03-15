@@ -1,0 +1,140 @@
+<!-- gate-review-report.md.template | waterfall-lifecycle -->
+<!-- guidance: Complete one report per gate review event. Gate decision is tri-state: PASS / FAIL / WAIVED. -->
+
+| Field | Value |
+|-------|-------|
+| Gate | {{gate_id}} |
+| Phase Transition | {{from_phase}} → {{to_phase}} |
+| Date | {{date}} |
+| Reviewer | {{reviewer}} |
+
+---
+
+## Gate {{gate_id}} Review Summary
+
+<!-- guidance: Provide a 2–4 sentence executive summary of the gate review outcome. -->
+
+{{summary}}
+
+---
+
+## Artefacts Reviewed
+
+<!-- guidance: List every artefact submitted for this gate. evidence_threshold_met: yes / no / partial -->
+
+| Artefact ID | Submitted | Evidence Threshold Met | Notes |
+|-------------|-----------|------------------------|-------|
+| | ☐ Yes ☐ No | ☐ Yes ☐ No ☐ Partial | |
+| | ☐ Yes ☐ No | ☐ Yes ☐ No ☐ Partial | |
+| | ☐ Yes ☐ No | ☐ Yes ☐ No ☐ Partial | |
+
+<!-- guidance: Add rows as needed. Artefact IDs must match the phase contract for {{from_phase}}. -->
+
+---
+
+## Evidence Assessment
+
+{{evidence_assessment}}
+
+<!-- guidance: Summarise the quality and completeness of evidence presented. -->
+<!-- guidance: Note any artefacts that were accepted despite incomplete evidence (require waiver justification). -->
+
+---
+
+## Pass Criteria Assessment
+
+<!-- guidance: List every pass criterion defined in the gate contract for {{gate_id}}. -->
+<!-- guidance: status options: met / not_met / waived -->
+
+| Criterion | Status | Evidence | Notes |
+|-----------|--------|----------|-------|
+| {{criterion_1}} | ☐ Met ☐ Not Met ☐ Waived | {{evidence_1}} | |
+| {{criterion_2}} | ☐ Met ☐ Not Met ☐ Waived | {{evidence_2}} | |
+| {{criterion_3}} | ☐ Met ☐ Not Met ☐ Waived | {{evidence_3}} | |
+
+<!-- guidance: Add rows as needed. All criteria must have an explicit status — none can be left blank. -->
+
+---
+
+## Gate Decision
+
+| Decision | ☐ PASS | ☐ FAIL | ☐ WAIVED |
+|----------|--------|--------|---------|
+| Rationale | {{rationale}} | | |
+
+<!-- guidance: Select exactly one decision. A WAIVED gate requires a completed Waiver Justification section. -->
+<!-- guidance: A conditional PASS (all criteria met with conditions) must list conditions in the next section. -->
+
+---
+
+## Conditions
+
+<!-- guidance: Complete only if PASS is conditional. List each condition with an owner and resolution deadline. -->
+
+| Condition | Owner | Deadline | Resolution |
+|-----------|-------|----------|------------|
+| | | | |
+
+<!-- guidance: Leave this section empty (with the table header) if there are no conditions. -->
+
+---
+
+## Waiver Justification
+
+<!-- guidance: Complete only if decision = WAIVED. A waiver must be explicitly approved by a named authority. -->
+
+| Field | Value |
+|-------|-------|
+| Waiver Approver | {{waiver_approver}} |
+| Approver Role | {{waiver_approver_role}} |
+| Approval Date | {{waiver_approval_date}} |
+
+**Rationale for Waiver**
+
+{{waiver_rationale}}
+
+<!-- guidance: Explain why the gate is being waived — not just "stakeholder decision" but the business justification. -->
+
+**Risk Acceptance Statement**
+
+{{waiver_risk_acceptance}}
+
+<!-- guidance: State explicitly what risks are being accepted by proceeding without meeting all gate criteria. -->
+
+<!-- guidance: Leave this entire section blank if decision ≠ WAIVED. -->
+
+---
+
+## Next Steps
+
+<!-- guidance: List the immediate actions resulting from this gate decision. -->
+
+| Action | Owner | Deadline |
+|--------|-------|----------|
+| | | |
+
+---
+
+## Sign-off
+
+| Name | Role | Date | Signature |
+|------|------|------|-----------|
+| {{reviewer}} | Gate Reviewer | {{date}} | |
+| {{sponsor}} | Project Sponsor | {{date}} | |
+
+<!-- guidance: All named reviewers must sign before the gate decision is considered final. -->
+
+---
+
+## Completeness Checklist
+
+- [ ] Gate ID and phase transition recorded correctly
+- [ ] All expected artefacts listed in the Artefacts Reviewed table
+- [ ] Evidence threshold assessment completed for each artefact
+- [ ] All pass criteria from the gate contract assessed with explicit status
+- [ ] Exactly one gate decision selected (PASS / FAIL / WAIVED)
+- [ ] Rationale for decision is substantive and auditable
+- [ ] If conditional pass: conditions table populated with owners and deadlines
+- [ ] If WAIVED: Waiver Justification section fully completed including risk acceptance
+- [ ] Next Steps table populated
+- [ ] Sign-off section completed by all required parties

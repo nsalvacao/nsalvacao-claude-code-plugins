@@ -1,0 +1,24 @@
+{
+  "name": "waterfall-lifecycle",
+  "version": "0.1.0",
+  "description": "Formal predictive waterfall lifecycle framework for AI/ML products — 8 phases, 8 formal gates (A–H), 33 agents, 15 skills, full artefact management. Designed for regulated environments, requirements traceability, and formal handovers.",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com",
+    "url": "https://www.linkedin.com/in/nsalvacao/"
+  },
+  "keywords": [
+    "waterfall",
+    "predictive",
+    "lifecycle",
+    "phase-gates",
+    "ai-governance",
+    "requirements-traceability",
+    "formal-handovers",
+    "artefact-management",
+    "multi-agent"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins"
+}

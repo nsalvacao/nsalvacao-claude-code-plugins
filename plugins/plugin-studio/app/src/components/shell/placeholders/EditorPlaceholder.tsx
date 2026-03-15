@@ -1,46 +1,42 @@
-const editorLines = [
-  '---',
-  'description: Open the dashboard shell',
-  'arguments: [path]',
-  '---',
-  '# Plugin Studio',
-  '',
-  'This shell becomes the Monaco editor in issue #7.',
-  '',
-  'Focus for #5:',
-  '- split layout',
-  '- resize behavior',
-  '- shell chrome',
-];
+import type { DemoDocument, EditorLine } from '../../../types/studio.ts';
+import { ContextualAiLens } from '../ContextualAiLens.tsx';
 
-export function EditorPlaceholder() {
+interface EditorPlaceholderProps {
+  document: DemoDocument | null;
+  onAskAi: () => void;
+}
+
+function renderLineTone(tone: EditorLine['tone']) {
+  if (tone === 'comment') return 'comment';
+  if (tone === 'keyword') return 'keyword';
+  if (tone === 'prop') return 'prop';
+  if (tone === 'string') return 'string';
+  return '';
+}
+
+export function EditorPlaceholder({ document, onAskAi }: EditorPlaceholderProps) {
+  if (!document) {
+    return (
+      <div className="editor-surface" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
+        <p>No active editor.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="studio-grid-surface flex h-full flex-col p-4">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
-            Active file
-          </p>
-          <p className="mt-2 text-sm font-medium text-slate-100">
-            commands/open.md
-          </p>
+    <div className="editor-surface">
+      {document.editorLines.map((line, index) => (
+        <div
+          key={`${document.id}-${index + 1}-${line.text}`}
+          className={`code-line ${line.lens ? 'has-lens' : ''}`}
+        >
+          <span className="ln">{index + 1}</span>
+          <span className="code">
+            <span className={renderLineTone(line.tone)}>{line.text || ' '}</span>
+            {line.lens ? <ContextualAiLens onClick={onAskAi} /> : null}
+          </span>
         </div>
-        <div className="flex gap-2">
-          <span className="studio-badge">Split</span>
-          <span className="studio-badge">Monaco in #7</span>
-        </div>
-      </div>
-
-      <div className="studio-code-surface mt-4 min-h-0 flex-1 overflow-auto">
-        <div className="grid grid-cols-[40px_1fr] gap-x-4 gap-y-2 p-4 font-mono text-sm">
-          {editorLines.map((line, index) => (
-            <div key={`${index + 1}-${line}`} className="contents">
-              <span className="text-right text-slate-500">{index + 1}</span>
-              <span className="text-slate-200">{line || ' '}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

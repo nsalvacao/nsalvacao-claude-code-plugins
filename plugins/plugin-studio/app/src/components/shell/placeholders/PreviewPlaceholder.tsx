@@ -1,40 +1,59 @@
-const previewCards = [
-  {
-    title: 'Markdown preview',
-    body: 'Rendered docs, command bodies and agent prompts get a formatted reading mode in issue #8.',
-  },
-  {
-    title: 'JSON pretty view',
-    body: 'Manifest and hook config files get structure-first formatting for fast scanning.',
-  },
-  {
-    title: 'YAML awareness',
-    body: 'Frontmatter becomes inspectable side-by-side with the editor for fast validation loops.',
-  },
-];
+import type { DemoDocument, PreviewBlock } from '../../../types/studio.ts';
 
-export function PreviewPlaceholder() {
+interface PreviewPlaceholderProps {
+  document: DemoDocument | null;
+}
+
+function renderBlock(block: PreviewBlock, index: number) {
+  if (block.kind === 'heading1') {
+    return <h1 key={`heading1-${index}`}>{block.text}</h1>;
+  }
+
+  if (block.kind === 'heading2') {
+    return <h2 key={`heading2-${index}`}>{block.text}</h2>;
+  }
+
+  if (block.kind === 'code') {
+    return (
+      <pre key={`code-${index}`}>
+        <code>{block.text}</code>
+      </pre>
+    );
+  }
+
+  if (block.kind === 'list') {
+    return (
+      <ul key={`list-${index}`}>
+        {(block.items ?? []).map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    );
+  }
+
   return (
-    <div className="flex h-full flex-col gap-3 p-4">
-      {previewCards.map((card) => (
-        <article key={card.title} className="studio-preview-card">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--studio-accent-olive)]">
-            {card.title}
-          </p>
-          <p className="mt-3 text-sm leading-6 text-slate-300">
-            {card.body}
-          </p>
-        </article>
-      ))}
+    <p key={`paragraph-${index}`} data-tone={block.tone ?? 'default'}>
+      {block.text}
+    </p>
+  );
+}
 
-      <div className="studio-callout mt-auto">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--studio-accent-amber)]">
-          Preview mode
-        </p>
-        <p className="mt-2 text-sm text-slate-300">
-          Side-by-side reading ships here visually now and becomes functional in issue #8.
-        </p>
+export function PreviewPlaceholder({ document }: PreviewPlaceholderProps) {
+  if (!document) {
+    return (
+      <div className="preview-surface">
+        <article className="reading-column">
+          <p>Select a component to light up the reading surface.</p>
+        </article>
       </div>
+    );
+  }
+
+  return (
+    <div className="preview-surface">
+      <article className="reading-column">
+        {document.preview.map((block, index) => renderBlock(block, index))}
+      </article>
     </div>
   );
 }

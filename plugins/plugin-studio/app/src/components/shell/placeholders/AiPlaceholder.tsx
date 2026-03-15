@@ -1,41 +1,72 @@
-const aiActions = ['Suggest', 'Improve', 'Explain', 'Generate'];
+import { useState } from 'react';
+import type { ActiveDocumentInfo, AiChatMessage, DemoDocument } from '../../../types/studio.ts';
 
-export function AiPlaceholder() {
+interface AiPlaceholderProps {
+  activeDocument: ActiveDocumentInfo;
+  chatMessages: AiChatMessage[];
+  document: DemoDocument | null;
+  onSend: (prompt: string) => void;
+}
+
+export function AiPlaceholder({
+  activeDocument,
+  chatMessages,
+  document,
+  onSend,
+}: AiPlaceholderProps) {
+  const [prompt, setPrompt] = useState('');
+
+  function handleSend() {
+    const nextPrompt = prompt.trim();
+    if (!nextPrompt) return;
+    onSend(nextPrompt);
+    setPrompt('');
+  }
+
   return (
-    <div className="flex h-full flex-col gap-4 p-4">
-      <div className="studio-preview-card">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--studio-accent-cyan)]">
-          Provider
+    <>
+      <div className="ai-content">
+        <p style={{ fontSize: 11, color: 'var(--text-dim)', margin: 0 }}>
+          {document?.aiContextNote ?? 'Open a plugin and the assistant will inherit plugin-aware context from the shell.'}
         </p>
-        <p className="mt-2 text-sm font-medium text-slate-100">Claude CLI</p>
-        <p className="mt-2 text-sm text-slate-400">
-          Context-aware AI actions arrive in issue #13.
-        </p>
-      </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        {aiActions.map((action) => (
-          <button key={action} type="button" className="studio-ghost-button" disabled>
-            {action}
-          </button>
+        {chatMessages.map((message) => (
+          <div
+            key={message.id}
+            className={`chat-msg ${message.role === 'assistant' ? 'msg-ai' : 'msg-user'}`}
+          >
+            {message.text}
+          </div>
         ))}
       </div>
 
-      <div className="studio-message-shell">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
-          Context snapshot
-        </p>
-        <p className="mt-3 text-sm leading-6 text-slate-300">
-          Future messages will know the active plugin, file type, validation issues and editor selection.
-        </p>
+      <div className="ai-input-area">
+        <div className="input-box">
+          <textarea
+            value={prompt}
+            placeholder="Review structure, explain context or propose the next safe change."
+            onChange={(event) => setPrompt(event.target.value)}
+            onKeyDown={(event) => {
+              if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+                event.preventDefault();
+                handleSend();
+              }
+            }}
+          />
+          <div className="input-footer">
+            <span className="input-hint">
+              Context: {activeDocument.name || 'None'}
+            </span>
+            <button
+              type="button"
+              className="btn-accent"
+              onClick={handleSend}
+            >
+              SEND
+            </button>
+          </div>
+        </div>
       </div>
-
-      <div className="studio-input-shell mt-auto">
-        <span className="text-sm text-slate-400">Ask AI about the active component...</span>
-        <button type="button" className="studio-shell-button studio-shell-button--primary" disabled>
-          SEND
-        </button>
-      </div>
-    </div>
+    </>
   );
 }

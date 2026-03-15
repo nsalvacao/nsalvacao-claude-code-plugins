@@ -1,6 +1,6 @@
 ---
 name: metrics-tracking
-description: Use when tracking, calculating, or reporting lifecycle metrics. Triggers when metrics need updating, reports are requested, or thresholds need checking.
+description: This skill should be used when sprint metrics, quality metrics, AI/ML model metrics, or governance metrics need to be collected, calculated against thresholds, or reported. Triggers when a user asks for a sprint metrics report, wants to check if velocity is healthy, needs an AI monitoring report, or detects a threshold breach that requires escalation. Also applies when baselining metrics at the start of Phase 4.
 ---
 
 # Metrics Tracking

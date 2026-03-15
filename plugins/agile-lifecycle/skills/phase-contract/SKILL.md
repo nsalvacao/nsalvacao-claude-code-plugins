@@ -1,6 +1,6 @@
 ---
 name: phase-contract
-description: Use when creating, reviewing, or enforcing phase contracts. Triggers when a new phase starts, when entry/exit criteria need validation, or when phase completeness needs assessment.
+description: This skill should be used when creating a new phase contract at the start of a phase, validating entry criteria before phase work begins, tracking exit criteria progress during a phase, or triggering a gate review when all exit criteria are met. This skill creates and maintains phase contracts; for tracking deviations from an already-signed contract, use phase-contract-enforcement instead.
 ---
 
 # Phase Contract

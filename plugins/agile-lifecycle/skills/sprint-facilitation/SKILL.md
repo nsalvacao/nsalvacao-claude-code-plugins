@@ -1,6 +1,6 @@
 ---
 name: sprint-facilitation
-description: Use when facilitating sprint ceremonies — sprint planning, daily standups, sprint review, retrospective. Triggers when a new sprint starts or sprint events need structure.
+description: This skill should be used when facilitating sprint ceremonies — sprint planning, daily standup, or sprint review. Triggers when a new sprint starts, when a standup is losing focus, or when a sprint review needs stakeholder demo structure. For deep retrospective facilitation or improvement backlog management, use the retrospective skill instead. Also applies when AI/ML experiment checkpoints need to be integrated into sprint ceremonies.
 ---
 
 # Sprint Facilitation

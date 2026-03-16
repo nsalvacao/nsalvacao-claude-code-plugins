@@ -90,6 +90,7 @@ This subfase performs four critical functions: traceability (RTM links every req
 - `glossary.md` — complete glossary of all domain, AI/ML, and project-specific terms
 - `requirements-baseline.md` — frozen baseline record with version number, timestamp, and artefact list
 - `requirements-baseline-approval-pack.md` — Gate B submission cover with artefact checklist and gate readiness assessment
+- `acceptance-criteria-catalog.md` — consolidated acceptance criteria catalog from all Phase 2 subfases (2.1–2.3)
 
 ## Templates Available
 
@@ -143,6 +144,7 @@ Requirements Manager — accountable for RTM completeness, baseline integrity, a
 - `business-requirements-set.md` — produced by requirements-articulation (subfase 2.1)
 - `ai-requirements-specification.md` — produced by ai-requirements-engineer (subfase 2.2)
 - `nfr-specification.md` — produced by nfr-architect (subfase 2.3)
+- `acceptance-criteria-catalog.md` — consolidated from subfases 2.1–2.3
 - `requirements-traceability-matrix.md` — produced by this agent
 - `glossary.md` — produced by this agent
 - `requirements-baseline.md` — produced by this agent

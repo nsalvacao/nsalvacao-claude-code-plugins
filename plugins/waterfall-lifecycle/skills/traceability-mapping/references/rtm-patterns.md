@@ -198,10 +198,7 @@ Impact:           [scope, effort, timeline impact]
 The `scripts/check-traceability.sh` script detects the first four orphan types automatically. Run before Gate B submission:
 
 ```bash
-bash scripts/check-traceability.sh \
-  --requirements plugins/waterfall-lifecycle/artefacts/business-requirements-set.md \
-  --rtm plugins/waterfall-lifecycle/artefacts/rtm.md \
-  --report reports/rtm-coverage-$(date +%Y%m%d).md
+bash scripts/check-traceability.sh plugins/waterfall-lifecycle/artefacts/rtm.md --strict
 ```
 
 Expected output on a clean RTM:

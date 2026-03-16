@@ -24,10 +24,10 @@
 <!-- The RTM is the authoritative mapping between requirements, acceptance criteria, and tests. Test Ref is TBD at Gate B — to be populated in Phase 4. Source Artefact identifies which subfase document the requirement originated from. -->
 | REQ-ID | Requirement Title | Category | Priority | AC-ID | Acceptance Criterion | Test Ref | Status | Source Artefact |
 |--------|-------------------|----------|----------|-------|---------------------|----------|--------|-----------------|
-| REQ-{{year}}-001 | {{req_title_func}} | Functional | Must | AC-{{year}}-001 | Given {{pre_func}}, when {{action_func}}, then {{outcome_func}}. | TBD | Draft | business-requirements-set.md |
-| REQ-{{year}}-002 | {{req_title_ai}} | AI | Must | AC-{{year}}-002 | Given the model is invoked with {{ai_input}}, when the {{ai_threshold}} threshold is applied, then {{ai_outcome}}. | TBD | Draft | ai-requirements-specification.md |
-| REQ-{{year}}-003 | {{req_title_nfr}} | NFR | Must | AC-{{year}}-003 | Given {{nfr_load_conditions}}, when {{nfr_action}}, then {{nfr_outcome}}. | TBD | Draft | nfr-specification.md |
-| REQ-{{year}}-004 | {{req_title_constraint}} | Constraint | Should | AC-{{year}}-004 | Given {{con_precondition}}, when {{con_action}}, then {{con_outcome}}. | TBD | Draft | business-requirements-set.md |
+| REQ-{{year}}-001 | {{req_title_func}} | functional | must | AC-{{year}}-001 | Given {{pre_func}}, when {{action_func}}, then {{outcome_func}}. | TBD | draft | business-requirements-set.md |
+| REQ-{{year}}-002 | {{req_title_ai}} | ai | must | AC-{{year}}-002 | Given the model is invoked with {{ai_input}}, when the {{ai_threshold}} threshold is applied, then {{ai_outcome}}. | TBD | draft | ai-requirements-specification.md |
+| REQ-{{year}}-003 | {{req_title_nfr}} | nfr | must | AC-{{year}}-003 | Given {{nfr_load_conditions}}, when {{nfr_action}}, then {{nfr_outcome}}. | TBD | draft | nfr-specification.md |
+| REQ-{{year}}-004 | {{req_title_constraint}} | constraint | should | AC-{{year}}-004 | Given {{con_precondition}}, when {{con_action}}, then {{con_outcome}}. | TBD | draft | business-requirements-set.md |
 
 ## Orphan Report
 <!-- An orphan is either: (a) a requirement with no AC, or (b) an AC with no linked requirement. The orphan table should be EMPTY at Gate B. Any orphan listed here is a blocker. -->

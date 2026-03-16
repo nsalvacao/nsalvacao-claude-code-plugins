@@ -69,7 +69,7 @@ This subfase is critical for regulatory compliance: many AI regulations (EU AI A
 
 ## Activities
 
-1. **AI requirement identification**: Review business-requirements-set.md and the ai-feasibility-note.md from Phase 1. Identify all requirements that involve AI/ML capabilities. For each identified requirement: assign an AI requirement ID (AI-YYYY-NNN), link it to the parent REQ-ID, and document the AI capability required.
+1. **AI requirement identification**: Review business-requirements-set.md and the ai-feasibility-note.md from Phase 1. Identify all requirements that involve AI/ML capabilities. For each identified requirement: assign a unique requirement ID (REQ-YYYY-NNN, category: ai) and link its traceability_refs to the parent business requirement REQ-ID, and document the AI capability required.
 
 2. **Acceptance threshold definition**: For each AI requirement, define measurable acceptance thresholds. Consider: classification metrics (precision, recall, F1-score, AUC), regression metrics (MAE, RMSE, R²), ranking metrics (NDCG, MRR), latency (p50, p95, p99 response times), throughput (requests per second at target load), and domain-specific metrics (e.g., detection rate for fraud, accuracy for diagnosis). Document the measurement methodology for each threshold.
 

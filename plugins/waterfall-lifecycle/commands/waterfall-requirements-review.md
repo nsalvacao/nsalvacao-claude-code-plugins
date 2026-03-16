@@ -57,16 +57,16 @@ Artefact Coverage:
     ⚠ REQ-2026-017: acceptance criteria missing
   ai-requirements-specification.md: 8/8 requirements  — 100% complete
   nfr-specification.md            : 5/6 requirements  — 83% complete
-    ⚠ REQ-2026-NFR-003: acceptance criteria missing
+    ⚠ REQ-2026-003: acceptance criteria missing
 
 Agent Reviews:
   requirements-articulation : 2 clarity issues flagged (REQ-2026-007, REQ-2026-012)
-  ai-requirements-engineer  : bias criteria missing for REQ-2026-AI-005
+  ai-requirements-engineer  : bias criteria missing for REQ-2026-005
 
 Recommendations:
-  1. Add acceptance criteria to REQ-2026-004, REQ-2026-017, REQ-2026-NFR-003
+  1. Add acceptance criteria to REQ-2026-004, REQ-2026-017, REQ-2026-003
   2. Clarify scope boundary in REQ-2026-007
-  3. Define fairness metric for REQ-2026-AI-005 before baseline
+  3. Define fairness metric for REQ-2026-005 before baseline
 ```
 
 ```

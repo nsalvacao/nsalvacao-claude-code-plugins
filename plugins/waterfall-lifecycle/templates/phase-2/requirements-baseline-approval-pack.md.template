@@ -35,7 +35,7 @@ and traceable. The frozen requirements baseline becomes the authoritative input 
 | 9 | Clarification Log | maintained throughout Phase 2 | {{status_clarification_log}} | clarification-log.md |
 | 10 | Requirements Baseline Approval Pack | baseline-manager (2.4) | this document | requirements-baseline-approval-pack.md |
 
-<!-- Status values: Complete | Incomplete | Missing -->
+<!-- Status values: complete | incomplete | missing -->
 
 ## RTM Coverage Summary
 <!-- 100% coverage is the Gate B pass condition. Any gap must be resolved before approval. -->
@@ -61,7 +61,7 @@ and traceable. The frozen requirements baseline becomes the authoritative input 
 | 7 | All 10 Gate B artefacts produced and reviewed | {{ec7_status}} | {{ec7_notes}} |
 | 8 | Change control mechanism documented and communicated | {{ec8_status}} | {{ec8_notes}} |
 
-<!-- Status values: Pass | Fail | Partial -->
+<!-- Status values: pass | fail | partial -->
 
 ## Gate Readiness Assessment
 <!-- Reviewer: set this to Ready only when all exit criteria pass and all artefacts are Complete. -->

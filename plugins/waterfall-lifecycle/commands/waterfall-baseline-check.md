@@ -94,7 +94,7 @@ Gate B Artefact Checklist:
 
 RTM Coverage: 28/31 requirements — 90%
 Orphaned requirements (not in RTM):
-  REQ-2026-008, REQ-2026-019, REQ-2026-NFR-002
+  REQ-2026-008, REQ-2026-019, REQ-2026-002
 
 Gate B Readiness: NOT READY
   Resolve 2 missing artefacts and 3 RTM gaps before gate review.

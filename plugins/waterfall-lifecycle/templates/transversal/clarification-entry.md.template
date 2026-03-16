@@ -1,0 +1,72 @@
+<!-- clarification-entry.md.template | waterfall-lifecycle -->
+<!-- guidance: One entry per open question requiring a stakeholder decision or external input. -->
+
+| Field | Value |
+|-------|-------|
+| Phase | {{phase}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+
+---
+
+## Clarification Details
+
+| Field | Value |
+|-------|-------|
+| Clarification ID | {{id}} |
+| Owner | {{owner}} |
+| Deadline | {{deadline}} |
+| Status | {{status}} |
+
+<!-- guidance: status options: open / resolved / escalated / waived -->
+
+**Question**
+
+{{question}}
+
+<!-- guidance: State the question precisely. The answer must be unambiguous when received. -->
+
+**Context**
+
+{{context}}
+
+<!-- guidance: Explain why this question arose, what decision or artefact is blocked, and who is best placed to answer. -->
+
+**Impact if Unresolved**
+
+{{impact_if_unresolved}}
+
+<!-- guidance: Describe the consequence of missing the deadline — blocked work, incorrect assumptions, scope risk, etc. -->
+
+---
+
+## Resolution Record
+
+| Field | Value |
+|-------|-------|
+| Resolved At | {{resolved_at}} |
+| Resolution | {{resolution}} |
+
+<!-- guidance: Complete this section when status changes to resolved, escalated, or waived. -->
+<!-- guidance: For escalated: record who it was escalated to and expected response date. -->
+<!-- guidance: For waived: record the rationale and who authorised the waiver. -->
+
+**Decision Reference**
+
+<!-- guidance: Link to the email, meeting minutes, or document that records the authoritative answer. -->
+
+{{decision_reference}}
+
+---
+
+## Completeness Checklist
+
+- [ ] Clarification ID assigned and unique within the log
+- [ ] Question is specific and answerable
+- [ ] Context explains why the clarification is needed
+- [ ] Owner is the person responsible for chasing the answer
+- [ ] Deadline is set and agreed with the project manager
+- [ ] Impact if unresolved is documented
+- [ ] Status reflects current state
+- [ ] If resolved/escalated/waived: resolution record completed
+- [ ] If resolved: decision reference linked

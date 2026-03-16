@@ -26,7 +26,7 @@ This plugin integrates AI/ML and GenAI/LLM considerations into every phase and g
 ## waterfall-lifecycle vs agile-lifecycle
 
 | Dimension | waterfall-lifecycle | agile-lifecycle |
-|-----------|--------------------|-----------------|
+|-----------|--------------------|------------------|
 | Phases | 8 (Requirements and Architecture are separate; V&V is dedicated) | 7 |
 | Gates | 8 (A–H) | 6 (A–F) |
 | Handovers | Formal with dual sign-off | Flow of responsibility |

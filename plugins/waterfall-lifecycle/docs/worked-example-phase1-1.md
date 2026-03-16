@@ -49,7 +49,7 @@ exit_criteria:
   - criterion: "AI justification with fallback documented"
     status: met
     evidence: "section 4 of project charter"
-  - criterion: "Initial risk register with ≥3 risks"
+  - criterion: "Initial risk register with >=3 risks"
     status: met
     evidence: "7 risks identified"
   - criterion: "Project charter approved by sponsor"

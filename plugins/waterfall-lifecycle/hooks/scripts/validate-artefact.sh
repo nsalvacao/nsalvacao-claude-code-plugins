@@ -24,19 +24,19 @@ if ! python3 -c "import json; json.load(open('${FILE_PATH}'))" 2>/dev/null; then
   exit 0
 fi
 
-# Try schema validation if \$id field is present
+# Try schema validation if 'schema' or '$schema' field is present
 SCHEMA_ID=$(python3 -c "
 import json, sys
 try:
     d = json.load(open('${FILE_PATH}'))
-    print(d.get('\$id', ''))
+    print(d.get('schema', d.get('\$schema', '')))
 except Exception:
     print('')
 " 2>/dev/null || true)
 
 if [[ -n "$SCHEMA_ID" && -n "${CLAUDE_PLUGIN_ROOT:-}" ]]; then
-  SCHEMA_NAME=$(basename "$SCHEMA_ID" .json)
-  SCHEMA_FILE="${CLAUDE_PLUGIN_ROOT}/schemas/${SCHEMA_NAME}.json"
+  SCHEMA_NAME=$(basename "$SCHEMA_ID")
+  SCHEMA_FILE="${CLAUDE_PLUGIN_ROOT}/schemas/${SCHEMA_NAME}.schema.json"
   if [[ -f "$SCHEMA_FILE" ]]; then
     if ! python3 -c "
 import json, sys

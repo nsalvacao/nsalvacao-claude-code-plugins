@@ -21,7 +21,7 @@
     },
     "product_type": {
       "type": "string",
-      "enum": ["saas", "web", "desktop", "cli", "ai-ml", "data-product", "other"],
+      "enum": ["saas", "web", "desktop", "cli", "ai-ml", "data-product", "embedded", "other"],
       "description": "Product type used for tailoring and gate configuration"
     },
     "team": {

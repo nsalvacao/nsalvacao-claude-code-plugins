@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # validate-schema.sh — Validate a JSON file against its waterfall-lifecycle schema.
 # Usage: ./validate-schema.sh <json-file> [schema-file]
-# If schema-file omitted, infers from $id field in json-file.
+# If schema-file omitted, infers from 'schema' or '$schema' field in json-file.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -15,7 +15,7 @@ usage() {
   echo "Arguments:"
   echo "  json-file     Path to the JSON file to validate"
   echo "  schema-file   Optional: path to JSON schema file"
-  echo "                If omitted, infers from \$id field in json-file"
+  echo "                If omitted, infers from 'schema' or '\$schema' field in json-file"
   echo ""
   echo "Examples:"
   echo "  $(basename "$0") .waterfall-lifecycle/lifecycle-state.json"
@@ -65,7 +65,7 @@ if [[ -z "$SCHEMA_FILE" ]]; then
   if [[ -n "$SCHEMA_ID" ]]; then
     # Try to resolve schema relative to plugin schemas/ directory
     SCHEMA_NAME=$(basename "$SCHEMA_ID")
-    CANDIDATE="$PLUGIN_DIR/schemas/${SCHEMA_NAME}.json"
+    CANDIDATE="$PLUGIN_DIR/schemas/${SCHEMA_NAME}.schema.json"
     if [[ -f "$CANDIDATE" ]]; then
       SCHEMA_FILE="$CANDIDATE"
     else

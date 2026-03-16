@@ -65,10 +65,14 @@ mkdir -p "$WF_DIR/metrics"
 # Create lifecycle-state.json
 cat > "$WF_DIR/lifecycle-state.json" <<EOF
 {
-  "\$schema": "waterfall-lifecycle/lifecycle-state",
+  "schema": "waterfall-lifecycle/lifecycle-state",
   "version": "0.1.0",
   "project_name": "",
+  "product_type": "other",
+  "team": "",
+  "sponsor": "",
   "created": "$TODAY",
+  "updated": "$TODAY",
   "phases": {
     "1": {
       "name": "Opportunity and Feasibility",

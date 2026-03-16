@@ -16,7 +16,7 @@ The `lifecycle-orchestrator` agent runs and creates the directory structure unde
 .waterfall-lifecycle/
   lifecycle-state.json         # Phase 1 active, gates A-H pending
   artefacts/phase-1/           # Phase 1 working directory
-  gate-reviews/                # Gate review reports
+  gate-reports/                # Gate review reports
 ```
 
 You are prompted to confirm the project name and product type.

@@ -28,8 +28,8 @@ This command is read-only and safe to run at any time. It does not modify `lifec
 1. Reads `lifecycle-state.json` from `.waterfall-lifecycle/`.
 2. Shows the current phase number, phase name, and status (`in_progress` / `ready_for_gate` / `approved` / `blocked`).
 3. Shows all 8 gates (A-H) with their current status (`pending` / `passed` / `failed` / `waived`), mapping each gate to its associated phase.
-4. Lists all open risk register entries with impact level `medium` or higher from `.waterfall-lifecycle/registers/risk-register.md`.
-5. Lists clarifications marked as `overdue` from `.waterfall-lifecycle/registers/clarification-log.md`.
+4. Lists all open risk register entries with impact level `medium` or higher from `.waterfall-lifecycle/registers/risk-register.md` (skipped if file does not exist yet).
+5. Lists clarifications marked as `overdue` from `.waterfall-lifecycle/registers/clarification-log.md` (skipped if file does not exist yet).
 6. Shows the elapsed time since `lifecycle-state.json` was last modified.
 
 ## Examples

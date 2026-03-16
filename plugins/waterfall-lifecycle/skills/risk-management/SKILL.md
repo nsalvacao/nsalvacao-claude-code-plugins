@@ -60,8 +60,8 @@ Assign one of the 7 formal risk categories:
 
 Use the defined taxonomy. Ad-hoc labels are not accepted.
 
-### Step 5: Handle HIGH Risks (score ≥ 12)
-- Flag the item immediately in the register (status: `flagged`)
+### Step 5: Handle HIGH Risks (score ≥ 10)
+- Flag the item immediately in the register (status: `open`)
 - Add the risk to the phase contract risk summary section
 - Include the risk in the gate review risk report
 - Define a mitigation action and assign an owner with a deadline

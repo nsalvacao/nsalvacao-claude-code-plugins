@@ -52,7 +52,7 @@
           },
           "status": {
             "type": "string",
-            "enum": ["not_started", "in_progress", "blocked", "ready_for_gate", "approved", "rejected", "waived", "closed"],
+            "enum": ["YES", "NO", "PARTIAL", "not_assessed"],
             "description": "Fulfilment status of this entry criterion"
           }
         }
@@ -76,7 +76,7 @@
           },
           "status": {
             "type": "string",
-            "enum": ["not_started", "in_progress", "blocked", "ready_for_gate", "approved", "rejected", "waived", "closed"],
+            "enum": ["not_started", "in_progress", "met", "waived"],
             "description": "Fulfilment status of this exit criterion"
           },
           "evidence_ref": {

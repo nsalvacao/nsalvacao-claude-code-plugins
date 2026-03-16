@@ -75,7 +75,7 @@ Every requirement must reference:
 2. **No requirement without acceptance criteria** — a requirement that cannot be tested is not a requirement; it is a wish.
 3. **AI acceptance criteria must reference test data** — "the model should be accurate" is not a criterion; "precision ≥ 0.85 on REQ-2026-010-testset.csv" is.
 4. **NFRs must be measurable** — every NFR must state a numeric target and a test approach; vague NFRs are rejected at gate.
-5. **Category drives traceability** — functional → system design; ai → model design; nfr → architecture; constraint → governance.
+5. **Category drives traceability** — functional → system design; ai → model design; nfr → architecture; constraint → governance; assumption → risk register.
 
 ## Reference Materials
 - `schemas/requirement.schema.json` — validates requirement entries

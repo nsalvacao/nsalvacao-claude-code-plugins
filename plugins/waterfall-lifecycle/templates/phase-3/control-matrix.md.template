@@ -1,0 +1,58 @@
+# Control Matrix
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Author | {{author}} |
+| Status | {{status}} |
+
+## Purpose
+<!-- Maps risks from the risk register to design-level controls -->
+
+## Control Matrix
+
+| Risk ID | Risk Description | Control ID | Control Type | Control Description | Implementation | Owner | Test Reference | Status |
+|---------|-----------------|------------|-------------|--------------------|--------------|-------|---------------|--------|
+| {{risk_id_1}} | {{risk_description_1}} | {{control_id_1}} | {{control_type_1}} | {{control_description_1}} | {{implementation_1}} | {{owner_1}} | {{test_ref_1}} | {{control_status_1}} |
+| {{risk_id_2}} | {{risk_description_2}} | {{control_id_2}} | {{control_type_2}} | {{control_description_2}} | {{implementation_2}} | {{owner_2}} | {{test_ref_2}} | {{control_status_2}} |
+| {{risk_id_3}} | {{risk_description_3}} | {{control_id_3}} | {{control_type_3}} | {{control_description_3}} | {{implementation_3}} | {{owner_3}} | {{test_ref_3}} | {{control_status_3}} |
+
+<!-- Control Type values: preventive | detective | corrective | compensating -->
+<!-- Status values: implemented | planned | deferred -->
+
+## AI-Specific Controls
+
+| AI Risk | Control | Monitoring Frequency | Owner |
+|---------|---------|---------------------|-------|
+| Bias | {{bias_control}} | {{bias_monitoring_frequency}} | {{bias_owner}} |
+| Drift | {{drift_control}} | {{drift_monitoring_frequency}} | {{drift_owner}} |
+| Explainability | {{explainability_control}} | {{explainability_monitoring_frequency}} | {{explainability_owner}} |
+| Human Oversight | {{human_oversight_control}} | {{human_oversight_monitoring_frequency}} | {{human_oversight_owner}} |
+
+## Residual Risk Summary
+
+| Risk ID | Residual Likelihood | Residual Impact | Residual Score | Acceptance Decision |
+|---------|--------------------|-----------------|-----------------|--------------------|
+| {{risk_id_1}} | {{residual_likelihood_1}} | {{residual_impact_1}} | {{residual_score_1}} | {{acceptance_decision_1}} |
+| {{risk_id_2}} | {{residual_likelihood_2}} | {{residual_impact_2}} | {{residual_score_2}} | {{acceptance_decision_2}} |
+
+## Open Items
+
+| Item | Owner | Resolution Deadline |
+|------|-------|---------------------|
+| {{open_item_1}} | {{open_item_owner_1}} | {{open_item_deadline_1}} |
+
+## Completeness Checklist
+- [ ] All risks covered from the risk register
+- [ ] All controls have owners
+- [ ] Test references assigned
+- [ ] Residual risks assessed
+
+## Handover Readiness
+<!-- Confirms control matrix is ready as input for Phase 4 implementation and testing. -->
+- [ ] Control matrix reviewed and approved by Architecture Lead
+- [ ] All risk IDs aligned with Phase 2 risk register
+- [ ] AI-specific controls agreed with AI/ML Lead
+- [ ] Linked to design-approval-pack.md artefact checklist

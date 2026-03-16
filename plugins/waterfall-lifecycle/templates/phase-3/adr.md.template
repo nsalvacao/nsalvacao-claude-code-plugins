@@ -1,0 +1,73 @@
+# Architecture Decision Record
+
+| Field | Value |
+|-------|-------|
+| ID | ADR-{{adr_id}} |
+| Date | {{date}} |
+| Status | {{status}} |
+| Author | {{author}} |
+| Supersedes | {{supersedes}} |
+
+<!-- Status values: proposed | accepted | deprecated | superseded -->
+<!-- Supersedes: ID of ADR this record replaces, or "N/A" if not applicable -->
+
+## Title
+
+{{adr_title}}
+
+## Context
+
+<!-- Describe the forces at play, the problem, constraints -->
+
+{{adr_context}}
+
+## Decision
+
+<!-- State the decision clearly in one paragraph -->
+
+{{adr_decision}}
+
+## Alternatives Considered
+
+| Alternative | Reason Rejected |
+|-------------|----------------|
+| {{alt_1}} | {{reason_rejected_1}} |
+| {{alt_2}} | {{reason_rejected_2}} |
+| {{alt_3}} | {{reason_rejected_3}} |
+
+## Consequences
+
+### Positive
+
+- {{positive_consequence_1}}
+- {{positive_consequence_2}}
+
+### Negative
+
+- {{negative_consequence_1}}
+- {{negative_consequence_2}}
+
+## References
+
+- {{references}}
+
+## Review History
+
+| Date | Reviewer | Outcome |
+|------|----------|---------|
+| {{review_date_1}} | {{reviewer_1}} | {{outcome_1}} |
+| {{review_date_2}} | {{reviewer_2}} | {{outcome_2}} |
+
+## Completeness Checklist
+- [ ] Context clearly describes the problem and constraints
+- [ ] Decision stated in one paragraph
+- [ ] At least two alternatives considered with rejection reasons
+- [ ] Positive and negative consequences documented
+- [ ] References to related artefacts included
+
+## Handover Readiness
+<!-- Confirms this ADR is ready to be included in the ADR set for Gate C. -->
+- [ ] ADR reviewed and accepted by Architecture Lead
+- [ ] ADR ID assigned and unique within the ADR set
+- [ ] Linked to hld.md Key Architecture Decisions section
+- [ ] Linked to design-approval-pack.md artefact checklist

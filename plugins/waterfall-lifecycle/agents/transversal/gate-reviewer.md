@@ -1,7 +1,7 @@
 ---
 name: gate-reviewer
 description: |-
-  Use this agent when the user asks to run a gate review, formal approval checkpoint, or quality gate in the waterfall lifecycle. Examples: "Run Gate A review", "We need to pass Gate D before build starts", "Perform the formal gate check for Phase 3", "Is our evidence sufficient for Gate E?", "Run the feasibility gate".
+  Use this agent when the user asks to run a gate review, formal approval checkpoint, or quality gate in the waterfall lifecycle.
 
   <example>
   Context: Phase 2 (Requirements and Baseline) work is complete and the team needs Gate B approval before starting Phase 3 (Architecture and Solution Design).

@@ -5,7 +5,7 @@ Full catalogue of all artefacts across all 8 phases and transversal layer.
 ## Catalogue Format
 
 Each entry includes:
-- **artefact_id** — unique identifier in format `<phase>.<seq>-<slug>`
+- **artefact_id** — unique identifier in format `<phase>.<seq>-<slug>` (where phase is 1–8) or `T.<seq>-<slug>` for transversal objects
 - **name** — artefact display name
 - **phase** — lifecycle phase (1–8) or `transversal`
 - **subfase** — subfase within the phase

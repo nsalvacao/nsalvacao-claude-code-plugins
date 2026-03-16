@@ -104,14 +104,14 @@ cat > "$WF_DIR/lifecycle-state.json" <<EOF
     }
   },
   "gates": {
-    "A": "pending",
-    "B": "pending",
-    "C": "pending",
-    "D": "pending",
-    "E": "pending",
-    "F": "pending",
-    "G": "pending",
-    "H": "pending"
+    "A": { "status": "pending" },
+    "B": { "status": "pending" },
+    "C": { "status": "pending" },
+    "D": { "status": "pending" },
+    "E": { "status": "pending" },
+    "F": { "status": "pending" },
+    "G": { "status": "pending" },
+    "H": { "status": "pending" }
   }
 }
 EOF

@@ -17,8 +17,12 @@
 
 ## Evidence Required (Gate F)
 - release-plan
-- deployment-package
-- transition-plan
+- cutover-plan
+- rollback-plan
+- go-live-criteria-pack
+- pre-deployment-operations-acceptance
+- support-readiness-confirmation
+- release-authority-go-no-go
 
 ## Next Step
 Gate F review → `/waterfall-gate-review F` → Phase 7

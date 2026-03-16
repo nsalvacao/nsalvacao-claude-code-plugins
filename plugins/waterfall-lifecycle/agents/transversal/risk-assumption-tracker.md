@@ -1,7 +1,7 @@
 ---
 name: risk-assumption-tracker
 description: |-
-  Use this agent when the user asks to add, update, or query risks, assumptions, clarifications, dependencies, or evidence across any phase. Examples: "Log this risk", "Add an assumption about vendor availability", "Update the status of risk R-005", "What assumptions are past due?", "Show me all open clarifications", "Track this dependency on the infrastructure team", "What evidence do we have for Gate D?"
+  Use this agent when the user asks to add, update, or query risks, assumptions, clarifications, dependencies, or evidence across any phase.
 
   <example>
   Context: Project is in Phase 3 (Architecture and Solution Design) and the team has identified that a key vendor may not deliver the integration library on time.

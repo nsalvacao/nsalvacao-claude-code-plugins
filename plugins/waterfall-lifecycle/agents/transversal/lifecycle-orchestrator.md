@@ -1,7 +1,7 @@
 ---
 name: lifecycle-orchestrator
 description: |-
-  Use this agent when the user asks about lifecycle status, current phase, navigation between phases, gate progression, or needs routing to the appropriate phase agent. Examples: "What phase are we in?", "Where are we in the waterfall lifecycle?", "How do I start Phase 3?", "Gate B was approved — what next?", "What should I do next?"
+  Use this agent when the user asks about lifecycle status, current phase, navigation between phases, gate progression, or needs routing to the appropriate phase agent.
 
   <example>
   Context: Project team is returning after a break and wants to know their current position in the waterfall lifecycle.

@@ -70,7 +70,7 @@ incomplete artefacts.
 ## Step 7: Fulfil closure obligation at phase end
 
 Before gate review, run `/waterfall-lifecycle-status` to confirm no artefacts are
-missing. At phase closure, the closure obligation (archive, baseline, or hand_over)
+missing. At phase closure, the closure obligation (`baselined`, `archived`, `handed_over`, `updated`, or `closed`)
 is recorded in the gate review report.
 
 ---

@@ -16,9 +16,15 @@
 | Tech Lead | Defect triage, resolution verification |
 
 ## Evidence Required (Gate E)
-- vv-plan
-- test-cases
-- vv-report
+- functional-test-report
+- traceability-completion-evidence
+- nfr-test-report
+- security-validation-report
+- ai-evaluation-report
+- uat-report
+- operational-readiness-review
+- residual-risk-note
+- validation-release-readiness-pack
 
 ## Next Step
 Gate E review → `/waterfall-gate-review E` → Phase 6

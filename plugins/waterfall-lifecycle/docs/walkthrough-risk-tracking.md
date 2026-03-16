@@ -28,7 +28,7 @@ Reference: `skills/risk-management/references/risk-patterns.md`
 | 10–16 | HIGH      | Immediate mitigation; owner assigned |
 | 17–25 | CRITICAL  | Escalate to steering committee |
 
-HIGH risks (score ≥12): add to phase contract risk summary immediately.
+HIGH risks (score ≥10): add to phase contract risk summary immediately.
 
 ---
 

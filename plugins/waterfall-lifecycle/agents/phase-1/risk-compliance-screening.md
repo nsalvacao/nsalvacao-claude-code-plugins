@@ -1,7 +1,7 @@
 ---
 name: risk-compliance-screening
 description: |-
-  Use this agent when identifying initial risks, capturing assumptions, logging clarifications, and running compliance checks at Phase 1 of the waterfall lifecycle. Examples: "What are the initial risks for this project?", "Document our assumptions before we commit", "Log the open questions we need to resolve before Gate A".
+  Use this agent when identifying initial risks, capturing assumptions, logging clarifications, and running compliance checks at Phase 1 of the waterfall lifecycle.
 
   <example>
   Context: Project team is preparing for Gate A and needs to formalise risks, assumptions, and open decisions before presenting to the governance forum.

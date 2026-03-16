@@ -16,9 +16,14 @@
 | Tech Lead | Technical feasibility validation of requirements |
 
 ## Evidence Required (Gate B)
-- SRS
+- requirements-baseline (SRS)
+- ai-requirements-specification
+- nfr-specification
+- acceptance-criteria-catalog
 - requirements-traceability-matrix
-- change-management-plan
+- updated-assumption-register
+- updated-clarification-log
+- requirements-baseline-approval-pack
 
 ## Next Step
 Gate B review → `/waterfall-gate-review B` → Phase 3

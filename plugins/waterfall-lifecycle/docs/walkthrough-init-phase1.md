@@ -76,7 +76,7 @@ Confirms all Gate A artefacts present; phase contract shows `status: ready_for_g
 /waterfall-gate-review A
 ```
 
-The `gate-reviewer` agent checks all Gate A criteria. On pass: Gate A status → `passed`, Phase 1 → `closed`, Phase 2 → `ready_to_start`.
+The `gate-reviewer` agent checks all Gate A criteria. On pass: Gate A status → `passed`, Phase 1 → `approved`. Run `/waterfall-phase-start 2` to move Phase 2 to `in_progress`.
 
 Next: `/waterfall-phase-start 2` to begin Requirements and Baseline.
 

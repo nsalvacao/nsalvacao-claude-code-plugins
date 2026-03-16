@@ -1,7 +1,7 @@
 ---
 name: delivery-framing
 description: |-
-  Use this agent when constructing the project charter, setting up governance, and assembling the Gate A initiation pack at Phase 1 of the waterfall lifecycle. Examples: "Write the project charter for this initiative", "Who has authority to approve this project?", "Assemble the Gate A pack — what do we need?", "Is the AI justification in the charter solid enough for governance?".
+  Use this agent when constructing the project charter, setting up governance, and assembling the Gate A initiation pack at Phase 1 of the waterfall lifecycle.
 
   <example>
   Context: All Phase 1 artefacts are complete and the team needs to consolidate them into a governance-ready package for the initiation gate.

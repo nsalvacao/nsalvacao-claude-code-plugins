@@ -68,6 +68,7 @@ evidence_required:
   - .waterfall-lifecycle/artefacts/phase-1/clarification-log.md
   - .waterfall-lifecycle/artefacts/phase-1/project-charter.md
   - .waterfall-lifecycle/artefacts/phase-1/initiation-gate-pack.md
+  - .waterfall-lifecycle/artefacts/phase-1/governance-model.md
 
 sign_off_authority: "VP Engineering (James Torres) and Customer Support Director (Maria Santos)"
 

@@ -1,7 +1,7 @@
 ---
 name: artefact-generator
 description: |-
-  Use this agent when the user asks to generate, create, or fill a lifecycle artefact or template. Examples: "Generate the feasibility study", "Create a risk register entry for this finding", "Fill in the requirements baseline template", "I need an assumption register entry", "Generate the gate review report for Gate C", "Produce the architecture decision record".
+  Use this agent when the user asks to generate, create, or fill a lifecycle artefact or template.
 
   <example>
   Context: Project is in Phase 1 (Opportunity and Feasibility) and needs the initial feasibility study artefact to satisfy Gate A evidence.

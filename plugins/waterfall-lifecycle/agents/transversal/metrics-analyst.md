@@ -1,7 +1,7 @@
 ---
 name: metrics-analyst
 description: |-
-  Use this agent when the user asks for metrics, reports, performance analysis, KPI tracking, trend analysis, or delivery health checks across any phase. Examples: "Generate a metrics report", "What are our build quality metrics?", "Show me delivery performance for Phase 4", "How are we tracking against our verification targets?", "Generate governance metrics for Gate F", "Compare our schedule performance against baseline", "Are there any anomalies in our quality trends?"
+  Use this agent when the user asks for metrics, reports, performance analysis, KPI tracking, trend analysis, or delivery health checks across any phase.
 
   <example>
   Context: End of Phase 4 (Build and Integration) and the Project Manager wants a metrics health check before Gate D.

@@ -1,7 +1,7 @@
 ---
 name: problem-value-context
 description: |-
-  Use this agent when starting Phase 1 of the waterfall lifecycle — defining the problem, articulating the vision, and mapping stakeholders. Examples: "Help me define the business problem we're solving", "I need to write a vision statement for this project", "Map out our stakeholders before we proceed".
+  Use this agent when starting Phase 1 of the waterfall lifecycle — defining the problem, articulating the vision, and mapping stakeholders.
 
   <example>
   Context: A sponsor has identified a process inefficiency and wants to formalise it before requesting budget.

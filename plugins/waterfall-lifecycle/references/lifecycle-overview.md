@@ -187,7 +187,6 @@ The lifecycle state machine governs valid state transitions for each phase and s
 | `in_progress` | Blocker encountered | `blocked` | Blocker logged in dependency or risk register | Team / PM |
 | `blocked` | Blocker resolved | `in_progress` | Dependency log closed with resolution evidence | Owner / PM |
 | `in_progress` | All subfases complete, artefacts ready | `ready_for_gate` | Exit criteria met, artefact checklist complete | PM |
-| `ready_for_gate` | Gate review convened | `ready_for_gate` | Gate review scheduled, reviewers confirmed | Gate Reviewer |
 | `ready_for_gate` | Gate passes | `approved` | Gate Review Record (outcome: pass) | Gate Reviewer |
 | `ready_for_gate` | Gate fails | `rejected` | Gate Review Record (outcome: fail) with remediation log | Gate Reviewer |
 | `ready_for_gate` | Gate waived | `waived` | Waiver Log entry, Gate Review Record (outcome: waiver), risk acceptance signed | Gate Reviewer + Waiver Authority |

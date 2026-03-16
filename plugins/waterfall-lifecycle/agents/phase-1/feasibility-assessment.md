@@ -1,7 +1,7 @@
 ---
 name: feasibility-assessment
 description: |-
-  Use this agent when assessing whether a proposed project is feasible across technical, data, AI/ML, organisational, financial, and legal dimensions at Phase 1 of the waterfall lifecycle. Examples: "Assess whether we can realistically deliver this AI project", "Is the data we have sufficient for this use case?", "What are the legal constraints on this ML approach?".
+  Use this agent when assessing whether a proposed project is feasible across technical, data, AI/ML, organisational, financial, and legal dimensions at Phase 1 of the waterfall lifecycle.
 
   <example>
   Context: A stakeholder wants to use machine learning for fraud detection but data availability and regulatory compliance are uncertain.

@@ -100,7 +100,7 @@ Do not issue a READY verdict if any single blocking condition is present.
 
 ## Reference Materials
 - Phase contract schema: `schemas/phase-contract.schema.json`
-- `references/contract-enforcement-rules.md` — Mandatory field matrix, exit criteria rules, common failures checklist
+- `skills/phase-contract-enforcement/references/contract-enforcement-rules.md` — Mandatory field matrix, exit criteria rules, common failures checklist
 - `references/gate-criteria-reference.md` — What gate reviewers check and how enforcement output maps to gate criteria
 - `references/lifecycle-overview.md` — Phase boundaries, sign-off authority roles, and escalation paths
 

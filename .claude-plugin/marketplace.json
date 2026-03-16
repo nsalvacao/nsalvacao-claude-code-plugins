@@ -120,7 +120,8 @@
         "email": "nuno.salvacao@gmail.com"
       },
       "source": "./plugins/waterfall-lifecycle",
-      "category": "development"
+      "category": "development",
+      "tags": ["waterfall", "predictive", "lifecycle", "phase-gates", "ai-governance", "requirements-traceability", "formal-handovers", "artefact-management", "multi-agent"]
     }
   ]
 }

@@ -25,7 +25,7 @@ Determine which phase (1–7) is being contracted. Load the phase essentials car
 Open the existing phase contract if one exists, or create a new contract using the mandatory fields:
 - `phase_id`: integer 1–7
 - `phase_name`: canonical phase name
-- `status`: one of `not_started | in_progress | blocked | ready_for_review | ready_for_gate | approved | closed`
+- `status`: one of `not_started | in_progress | blocked | ready_for_gate | approved | rejected | waived | closed`
 - `owner`: accountable role or person
 - `start_date`: ISO date when phase was formally opened
 - `target_end_date`: planned completion date

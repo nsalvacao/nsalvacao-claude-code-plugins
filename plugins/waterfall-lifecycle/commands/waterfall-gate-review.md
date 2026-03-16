@@ -28,14 +28,14 @@ The gate-reviewer agent validates artefact completeness, assesses evidence quali
 
 | Gate | Phase | Name | Purpose |
 |------|-------|------|---------|
-| A | 1 | Concept Approval | Problem validated, business case approved — proceed to requirements? |
-| B | 2 | Requirements Baseline | Requirements signed off — proceed to design? |
-| C | 3 | Design Review | Architecture and design approved — proceed to build? |
-| D | 4 | Build Readiness | Build complete, unit tested — proceed to integration/system test? |
-| E | 5 | System Test Entry | Test plans ready, environment stable — proceed to system test? |
-| F | 6 | Acceptance Test Entry | System test passed — proceed to user acceptance test? |
-| G | 7 | Deployment Authorization | UAT passed, deployment plan approved — release to production? |
-| H | 8 | Operations Handover | Product stable in production — formally hand over to operations? |
+| A | 1 | Initiation Approval | Problem validated, business case approved — proceed to requirements? |
+| B | 2 | Requirements Baseline Approval | Requirements signed off — proceed to design? |
+| C | 3 | Design Approval | Architecture and design approved — proceed to build? |
+| D | 4 | Build Complete / Integration Ready | Build complete, integrations operational — proceed to V&V? |
+| E | 5 | Validation Complete / Release Readiness | Solution verified and validated — safe to release? |
+| F | 6 | Go-live Approval | Deployment plan confirmed, rollback ready — proceed to production? |
+| G | 7 | Hypercare Exit / Service Acceptance | Service stable, operations accepted ownership — exit hypercare? |
+| H | 8 | Retirement Approval | Retirement justified, impact managed — proceed with decommission? |
 
 Authoritative criteria for each gate: `references/gate-criteria-reference.md`.
 

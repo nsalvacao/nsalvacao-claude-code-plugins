@@ -20,9 +20,14 @@
 - vision-statement
 - stakeholder-map
 - feasibility-assessment
+- data-feasibility-note
+- ai-feasibility-note
 - initial-risk-register
+- assumption-register
+- clarification-log
 - project-charter
 - initiation-gate-pack
+- governance-model
 
 ## Next Step
 Gate A review → `/waterfall-gate-review A` → Phase 2

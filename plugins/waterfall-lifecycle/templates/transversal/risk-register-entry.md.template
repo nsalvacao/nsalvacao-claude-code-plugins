@@ -39,7 +39,7 @@
 | Impact (1–5) | {{impact}} |
 | Score (L × I) | {{score}} |
 
-<!-- guidance: Use the 5×5 matrix below as reference. Score ≥ 15 = High; 8–14 = Medium; ≤ 7 = Low. -->
+<!-- guidance: Use the 5×5 matrix below as reference. Score 17–25 = CRITICAL; 10–16 = HIGH; 5–9 = MEDIUM; 1–4 = LOW. -->
 
 ```
          Impact

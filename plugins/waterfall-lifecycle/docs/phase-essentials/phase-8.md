@@ -16,9 +16,13 @@
 | Tech Lead | Code archival, infrastructure decommission |
 
 ## Evidence Required (Gate H)
-- retirement-plan
-- decommission-evidence
-- data-archive-record
+- retirement-decision-record
+- impact-assessment
+- sunset-plan
+- data-closure-strategy
+- access-closure-plan
+- evidence-preservation-plan
+- final-closure-pack
 
 ## Next Step
 Gate H review → `/waterfall-gate-review H` → Lifecycle closed

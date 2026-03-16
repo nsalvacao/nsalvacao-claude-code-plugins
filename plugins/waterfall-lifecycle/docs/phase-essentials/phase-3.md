@@ -16,10 +16,14 @@
 | Product Owner | Design acceptance against requirements baseline |
 
 ## Evidence Required (Gate C)
-- architecture-doc
-- solution-design-doc
-- design-review-report
-- design-baseline
+- HLD
+- LLD (or equivalent)
+- interface-specifications
+- ADR-set
+- control-matrix
+- test-design-package
+- ai-control-design-note
+- design-approval-pack
 
 ## Next Step
 Gate C review → `/waterfall-gate-review C` → Phase 4

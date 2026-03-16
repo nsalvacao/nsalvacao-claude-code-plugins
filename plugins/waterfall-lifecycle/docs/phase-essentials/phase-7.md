@@ -16,9 +16,11 @@
 | Tech Lead | Model performance monitoring, technical improvements |
 
 ## Evidence Required (Gate G)
-- operations-runbook
-- monitoring-dashboard
-- operational-review-report
+- hypercare-report
+- early-life-incident-report
+- stabilization-closure-note
+- operations-acceptance
+- ai-monitoring-activation-evidence
 
 ## Next Step
 Gate G review → `/waterfall-gate-review G` → Phase 8

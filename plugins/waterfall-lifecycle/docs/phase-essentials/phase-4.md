@@ -16,9 +16,14 @@
 | QA Lead | Test strategy, coverage validation, build gate criteria |
 
 ## Evidence Required (Gate D)
-- integration-test-plan
-- build-artefacts
+- environment-readiness-record
+- ci-cd-pipeline-baseline
+- build-packages
 - code-review-records
+- integration-evidence
+- model-package (or integration-package)
+- readiness-checklist-draft
+- updated-defect-log
 
 ## Next Step
 Gate D review → `/waterfall-gate-review D` → Phase 5

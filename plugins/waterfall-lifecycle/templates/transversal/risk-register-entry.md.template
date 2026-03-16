@@ -1,0 +1,89 @@
+<!-- risk-register-entry.md.template | waterfall-lifecycle -->
+<!-- guidance: One entry per identified risk. Fill all fields; score = likelihood × impact. -->
+
+| Field | Value |
+|-------|-------|
+| Phase | {{phase}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+
+---
+
+## Risk Details
+
+| Field | Value |
+|-------|-------|
+| Risk ID | {{risk_id}} |
+| Title | {{title}} |
+| Category | {{category}} |
+| Status | {{status}} |
+| Owner | {{owner}} |
+| Due Date | {{due_date}} |
+
+<!-- guidance: category options: technical / business / data / ai / legal / operational / external -->
+<!-- guidance: status options: open / mitigated / accepted / closed -->
+
+**Description**
+
+{{description}}
+
+<!-- guidance: Describe the risk clearly — what could go wrong, in what context, and why it matters. -->
+
+---
+
+## Likelihood and Impact Assessment
+
+| Field | Value |
+|-------|-------|
+| Likelihood (1–5) | {{likelihood}} |
+| Impact (1–5) | {{impact}} |
+| Score (L × I) | {{score}} |
+
+<!-- guidance: Use the 5×5 matrix below as reference. Score ≥ 15 = High; 8–14 = Medium; ≤ 7 = Low. -->
+
+```
+         Impact
+           1     2     3     4     5
+         +-----+-----+-----+-----+-----+
+       5 |  5  | 10  | 15  | 20  | 25  |
+       4 |  4  |  8  | 12  | 16  | 20  |
+L    3 |  3  |  6  |  9  | 12  | 15  |
+i    2 |  2  |  4  |  6  |  8  | 10  |
+k    1 |  1  |  2  |  3  |  4  |  5  |
+e        +-----+-----+-----+-----+-----+
+```
+
+---
+
+## Mitigation Plan
+
+{{mitigation_plan}}
+
+<!-- guidance: Describe specific actions to reduce likelihood or impact. Include responsible parties, -->
+<!-- guidance: timeline milestones, and acceptance criteria for the mitigation to be considered complete. -->
+
+---
+
+## Review History
+
+| Date | Reviewer | Status Change | Notes |
+|------|----------|---------------|-------|
+| {{date}} | {{owner}} | Created → {{status}} | Initial entry |
+
+<!-- guidance: Add one row per review or status change event. -->
+
+---
+
+## Completeness Checklist
+
+- [ ] Risk ID assigned and unique within the register
+- [ ] Title is concise and unambiguous
+- [ ] Category correctly selected from allowed values
+- [ ] Description explains root cause and context
+- [ ] Likelihood score justified by evidence or expert judgement
+- [ ] Impact score justified by business or technical consequence
+- [ ] Score calculated correctly (L × I)
+- [ ] Mitigation plan is actionable and has a named owner
+- [ ] Due date set for mitigation completion
+- [ ] Status reflects current state
+- [ ] Review history updated

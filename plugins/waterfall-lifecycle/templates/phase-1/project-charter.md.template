@@ -1,0 +1,134 @@
+# Project Charter
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Subfase | 1.4 — Project Charter |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Project Overview
+<!-- Provide a concise summary of the project: what it is, why it exists, and what it will deliver. This section should be readable by any stakeholder, technical or non-technical. -->
+**Project Name:** {{project_name}}
+**Project ID:** {{project_id}}
+**Sponsor:** {{sponsor}}
+**Project Manager:** {{project_manager}}
+**Start Date:** {{start_date}}
+**Target End Date:** {{target_end_date}}
+
+{{project_overview_narrative}}
+
+## Objectives and Success Criteria
+<!-- Define measurable objectives. Each objective must have a success criterion that can be verified at project closure. -->
+| # | Objective | Success Criterion | Measurement Method |
+|---|-----------|------------------|--------------------|
+| 1 | {{objective_1}} | {{success_criterion_1}} | {{measurement_1}} |
+| 2 | {{objective_2}} | {{success_criterion_2}} | {{measurement_2}} |
+| 3 | {{objective_3}} | {{success_criterion_3}} | {{measurement_3}} |
+
+## Scope Statement
+
+### In Scope
+<!-- List deliverables, features, and work explicitly included in this project. Be specific to avoid later disputes. -->
+{{in_scope}}
+
+### Out of Scope
+<!-- List items explicitly excluded from this project. This is as important as the in-scope definition. -->
+{{out_of_scope}}
+
+## AI Justification
+<!-- Explain why an AI/ML approach is necessary or beneficial, not just software engineering alone. Address: what problem AI solves that traditional software cannot, what the expected value of AI is, and what the technical justification is. -->
+{{ai_justification}}
+
+## Fallback Scenario
+<!-- Describe what happens if the AI component cannot be delivered, underperforms, or must be removed. The product must have a viable path without AI. -->
+{{fallback_scenario}}
+
+## Governance and Sign-off Authority
+<!-- Define the governance structure: who has authority to approve, change, or terminate the project. -->
+| Role | Name | Authority |
+|------|------|-----------|
+| Project Sponsor | {{governance_sponsor}} | Final approval, budget sign-off, gate decisions |
+| Project Manager | {{governance_pm}} | Day-to-day execution, change requests up to {{pm_authority_limit}} |
+| Technical Lead | {{governance_tech_lead}} | Technical direction and architecture decisions |
+| Gate Reviewer | {{governance_gate_reviewer}} | Gate pass/fail/waive decisions |
+| Steering Committee | {{governance_steering}} | Strategic direction, escalation above PM authority |
+
+## Budget and Resource Estimates
+<!-- Provide budget and resource estimates. These will be refined in Phase 2 (Planning). -->
+| Category | Estimate | Confidence | Notes |
+|----------|----------|------------|-------|
+| Internal development effort | {{dev_effort}} | {{dev_confidence}} | {{dev_notes}} |
+| External / vendor costs | {{vendor_cost}} | {{vendor_confidence}} | {{vendor_notes}} |
+| Infrastructure | {{infra_cost}} | {{infra_confidence}} | {{infra_notes}} |
+| Data acquisition | {{data_cost}} | {{data_confidence}} | {{data_notes}} |
+| AI compute / model costs | {{ai_cost}} | {{ai_confidence}} | {{ai_notes}} |
+| Change management / training | {{change_cost}} | {{change_confidence}} | {{change_notes}} |
+| Contingency (recommended 20%) | {{contingency}} | — | — |
+| **Total** | **{{total_budget}}** | **{{total_confidence}}** | |
+
+## Key Milestones
+<!-- List major milestones. Detailed schedule will be produced in Phase 2. -->
+| # | Milestone | Target Date | Gate / Dependency |
+|---|-----------|-------------|------------------|
+| M1 | Gate A — Initiation Complete | {{gate_a_date}} | — |
+| M2 | Gate B — Planning Complete | {{gate_b_date}} | Gate A passed |
+| M3 | Gate C — Design Complete | {{gate_c_date}} | Gate B passed |
+| M4 | Gate D — Build Complete | {{gate_d_date}} | Gate C passed |
+| M5 | Gate E — Testing Complete | {{gate_e_date}} | Gate D passed |
+| M6 | Gate F — Deployment Complete | {{gate_f_date}} | Gate E passed |
+| M7 | Project Closure | {{closure_date}} | Gate F passed |
+
+## Constraints and Assumptions
+
+### Constraints
+<!-- Fixed constraints the project must operate within: budget caps, technology mandates, regulatory deadlines, resource limits. -->
+{{constraints}}
+
+### Assumptions
+<!-- Assumptions made in producing this charter. Each assumption introduces risk if invalidated. -->
+| # | Assumption | Risk if Invalidated |
+|---|-----------|---------------------|
+| 1 | {{assumption_1}} | {{assumption_risk_1}} |
+| 2 | {{assumption_2}} | {{assumption_risk_2}} |
+| 3 | {{assumption_3}} | {{assumption_risk_3}} |
+
+## Risks Summary
+<!-- Summary of the top risks from the Initial Risk Register. Refer to the full register for detail. -->
+| Risk ID | Title | Score | Status |
+|---------|-------|-------|--------|
+| {{charter_risk_1_id}} | {{charter_risk_1_title}} | {{charter_risk_1_score}} | {{charter_risk_1_status}} |
+| {{charter_risk_2_id}} | {{charter_risk_2_title}} | {{charter_risk_2_score}} | {{charter_risk_2_status}} |
+| {{charter_risk_3_id}} | {{charter_risk_3_title}} | {{charter_risk_3_score}} | {{charter_risk_3_status}} |
+
+## Stakeholder Sign-off Table
+<!-- All named signatories confirm they have read, understood, and approved this Project Charter. -->
+| Name | Role | Signature / Approval | Date |
+|------|------|----------------------|------|
+| {{signoff_1_name}} | {{signoff_1_role}} | {{signoff_1_approval}} | {{signoff_1_date}} |
+| {{signoff_2_name}} | {{signoff_2_role}} | {{signoff_2_approval}} | {{signoff_2_date}} |
+| {{signoff_3_name}} | {{signoff_3_role}} | {{signoff_3_approval}} | {{signoff_3_date}} |
+| {{signoff_4_name}} | {{signoff_4_role}} | {{signoff_4_approval}} | {{signoff_4_date}} |
+
+## Completeness Checklist
+- [ ] Project overview is clear and readable by non-technical stakeholders
+- [ ] All objectives have measurable success criteria
+- [ ] In scope and out of scope explicitly defined
+- [ ] AI justification explains why AI is necessary (not just what AI does)
+- [ ] Fallback scenario documented — product viable without AI
+- [ ] Governance structure defined with named individuals where possible
+- [ ] Budget estimates cover all categories with confidence levels
+- [ ] Key milestones aligned to gate model
+- [ ] Constraints documented; assumptions listed with risk if invalidated
+- [ ] Risks summary references the Initial Risk Register
+- [ ] All required signatories identified
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for formal handover to Gate A review. -->
+- [ ] Project Charter signed off by all required stakeholders
+- [ ] All referenced artefacts (Problem Statement, Vision Statement, Stakeholder Map, Feasibility Assessment, Initial Risk Register) are complete and linked
+- [ ] No open critical risks without mitigation plans
+- [ ] Budget approved or formally under review
+- [ ] Document version controlled and stored in the project artefact repository
+- [ ] Ready for inclusion in Gate A Pack

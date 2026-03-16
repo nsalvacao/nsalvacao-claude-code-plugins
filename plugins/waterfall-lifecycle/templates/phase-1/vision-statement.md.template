@@ -1,0 +1,66 @@
+# Vision Statement
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Subfase | 1.1 — Problem and Vision Definition |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Vision Statement
+<!-- A concise, inspiring statement of the desired future state. Should be understandable by all stakeholders, not just technical teams. Aim for 1-3 sentences. -->
+{{vision_statement}}
+
+## Strategic Alignment
+<!-- Explain how this vision aligns with organisational strategy, OKRs, or portfolio goals. Reference specific strategic documents or objectives where possible. -->
+{{strategic_alignment}}
+
+## Target Users
+<!-- Describe the primary users or beneficiaries of this solution. Include demographics, technical proficiency, and key needs. -->
+| User Segment | Description | Key Need |
+|--------------|-------------|----------|
+| {{segment_1}} | {{description_1}} | {{need_1}} |
+| {{segment_2}} | {{description_2}} | {{need_2}} |
+| {{segment_3}} | {{description_3}} | {{need_3}} |
+
+## Key Benefits
+<!-- List the principal benefits the solution will deliver. Distinguish between business benefits and user benefits. -->
+| Benefit | Type | Expected Value |
+|---------|------|----------------|
+| {{benefit_1}} | {{type_1}} | {{value_1}} |
+| {{benefit_2}} | {{type_2}} | {{value_2}} |
+| {{benefit_3}} | {{type_3}} | {{value_3}} |
+
+## AI/ML Component Rationale
+<!-- Explain why AI or ML is a necessary or valuable component of this vision. What makes this problem a good fit for AI versus a simpler solution? -->
+{{ai_ml_rationale}}
+
+## Fallback if AI Fails
+<!-- What happens if the AI/ML component cannot be delivered, underperforms, or is removed? Is the product still viable without AI? Describe the non-AI fallback scenario. -->
+{{fallback_scenario}}
+
+## Constraints
+<!-- Known constraints at this stage: budget, timeline, technology, regulatory, team capability, or market. -->
+| Constraint Type | Description | Impact |
+|----------------|-------------|--------|
+| {{constraint_type_1}} | {{constraint_desc_1}} | {{constraint_impact_1}} |
+| {{constraint_type_2}} | {{constraint_desc_2}} | {{constraint_impact_2}} |
+| {{constraint_type_3}} | {{constraint_desc_3}} | {{constraint_impact_3}} |
+
+## Completeness Checklist
+- [ ] Vision statement is clear, concise, and stakeholder-readable
+- [ ] Strategic alignment explicitly references organisational objectives
+- [ ] Target user segments identified with key needs
+- [ ] Key benefits quantified or qualified with expected value
+- [ ] AI/ML rationale explains why AI is justified (not just what)
+- [ ] Fallback scenario documented if AI component fails or is removed
+- [ ] Known constraints captured across relevant dimensions
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for formal handover to the next subfase or gate review. -->
+- [ ] Vision Statement reviewed and approved by sponsor
+- [ ] AI/ML rationale validated with technical lead
+- [ ] Fallback scenario accepted by product owner
+- [ ] Document version controlled and stored in the project artefact repository
+- [ ] Linked to Problem Statement

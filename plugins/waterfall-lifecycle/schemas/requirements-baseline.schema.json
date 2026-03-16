@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "waterfall-lifecycle/requirements-baseline",
+  "title": "Requirements Baseline",
+  "description": "Metadata for a frozen requirements baseline at Gate B in the waterfall lifecycle.",
+  "type": "object",
+  "required": ["schema", "version", "project_name", "phase", "baseline_version", "frozen_date", "requirements_count", "approver", "sign_off_date"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "waterfall-lifecycle/requirements-baseline",
+      "description": "Schema identifier — must be exactly 'waterfall-lifecycle/requirements-baseline'"
+    },
+    "version": {
+      "type": "string",
+      "description": "Document version (e.g. 1.0.0)"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "Name of the project this baseline belongs to"
+    },
+    "phase": {
+      "type": "integer",
+      "const": 2,
+      "description": "Lifecycle phase — must be 2 (Requirements and Baseline)"
+    },
+    "baseline_version": {
+      "type": "string",
+      "description": "Requirements baseline version label (e.g. BL-2026-001)"
+    },
+    "frozen_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date requirements baseline was frozen (ISO 8601)"
+    },
+    "change_control_ref": {
+      "type": "string",
+      "description": "Reference to the change control mechanism or document for post-baseline changes"
+    },
+    "requirements_count": {
+      "type": "object",
+      "required": ["total", "must", "should", "could"],
+      "properties": {
+        "total": { "type": "integer", "minimum": 1 },
+        "must": { "type": "integer", "minimum": 0 },
+        "should": { "type": "integer", "minimum": 0 },
+        "could": { "type": "integer", "minimum": 0 },
+        "wont": { "type": "integer", "minimum": 0 },
+        "functional": { "type": "integer", "minimum": 0 },
+        "ai": { "type": "integer", "minimum": 0 },
+        "nfr": { "type": "integer", "minimum": 0 }
+      },
+      "description": "Count of requirements by priority and category"
+    },
+    "rtm_coverage_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "RTM coverage at baseline freeze: (requirements with ≥1 AC) / total requirements × 100"
+    },
+    "approver": {
+      "type": "string",
+      "description": "Name of the Requirements Lead or Business Owner who approved the baseline"
+    },
+    "sign_off_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date baseline was formally signed off (ISO 8601)"
+    },
+    "gate_b_artefacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "status"],
+        "properties": {
+          "name": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["complete", "incomplete", "missing"]
+          }
+        }
+      },
+      "description": "List of Gate B mandatory artefacts with their completeness status"
+    }
+  }
+}

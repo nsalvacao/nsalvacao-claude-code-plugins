@@ -1,0 +1,78 @@
+# High-Level Design
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Author | {{author}} |
+| Status | {{status}} |
+| Version | {{version}} |
+
+## Purpose
+<!-- Brief statement of what this HLD covers -->
+
+{{hld_purpose}}
+
+## Architecture Overview
+
+{{architecture_overview}}
+
+## Component Inventory
+
+| Component | Responsibility | Technology | Owner | Notes |
+|-----------|---------------|------------|-------|-------|
+| {{component_1}} | {{responsibility_1}} | {{technology_1}} | {{owner_1}} | {{notes_1}} |
+| {{component_2}} | {{responsibility_2}} | {{technology_2}} | {{owner_2}} | {{notes_2}} |
+| {{component_3}} | {{responsibility_3}} | {{technology_3}} | {{owner_3}} | {{notes_3}} |
+
+## Integration Points
+
+| System | Protocol | Direction | Auth Method | SLA |
+|--------|----------|-----------|-------------|-----|
+| {{system_1}} | {{protocol_1}} | {{direction_1}} | {{auth_1}} | {{sla_1}} |
+| {{system_2}} | {{protocol_2}} | {{direction_2}} | {{auth_2}} | {{sla_2}} |
+
+## Technology Stack
+
+| Layer | Technology | Version | Justification |
+|-------|-----------|---------|---------------|
+| {{layer_1}} | {{tech_1}} | {{version_1}} | {{justification_1}} |
+| {{layer_2}} | {{tech_2}} | {{version_2}} | {{justification_2}} |
+| {{layer_3}} | {{tech_3}} | {{version_3}} | {{justification_3}} |
+
+## Key Architecture Decisions
+
+See `adr-set/` for all Architecture Decision Records.
+
+## Environment Strategy Summary
+
+<!-- Brief summary of environment strategy. Full details in environment-strategy.md -->
+
+{{environment_strategy_summary}}
+
+## Security Architecture Summary
+
+<!-- Brief summary of security architecture. Full details in security-architecture.md -->
+
+{{security_architecture_summary}}
+
+## Completeness Checklist
+- [ ] All components documented
+- [ ] All integration points listed
+- [ ] Technology stack justified
+- [ ] ADR set referenced
+- [ ] Security architecture cross-referenced
+
+## Handover Readiness
+
+| Artefact | Status | Notes |
+|----------|--------|-------|
+| HLD | {{hld_status}} | {{hld_notes}} |
+| LLD | {{lld_status}} | {{lld_notes}} |
+| Interface Specifications | {{interface_specs_status}} | {{interface_specs_notes}} |
+| ADR Set | {{adr_set_status}} | {{adr_set_notes}} |
+| Control Matrix | {{control_matrix_status}} | {{control_matrix_notes}} |
+| Test Design Package | {{test_design_package_status}} | {{test_design_package_notes}} |
+| AI Control Design Note | {{ai_control_design_note_status}} | {{ai_control_design_note_notes}} |
+| Design Approval Pack | {{design_approval_pack_status}} | {{design_approval_pack_notes}} |

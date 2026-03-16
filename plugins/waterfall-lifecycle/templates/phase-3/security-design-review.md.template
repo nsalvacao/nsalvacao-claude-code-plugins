@@ -1,0 +1,62 @@
+# Security Design Review
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Author | {{author}} |
+| Status | {{status}} |
+| Security Lead | {{security_lead}} |
+
+## Threat Model Summary
+
+{{threat_model_summary}}
+
+## Attack Surface
+
+| Entry Point | Description | Threat Actor | Controls In Place |
+|------------|-------------|-------------|------------------|
+| {{entry_point_1}} | {{entry_description_1}} | {{threat_actor_1}} | {{entry_controls_1}} |
+| {{entry_point_2}} | {{entry_description_2}} | {{threat_actor_2}} | {{entry_controls_2}} |
+| {{entry_point_3}} | {{entry_description_3}} | {{threat_actor_3}} | {{entry_controls_3}} |
+
+## Security Controls
+
+| Control ID | Control | Type | Implementation | Status | Test Reference |
+|-----------|---------|------|---------------|--------|---------------|
+| {{control_id_1}} | {{control_1}} | {{control_type_1}} | {{control_impl_1}} | {{control_status_1}} | {{test_ref_1}} |
+| {{control_id_2}} | {{control_2}} | {{control_type_2}} | {{control_impl_2}} | {{control_status_2}} | {{test_ref_2}} |
+| {{control_id_3}} | {{control_3}} | {{control_type_3}} | {{control_impl_3}} | {{control_status_3}} | {{test_ref_3}} |
+
+<!-- Type: preventive | detective | corrective -->
+<!-- Status: implemented | planned | not-applicable -->
+
+## Security Findings
+
+| Finding ID | Severity | Description | Risk | Mitigation | Owner | Status |
+|-----------|----------|-------------|------|-----------|-------|--------|
+| {{finding_id_1}} | {{severity_1}} | {{finding_description_1}} | {{finding_risk_1}} | {{mitigation_1}} | {{finding_owner_1}} | {{finding_status_1}} |
+| {{finding_id_2}} | {{severity_2}} | {{finding_description_2}} | {{finding_risk_2}} | {{mitigation_2}} | {{finding_owner_2}} | {{finding_status_2}} |
+
+<!-- Severity: critical | high | medium | low -->
+
+## Residual Security Risks
+
+| Risk | Residual Severity | Acceptance Decision | Approver |
+|------|------------------|--------------------|---------:|
+| {{residual_risk_1}} | {{residual_severity_1}} | {{acceptance_decision_1}} | {{approver_1}} |
+| {{residual_risk_2}} | {{residual_severity_2}} | {{acceptance_decision_2}} | {{approver_2}} |
+
+## Completeness Checklist
+- [ ] Threat model complete
+- [ ] All entry points documented
+- [ ] No unmitigated CRITICAL findings
+- [ ] All findings assigned to an owner
+
+## Handover Readiness
+<!-- Confirms security design review is ready as input for Gate C approval. -->
+- [ ] Security design review signed off by Security Lead
+- [ ] All CRITICAL findings resolved or formally accepted
+- [ ] Security controls aligned with control-matrix.md
+- [ ] Linked to design-approval-pack.md artefact checklist

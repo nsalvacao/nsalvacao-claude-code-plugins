@@ -1,0 +1,81 @@
+# Interface Specifications
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Author | {{author}} |
+| Interface | {{interface_name}} |
+| Version | {{version}} |
+
+## Interface Overview
+
+{{interface_overview}}
+
+## Endpoints
+
+| Method | Path | Description | Auth | Rate Limit |
+|--------|------|-------------|------|------------|
+| {{method_1}} | {{path_1}} | {{description_1}} | {{auth_1}} | {{rate_limit_1}} |
+| {{method_2}} | {{path_2}} | {{description_2}} | {{auth_2}} | {{rate_limit_2}} |
+| {{method_3}} | {{path_3}} | {{description_3}} | {{auth_3}} | {{rate_limit_3}} |
+
+## Request Schemas
+
+<!-- Document each request schema per endpoint -->
+
+{{request_schema_1}}
+
+{{request_schema_2}}
+
+{{request_schema_3}}
+
+## Response Schemas
+
+<!-- Document each response schema per endpoint -->
+
+{{response_schema_1}}
+
+{{response_schema_2}}
+
+{{response_schema_3}}
+
+## Error Codes
+
+| Code | HTTP Status | Message | Cause | Resolution |
+|------|------------|---------|-------|-----------|
+| {{error_code_1}} | {{http_status_1}} | {{message_1}} | {{cause_1}} | {{resolution_1}} |
+| {{error_code_2}} | {{http_status_2}} | {{message_2}} | {{cause_2}} | {{resolution_2}} |
+| {{error_code_3}} | {{http_status_3}} | {{message_3}} | {{cause_3}} | {{resolution_3}} |
+
+## Versioning Strategy
+
+{{versioning_strategy}}
+
+## Authentication & Authorisation
+
+{{auth_strategy}}
+
+## SLA
+
+| Metric | Target | Measurement Method |
+|--------|--------|--------------------|
+| Latency (p99) | {{latency_target}} | {{latency_measurement}} |
+| Throughput | {{throughput_target}} | {{throughput_measurement}} |
+| Availability | {{availability_target}} | {{availability_measurement}} |
+
+## Completeness Checklist
+- [ ] All endpoints documented with method and path
+- [ ] Request and response schemas defined for each endpoint
+- [ ] All error codes listed with cause and resolution
+- [ ] Versioning strategy defined
+- [ ] Authentication and authorisation strategy documented
+- [ ] SLA targets agreed with stakeholders
+
+## Handover Readiness
+<!-- Confirms interface specifications are ready as input for Phase 4 implementation and testing. -->
+- [ ] Interface specifications reviewed and approved by Architecture Lead
+- [ ] Schemas aligned with LLD data model
+- [ ] Error codes aligned with LLD error handling
+- [ ] Linked to design-approval-pack.md

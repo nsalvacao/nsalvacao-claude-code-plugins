@@ -103,4 +103,3 @@ Review blocked. Resolve all gaps before running /waterfall-baseline-check.
 
 - `agents/phase-2/requirements-articulation` — qualitative review of business requirements
 - `agents/phase-2/ai-requirements-engineer` — AI/ML requirements review and bias criteria validation
-- `agents/phase-2/nfr-architect` — NFR completeness and testability assessment

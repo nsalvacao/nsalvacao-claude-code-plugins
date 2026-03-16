@@ -114,4 +114,3 @@ Gate B Readiness: NOT READY
 ## Related Agents
 
 - `agents/phase-2/baseline-manager` — Gate B readiness assessment and artefact consistency review
-- `agents/transversal/gate-reviewer` — formal gate review invoked after baseline check passes

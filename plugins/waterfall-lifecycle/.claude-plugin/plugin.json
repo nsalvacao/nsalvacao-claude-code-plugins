@@ -1,6 +1,6 @@
 {
   "name": "waterfall-lifecycle",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Formal predictive waterfall lifecycle framework for AI/ML products — 8 phases, 8 formal gates (A–H), 33 agents, 15 skills, full artefact management. Designed for regulated environments, requirements traceability, and formal handovers.",
   "author": {
     "name": "Nuno Salvacao",

@@ -44,7 +44,7 @@
 ## Residual Security Risks
 
 | Risk | Residual Severity | Acceptance Decision | Approver |
-|------|------------------|--------------------|---------:|
+|------|------------------|--------------------|---------|
 | {{residual_risk_1}} | {{residual_severity_1}} | {{acceptance_decision_1}} | {{approver_1}} |
 | {{residual_risk_2}} | {{residual_severity_2}} | {{acceptance_decision_2}} | {{approver_2}} |
 

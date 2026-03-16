@@ -14,7 +14,7 @@
 ## Control Matrix
 
 | Risk ID | Risk Description | Control ID | Control Type | Control Description | Implementation | Owner | Test Reference | Status |
-|---------|-----------------|------------|-------------|--------------------|--------------:|-------|---------------|--------|
+|---------|-----------------|------------|-------------|--------------------|--------------|-------|---------------|--------|
 | {{risk_id_1}} | {{risk_description_1}} | {{control_id_1}} | {{control_type_1}} | {{control_description_1}} | {{implementation_1}} | {{owner_1}} | {{test_ref_1}} | {{control_status_1}} |
 | {{risk_id_2}} | {{risk_description_2}} | {{control_id_2}} | {{control_type_2}} | {{control_description_2}} | {{implementation_2}} | {{owner_2}} | {{test_ref_2}} | {{control_status_2}} |
 | {{risk_id_3}} | {{risk_description_3}} | {{control_id_3}} | {{control_type_3}} | {{control_description_3}} | {{implementation_3}} | {{owner_3}} | {{test_ref_3}} | {{control_status_3}} |

@@ -94,10 +94,7 @@ else
 fi
 
 # Check 4: Count REQ-IDs
-REQ_COUNT=$(grep -cE "REQ-[0-9]{4}-[0-9]{3}" "$RTM_FILE" 2>/dev/null || true)
-if [[ -z "$REQ_COUNT" ]]; then
-  REQ_COUNT=0
-fi
+REQ_COUNT=$(grep -cE "REQ-[0-9]{4}-[0-9]{3}" "$RTM_FILE" 2>/dev/null) || REQ_COUNT=0
 
 if [[ "$REQ_COUNT" -gt 0 ]]; then
   pass "REQ-ID entries found: $REQ_COUNT"
@@ -106,10 +103,7 @@ else
 fi
 
 # Check 5: Count AC-IDs
-AC_COUNT=$(grep -cE "AC-[0-9]{4}-[0-9]{3}" "$RTM_FILE" 2>/dev/null || true)
-if [[ -z "$AC_COUNT" ]]; then
-  AC_COUNT=0
-fi
+AC_COUNT=$(grep -cE "AC-[0-9]{4}-[0-9]{3}" "$RTM_FILE" 2>/dev/null) || AC_COUNT=0
 
 if [[ "$AC_COUNT" -gt 0 ]]; then
   pass "AC-ID entries found: $AC_COUNT"
@@ -151,6 +145,7 @@ if [[ "$STRICT" == "true" ]]; then
   check_artefact "acceptance-criteria-catalog.md"
   check_artefact "requirements-traceability-matrix.md"
   check_artefact "glossary.md"
+  check_artefact "clarification-log.md"
   check_artefact "requirements-baseline-approval-pack.md"
 
   # assumption-register: check for any matching file

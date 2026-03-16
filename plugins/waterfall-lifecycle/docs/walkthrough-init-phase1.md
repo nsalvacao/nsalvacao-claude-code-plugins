@@ -1,4 +1,4 @@
-# Walkthrough — Initialising the Framework and Completing Phase 1
+# Getting Started: Init and Phase 1 Walkthrough
 
 This walkthrough shows the full sequence from a blank project to a Gate A-ready Phase 1.
 
@@ -7,18 +7,16 @@ This walkthrough shows the full sequence from a blank project to a Gate A-ready 
 ## Step 1: Initialise the lifecycle
 
 ```
-/waterfall-lifecycle-init
+/waterfall-lifecycle-init my-ai-project
 ```
 
-The `lifecycle-orchestrator` agent runs and creates the directory structure under `lifecycle/`:
+The `lifecycle-orchestrator` agent runs and creates the directory structure under `.waterfall-lifecycle/`:
 
 ```
-lifecycle/
-  phase-contract.yaml          # populated with Phase 1 defaults
-  risk-register.md             # empty register
-  assumption-register.md       # empty register
-  phase-1/                     # Phase 1 working directory
-  references/                  # symlinked to plugin references
+.waterfall-lifecycle/
+  lifecycle-state.json         # Phase 1 active, gates A-H pending
+  artefacts/phase-1/           # Phase 1 working directory
+  gate-reviews/                # Gate review reports
 ```
 
 You are prompted to confirm the project name and product type.
@@ -32,7 +30,7 @@ You are prompted to confirm the project name and product type.
 ```
 
 Output shows Phase 1 as `in_progress`, all other phases as `not_started`.
-Gate A status: `open` (no exit criteria met yet).
+Gates A–H status: `pending`.
 
 ---
 
@@ -42,58 +40,43 @@ Gate A status: `open` (no exit criteria met yet).
 /waterfall-phase-start 1
 ```
 
-Invokes the `problem-value-context` agent (subfase 1.1). The agent guides you through:
-
-- Defining the problem statement
-- Articulating the value proposition
-- Identifying key stakeholders
-- Scoping the AI component and justification
-
-Output: `lifecycle/phase-1/problem-statement.md` is created.
+Loads `docs/phase-essentials/phase-1.md` and routes to the `problem-value-context` agent (subfase 1.1).
 
 ---
 
-## Step 4: Work through subfases 1.2–1.4
+## Step 4: Work through subfases 1.1–1.4
 
-**Subfase 1.2 — Feasibility:**
-The `feasibility-analyst` agent runs automatically after 1.1.
-Creates `lifecycle/phase-1/feasibility-assessment.md` and
-`lifecycle/phase-1/ai-component-justification.md`.
+**Subfase 1.1 — Problem and Value Context:**
+Work with the `problem-value-context` agent to create `problem-statement`, `vision-statement`, `stakeholder-map`.
 
-**Subfase 1.3 — Risk Screening:**
-The `risk-assumption-tracker` agent (transversal) is invoked.
-Populates `lifecycle/risk-register.md` with initial entries.
-Use the `risk-management` skill to score each risk using the 5×5 matrix.
+**Subfase 1.2 — Feasibility Assessment:**
+Invoke the `feasibility-assessment` agent → create `feasibility-assessment`, `data-feasibility-note`, `ai-feasibility-note`.
+
+**Subfase 1.3 — Risk and Compliance Screening:**
+Invoke the `risk-compliance-screening` agent → create `initial-risk-register`, `assumption-register`, `clarification-log`.
 
 **Subfase 1.4 — Delivery Framing:**
-The `delivery-framing` agent runs.
-Creates `lifecycle/phase-1/delivery-framing.md` with timeline, budget, and governance.
-Updates `phase-contract.yaml` with `status: ready_for_gate`.
+Invoke the `delivery-framing` agent → create `project-charter`, `initiation-gate-pack`.
 
 ---
 
-## Step 5: Run Gate A review
+## Step 5: Confirm Gate A readiness
+
+```
+/waterfall-lifecycle-status
+```
+
+Confirms all Gate A artefacts present; phase contract shows `status: ready_for_gate`.
+
+---
+
+## Step 6: Run Gate A review
 
 ```
 /waterfall-gate-review A
 ```
 
-Invokes the `gate-reviewer` agent. It:
-
-1. Loads `phase-contract.yaml` and verifies all exit criteria are `met`
-2. Checks all `evidence_required` files exist
-3. Runs `phase-contract-enforcement` skill
-4. Produces `lifecycle/gate-reviews/gate-a-report.md`
-
-If any criterion is not met, the agent lists the gaps and blocks gate closure.
-
----
-
-## Step 6: Gate passed — Phase 1 complete
-
-When all criteria pass, `gate-a-report.md` is generated with status `PASSED`.
-`phase-contract.yaml` is updated to `status: closed`.
-`/waterfall-lifecycle-status` now shows Phase 1 `complete`, Phase 2 `ready_to_start`.
+The `gate-reviewer` agent checks all Gate A criteria. On pass: Gate A status → `passed`, Phase 1 → `closed`, Phase 2 → `ready_to_start`.
 
 Next: `/waterfall-phase-start 2` to begin Requirements and Baseline.
 

@@ -1,4 +1,4 @@
-# Walkthrough — Creating and Managing Artefacts
+# Artefact Flow: Creating, Reviewing, and Closing Artefacts
 
 This walkthrough shows how to find, generate, fill, and submit artefacts as gate evidence.
 
@@ -6,20 +6,20 @@ This walkthrough shows how to find, generate, fill, and submit artefacts as gate
 
 ## Step 1: Find the right template
 
-Open `references/artefact-catalog.md`. This catalog lists every artefact in the lifecycle,
-the phase it belongs to, the template file, and the gate it is evidence for.
+Check `references/artefact-catalog.md` for the artefact `artefact_id`.
+The catalog lists every artefact, its phase, template file, and gate it evidences.
 
 Example entry:
 ```
 | problem-statement | Phase 1 | templates/phase-1/problem-statement.md | Gate A |
 ```
 
-If unsure which artefact to create, cross-reference with `docs/phase-essentials/phase-N.md`
+If unsure which artefact to create, cross-reference `docs/phase-essentials/phase-N.md`
 for the current phase — the **Evidence Required** section lists all mandatory artefacts.
 
 ---
 
-## Step 2: Generate the artefact from template
+## Step 2: Generate from template
 
 ```
 /waterfall-artefact-gen problem-statement 1
@@ -27,49 +27,51 @@ for the current phase — the **Evidence Required** section lists all mandatory 
 
 The `artefact-generator` agent:
 1. Looks up `problem-statement` in the artefact catalog
-2. Copies `templates/phase-1/problem-statement.md` to `lifecycle/phase-1/problem-statement.md`
-3. Substitutes project metadata (name, date, owner) from `phase-contract.yaml`
+2. Copies the template to `.waterfall-lifecycle/artefacts/phase-1/problem-statement.md`
+3. Substitutes project metadata from the phase contract
 4. Returns the path and opens the file for editing
 
 ---
 
-## Step 3: Fill the template using artefact-authoring skill
+## Step 3: Fill using artefact-authoring skill
 
 The `artefact-authoring` skill is invoked by the agent to guide field completion.
-It enforces:
-
-- No empty mandatory fields (marked `REQUIRED` in template)
-- Consistent terminology with the phase contract
-- AI component fields populated where the artefact type requires them
-
-Work through each section. Optional fields marked `OPTIONAL` can be left as `N/A`.
+No mandatory field (`REQUIRED`) may be left empty. Optional fields can be `N/A`.
 
 ---
 
-## Step 4: Submit as gate evidence
+## Step 4: Self-review with completeness checklist
 
-When the artefact is complete, update `phase-contract.yaml`:
+Each template has a completeness checklist at the bottom. Work through it before
+marking the artefact as done.
+
+---
+
+## Step 5: Add to evidence index
+
+Update the phase contract `exit_criteria` entry:
 
 ```yaml
-exit_criteria:
-  - criterion: "Problem statement documented and sponsor-reviewed"
-    status: met
-    evidence: "problem-statement.md"
+- criterion: "Problem statement reviewed and approved by sponsor"
+  status: met
+  evidence: "problem-statement.md"
 ```
-
-The `/waterfall-gate-review` command validates that the evidence file exists
-and is non-empty before accepting the exit criterion as met.
 
 ---
 
-## Step 5: Check artefact closure obligation at phase end
+## Step 6: Verify evidence threshold at gate
 
-Before calling `/waterfall-gate-review`, run `/waterfall-lifecycle-status`.
-The status command lists any artefacts in `evidence_required` that are missing or empty.
+At gate review, `/waterfall-gate-review A` checks that all `evidence_required` files exist
+and are non-empty. The `phase-contract-enforcement` skill will fail on missing or
+incomplete artefacts.
 
-All required artefacts must exist before the gate review proceeds.
-Partial artefacts (files with `REQUIRED` fields still unfilled) will fail the
-`phase-contract-enforcement` skill check and block gate closure.
+---
+
+## Step 7: Fulfil closure obligation at phase end
+
+Before gate review, run `/waterfall-lifecycle-status` to confirm no artefacts are
+missing. At phase closure, the closure obligation (archive, baseline, or hand_over)
+is recorded in the gate review report.
 
 ---
 

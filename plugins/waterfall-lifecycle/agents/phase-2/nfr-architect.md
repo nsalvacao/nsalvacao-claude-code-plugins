@@ -140,8 +140,8 @@ Solutions Architect — accountable for NFR technical correctness, measurability
 - `glossary.md` — produced by baseline-manager (subfase 2.4)
 - `requirements-baseline.md` — produced by baseline-manager (subfase 2.4)
 - `requirements-baseline-approval-pack.md` — produced by baseline-manager (subfase 2.4)
-- `assumption-register` (updated entries)
-- `clarification-log` (updated entries)
+- `assumption-register.md` (updated entries)
+- `clarification-log.md` (updated entries)
 
 ### Sign-off Authority
 

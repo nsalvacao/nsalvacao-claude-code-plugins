@@ -147,8 +147,8 @@ Requirements Manager — accountable for RTM completeness, baseline integrity, a
 - `glossary.md` — produced by this agent
 - `requirements-baseline.md` — produced by this agent
 - `requirements-baseline-approval-pack.md` — produced by this agent
-- `assumption-register` (updated Phase 2 entries) — maintained throughout Phase 2
-- `clarification-log` (updated Phase 2 entries) — maintained throughout Phase 2
+- `assumption-register.md` (updated Phase 2 entries) — maintained throughout Phase 2
+- `clarification-log.md` (updated Phase 2 entries) — maintained throughout Phase 2
 
 ### Sign-off Authority
 

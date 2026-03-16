@@ -138,8 +138,8 @@ Requirements Lead — accountable for requirements set completeness, SMART compl
 - `glossary.md` — produced by baseline-manager (subfase 2.4)
 - `requirements-baseline.md` — produced by baseline-manager (subfase 2.4)
 - `requirements-baseline-approval-pack.md` — produced by baseline-manager (subfase 2.4)
-- `assumption-register` (updated entries) — maintained throughout Phase 2
-- `clarification-log` (updated entries) — maintained throughout Phase 2
+- `assumption-register.md` (updated entries) — maintained throughout Phase 2
+- `clarification-log.md` (updated entries) — maintained throughout Phase 2
 
 ### Sign-off Authority
 

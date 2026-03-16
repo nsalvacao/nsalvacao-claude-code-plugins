@@ -1,0 +1,76 @@
+<!-- assumption-register-entry.md.template | waterfall-lifecycle -->
+<!-- guidance: One entry per assumption. Assumptions that are invalidated must trigger an impact review. -->
+
+| Field | Value |
+|-------|-------|
+| Phase | {{origin_phase}} |
+| Date | {{date}} |
+| Owner | {{owner}} |
+
+---
+
+## Assumption Details
+
+| Field | Value |
+|-------|-------|
+| Assumption ID | {{id}} |
+| Type | {{type}} |
+| Owner | {{owner}} |
+| Origin Phase | {{origin_phase}} |
+| Validation Deadline | {{validation_deadline}} |
+| Evidence Available | {{evidence_available}} |
+| Status | {{status}} |
+
+<!-- guidance: type options: technical / business / data / ai / legal / external -->
+<!-- guidance: status options: open / validated / invalidated / accepted -->
+<!-- guidance: evidence_available: yes / no / partial -->
+
+**Description**
+
+{{description}}
+
+<!-- guidance: State the assumption in plain language. Be specific — avoid vague generalities. -->
+<!-- guidance: Example: "The source database schema will not change after the data mapping workshop." -->
+
+---
+
+## Validation Evidence
+
+{{validation_evidence}}
+
+<!-- guidance: Document any artefacts, emails, meeting notes, or test results that confirm or deny this assumption. -->
+<!-- guidance: If evidence_available = no, document the plan to obtain evidence before the validation deadline. -->
+
+---
+
+## Impact Analysis
+
+**Impact if Invalid**
+
+{{impact_if_invalid}}
+
+<!-- guidance: Describe what would happen to the project (scope, schedule, cost, quality) if this assumption -->
+<!-- guidance: proves false. Quantify where possible (e.g., "adds 2 weeks to Phase 3 timeline"). -->
+
+**Linked Risks**
+
+<!-- guidance: Reference any risk register entries that are contingent on this assumption being true. -->
+
+| Risk ID | Title | Notes |
+|---------|-------|-------|
+| | | |
+
+---
+
+## Completeness Checklist
+
+- [ ] Assumption ID assigned and unique within the register
+- [ ] Type correctly selected from allowed values
+- [ ] Description is specific and falsifiable
+- [ ] Origin phase recorded
+- [ ] Validation deadline set and realistic
+- [ ] Evidence availability documented
+- [ ] Impact if invalid described with sufficient detail
+- [ ] Linked risks identified or explicitly noted as none
+- [ ] Status reflects current validation state
+- [ ] Owner has acknowledged responsibility for validation

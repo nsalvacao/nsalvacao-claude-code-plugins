@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "waterfall-lifecycle/lifecycle-state",
+  "title": "Waterfall Lifecycle State",
+  "description": "Machine-readable state of the entire waterfall lifecycle, tracking phase statuses and gate outcomes.",
+  "type": "object",
+  "required": ["schema", "version", "project_name", "product_type", "team", "sponsor", "created", "updated", "phases", "gates"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "waterfall-lifecycle/lifecycle-state",
+      "description": "Schema identifier — must be waterfall-lifecycle/lifecycle-state"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semver version of this lifecycle state document (e.g. 0.1.0)"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "Human-readable project name"
+    },
+    "product_type": {
+      "type": "string",
+      "enum": ["saas", "web", "desktop", "cli", "ai-ml", "data-product", "embedded", "other"],
+      "description": "Product type used for tailoring and gate configuration"
+    },
+    "team": {
+      "type": "string",
+      "description": "Team or squad responsible for this project"
+    },
+    "sponsor": {
+      "type": "string",
+      "description": "Project sponsor or executive owner"
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this lifecycle state was first created (ISO 8601)"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date this lifecycle state was last updated (ISO 8601)"
+    },
+    "phases": {
+      "type": "object",
+      "description": "Status of each lifecycle phase, keyed by phase number as string (\"1\"–\"8\")",
+      "properties": {
+        "1": { "$ref": "#/$defs/phaseState" },
+        "2": { "$ref": "#/$defs/phaseState" },
+        "3": { "$ref": "#/$defs/phaseState" },
+        "4": { "$ref": "#/$defs/phaseState" },
+        "5": { "$ref": "#/$defs/phaseState" },
+        "6": { "$ref": "#/$defs/phaseState" },
+        "7": { "$ref": "#/$defs/phaseState" },
+        "8": { "$ref": "#/$defs/phaseState" }
+      },
+      "additionalProperties": false
+    },
+    "gates": {
+      "type": "object",
+      "description": "Status of each quality gate, keyed by gate letter (\"A\"–\"H\")",
+      "properties": {
+        "A": { "$ref": "#/$defs/gateState" },
+        "B": { "$ref": "#/$defs/gateState" },
+        "C": { "$ref": "#/$defs/gateState" },
+        "D": { "$ref": "#/$defs/gateState" },
+        "E": { "$ref": "#/$defs/gateState" },
+        "F": { "$ref": "#/$defs/gateState" },
+        "G": { "$ref": "#/$defs/gateState" },
+        "H": { "$ref": "#/$defs/gateState" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "phaseState": {
+      "type": "object",
+      "required": ["status", "name"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["not_started", "in_progress", "blocked", "ready_for_gate", "approved", "rejected", "waived", "closed"],
+          "description": "Current status of this phase"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable phase name (e.g. Requirements, Design)"
+        },
+        "active_subfase": {
+          "type": "string",
+          "description": "Optional identifier of the subfase currently in progress within this phase"
+        }
+      }
+    },
+    "gateState": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pending", "in_progress", "passed", "failed", "waived"],
+          "description": "Current status of this gate"
+        }
+      }
+    }
+  }
+}

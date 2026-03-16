@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "waterfall-lifecycle/phase-contract",
+  "title": "Waterfall Phase Contract",
+  "description": "Operational contract for a waterfall lifecycle phase, capturing entry/exit criteria, evidence requirements, assumptions, clarifications, and sign-off authority.",
+  "type": "object",
+  "required": ["phase_id", "phase_name", "status", "owner", "start_date", "target_end_date", "entry_criteria", "exit_criteria", "evidence_required", "sign_off_authority"],
+  "properties": {
+    "phase_id": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8,
+      "description": "Lifecycle phase number (1-8)"
+    },
+    "phase_name": {
+      "type": "string",
+      "description": "Human-readable name for this phase (e.g. Requirements, Design)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["not_started", "in_progress", "blocked", "ready_for_gate", "approved", "rejected", "waived", "closed"],
+      "description": "Current status of the phase contract"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Person or role responsible for fulfilling this phase contract"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Actual or planned start date for this phase (ISO 8601)"
+    },
+    "target_end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Target completion date for this phase (ISO 8601)"
+    },
+    "entry_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this criterion (e.g. EC-1-001)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the entry criterion"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["YES", "NO", "PARTIAL", "not_assessed"],
+            "description": "Fulfilment status of this entry criterion"
+          }
+        }
+      },
+      "description": "Conditions that must be true before this phase can begin"
+    },
+    "exit_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this criterion (e.g. XC-1-001)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the exit criterion"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["not_started", "in_progress", "met", "waived"],
+            "description": "Fulfilment status of this exit criterion"
+          },
+          "evidence_ref": {
+            "type": "string",
+            "description": "Reference to supporting evidence artefact (e.g. artefact ID or document path)"
+          }
+        }
+      },
+      "description": "Conditions that must be satisfied before this phase is considered complete"
+    },
+    "evidence_required": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of artefact IDs or document references required as evidence for gate passage"
+    },
+    "sign_off_authority": {
+      "type": "string",
+      "description": "Role or person with authority to formally sign off this phase contract"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "owner", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "owner": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["open", "validated", "invalidated", "accepted"]
+          },
+          "due_date": { "type": "string", "format": "date" }
+        }
+      },
+      "description": "Assumptions that underpin this phase contract"
+    },
+    "clarifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "question", "owner", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "question": { "type": "string" },
+          "owner": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["open", "resolved", "escalated", "waived"]
+          },
+          "resolution": { "type": "string" },
+          "resolved_at": { "type": "string", "format": "date" }
+        }
+      },
+      "description": "Open questions or decisions that must be resolved during this phase"
+    },
+    "mandatory_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Questions that must be explicitly answered before gate passage"
+    }
+  }
+}

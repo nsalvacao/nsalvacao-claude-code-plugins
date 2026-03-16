@@ -7,7 +7,7 @@ description: Prepare inter-phase handover package by validating Gate C artefacts
 
 ## Overview
 
-Prepares the inter-phase handover package for a waterfall phase transition. For the default Phase 3 to Phase 4 transition, validates all 8 mandatory Gate C artefacts, scans for unfilled placeholder tokens, reports open items from the design approval pack, and invokes the `control-design` agent for a final readiness assessment.
+Prepares the inter-phase handover package for a waterfall phase transition. For the default Phase 3 to Phase 4 transition, validates all 12 mandatory Gate C artefacts, scans for unfilled placeholder tokens, reports open items from the design approval pack, and invokes the `control-design` agent for a final readiness assessment.
 
 This command is the pre-flight check before submitting to `/waterfall-gate-review`. A `READY` verdict means all artefacts are present, all placeholders are resolved, and Phase 4 can receive the handover package.
 
@@ -31,15 +31,19 @@ The following steps describe the behaviour for `--gate C` (Phase 3 → Phase 4).
 
 1. Reads `.waterfall-lifecycle/lifecycle-state.json` — verifies that Phase 3 has status `in_progress`. If the phase is not active, the command blocks with a clear error and suggests running `/waterfall-lifecycle-status` to diagnose the state.
 
-2. Checks all 8 mandatory Gate C artefacts under `.waterfall-lifecycle/artefacts/phase-3/`:
+2. Checks all 12 mandatory Gate C artefacts under `.waterfall-lifecycle/artefacts/phase-3/`:
    - `hld.md`
    - `lld.md`
    - `interface-specifications.md`
    - `adr-set/` (directory containing at least 1 ADR file)
    - `control-matrix.md`
    - `test-design-package.md`
+   - `operational-design-package.md`
+   - `security-design-review.md`
    - `ai-control-design-note.md`
    - `design-approval-pack.md`
+   - `assumption-register.md` (updated with Phase 3 assumptions)
+   - `clarification-log.md` (updated, all blocking design items resolved or tracked)
 
 3. Scans each present artefact for unfilled `{{variable}}` placeholder tokens — reports total count across all artefacts. Any placeholder count > 0 is a blocker.
 
@@ -62,7 +66,7 @@ The following steps describe the behaviour for `--gate C` (Phase 3 → Phase 4).
 ```
 
 ```
-# All 8 artefacts present, 0 placeholders, gate ready
+# All 12 artefacts present, 0 placeholders, gate ready
 Handover Prep — Gate C (Phase 3 → Phase 4)
   Reading lifecycle-state.json...
   Phase 3 status: in_progress [OK]
@@ -74,8 +78,12 @@ Handover Prep — Gate C (Phase 3 → Phase 4)
     PASS  adr-set/ (3 ADR files found)
     PASS  control-matrix.md
     PASS  test-design-package.md
+    PASS  operational-design-package.md
+    PASS  security-design-review.md
     PASS  ai-control-design-note.md
     PASS  design-approval-pack.md
+    PASS  assumption-register.md
+    PASS  clarification-log.md
 
   Placeholder scan: 0 unfilled tokens
   Open items (design-approval-pack.md): 0 CRITICAL, 2 LOW
@@ -104,8 +112,12 @@ Handover Prep — Gate C (Phase 3 → Phase 4)
     PASS  adr-set/ (1 ADR file found)
     FAIL  control-matrix.md [missing]
     PASS  test-design-package.md
+    PASS  operational-design-package.md
+    PASS  security-design-review.md
     PASS  ai-control-design-note.md
     PASS  design-approval-pack.md
+    PASS  assumption-register.md
+    PASS  clarification-log.md
 
   Placeholder scan: 7 unfilled tokens found
     - hld.md: 3 tokens ({{owner}}, {{version}}, {{review_date}})

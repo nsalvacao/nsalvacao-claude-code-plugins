@@ -32,8 +32,12 @@ For Gate C (Phase 3 → Phase 4), the mandatory set is:
 - `adr-set/` (directory with at least 1 ADR file)
 - `control-matrix.md`
 - `test-design-package.md`
+- `operational-design-package.md`
+- `security-design-review.md`
 - `ai-control-design-note.md`
 - `design-approval-pack.md`
+- `assumption-register.md` (updated with Phase 3 assumptions)
+- `clarification-log.md` (updated, all blocking design items resolved or tracked)
 
 For Gate B (Phase 2 → Phase 3), refer to `references/handover-checklist.md` Section 2.
 
@@ -49,7 +53,7 @@ An artefact with placeholders is `incomplete`, not `complete`. Gate cannot proce
 
 ### Step 3: Transfer Open Register Items
 
-Review all 5 register types from the current phase:
+Review the following 5 register types from the current phase:
 - Risk register
 - Assumption register
 - Clarification log
@@ -108,7 +112,7 @@ File the handover summary in `.waterfall-lifecycle/gate-reports/` before Phase N
 
 - All mandatory artefacts for the gate are present and have status `complete`
 - Zero unfilled `{{variable}}` placeholder tokens in any artefact
-- All 5 register types have been reviewed and open items transferred to the next phase
+- The 5 transfer register types (risk, assumption, clarification, dependency, evidence index) have been reviewed and open items transferred to the next phase
 - Exit criteria checklist is 100% pass before gate submission is requested
 - Sign-off authority has reviewed and signed the gate approval pack (not just been listed)
 - Handover summary is produced and filed before Phase N+1 begins

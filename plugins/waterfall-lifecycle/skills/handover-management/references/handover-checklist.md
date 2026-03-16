@@ -16,12 +16,16 @@ Per-gate artefact checklists, phase transition readiness criteria, and open item
 | `adr-set/` | Phase 3 — Architecture sub-phase | Directory exists; at least 1 ADR file present; each ADR has status `accepted` or `superseded` |
 | `control-matrix.md` | Phase 3 — Compliance sub-phase | All controls mapped to requirements; control owners named; no open controls |
 | `test-design-package.md` | Phase 3 — QA sub-phase | Test strategy defined; test cases linked to requirements; coverage targets stated |
+| `operational-design-package.md` | Phase 3 — Design sub-phase | Runbook structure, alert design, observability approach, and support model defined |
+| `security-design-review.md` | Phase 3 — Security sub-phase | Security design review complete; no critical open findings |
 | `ai-control-design-note.md` | Phase 3 — AI Governance sub-phase | AI component risks assessed; control measures documented; reviewed by AI governance lead |
 | `design-approval-pack.md` | Phase 3 — Governance sub-phase | All sections complete; sign-off table populated; no CRITICAL open items without carry-forward approval |
+| `assumption-register.md` | Phase 3 — All sub-phases | Phase 3 assumptions captured with owners and validation deadlines |
+| `clarification-log.md` | Phase 3 — All sub-phases | All blocking design items resolved or tracked with owner and deadline |
 
 ### Exit Criteria (Gate C)
 
-1. All 8 mandatory artefacts are present and have status `complete`.
+1. All 12 mandatory artefacts are present and have status `complete`.
 2. Zero unfilled `{{variable}}` placeholder tokens across all artefacts.
 3. High-Level Design (HLD) and Low-Level Design (LLD) are internally consistent — component names, interfaces, and data flows align.
 4. All Architecture Decision Records are in status `accepted` or `superseded` — no ADRs in `proposed` status.
@@ -42,29 +46,29 @@ Architecture Lead + Solution Architect.
 
 | Artefact | Produced By | Completeness Criteria |
 |----------|-------------|----------------------|
-| `requirements-baseline.md` | Phase 2 — Requirements sub-phase | All requirements ID'd, categorised, and baselined; no `{{variable}}` tokens |
-| `use-case-catalogue.md` | Phase 2 — Requirements sub-phase | All primary use cases documented with actors, pre/postconditions, main flow |
-| `acceptance-criteria-catalog.md` | Phase 2 — Requirements sub-phase | Acceptance criteria linked to every functional requirement; testable statements |
-| `stakeholder-register.md` | Phase 2 — Stakeholder sub-phase | All stakeholders identified; roles, influence, and engagement plan defined |
-| `data-dictionary.md` | Phase 2 — Data sub-phase | All key entities and attributes defined; data types and constraints specified |
-| `nfr-specification.md` | Phase 2 — Requirements sub-phase | Non-functional requirements defined with measurable thresholds |
-| `traceability-matrix.md` | Phase 2 — Assurance sub-phase | Business objectives traced to functional requirements; no orphaned requirements |
-| `risk-register-phase-2.md` | Phase 2 — Risk sub-phase | All identified risks logged with likelihood, impact, and owner; CRITICAL risks escalated |
-| `assumption-register-phase-2.md` | Phase 2 — Risk sub-phase | All assumptions logged with validation deadlines; no expired unvalidated assumptions |
-| `requirements-baseline-sign-off.md` | Phase 2 — Governance sub-phase | Sign-off table populated; Requirements Lead and Business Owner signatures present |
+| `requirements-baseline.md` | Phase 2 — Requirements sub-phase | All requirements ID'd, categorised, and baselined; no `{{variable}}` tokens; version-controlled and under change control |
+| `business-requirements-set.md` | Phase 2 — Requirements sub-phase | Covers full agreed scope; functional requirements complete |
+| `ai-requirements-specification.md` | Phase 2 — Requirements sub-phase | All AI/ML requirements specified with testable acceptance thresholds |
+| `nfr-specification.md` | Phase 2 — Requirements sub-phase | Non-functional requirements defined with measurable thresholds for security, availability, performance, observability |
+| `acceptance-criteria-catalog.md` | Phase 2 — Requirements sub-phase | Acceptance criteria linked to every critical functional requirement; testable statements |
+| `requirements-traceability-matrix.md` | Phase 2 — Assurance sub-phase | All critical requirements traced to acceptance criteria; no orphaned requirements |
+| `glossary.md` | Phase 2 — Requirements sub-phase | Domain and AI-specific terms defined; no ambiguous terminology in requirements |
+| `assumption-register.md` | Phase 2 — All sub-phases | New Phase 2 assumptions captured with owners and validation deadlines |
+| `clarification-log.md` | Phase 2 — All sub-phases | All blocking items resolved or escalated; no CRITICAL clarifications outstanding |
+| `requirements-baseline-approval-pack.md` | Phase 2 — Governance sub-phase | Compiled gate submission; sign-off table populated; Requirements Lead and Business Owner signatures present |
 
 ### Exit Criteria (Gate B)
 
 1. All 10 mandatory artefacts are present and have status `complete`.
 2. Zero unfilled `{{variable}}` placeholder tokens across all artefacts.
-3. Requirements baseline is internally consistent — no conflicting requirements without documented resolution.
-4. Traceability matrix has no orphaned requirements (requirements not traceable to a business objective).
-5. All CRITICAL risks have a named owner and a mitigation plan.
-6. No expired unvalidated assumptions in the assumption register.
-7. Acceptance criteria exist for every functional requirement.
-8. NFR thresholds are measurable — no vague statements such as "the system shall be fast".
-9. Stakeholder register includes all stakeholders who must sign off at Gate B.
-10. Requirements baseline sign-off completed by Requirements Lead and Business Owner.
+3. Requirements baseline is version-controlled and under formal change control.
+4. RTM has no orphaned requirements — all requirements trace to at least one acceptance criterion.
+5. All AI acceptance thresholds are testable — no vague statements such as "the AI should perform well".
+6. All critical NFRs (security, availability, performance, observability) are defined with numeric targets.
+7. No expired unvalidated assumptions in the assumption register.
+8. All CRITICAL clarifications in the clarification log are resolved — none outstanding.
+9. Glossary covers all domain and AI-specific terms used in the requirements set.
+10. Requirements baseline approval pack signed by Requirements Lead and Business Owner.
 
 ### Sign-off Authority
 
@@ -78,7 +82,7 @@ When a phase ends with open items in any register, those items transfer to the n
 
 ### Transfer Steps
 
-1. **Identify open items**: Review all 5 register types (risk, assumption, clarification, dependency, evidence index) for any item with status `open` or equivalent unresolved status.
+1. **Identify open items**: Review the following 5 register types (risk, assumption, clarification, dependency, evidence index) for any item with status `open` or equivalent unresolved status.
 
 2. **Assess each item**: Determine whether the item is a blocker for gate passage:
    - CRITICAL severity items that cannot carry forward block the gate unless explicitly waived by the sign-off authority.

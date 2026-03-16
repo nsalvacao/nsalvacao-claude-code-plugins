@@ -1,0 +1,76 @@
+# Non-Functional Requirements Specification
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | 2.3 — Non-Functional Requirements |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+| Compliance Frameworks | {{compliance_frameworks}} |
+
+## Performance NFRs
+<!-- All performance targets must be numeric and tied to specific load conditions. Avoid vague language such as "fast" or "responsive". -->
+| REQ-ID | Title | Target | Load Conditions | Test Approach | Status |
+|--------|-------|--------|-----------------|---------------|--------|
+| {{perf_req_id_1}} | Response Time | {{perf_target_1}} | {{perf_load_1}} | {{perf_test_1}} | {{perf_status_1}} |
+| {{perf_req_id_2}} | Throughput | {{perf_target_2}} | {{perf_load_2}} | {{perf_test_2}} | {{perf_status_2}} |
+
+<!-- Example targets: p95 ≤ 200 ms at 500 concurrent users; ≥ 1000 transactions/second under sustained load -->
+
+## Security NFRs
+<!-- Security NFRs must reference specific controls or compliance requirements. Avoid generic entries like "the system shall be secure". -->
+| REQ-ID | Title | Security Control | Compliance Ref | Test Approach | Status |
+|--------|-------|-----------------|----------------|---------------|--------|
+| {{sec_req_id_1}} | Authentication | {{sec_control_1}} | {{sec_compliance_1}} | {{sec_test_1}} | {{sec_status_1}} |
+| {{sec_req_id_2}} | Data Encryption | {{sec_control_2}} | {{sec_compliance_2}} | {{sec_test_2}} | {{sec_status_2}} |
+
+<!-- Example controls: MFA enforced for all admin access; AES-256 encryption at rest and TLS 1.3 in transit -->
+
+## Scalability NFRs
+<!-- Define horizontal and/or vertical scaling targets relative to current or projected baseline. -->
+| REQ-ID | Title | Scale Target | Current Baseline | Test Approach | Status |
+|--------|-------|-------------|-----------------|---------------|--------|
+| {{scale_req_id_1}} | {{scale_title_1}} | {{scale_target_1}} | {{scale_baseline_1}} | {{scale_test_1}} | {{scale_status_1}} |
+
+## Availability and Reliability NFRs
+<!-- RPO (Recovery Point Objective) = maximum data loss tolerance. RTO (Recovery Time Objective) = maximum tolerable downtime. -->
+| REQ-ID | Title | Uptime Target | RPO | RTO | Test Approach | Status |
+|--------|-------|--------------|-----|-----|---------------|--------|
+| {{avail_req_id_1}} | {{avail_title_1}} | {{avail_uptime_1}} | {{avail_rpo_1}} | {{avail_rto_1}} | {{avail_test_1}} | {{avail_status_1}} |
+
+## Compliance NFRs
+<!-- Compliance requirements must reference the specific framework, control, and regulatory deadline. -->
+| REQ-ID | Title | Framework | Control Ref | Deadline | Status |
+|--------|-------|-----------|-------------|----------|--------|
+| {{comp_req_id_1}} | {{comp_title_1}} | {{comp_framework_1}} | {{comp_control_1}} | {{comp_deadline_1}} | {{comp_status_1}} |
+
+<!-- Examples: GDPR Article 17 — Right to Erasure; ISO 27001 Annex A.8.3 — Media Handling -->
+
+## NFR Testing Matrix
+<!-- Maps each NFR to the type of test, environment, and responsible party. This feeds into the Test Strategy in Phase 4. -->
+| REQ-ID | Test Type | Environment | Responsible | Phase |
+|--------|-----------|-------------|-------------|-------|
+| {{perf_req_id_1}} | Load Test | {{nfr_test_env_1}} | {{nfr_test_owner_1}} | {{nfr_test_phase_1}} |
+| {{perf_req_id_2}} | Stress Test | {{nfr_test_env_2}} | {{nfr_test_owner_2}} | {{nfr_test_phase_2}} |
+| {{sec_req_id_1}} | Penetration Test | {{nfr_test_env_3}} | {{nfr_test_owner_3}} | {{nfr_test_phase_3}} |
+| {{sec_req_id_2}} | Security Scan | {{nfr_test_env_4}} | {{nfr_test_owner_4}} | {{nfr_test_phase_4}} |
+| {{scale_req_id_1}} | Capacity Test | {{nfr_test_env_5}} | {{nfr_test_owner_5}} | {{nfr_test_phase_5}} |
+| {{avail_req_id_1}} | DR Drill | {{nfr_test_env_6}} | {{nfr_test_owner_6}} | {{nfr_test_phase_6}} |
+| {{comp_req_id_1}} | Compliance Audit | {{nfr_test_env_7}} | {{nfr_test_owner_7}} | {{nfr_test_phase_7}} |
+
+## Completeness Checklist
+- [ ] All NFRs have numeric, measurable targets
+- [ ] All NFRs have a defined test approach in the NFR Testing Matrix
+- [ ] Compliance frameworks identified and referenced per requirement
+- [ ] Security classification of data and systems completed
+- [ ] Performance baseline established (current state documented)
+- [ ] Reviewed and approved by Solutions Architect
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for inclusion in RTM and Gate B pack. -->
+- [ ] All NFRs traceable to business drivers or compliance obligations
+- [ ] NFR test types incorporated into draft Test Strategy
+- [ ] No NFRs in conflict with each other (e.g. extreme availability vs extreme cost constraints)
+- [ ] Document version controlled and stored in the project artefact repository

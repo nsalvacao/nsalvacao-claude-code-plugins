@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.3.0] — Phase 3 Architecture & Solution Design
+
+### Added
+- Phase 3 agents: `solution-architecture` (subfase 3.1), `detailed-design` (subfase 3.2), `control-design` (subfase 3.3)
+- `/waterfall-handover-prep` command — inter-phase handover package preparation with Gate C artefact validation
+- `handover-management` skill — structured inter-phase handover process
+- Phase 3 templates: `hld`, `lld`, `interface-specifications`, `adr`, `control-matrix`, `test-design-package`, `operational-design-package`, `security-design-review`, `privacy-design-review`, `design-approval-pack` (10 templates)
+- `check-handover-completeness.sh` script — validates Gate C handover completeness
+
+## [0.2.0] — unreleased
+
+### Added
+- 4 Phase 2 agents (subfases 2.1–2.4): requirements-articulation, ai-requirements-engineer, nfr-architect, baseline-manager
+- 2 Phase 2 commands: /waterfall-requirements-review, /waterfall-baseline-check
+- 2 Phase 2 skills with references: requirement-authoring, traceability-mapping
+- 2 Phase 2 schemas: requirement, requirements-baseline
+- 10 Phase 2 templates (subfases 2.1–2.4 + Gate B pack)
+- 1 Phase 2 script: check-traceability.sh
+
 ## [0.1.0] — 2026-03-16
 
 ### Added

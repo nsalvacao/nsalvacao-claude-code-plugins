@@ -1,0 +1,72 @@
+# Acceptance Criteria Catalog
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | 2.1–2.3 (compiled across all subfases) |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+| Total Requirements | {{total_requirements}} |
+| Total ACs | {{total_acs}} |
+| Coverage % | {{coverage_percent}} |
+
+## Catalog Summary
+<!-- This catalog is the single authoritative list of all acceptance criteria across all requirement categories. It is compiled from: Business Requirements Set, AI Requirements Specification, and NFR Specification. -->
+**Project Name:** {{project_name}}
+**Total Requirements:** {{total_requirements}}
+**Total Acceptance Criteria:** {{total_acs}}
+**Coverage:** {{coverage_percent}}%
+**Date Compiled:** {{date_compiled}}
+
+{{catalog_summary_narrative}}
+
+## Full AC Table
+<!-- All ACs in one consolidated view. AC-IDs must be unique across the entire catalog. Test Ref will be populated in Phase 4 — use "TBD" at Gate B. -->
+| AC-ID | REQ-ID | Category | Priority | Criterion (Given/When/Then) | Test Ref | Status |
+|-------|--------|----------|----------|-----------------------------|----------|--------|
+| {{ac_id_func_1}} | {{req_id_func_1}} | Functional | {{priority_func_1}} | Given {{pre_func_1}}, when {{action_func_1}}, then {{outcome_func_1}}. | TBD | {{status_func_1}} |
+| {{ac_id_ai_1}} | {{req_id_ai_1}} | AI | {{priority_ai_1}} | Given {{pre_ai_1}}, when {{action_ai_1}}, then {{outcome_ai_1}}. | TBD | {{status_ai_1}} |
+| {{ac_id_nfr_1}} | {{req_id_nfr_1}} | NFR | {{priority_nfr_1}} | Given {{pre_nfr_1}}, when {{action_nfr_1}}, then {{outcome_nfr_1}}. | TBD | {{status_nfr_1}} |
+| {{ac_id_con_1}} | {{req_id_con_1}} | Constraint | {{priority_con_1}} | Given {{pre_con_1}}, when {{action_con_1}}, then {{outcome_con_1}}. | TBD | {{status_con_1}} |
+
+## ACs by Category
+
+### Functional ACs
+<!-- Filtered view of acceptance criteria for functional requirements. -->
+| AC-ID | REQ-ID | Priority | Criterion (Given/When/Then) | Status |
+|-------|--------|----------|-----------------------------|--------|
+| {{ac_id_func_1}} | {{req_id_func_1}} | {{priority_func_1}} | Given {{pre_func_1}}, when {{action_func_1}}, then {{outcome_func_1}}. | {{status_func_1}} |
+
+### AI ACs
+<!-- All AI ACs must reference a specific test dataset to be valid. AI ACs without a test dataset reference are incomplete. -->
+| AC-ID | REQ-ID | Priority | Criterion (Given/When/Then) | Test Dataset Ref | Status |
+|-------|--------|----------|-----------------------------|-----------------|--------|
+| {{ac_id_ai_1}} | {{req_id_ai_1}} | {{priority_ai_1}} | Given {{pre_ai_1}}, when {{action_ai_1}}, then {{outcome_ai_1}}. | {{ai_test_dataset_ref_1}} | {{status_ai_1}} |
+
+### NFR ACs
+<!-- NFR ACs must include load conditions or environment context to be testable. -->
+| AC-ID | REQ-ID | Priority | Criterion (Given/When/Then) | Status |
+|-------|--------|----------|-----------------------------|--------|
+| {{ac_id_nfr_1}} | {{req_id_nfr_1}} | {{priority_nfr_1}} | Given {{pre_nfr_1}}, when {{action_nfr_1}}, then {{outcome_nfr_1}}. | {{status_nfr_1}} |
+
+## Testability Assessment
+<!-- Flag any ACs that cannot be tested in the current form. Non-testable ACs must be rewritten before Gate B. -->
+| AC-ID | Testable? | Issue if Not Testable |
+|-------|----------|-----------------------|
+| {{testability_ac_id_1}} | {{testable_1}} | {{testability_issue_1}} |
+
+## Completeness Checklist
+- [ ] Coverage equals 100% — every requirement has at least one AC
+- [ ] All AI ACs reference a specific test dataset
+- [ ] All ACs are written in Given/When/Then format
+- [ ] No duplicate AC-IDs across the catalog
+- [ ] Catalog reviewed and approved by Requirements Lead and Tech Lead
+
+## Handover Readiness
+<!-- Confirms this catalog is ready for Gate B and for use in Phase 4 test planning. -->
+- [ ] All ACs are stable and agreed with stakeholders
+- [ ] AC-IDs aligned with RTM entries
+- [ ] Catalog stored as authoritative reference in project artefact repository
+- [ ] Test Ref column ready to be populated by Test Lead in Phase 4

@@ -1,0 +1,60 @@
+# Requirements Traceability Matrix
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | 2.4 — Baseline Establishment |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+| RTM Version | {{rtm_version}} |
+| Baseline Version | {{baseline_version}} |
+
+## RTM Coverage Summary
+<!-- RTM must achieve 100% coverage before Gate B can pass. Must-priority requirements must all have ACs. -->
+| Metric | Value |
+|--------|-------|
+| Total Requirements | {{total_requirements}} |
+| Requirements with AC | {{reqs_with_ac}} |
+| Requirements Coverage | {{requirements_coverage_percent}}% |
+| Must-Priority Coverage | {{must_coverage_percent}}% |
+
+## RTM Table
+<!-- The RTM is the authoritative mapping between requirements, acceptance criteria, and tests. Test Ref is TBD at Gate B — to be populated in Phase 4. Source Artefact identifies which subfase document the requirement originated from. -->
+| REQ-ID | Requirement Title | Category | Priority | AC-ID | Acceptance Criterion | Test Ref | Status | Source Artefact |
+|--------|-------------------|----------|----------|-------|---------------------|----------|--------|-----------------|
+| REQ-{{year}}-001 | {{req_title_func}} | functional | must | AC-{{year}}-001 | Given {{pre_func}}, when {{action_func}}, then {{outcome_func}}. | TBD | draft | business-requirements-set.md |
+| REQ-{{year}}-002 | {{req_title_ai}} | ai | must | AC-{{year}}-002 | Given the model is invoked with {{ai_input}}, when the {{ai_threshold}} threshold is applied, then {{ai_outcome}}. | TBD | draft | ai-requirements-specification.md |
+| REQ-{{year}}-003 | {{req_title_nfr}} | nfr | must | AC-{{year}}-003 | Given {{nfr_load_conditions}}, when {{nfr_action}}, then {{nfr_outcome}}. | TBD | draft | nfr-specification.md |
+| REQ-{{year}}-004 | {{req_title_constraint}} | constraint | should | AC-{{year}}-004 | Given {{con_precondition}}, when {{con_action}}, then {{con_outcome}}. | TBD | draft | business-requirements-set.md |
+
+## Orphan Report
+<!-- An orphan is either: (a) a requirement with no AC, or (b) an AC with no linked requirement. The orphan table should be EMPTY at Gate B. Any orphan listed here is a blocker. -->
+| REQ-ID / AC-ID | Issue Type | Description | Resolution Required |
+|----------------|-----------|-------------|---------------------|
+| — | — | No orphans identified | — |
+
+<!-- If orphans exist, list them here with issue type: "No AC" or "No REQ link" and describe the resolution action required. -->
+
+## Coverage Verification
+<!-- All three checks must pass before Gate B. -->
+- [ ] Requirements coverage = 100% (all requirements have at least one AC)
+- [ ] Must-priority coverage = 100% (all Must requirements have at least one AC)
+- [ ] Zero orphaned requirements (requirements without any linked AC)
+- [ ] Zero orphaned ACs (ACs not linked to any requirement)
+
+## Completeness Checklist
+- [ ] Requirements coverage equals 100%
+- [ ] Must-priority coverage equals 100%
+- [ ] Zero orphaned requirements
+- [ ] Zero orphaned ACs
+- [ ] RTM version matches baseline version ({{rtm_version}} = {{baseline_version}})
+- [ ] RTM reviewed and approved by Requirements Lead
+
+## Handover Readiness
+<!-- Confirms this RTM is ready for Gate B and will serve as the baseline for Phase 4 test planning. -->
+- [ ] RTM version controlled and archived with baseline
+- [ ] Test Ref column handed off to Test Lead for Phase 4 population
+- [ ] All stakeholders aware that post-baseline changes require a Change Request
+- [ ] RTM included in Gate B approval pack

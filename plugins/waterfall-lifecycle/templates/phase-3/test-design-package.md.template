@@ -1,0 +1,78 @@
+# Test Design Package
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Author | {{author}} |
+| Status | {{status}} |
+| Test Lead | {{test_lead}} |
+
+## Test Scope
+
+{{test_scope}}
+
+## Out of Scope
+
+{{out_of_scope}}
+
+## Entry Criteria
+
+<!-- List all conditions that must be met before testing can begin -->
+
+- {{entry_criterion_1}}
+- {{entry_criterion_2}}
+- {{entry_criterion_3}}
+
+## Exit Criteria
+
+<!-- List all conditions that must be met before testing is considered complete -->
+
+- {{exit_criterion_1}}
+- {{exit_criterion_2}}
+- {{exit_criterion_3}}
+
+## Test Types
+
+| Test Type | Description | Coverage Target | Tools | Environment |
+|-----------|-------------|----------------|-------|-------------|
+| Unit | {{unit_description}} | {{unit_coverage}} | {{unit_tools}} | {{unit_environment}} |
+| Integration | {{integration_description}} | {{integration_coverage}} | {{integration_tools}} | {{integration_environment}} |
+| E2E | {{e2e_description}} | {{e2e_coverage}} | {{e2e_tools}} | {{e2e_environment}} |
+| Performance | {{performance_description}} | {{performance_coverage}} | {{performance_tools}} | {{performance_environment}} |
+| Security | {{security_description}} | {{security_coverage}} | {{security_tools}} | {{security_environment}} |
+| UAT | {{uat_description}} | {{uat_coverage}} | {{uat_tools}} | {{uat_environment}} |
+
+## Test Environments
+
+| Environment | Purpose | Data Set | Owner |
+|-------------|---------|----------|-------|
+| {{env_1}} | {{env_purpose_1}} | {{env_dataset_1}} | {{env_owner_1}} |
+| {{env_2}} | {{env_purpose_2}} | {{env_dataset_2}} | {{env_owner_2}} |
+| {{env_3}} | {{env_purpose_3}} | {{env_dataset_3}} | {{env_owner_3}} |
+
+## AI/ML Test Strategy
+
+<!-- Model accuracy testing, data validation, drift simulation -->
+
+{{ai_test_strategy}}
+
+## Defect Management
+
+{{defect_management}}
+
+## Completeness Checklist
+- [ ] Test scope and out-of-scope clearly defined
+- [ ] Entry and exit criteria documented
+- [ ] All test types planned with coverage targets
+- [ ] Test environments identified with owners
+- [ ] AI/ML test strategy defined
+- [ ] Defect management process described
+
+## Handover Readiness
+<!-- Confirms test design package is ready as input for Phase 4 build and test activities. -->
+- [ ] Test design package reviewed and approved by Test Lead and Architecture Lead
+- [ ] Test environments provisioning planned
+- [ ] AI/ML test strategy agreed with AI/ML Lead
+- [ ] Linked to design-approval-pack.md artefact checklist

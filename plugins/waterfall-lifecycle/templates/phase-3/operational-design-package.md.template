@@ -1,0 +1,68 @@
+# Operational Design Package
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Author | {{author}} |
+| Status | {{status}} |
+| Ops Lead | {{ops_lead}} |
+
+## Deployment Design
+
+{{deployment_design}}
+
+| Environment | Deployment Method | Rollback Strategy | Owner |
+|-------------|------------------|-------------------|-------|
+| {{deploy_env_1}} | {{deploy_method_1}} | {{rollback_strategy_1}} | {{deploy_owner_1}} |
+| {{deploy_env_2}} | {{deploy_method_2}} | {{rollback_strategy_2}} | {{deploy_owner_2}} |
+| {{deploy_env_3}} | {{deploy_method_3}} | {{rollback_strategy_3}} | {{deploy_owner_3}} |
+
+## Monitoring & Alerting
+
+| Metric | Alert Threshold | Alert Channel | Owner |
+|--------|----------------|---------------|-------|
+| {{metric_1}} | {{threshold_1}} | {{channel_1}} | {{monitor_owner_1}} |
+| {{metric_2}} | {{threshold_2}} | {{channel_2}} | {{monitor_owner_2}} |
+| {{metric_3}} | {{threshold_3}} | {{channel_3}} | {{monitor_owner_3}} |
+| {{metric_4}} | {{threshold_4}} | {{channel_4}} | {{monitor_owner_4}} |
+
+## Logging Strategy
+
+{{logging_strategy}}
+
+## Disaster Recovery & Business Continuity
+
+| Scenario | RTO | RPO | Recovery Procedure | Owner |
+|----------|-----|-----|-------------------|-------|
+| {{scenario_1}} | {{rto_1}} | {{rpo_1}} | {{recovery_procedure_1}} | {{dr_owner_1}} |
+| {{scenario_2}} | {{rto_2}} | {{rpo_2}} | {{recovery_procedure_2}} | {{dr_owner_2}} |
+| {{scenario_3}} | {{rto_3}} | {{rpo_3}} | {{recovery_procedure_3}} | {{dr_owner_3}} |
+
+## Runbook Placeholders
+
+| Procedure | Trigger | Steps | Owner |
+|-----------|---------|-------|-------|
+| {{runbook_procedure_1}} | {{runbook_trigger_1}} | {{runbook_steps_1}} | {{runbook_owner_1}} |
+| {{runbook_procedure_2}} | {{runbook_trigger_2}} | {{runbook_steps_2}} | {{runbook_owner_2}} |
+| {{runbook_procedure_3}} | {{runbook_trigger_3}} | {{runbook_steps_3}} | {{runbook_owner_3}} |
+
+## Support Model
+
+{{support_model}}
+
+## Completeness Checklist
+- [ ] Deployment design documented for all environments
+- [ ] Monitoring and alerting thresholds defined
+- [ ] Logging strategy documented
+- [ ] DR and BC scenarios with RTO and RPO targets defined
+- [ ] Runbook placeholders created for key operational procedures
+- [ ] Support model described
+
+## Handover Readiness
+<!-- Confirms operational design package is ready as input for Phase 4 build and deployment activities. -->
+- [ ] Operational design package reviewed and approved by Ops Lead and Architecture Lead
+- [ ] DR targets agreed with Business Owner
+- [ ] Monitoring tooling confirmed with infrastructure team
+- [ ] Linked to design-approval-pack.md artefact checklist

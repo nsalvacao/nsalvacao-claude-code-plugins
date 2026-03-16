@@ -1,0 +1,100 @@
+# Design Approval Pack — Gate C
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Design Version | {{design_version}} |
+
+## Gate C Purpose
+<!-- Gate C authorises closure of Phase 3 and transition to Phase 4 (Build & Integration). -->
+Gate C validates that all Phase 3 design artefacts are complete, internally consistent,
+and meet the acceptance criteria defined at Gate B. The approved design becomes the
+authoritative input for Phase 4.
+
+**Project Name:** {{project_name}}
+**Design Version:** {{design_version}}
+**Gate Date:** {{gate_date}}
+
+## Artefact Completeness Checklist
+<!-- All 8 artefacts must be complete and reviewed before Gate C can be approved. -->
+
+| # | Artefact | Produced By | Status | File |
+|---|----------|-------------|--------|------|
+| 1 | HLD | solution-architecture (3.1) | {{status_hld}} | hld.md |
+| 2 | LLD | detailed-design (3.2) | {{status_lld}} | lld.md |
+| 3 | Interface Specifications | detailed-design (3.2) | {{status_interface_specs}} | interface-specifications.md |
+| 4 | ADR Set | solution-architecture (3.1) | {{status_adr_set}} | adr-set/ |
+| 5 | Control Matrix | control-design (3.3) | {{status_control_matrix}} | control-matrix.md |
+| 6 | Test Design Package | detailed-design (3.2) | {{status_test_design_package}} | test-design-package.md |
+| 7 | AI Control Design Note | control-design (3.3) | {{status_ai_control_design_note}} | ai-control-design-note.md |
+| 8 | Design Approval Pack | control-design (3.3) | this document | design-approval-pack.md |
+
+<!-- Status values: complete | incomplete | missing -->
+
+## Phase 3 Exit Criteria Assessment
+<!-- Evaluate each exit criterion. Gate readiness = Ready only when all criteria pass. -->
+
+| # | Exit Criterion | Status | Notes |
+|---|---------------|--------|-------|
+| 1 | HLD complete with all components, integration points, and ADR set | {{ec1_status}} | {{ec1_notes}} |
+| 2 | LLD complete for all HLD components | {{ec2_status}} | {{ec2_notes}} |
+| 3 | All interface contracts defined with schemas, error codes, and versioning | {{ec3_status}} | {{ec3_notes}} |
+| 4 | Control matrix covers all risks in the risk register | {{ec4_status}} | {{ec4_notes}} |
+| 5 | Security design review completed with no unmitigated CRITICAL findings | {{ec5_status}} | {{ec5_notes}} |
+| 6 | Privacy design review completed with GDPR article mapping and DPO sign-off | {{ec6_status}} | {{ec6_notes}} |
+| 7 | AI control design note completed with bias, drift, and explainability controls | {{ec7_status}} | {{ec7_notes}} |
+| 8 | Design walkthroughs completed with Architecture Lead and Solution Architect | {{ec8_status}} | {{ec8_notes}} |
+
+<!-- Status values: pass | fail | partial -->
+
+## Design Walkthrough Record
+
+| Walkthrough | Date | Participants | Outcome | Follow-up Items |
+|------------|------|-------------|---------|----------------|
+| HLD Walkthrough | {{hld_walkthrough_date}} | {{hld_walkthrough_participants}} | {{hld_walkthrough_outcome}} | {{hld_walkthrough_followup}} |
+| LLD Walkthrough | {{lld_walkthrough_date}} | {{lld_walkthrough_participants}} | {{lld_walkthrough_outcome}} | {{lld_walkthrough_followup}} |
+| Security Design Review | {{security_review_date}} | {{security_review_participants}} | {{security_review_outcome}} | {{security_review_followup}} |
+| Privacy Design Review | {{privacy_review_date}} | {{privacy_review_participants}} | {{privacy_review_outcome}} | {{privacy_review_followup}} |
+
+## Gate Readiness Assessment
+<!-- Reviewer: set this to Ready only when all exit criteria pass and all artefacts are Complete. -->
+**Gate Readiness:** {{gate_readiness}}
+<!-- Values: Ready | Not Ready -->
+
+**Blockers (if Not Ready):**
+
+{{gate_blockers}}
+
+<!-- List each blocker with owner and resolution deadline. Leave blank if gate_readiness = Ready. -->
+
+## Open Items at Gate
+<!-- Minor open items that do not block gate approval. Must be tracked and resolved in Phase 4. -->
+| # | Item | Owner | Resolution Deadline |
+|---|------|-------|---------------------|
+| 1 | {{open_item_1}} | {{open_item_owner_1}} | {{open_item_deadline_1}} |
+
+## Sign-off Block
+<!-- Both signatures required for Gate C approval -->
+| Role | Name | Signature | Date |
+|------|------|-----------|------|
+| Architecture Lead | {{arch_lead_name}} | {{arch_lead_signature}} | {{arch_lead_date}} |
+| Solution Architect | {{solution_architect_name}} | {{solution_architect_signature}} | {{solution_architect_date}} |
+
+## Completeness Checklist
+- [ ] All 8 artefacts present with status Complete in the artefact checklist
+- [ ] All 8 exit criteria have status Pass
+- [ ] Design walkthroughs documented for HLD, LLD, security, and privacy
+- [ ] Gate readiness assessment set to Ready
+- [ ] Sign-off obtained from Architecture Lead
+- [ ] Sign-off obtained from Solution Architect
+
+## Handover Readiness
+<!-- Confirms Phase 3 is formally closed and Phase 4 may commence. -->
+- [ ] Gate C approved by Architecture Lead and Solution Architect
+- [ ] Approved design baseline communicated to Phase 4 team
+- [ ] Open items tracked and resolution owners confirmed
+- [ ] Phase 4 kickoff date confirmed

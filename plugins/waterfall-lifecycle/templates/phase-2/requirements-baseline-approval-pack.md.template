@@ -1,0 +1,124 @@
+# Requirements Baseline Approval Pack — Gate B
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Gate | B — Requirements Baseline Review |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Baseline Version | {{baseline_version}} |
+| Frozen Date | {{frozen_date}} |
+
+## Gate B Purpose
+<!-- Gate B authorises closure of Phase 2 and transition to Phase 3 (System Design). -->
+Gate B validates that all Phase 2 requirements artefacts are complete, internally consistent,
+and traceable. The frozen requirements baseline becomes the authoritative input for Phase 3 design.
+
+**Project Name:** {{project_name}}
+**Baseline Version:** {{baseline_version}}
+**Gate Date:** {{gate_date}}
+
+## Artefact Completeness Checklist
+<!-- All 10 artefacts must be complete and reviewed before Gate B can be approved. -->
+
+| # | Artefact | Produced By | Status | File |
+|---|----------|-------------|--------|------|
+| 1 | Requirements Baseline | baseline-manager (2.4) | {{status_requirements_baseline}} | requirements-baseline.md |
+| 2 | Business Requirements Set | requirements-articulation (2.1) | {{status_business_requirements_set}} | business-requirements-set.md |
+| 3 | AI Requirements Specification | ai-requirements-engineer (2.2) | {{status_ai_requirements}} | ai-requirements-specification.md |
+| 4 | NFR Specification | nfr-architect (2.3) | {{status_nfr_specification}} | nfr-specification.md |
+| 5 | Acceptance Criteria Catalog | baseline-manager (2.4) | {{status_acceptance_criteria_catalog}} | acceptance-criteria-catalog.md |
+| 6 | Requirements Traceability Matrix | baseline-manager (2.4) | {{status_rtm}} | requirements-traceability-matrix.md |
+| 7 | Glossary | baseline-manager (2.4) | {{status_glossary}} | glossary.md |
+| 8 | Assumption Register | maintained throughout Phase 2 | {{status_assumption_register}} | assumption-register.md |
+| 9 | Clarification Log | maintained throughout Phase 2 | {{status_clarification_log}} | clarification-log.md |
+| 10 | Requirements Baseline Approval Pack | baseline-manager (2.4) | this document | requirements-baseline-approval-pack.md |
+
+<!-- Status values: complete | incomplete | missing -->
+
+## RTM Coverage Summary
+<!-- 100% coverage is the Gate B pass condition. Any gap must be resolved before approval. -->
+**Total Requirements:** {{total_requirements}}
+**Requirements with ACs:** {{reqs_with_acs}}
+**RTM Coverage:** {{rtm_coverage_percent}}%
+**Orphaned Requirements:** {{orphaned_requirements}}
+**Missing Test References:** {{missing_test_refs}} (acceptable at Gate B — to be assigned in Phase 4)
+
+{{rtm_coverage_summary_narrative}}
+
+## Phase 2 Exit Criteria Assessment
+<!-- Evaluate each exit criterion. Gate readiness = Ready only when all criteria pass. -->
+
+| # | Exit Criterion | Status | Notes |
+|---|---------------|--------|-------|
+| 1 | Business requirements set complete with ≥5 functional requirements | {{ec1_status}} | {{ec1_notes}} |
+| 2 | AI requirements specified with measurable acceptance thresholds | {{ec2_status}} | {{ec2_notes}} |
+| 3 | NFRs defined for all five categories | {{ec3_status}} | {{ec3_notes}} |
+| 4 | RTM at 100% requirement-to-AC coverage | {{ec4_status}} | {{ec4_notes}} |
+| 5 | Glossary complete covering all Phase 2 terms | {{ec5_status}} | {{ec5_notes}} |
+| 6 | Requirements baseline frozen with version number | {{ec6_status}} | {{ec6_notes}} |
+| 7 | All 10 Gate B artefacts produced and reviewed | {{ec7_status}} | {{ec7_notes}} |
+| 8 | Change control mechanism documented and communicated | {{ec8_status}} | {{ec8_notes}} |
+
+<!-- Status values: pass | fail | partial -->
+
+## Gate Readiness Assessment
+<!-- Reviewer: set this to Ready only when all exit criteria pass and all artefacts are Complete. -->
+**Gate Readiness:** {{gate_readiness}}
+<!-- Values: Ready | Not Ready -->
+
+**Blockers (if Not Ready):**
+
+{{gate_blockers}}
+
+<!-- List each blocker with owner and resolution deadline. Leave blank if gate_readiness = Ready. -->
+
+## Open Items at Gate
+<!-- Minor open items that do not block gate approval. Must be tracked and resolved in Phase 3. -->
+| # | Item | Owner | Resolution Deadline |
+|---|------|-------|---------------------|
+| 1 | {{open_item_1}} | {{open_item_owner_1}} | {{open_item_deadline_1}} |
+
+## Change Control Mechanism
+<!-- Change control must be operational before Gate B is approved. -->
+**Mechanism:** {{change_control_description}}
+**Change Request Authority:** {{change_approval_authority}}
+**CCB Members:** {{ccb_members}}
+
+## Recommendations for Phase 3
+<!-- Provide specific handover guidance for the Phase 3 (System Design) team. -->
+
+{{phase_3_recommendations}}
+
+<!-- Focus on: requirements with design risk, unresolved assumptions, NFRs that constrain architecture, AI constraints. -->
+
+## Sign-off Block
+<!-- All signatories confirm that Gate B criteria have been met and Phase 3 may proceed. -->
+| Name | Role | Decision | Date |
+|------|------|----------|------|
+| {{approver_name_1}} | {{approver_role_1}} | {{approver_decision_1}} | {{approver_date_1}} |
+| {{approver_name_2}} | {{approver_role_2}} | {{approver_decision_2}} | {{approver_date_2}} |
+
+<!-- Decision values: Approved | Conditional Approval | Rejected -->
+<!-- Conditional Approval: list conditions and resolution owner below the table. -->
+
+**Conditions (if Conditional Approval):**
+
+{{approval_conditions}}
+
+## Completeness Checklist
+- [ ] All 10 Gate B artefacts have status Complete in the artefact checklist
+- [ ] All 8 Phase 2 exit criteria have status Pass
+- [ ] RTM coverage equals 100%
+- [ ] Gate readiness assessment set to Ready
+- [ ] Change control mechanism documented
+- [ ] Sign-off block completed by all required stakeholders
+- [ ] Phase 3 recommendations included
+
+## Handover Readiness
+<!-- Confirms Phase 2 is formally closed and Phase 3 may commence. -->
+- [ ] Gate B approved by Requirements Lead and Business Owner
+- [ ] Frozen requirements baseline communicated to Phase 3 team
+- [ ] Change control process communicated to all project stakeholders
+- [ ] Phase 3 kickoff date confirmed

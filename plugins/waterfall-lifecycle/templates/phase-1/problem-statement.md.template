@@ -1,0 +1,59 @@
+# Problem Statement
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Subfase | 1.1 — Problem and Vision Definition |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Problem Description
+<!-- Provide a clear, concise description of the problem to be solved. Avoid assumptions about solutions at this stage. -->
+{{problem_description}}
+
+## Business Context
+<!-- Describe the business context that makes this problem relevant now. Include market drivers, internal pressures, regulatory changes, or strategic priorities. -->
+{{business_context}}
+
+## Affected Stakeholders
+<!-- List the people, teams, or organisations affected by this problem. Be specific about how each group is impacted. -->
+| Stakeholder | How Affected |
+|-------------|-------------|
+| {{stakeholder_1}} | {{impact_1}} |
+| {{stakeholder_2}} | {{impact_2}} |
+| {{stakeholder_3}} | {{impact_3}} |
+
+## Current Pain Points
+<!-- List specific, observable pain points caused by the current situation. Use concrete examples where possible. -->
+1. {{pain_point_1}}
+2. {{pain_point_2}}
+3. {{pain_point_3}}
+
+## Success Criteria
+<!-- Define what "solved" looks like. These criteria should be measurable and agreed upon by key stakeholders. -->
+| Criterion | Measurement | Target |
+|-----------|-------------|--------|
+| {{criterion_1}} | {{measurement_1}} | {{target_1}} |
+| {{criterion_2}} | {{measurement_2}} | {{target_2}} |
+| {{criterion_3}} | {{measurement_3}} | {{target_3}} |
+
+## Out of Scope
+<!-- Explicitly state what this problem statement does NOT cover. This prevents scope creep and aligns expectations. -->
+{{out_of_scope}}
+
+## Completeness Checklist
+- [ ] Problem described clearly without prescribing a solution
+- [ ] Business context explains why this problem matters now
+- [ ] All affected stakeholder groups identified with specific impacts
+- [ ] At least three concrete pain points documented
+- [ ] Success criteria are measurable and agreed
+- [ ] Out of scope boundaries explicitly defined
+- [ ] Owner confirmed and date set
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for formal handover to the next subfase or gate review. -->
+- [ ] Problem Statement reviewed and approved by sponsor
+- [ ] Success criteria validated with at least one key stakeholder
+- [ ] Document version controlled and stored in the project artefact repository
+- [ ] Linked to Vision Statement (if already drafted)

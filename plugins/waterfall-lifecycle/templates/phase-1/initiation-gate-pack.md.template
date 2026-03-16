@@ -1,0 +1,99 @@
+# Initiation Gate Pack — Gate A
+
+| Field | Value |
+|-------|-------|
+| Phase | 1 — Initiation |
+| Gate | A |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+
+## Gate A Overview
+<!-- Gate A confirms that the project initiation phase is complete. It validates that the problem and vision are clearly defined, feasibility has been assessed, key risks are understood, and there is sufficient justification and organisational commitment to proceed to Phase 2 (Planning). -->
+
+Gate A validates:
+- The problem and vision are clearly defined and agreed by key stakeholders
+- Feasibility has been assessed across technical, data, AI/ML, organisational, financial, and legal dimensions
+- Key stakeholders are identified, engaged, and communication plans are in place
+- Initial risks are captured and top risks have mitigation plans
+- A Project Charter has been produced and signed off
+- There is a clear decision to PROCEED / HOLD / KILL
+
+## Artefacts Submitted
+<!-- Confirm which artefacts have been produced for Gate A. All mandatory artefacts must be present and in at least Reviewed status before a PASS decision. -->
+| # | Artefact | Template Used | Status | Location | Reviewer |
+|---|----------|---------------|--------|----------|----------|
+| 1 | Problem Statement | problem-statement.md.template | {{ps_status}} | {{ps_location}} | {{ps_reviewer}} |
+| 2 | Vision Statement | vision-statement.md.template | {{vs_status}} | {{vs_location}} | {{vs_reviewer}} |
+| 3 | Stakeholder Map | stakeholder-map.md.template | {{sm_status}} | {{sm_location}} | {{sm_reviewer}} |
+| 4 | Feasibility Assessment | feasibility-assessment.md.template | {{fa_status}} | {{fa_location}} | {{fa_reviewer}} |
+| 5 | Data Feasibility Note | data-feasibility-note.md.template | {{dfn_status}} | {{dfn_location}} | {{dfn_reviewer}} |
+| 6 | AI Feasibility Note | ai-feasibility-note.md.template | {{afn_status}} | {{afn_location}} | {{afn_reviewer}} |
+| 7 | Initial Risk Register | initial-risk-register.md.template | {{irr_status}} | {{irr_location}} | {{irr_reviewer}} |
+| 8 | Assumption Register | {{assumption_register_template}} | {{ar_status}} | {{ar_location}} | {{ar_reviewer}} |
+| 9 | Clarification Log | {{clarification_log_template}} | {{cl_status}} | {{cl_location}} | {{cl_reviewer}} |
+| 10 | Project Charter | project-charter.md.template | {{pc_status}} | {{pc_location}} | {{pc_reviewer}} |
+
+<!-- Status options: Approved / Reviewed / Draft / Missing -->
+
+## Evidence Summary
+<!-- Summarise the key evidence that supports the gate recommendation. Reference specific artefacts, data points, or stakeholder confirmations. -->
+{{evidence_summary}}
+
+## Outstanding Issues
+<!-- List any issues that remain open at gate review. Each issue must have an owner and a resolution plan before a PASS can be granted. -->
+| # | Issue | Impact | Owner | Resolution Plan | Due Date |
+|---|-------|--------|-------|----------------|----------|
+| 1 | {{issue_1}} | {{issue_1_impact}} | {{issue_1_owner}} | {{issue_1_resolution}} | {{issue_1_due}} |
+| 2 | {{issue_2}} | {{issue_2_impact}} | {{issue_2_owner}} | {{issue_2_resolution}} | {{issue_2_due}} |
+| 3 | {{issue_3}} | {{issue_3_impact}} | {{issue_3_owner}} | {{issue_3_resolution}} | {{issue_3_due}} |
+
+## Gate Decision
+<!-- State the gate decision clearly. Decision options: PASS / FAIL / CONDITIONAL PASS. -->
+**Decision:** {{gate_decision}}
+<!-- PASS — all mandatory artefacts approved, no blocking issues, proceed to Phase 2 -->
+<!-- FAIL — mandatory artefacts incomplete or blocking issues unresolved, return to Phase 1 -->
+<!-- CONDITIONAL PASS — proceed to Phase 2 subject to conditions listed below -->
+
+**Rationale:**
+{{gate_decision_rationale}}
+
+**Decision Date:** {{gate_decision_date}}
+**Decision Made By:** {{gate_decision_by}}
+
+## Conditions if Conditional Pass
+<!-- Complete only if the gate decision is CONDITIONAL PASS. All conditions must be resolved and evidenced before they can be closed. -->
+| # | Condition | Owner | Due Date | Status |
+|---|-----------|-------|----------|--------|
+| 1 | {{cond_1}} | {{cond_1_owner}} | {{cond_1_due}} | {{cond_1_status}} |
+| 2 | {{cond_2}} | {{cond_2_owner}} | {{cond_2_due}} | {{cond_2_status}} |
+| 3 | {{cond_3}} | {{cond_3_owner}} | {{cond_3_due}} | {{cond_3_status}} |
+
+## Sign-off
+<!-- All named signatories confirm they have reviewed the Gate A pack and agree with the gate decision. -->
+| Name | Role | Date | Signature / Approval |
+|------|------|------|----------------------|
+| {{signoff_1_name}} | {{signoff_1_role}} | {{signoff_1_date}} | {{signoff_1_signature}} |
+| {{signoff_2_name}} | {{signoff_2_role}} | {{signoff_2_date}} | {{signoff_2_signature}} |
+| {{signoff_3_name}} | {{signoff_3_role}} | {{signoff_3_date}} | {{signoff_3_signature}} |
+| {{signoff_4_name}} | {{signoff_4_role}} | {{signoff_4_date}} | {{signoff_4_signature}} |
+
+## Completeness Checklist
+- [ ] All 10 mandatory artefacts listed with status (Approved / Reviewed / Draft / Missing)
+- [ ] All mandatory artefacts are in at least Reviewed status
+- [ ] Evidence summary references specific artefacts and data points
+- [ ] Outstanding issues documented with owners and resolution plans
+- [ ] Gate decision is clearly stated: PASS / FAIL / CONDITIONAL PASS
+- [ ] Gate decision rationale is documented
+- [ ] All conditions listed with owners and due dates (if Conditional Pass)
+- [ ] All required sign-off authorities identified and confirmed
+
+## Handover Readiness
+<!-- Confirms the Gate A pack is complete and the project is ready to formally enter Phase 2. -->
+- [ ] Gate A pack reviewed and accepted by all signing authorities
+- [ ] No mandatory artefacts in Draft or Missing status
+- [ ] All blocking issues resolved or formally accepted with mitigation
+- [ ] Conditional pass conditions have confirmed owners and dates
+- [ ] Gate A outcome communicated to all Phase 2 team members
+- [ ] Gate A pack version controlled and stored in the project artefact repository
+- [ ] Project Charter signed and filed before Phase 2 kickoff

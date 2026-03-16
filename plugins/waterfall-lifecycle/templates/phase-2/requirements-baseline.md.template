@@ -1,0 +1,99 @@
+# Requirements Baseline
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | 2.4 — Baseline Establishment |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+| Baseline Version | {{baseline_version}} |
+| Frozen Date | {{frozen_date}} |
+
+## Baseline Summary
+<!-- The baseline represents the frozen, approved set of requirements. Any change post-baseline must go through formal change control. -->
+**Project Name:** {{project_name}}
+**Baseline Version:** {{baseline_version}}
+**Frozen Date:** {{frozen_date}}
+**Change Control Reference:** {{change_control_ref}}
+
+{{baseline_summary_narrative}}
+
+## Requirements Count by Category
+
+| Category | Count | % of Total |
+|----------|-------|------------|
+| Functional | {{count_functional}} | {{pct_functional}}% |
+| AI | {{count_ai}} | {{pct_ai}}% |
+| Non-Functional (NFR) | {{count_nfr}} | {{pct_nfr}}% |
+| Constraint | {{count_constraint}} | {{pct_constraint}}% |
+| Assumption | {{count_assumption}} | {{pct_assumption}}% |
+| **Total** | **{{count_total}}** | **100%** |
+
+## Requirements Count by Priority
+
+<!-- Priority follows MoSCoW: Must/Should/Could/Won't. All "Must" requirements must be delivered in scope. -->
+| Priority | Count | % of Total |
+|----------|-------|------------|
+| Must | {{count_must}} | {{pct_must}}% |
+| Should | {{count_should}} | {{pct_should}}% |
+| Could | {{count_could}} | {{pct_could}}% |
+| Won't (this release) | {{count_wont}} | {{pct_wont}}% |
+| **Total** | **{{count_total_priority}}** | **100%** |
+
+## Scope of Baseline
+
+### Included in Baseline
+<!-- Explicitly list what this baseline covers — phase, release, or feature scope. -->
+{{baseline_scope_included}}
+
+### Excluded from Baseline
+<!-- Items deferred, descoped, or pending future baseline versions. -->
+{{baseline_scope_excluded}}
+
+## RTM Coverage
+<!-- RTM must reach 100% coverage before Gate B can pass. -->
+**Coverage:** {{rtm_coverage_percent}}%
+**RTM Artefact:** [requirements-traceability-matrix.md](./requirements-traceability-matrix.md)
+
+{{rtm_coverage_notes}}
+
+## Change Control Mechanism
+<!-- Describes how requirements changes are raised, assessed, approved, and incorporated after baseline is frozen. -->
+**Mechanism:** {{change_control_description}}
+
+**Change Request Process:**
+1. Raise Change Request (CR) using the project CR template
+2. Submit to Requirements Lead for impact assessment
+3. Present to Change Control Board (CCB): {{ccb_members}}
+4. Approval authority: {{change_approval_authority}}
+5. Update baseline version and re-freeze
+
+**Change Control Board:** {{ccb_description}}
+
+## Sign-off Block
+<!-- All signatories confirm that the requirements baseline is accurate, complete, and approved for use in Phase 3. -->
+| Name | Role | Sign-off Date |
+|------|------|---------------|
+| {{approver_name_1}} | {{approver_role_1}} | {{sign_off_date_1}} |
+| {{approver_name_2}} | {{approver_role_2}} | {{sign_off_date_2}} |
+| {{approver_name_3}} | {{approver_role_3}} | {{sign_off_date_3}} |
+
+## Completeness Checklist
+- [ ] `{{baseline_version}}` is set and follows BL-YYYY-NNN format
+- [ ] `{{frozen_date}}` is set to the formal freeze date
+- [ ] RTM coverage equals 100%
+- [ ] Change control mechanism defined and CCB identified
+- [ ] All 10 Gate B artefacts are present and referenced
+- [ ] Requirements count by category totals match the RTM
+- [ ] Requirements count by priority totals match the RTM
+- [ ] Sign-off block completed by all required stakeholders
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for Gate B review and Phase 3 handover. -->
+- [ ] Baseline frozen — no further changes without formal CR
+- [ ] RTM version matches baseline version
+- [ ] Change control process communicated to all stakeholders
+- [ ] Baseline version archived in project repository
+- [ ] Gate B approval pack references this baseline document

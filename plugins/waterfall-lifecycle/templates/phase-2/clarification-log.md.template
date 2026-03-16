@@ -1,0 +1,57 @@
+# Clarification Log
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | Phase 2 update — transversal register |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+| Note | Phase 2 update — extends Phase 1 entries |
+
+## Overview
+<!-- The Clarification Log is a transversal artefact that tracks questions, ambiguities, and information gaps throughout the project. This document covers Phase 2 additions and status updates for items carried over from Phase 1. -->
+This log records all questions and clarifications raised during Phase 2 — Requirements and Baseline. Unresolved clarifications introduce ambiguity into requirements and must be resolved before Gate B.
+
+**Individual Clarification Entries:** See [clarification-entry.md.template](../clarification-entry.md.template) for the standard entry format used when logging new clarifications mid-phase.
+
+**Escalation Path for CRITICAL Items:** Any clarification marked as CRITICAL severity must be escalated to the Requirements Lead within 24 hours. If not resolved within {{critical_resolution_sla}} working days, escalate to the Project Manager and formally notify the Project Sponsor.
+
+{{clarification_log_overview_notes}}
+
+## Phase 2 Clarifications Table
+<!-- Log all clarifications raised during Phase 2 requirements elicitation and review. Severity: CRITICAL (blocker for Gate B) | HIGH | MEDIUM | LOW. -->
+| ID | Question | Raised By | Date Raised | Owner | Due Date | Status | Resolution |
+|----|---------|-----------|-------------|-------|----------|--------|------------|
+| CLAR-{{year}}-001 | {{question_1}} | {{raised_by_1}} | {{date_raised_1}} | {{clar_owner_1}} | {{due_date_1}} | {{clar_status_1}} | {{resolution_1}} |
+| CLAR-{{year}}-002 | {{question_2}} | {{raised_by_2}} | {{date_raised_2}} | {{clar_owner_2}} | {{due_date_2}} | {{clar_status_2}} | {{resolution_2}} |
+| CLAR-{{year}}-003 | {{question_3}} | {{raised_by_3}} | {{date_raised_3}} | {{clar_owner_3}} | {{due_date_3}} | {{clar_status_3}} | {{resolution_3}} |
+
+<!-- Status options: open | resolved | deferred -->
+<!-- Example clarifications relevant to requirements phase:
+     - "Requirement REQ-YYYY-005 uses the term 'near real-time' — what is the maximum acceptable latency in milliseconds?" (ambiguous requirement)
+     - "Stakeholder sign-off on the AI acceptance thresholds is pending from the Data Science team — required by [date]" (missing sign-off)
+     - "NFR-YYYY-003 requires 99.99% uptime and NFR-YYYY-007 requires batch processing that takes the service offline nightly — these targets conflict" (conflicting NFR targets) -->
+
+## CRITICAL Clarifications Block
+<!-- CRITICAL clarifications are blockers. Gate B cannot pass until all CRITICAL items are resolved. -->
+> ⚠️ **CRITICAL:** Any CLAR with severity CRITICAL must be RESOLVED before Gate B. Current open CRITICAL items: **{{critical_clar_count}}**
+>
+> If `{{critical_clar_count}}` > 0, list each CRITICAL item here with its owner and resolution deadline:
+>
+> | ID | Question | Owner | Resolution Deadline |
+> |----|---------|-------|---------------------|
+> | {{critical_clar_id_1}} | {{critical_clar_question_1}} | {{critical_clar_owner_1}} | {{critical_clar_deadline_1}} |
+
+## Completeness Checklist
+- [ ] Zero CRITICAL clarifications remain open at Gate B
+- [ ] All open clarifications have assigned owners and due dates
+- [ ] All Phase 1 open clarifications are resolved or formally deferred with documented rationale
+- [ ] Log reviewed at each sprint or weekly requirements review session
+
+## Handover Readiness
+<!-- Confirms this log is ready for Gate B and for carry-over into Phase 3. -->
+- [ ] All CRITICAL items resolved and signed off
+- [ ] Deferred clarifications formally acknowledged and added to Phase 3 backlog
+- [ ] Log included in Gate B approval pack

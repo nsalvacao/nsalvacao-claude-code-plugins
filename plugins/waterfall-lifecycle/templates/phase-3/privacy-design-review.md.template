@@ -1,0 +1,89 @@
+# Privacy Design Review
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Author | {{author}} |
+| Status | {{status}} |
+| DPO | {{dpo_name}} |
+
+## PII Inventory
+
+| Data Element | Category | Legal Basis | Retention Period | Storage Location | Encryption |
+|-------------|---------|-------------|-----------------|-----------------|-----------|
+| {{data_element_1}} | {{category_1}} | {{legal_basis_1}} | {{retention_1}} | {{storage_1}} | {{encryption_1}} |
+| {{data_element_2}} | {{category_2}} | {{legal_basis_2}} | {{retention_2}} | {{storage_2}} | {{encryption_2}} |
+| {{data_element_3}} | {{category_3}} | {{legal_basis_3}} | {{retention_3}} | {{storage_3}} | {{encryption_3}} |
+
+<!-- Category: personal | sensitive | special-category -->
+<!-- Legal Basis: consent | contract | legal-obligation | legitimate-interest | vital-interest | public-task -->
+
+## Data Flows
+
+| Flow ID | From | To | Data Elements | Transfer Mechanism | Protection Measure |
+|---------|------|----|--------------|-------------------|-------------------|
+| {{flow_id_1}} | {{from_1}} | {{to_1}} | {{data_elements_1}} | {{transfer_mechanism_1}} | {{protection_measure_1}} |
+| {{flow_id_2}} | {{from_2}} | {{to_2}} | {{data_elements_2}} | {{transfer_mechanism_2}} | {{protection_measure_2}} |
+| {{flow_id_3}} | {{from_3}} | {{to_3}} | {{data_elements_3}} | {{transfer_mechanism_3}} | {{protection_measure_3}} |
+
+## GDPR Article Mapping
+
+| Article | Obligation | How Addressed |
+|---------|-----------|--------------|
+| Art. 5 | Principles of processing | {{art5_addressed}} |
+| Art. 6 | Lawfulness of processing | {{art6_addressed}} |
+| Art. 13 | Information to be provided | {{art13_addressed}} |
+| Art. 17 | Right to erasure | {{art17_addressed}} |
+| Art. 25 | Data protection by design | {{art25_addressed}} |
+| Art. 32 | Security of processing | {{art32_addressed}} |
+| Art. 35 | Data protection impact assessment | {{art35_addressed}} |
+
+## Privacy Controls
+
+| Control | Implementation | Owner |
+|---------|---------------|-------|
+| {{privacy_control_1}} | {{privacy_impl_1}} | {{privacy_owner_1}} |
+| {{privacy_control_2}} | {{privacy_impl_2}} | {{privacy_owner_2}} |
+| {{privacy_control_3}} | {{privacy_impl_3}} | {{privacy_owner_3}} |
+
+## DPIA Required?
+
+{{dpia_required}}
+
+<!-- Values: yes | no | tbc -->
+
+{{dpia_rationale}}
+
+## Privacy Findings
+
+| Finding | Severity | Mitigation | Owner | Status |
+|---------|---------|-----------|-------|--------|
+| {{privacy_finding_1}} | {{privacy_severity_1}} | {{privacy_mitigation_1}} | {{privacy_finding_owner_1}} | {{privacy_finding_status_1}} |
+| {{privacy_finding_2}} | {{privacy_severity_2}} | {{privacy_mitigation_2}} | {{privacy_finding_owner_2}} | {{privacy_finding_status_2}} |
+
+## DPO Sign-off
+
+| Field | Value |
+|-------|-------|
+| DPO Name | {{dpo_sign_off_name}} |
+| Sign-off Date | {{dpo_sign_off_date}} |
+| Outcome | {{dpo_sign_off_outcome}} |
+
+<!-- Outcome values: approved | conditional-approval | rejected -->
+
+## Completeness Checklist
+- [ ] PII inventory complete with all personal data elements documented
+- [ ] Data flows mapped with transfer mechanisms and protection measures
+- [ ] GDPR article mapping complete for all applicable articles
+- [ ] Privacy controls defined with owners
+- [ ] DPIA decision documented with rationale
+- [ ] DPO sign-off obtained
+
+## Handover Readiness
+<!-- Confirms privacy design review is ready as input for Gate C approval. -->
+- [ ] Privacy design review signed off by DPO
+- [ ] GDPR article mapping reviewed by legal team
+- [ ] Privacy controls aligned with security-design-review.md
+- [ ] Linked to design-approval-pack.md artefact checklist

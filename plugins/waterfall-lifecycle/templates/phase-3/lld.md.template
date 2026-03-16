@@ -1,0 +1,66 @@
+# Low-Level Design
+
+| Field | Value |
+|-------|-------|
+| Phase | 3 — Architecture & Solution Design |
+| Gate | C — Design Review |
+| Date | {{date}} |
+| Author | {{author}} |
+| Status | {{status}} |
+| Component | {{component_name}} |
+
+## Component Overview
+
+{{component_overview}}
+
+## Data Model
+
+| Entity | Attributes | Type | Constraints | Notes |
+|--------|-----------|------|-------------|-------|
+| {{entity_1}} | {{attributes_1}} | {{type_1}} | {{constraints_1}} | {{notes_1}} |
+| {{entity_2}} | {{attributes_2}} | {{type_2}} | {{constraints_2}} | {{notes_2}} |
+| {{entity_3}} | {{attributes_3}} | {{type_3}} | {{constraints_3}} | {{notes_3}} |
+
+## API Contracts
+
+<!-- Document each endpoint with method, path, description, request schema, response schema, and auth -->
+
+{{api_contract_1}}
+
+{{api_contract_2}}
+
+{{api_contract_3}}
+
+## Sequence Diagrams
+
+<!-- Include as image link or textual description -->
+
+{{sequence_diagrams}}
+
+## Error Handling
+
+| Error Code | Condition | Response | Recovery Action |
+|-----------|-----------|----------|----------------|
+| {{error_1}} | {{condition_1}} | {{response_1}} | {{recovery_1}} |
+| {{error_2}} | {{condition_2}} | {{response_2}} | {{recovery_2}} |
+| {{error_3}} | {{condition_3}} | {{response_3}} | {{recovery_3}} |
+
+## Dependencies
+
+| Dependency | Type | Version | Source |
+|-----------|------|---------|--------|
+| {{dependency_1}} | {{dep_type_1}} | {{dep_version_1}} | {{dep_source_1}} |
+| {{dependency_2}} | {{dep_type_2}} | {{dep_version_2}} | {{dep_source_2}} |
+
+## Completeness Checklist
+- [ ] Data model complete
+- [ ] All APIs documented
+- [ ] Sequence diagrams present
+- [ ] Error handling defined
+
+## Handover Readiness
+<!-- Confirms this LLD is ready as input for Phase 4 build activities. -->
+- [ ] LLD reviewed and approved by Architecture Lead
+- [ ] All API contracts aligned with interface-specifications.md
+- [ ] Error handling strategy agreed with implementation team
+- [ ] Linked to design-approval-pack.md

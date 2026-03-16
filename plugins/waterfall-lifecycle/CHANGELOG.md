@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.0] — unreleased
+
+### Added
+- 4 Phase 2 agents (subfases 2.1–2.4): requirements-articulation, ai-requirements-engineer, nfr-architect, baseline-manager
+- 2 Phase 2 commands: /waterfall-requirements-review, /waterfall-baseline-check
+- 2 Phase 2 skills with references: requirement-authoring, traceability-mapping
+- 2 Phase 2 schemas: requirement, requirements-baseline
+- 10 Phase 2 templates (subfases 2.1–2.4 + Gate B pack)
+- 1 Phase 2 script: check-traceability.sh
+
 ## [0.1.0] — 2026-03-16
 
 ### Added

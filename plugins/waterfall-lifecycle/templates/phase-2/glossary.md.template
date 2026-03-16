@@ -1,0 +1,60 @@
+# Glossary
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | 2.4 — Baseline Establishment |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+
+## Introduction
+<!-- The glossary establishes a shared vocabulary for the project. All team members and stakeholders must use terms as defined here to avoid ambiguity in requirements, designs, and tests. -->
+**Project Name:** {{project_name}}
+
+**Scope:** This glossary covers terms used across all Phase 2 artefacts for {{project_name}}. It is a living document — terms should be added as new concepts are introduced throughout the project lifecycle.
+
+**How to Use:** Before writing any artefact, check this glossary for existing definitions. If a term is not defined here, add it with the team's agreed definition before using it in formal documents.
+
+{{glossary_introduction_notes}}
+
+## Terms Table
+<!-- Define all project-specific, technical, business, AI, and regulatory terms used in project artefacts. Keep definitions precise — avoid circular definitions. -->
+| Term | Definition | Category | Source |
+|------|-----------|----------|--------|
+| Requirements Baseline | The formally approved, frozen set of requirements at a specific point in time. Any post-freeze change requires a formal Change Request. | Technical | Phase 2 Methodology |
+| Acceptance Criterion | A specific, testable condition that a requirement must satisfy to be considered complete. Written in Given/When/Then format. | Technical | Phase 2 Methodology |
+| RTM (see Acronyms) | A matrix that maps each requirement to its acceptance criteria and test cases, ensuring full traceability from requirement to test. | Technical | Phase 2 Methodology |
+| NFR (see Acronyms) | A requirement that describes system quality attributes — such as performance, security, scalability, and availability — rather than specific behaviours. | Technical | Phase 2 Methodology |
+| Gate B | The formal phase gate at the end of Phase 2. Requires all requirements artefacts to be complete, RTM coverage at 100%, and stakeholder sign-off before Phase 3 begins. | Technical | Phase 2 Methodology |
+| {{term_6}} | {{definition_6}} | {{category_6}} | {{source_6}} |
+| {{term_7}} | {{definition_7}} | {{category_7}} | {{source_7}} |
+| {{term_8}} | {{definition_8}} | {{category_8}} | {{source_8}} |
+
+<!-- Category options: Technical | Business | AI | Regulatory -->
+
+## Acronyms Table
+<!-- All acronyms used in project documents must appear here. Spell out the full form on first use in each document, with the acronym in parentheses. -->
+| Acronym | Full Form | Context |
+|---------|-----------|---------|
+| RTM | Requirements Traceability Matrix | Used across all phases to track requirement-to-test linkage |
+| NFR | Non-Functional Requirement | Describes system quality attributes (performance, security, etc.) |
+| AC | Acceptance Criterion | A testable condition that a requirement must satisfy |
+| REQ | Requirement | Prefix for all requirement IDs (format: REQ-YYYY-NNN) |
+| BL | Baseline | Prefix for requirements baseline version (format: BL-YYYY-NNN) |
+| SRS | Software Requirements Specification | Formal document compiling all software requirements |
+| {{acronym_7}} | {{acronym_7_full}} | {{acronym_7_context}} |
+| {{acronym_8}} | {{acronym_8_full}} | {{acronym_8_context}} |
+
+## Completeness Checklist
+- [ ] All project-specific terms are defined with precise, non-circular definitions
+- [ ] All acronyms used in Phase 2 artefacts are expanded here
+- [ ] Reviewed and agreed by Business Analyst and Tech Lead
+- [ ] Glossary is version controlled alongside other Phase 2 artefacts
+
+## Handover Readiness
+<!-- Confirms this glossary is ready for Gate B and for use in subsequent phases. -->
+- [ ] Glossary circulated to all project team members
+- [ ] Terms aligned with definitions used in Phase 1 artefacts (no contradictions)
+- [ ] Document stored in the project artefact repository

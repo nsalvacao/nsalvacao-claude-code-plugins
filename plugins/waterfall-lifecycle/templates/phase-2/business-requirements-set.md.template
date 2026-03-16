@@ -1,0 +1,72 @@
+# Business Requirements Set
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | 2.1 — Requirements Articulation |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+
+## Introduction
+<!-- Summarise what requirements are captured here, how they were elicited, and who participated. -->
+**Project Name:** {{project_name}}
+
+**Elicitation Approach:** {{elicitation_approach}}
+<!-- Examples: stakeholder interviews, workshops, user story mapping, document analysis, observation -->
+
+{{introduction_narrative}}
+
+## Requirements Table
+<!-- Each requirement must have a unique REQ-ID, a clear title, a single category, a MoSCoW priority, and an assigned owner. Avoid vague language such as "fast", "easy", or "flexible" — use measurable terms. -->
+| REQ-ID | Title | Category | Priority | Description | Owner | Status |
+|--------|-------|----------|----------|-------------|-------|--------|
+| {{req_id_1}} | {{req_title_1}} | {{req_category_1}} | {{req_priority_1}} | {{req_description_1}} | {{req_owner_1}} | {{req_status_1}} |
+| {{req_id_2}} | {{req_title_2}} | {{req_category_2}} | {{req_priority_2}} | {{req_description_2}} | {{req_owner_2}} | {{req_status_2}} |
+| {{req_id_3}} | {{req_title_3}} | {{req_category_3}} | {{req_priority_3}} | {{req_description_3}} | {{req_owner_3}} | {{req_status_3}} |
+
+## Acceptance Criteria
+<!-- Each requirement must have at least one acceptance criterion. Use Given/When/Then format for testability. Each AC gets a unique AC-ID. -->
+
+### {{req_id_1}} — {{req_title_1}}
+<!-- Given/When/Then format required. Be specific about the actor, the action, and the observable outcome. -->
+**AC-ID:** {{ac_id_1}}
+**Criterion:** Given {{precondition_1}}, when {{action_1}}, then {{outcome_1}}.
+
+### {{req_id_2}} — {{req_title_2}}
+<!-- Given/When/Then format required. -->
+**AC-ID:** {{ac_id_2}}
+**Criterion:** Given {{precondition_2}}, when {{action_2}}, then {{outcome_2}}.
+
+### {{req_id_3}} — {{req_title_3}}
+<!-- Given/When/Then format required. -->
+**AC-ID:** {{ac_id_3}}
+**Criterion:** Given {{precondition_3}}, when {{action_3}}, then {{outcome_3}}.
+
+## Out-of-Scope Requirements
+<!-- Requirements identified but explicitly deferred. Document reason to avoid scope creep disputes later. -->
+| REQ-ID | Title | Reason Deferred |
+|--------|-------|-----------------|
+| {{oos_req_id_1}} | {{oos_req_title_1}} | {{oos_reason_1}} |
+
+## Open Questions
+<!-- Any unanswered questions that could affect requirements. All must be resolved before Gate B. -->
+| # | Question | Owner | Due Date |
+|---|----------|-------|----------|
+| 1 | {{open_question_1}} | {{oq_owner_1}} | {{oq_due_date_1}} |
+
+## Completeness Checklist
+- [ ] All REQ-IDs follow REQ-YYYY-NNN format
+- [ ] All requirements have at least one acceptance criterion in Given/When/Then format
+- [ ] No vague language — all terms are measurable or precisely defined
+- [ ] All requirements have a MoSCoW priority assigned
+- [ ] All requirements have an owner assigned
+- [ ] Reviewed and approved by Tech Lead
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for inclusion in the RTM and Gate B pack. -->
+- [ ] All requirements are stable — no open questions without assigned owners
+- [ ] Requirements aligned with project scope statement in Project Charter
+- [ ] Acceptance criteria reviewed for testability
+- [ ] Document version controlled and stored in the project artefact repository

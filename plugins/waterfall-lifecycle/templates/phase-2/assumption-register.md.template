@@ -1,0 +1,62 @@
+# Assumption Register
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | Phase 2 update — transversal register |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+| Note | Phase 2 update — extends Phase 1 initial entries |
+
+## Overview
+<!-- The Assumption Register is a transversal artefact maintained across all phases. This document captures Phase 2 additions and updates the status of assumptions carried over from Phase 1. -->
+This register records all assumptions made during Phase 2 — Requirements and Baseline. Assumptions are conditions believed to be true but not yet validated. Each assumption represents a risk: if invalidated, the project scope, schedule, or budget may be affected.
+
+**Individual Assumption Entries:** See [assumption-register-entry.md.template](../assumption-register-entry.md.template) for the standard entry format used when logging new assumptions mid-phase.
+
+**What is new in Phase 2:** Requirements elicitation typically surfaces assumptions about stakeholder availability, data quality, system integration behaviour, and regulatory interpretations. All such assumptions must be logged and assigned a validation date within this phase.
+
+{{assumption_register_overview_notes}}
+
+## Phase 2 Assumptions Table
+<!-- Log all assumptions identified during Phase 2. Validation Date is the target date by which the assumption will be confirmed or refuted. If invalidated, document impact immediately. -->
+| ID | Assumption | Category | Validation Date | Owner | Status | Impact if Invalidated |
+|----|-----------|----------|-----------------|-------|--------|----------------------|
+| ASSUMP-{{year}}-001 | {{assumption_1}} | {{category_1}} | {{validation_date_1}} | {{owner_1}} | {{status_1}} | {{impact_1}} |
+| ASSUMP-{{year}}-002 | {{assumption_2}} | {{category_2}} | {{validation_date_2}} | {{owner_2}} | {{status_2}} | {{impact_2}} |
+| ASSUMP-{{year}}-003 | {{assumption_3}} | {{category_3}} | {{validation_date_3}} | {{owner_3}} | {{status_3}} | {{impact_3}} |
+
+<!-- Category options: Technical | Business | Data | Regulatory -->
+<!-- Status options: unvalidated | validated | invalidated -->
+<!-- Example assumptions:
+     - Stakeholder availability: "Key product stakeholders will be available for 4 hours/week during Phase 2 elicitation sessions"
+     - Data completeness: "Historical transaction data covering 24 months is available in the source system with <5% null rate"
+     - Technology constraints: "The existing API layer supports the additional throughput required without architectural changes" -->
+
+## Phase 1 Assumptions Status
+<!-- Track what happened to assumptions raised in Phase 1. All Phase 1 assumptions must be reviewed at each phase gate. -->
+| ID | Assumption | Phase 1 Status | Phase 2 Update |
+|----|-----------|----------------|----------------|
+| ASSUMP-{{year}}-P1-001 | {{phase1_assumption_1}} | {{phase1_status_1}} | {{phase2_update_1}} |
+
+## Assumptions Expiring This Phase
+<!-- Call out any assumptions whose validation date falls within Phase 2. These must be actively tracked. -->
+> **Attention:** The following assumptions have validation dates within Phase 2. Owners must confirm status before Gate B:
+>
+> - **ASSUMP-{{year}}-001** (Owner: {{owner_1}}, Due: {{validation_date_1}}): {{assumption_1}}
+>
+> If a validation date has passed without confirmation, the assumption must be escalated to the Requirements Lead immediately.
+
+## Completeness Checklist
+- [ ] All Phase 2 assumptions have target validation dates
+- [ ] All assumptions have an assigned owner
+- [ ] All assumptions with expired validation dates have been assessed and updated
+- [ ] All open Phase 1 assumptions have been reviewed and status updated
+
+## Handover Readiness
+<!-- Confirms this register is ready for Gate B and for carry-over into Phase 3. -->
+- [ ] All CRITICAL or high-impact invalidated assumptions have a documented response plan
+- [ ] Register included in Gate B approval pack
+- [ ] Phase 3 team briefed on open assumptions and their impact

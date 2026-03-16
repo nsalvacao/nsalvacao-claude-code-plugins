@@ -1,0 +1,107 @@
+# AI Requirements Specification
+
+| Field | Value |
+|-------|-------|
+| Phase | 2 — Requirements and Baseline |
+| Subfase | 2.2 — AI Requirements Specification |
+| Date | {{date}} |
+| Owner | {{owner}} |
+| Status | {{status}} |
+| Version | {{version}} |
+
+## AI Component Overview
+<!-- Describe the AI component being specified. One document per distinct AI component recommended. -->
+**Component Name:** {{component_name}}
+**Purpose:** {{purpose}}
+**Integration Point:** {{integration_point}}
+**Model Type:** {{model_type}}
+<!-- model_type options: classification | regression | nlp | generative | recommendation | other -->
+**Training Data Description:** {{training_data_description}}
+
+{{component_overview_narrative}}
+
+## AI Requirements Table
+<!-- All AI requirements must have numeric acceptance thresholds and defined fallback behaviours. Avoid qualitative thresholds ("should be accurate") — use measurable metrics. -->
+| REQ-ID | Title | Priority | Acceptance Threshold | Fallback Behaviour | Explainability | Status |
+|--------|-------|----------|---------------------|-------------------|----------------|--------|
+| {{ai_req_id_1}} | {{ai_req_title_1}} | {{ai_req_priority_1}} | {{ai_threshold_1}} | {{ai_fallback_1}} | {{ai_explainability_1}} | {{ai_req_status_1}} |
+| {{ai_req_id_2}} | {{ai_req_title_2}} | {{ai_req_priority_2}} | {{ai_threshold_2}} | {{ai_fallback_2}} | {{ai_explainability_2}} | {{ai_req_status_2}} |
+
+## Acceptance Thresholds Detail
+
+### {{ai_req_id_1}} — {{ai_req_title_1}}
+<!-- Metric must be numeric and reference a specific test dataset. Avoid relative or subjective thresholds. -->
+**Metric:** {{metric_1}}
+<!-- Examples: precision, recall, F1-score, BLEU score, ROUGE-L, latency p95, throughput (req/s) -->
+**Threshold:** {{threshold_1}}
+<!-- Examples: ≥ 0.85, ≤ 200 ms, ≥ 0.90 -->
+**Test Dataset:** {{test_dataset_1}}
+<!-- Describe the dataset: source, record count, time period, class distribution if applicable -->
+**Evaluation Protocol:** {{evaluation_protocol_1}}
+<!-- Describe how evaluation will be run: offline batch, A/B test, shadow mode, etc. -->
+**Fallback Behaviour:** {{fallback_1}}
+<!-- What happens if model fails or threshold is not met: rule-based fallback, human escalation, graceful degradation, etc. -->
+**Explainability Requirement:** {{explainability_1}}
+<!-- Options: not required | feature-importance (SHAP/LIME) | full-explanation (natural language rationale) -->
+
+### {{ai_req_id_2}} — {{ai_req_title_2}}
+<!-- Metric must be numeric and reference a specific test dataset. -->
+**Metric:** {{metric_2}}
+**Threshold:** {{threshold_2}}
+**Test Dataset:** {{test_dataset_2}}
+**Evaluation Protocol:** {{evaluation_protocol_2}}
+**Fallback Behaviour:** {{fallback_2}}
+**Explainability Requirement:** {{explainability_2}}
+
+## Model Constraints
+<!-- Hard constraints the model must satisfy regardless of performance outcomes. -->
+
+| Constraint | Value |
+|------------|-------|
+| Max Inference Latency (p95) | {{max_latency_ms}} ms |
+| Memory Footprint | {{max_memory_mb}} MB |
+| Interpretability Level | {{interpretability}} |
+| Versioning Requirements | {{versioning_requirements}} |
+
+<!-- interpretability options: black-box | feature-importance | full-explanation -->
+<!-- versioning_requirements: e.g. semantic versioning, model registry, rollback capability within 1 hour -->
+
+## Data Requirements
+
+### Training Data
+<!-- Define minimum data volume, quality standards, and any privacy or regulatory constraints on data use. -->
+**Volume:** {{training_volume}}
+**Quality Criteria:** {{quality_criteria}}
+**Privacy Constraints:** {{privacy_constraints}}
+**Validation Split:** {{validation_split}}
+<!-- Example: 80/10/10 train/validation/test — must be stratified if class imbalance exists -->
+
+### Labelling
+<!-- Define labelling requirements if supervised learning is used. -->
+**Labelling Requirements:** {{labelling_requirements}}
+<!-- Examples: human-annotated, inter-annotator agreement ≥ 0.8, specific annotation guidelines reference -->
+
+## Model Drift Monitoring
+<!-- Define how model performance degradation will be detected in production, and what triggers retraining. -->
+**Drift Detection Approach:** {{drift_detection_approach}}
+<!-- Examples: PSI on input features, monitoring output distribution, periodic offline evaluation -->
+**Retraining Trigger:** {{retraining_trigger}}
+<!-- Examples: accuracy drops below threshold X, data drift score exceeds Y, scheduled monthly retraining -->
+
+{{drift_monitoring_notes}}
+
+## Completeness Checklist
+- [ ] All AI requirements have numeric acceptance thresholds (not qualitative)
+- [ ] Fallback behaviour documented per requirement
+- [ ] Test dataset described with source, record count, and class distribution
+- [ ] Model constraints defined (latency, memory, interpretability)
+- [ ] Drift monitoring approach stated with concrete retraining trigger
+- [ ] Privacy constraints on training data addressed
+- [ ] Reviewed and approved by Tech Lead
+
+## Handover Readiness
+<!-- Confirms this artefact is ready for inclusion in RTM and Gate B pack. -->
+- [ ] AI requirements traceable to business requirements in Business Requirements Set
+- [ ] Acceptance thresholds aligned with stakeholder expectations
+- [ ] Data availability confirmed or data acquisition plan in place
+- [ ] Document version controlled and stored in the project artefact repository

@@ -110,6 +110,17 @@
       "source": "./plugins/agile-lifecycle",
       "category": "productivity",
       "tags": ["agile", "lifecycle", "project-management", "ai-ml", "gates", "phases"]
+    },
+    {
+      "name": "waterfall-lifecycle",
+      "description": "Formal predictive waterfall lifecycle framework for AI/ML products — 8 phases, 8 formal gates (A–H), 33 agents, 15 skills, and full artefact management. For regulated environments with formal handovers and requirements traceability.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/waterfall-lifecycle",
+      "category": "development"
     }
   ]
 }

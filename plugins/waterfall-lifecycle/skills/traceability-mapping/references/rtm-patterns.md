@@ -17,7 +17,7 @@ The canonical RTM structure. Every column is mandatory; no columns may be omitte
 |--------|------|----------------|-------|
 | `REQ-ID` | String | `REQ-YYYY-NNN` | Foreign key to requirements set |
 | `Requirement Title` | String | Free text | Short title (≤ 80 chars) |
-| `Category` | Enum | `functional` \| `ai` \| `nfr` \| `constraint` | Maps to Phase 2 source document |
+| `Category` | Enum | `functional` \| `ai` \| `nfr` \| `constraint` \| `assumption` | Maps to Phase 2 source document |
 | `Priority` | Enum | `must` \| `should` \| `could` \| `wont` | MoSCoW |
 | `AC-ID` | String | `AC-YYYY-NNN` | Unique per acceptance criterion; not per requirement |
 | `Acceptance Criterion` | String | Given/When/Then format | Must be testable |

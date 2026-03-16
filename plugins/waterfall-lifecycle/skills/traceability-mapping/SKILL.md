@@ -26,7 +26,7 @@ The RTM table has these mandatory columns:
 Column definitions:
 - `REQ-ID` — unique requirement identifier (REQ-YYYY-NNN)
 - `Requirement Title` — short title from the requirement
-- `Category` — functional|ai|nfr|constraint
+- `Category` — functional|ai|nfr|constraint|assumption
 - `Priority` — must|should|could|wont
 - `AC-ID` — unique acceptance criterion ID (AC-YYYY-NNN, linked to REQ-ID)
 - `Acceptance Criterion` — the Given/When/Then text
@@ -65,7 +65,7 @@ Before Gate B, confirm:
 
 ## Key Principles
 1. **100% must coverage is a gate blocker** — every must requirement without an acceptance criterion blocks Gate B; no exceptions.
-2. **RTM is the single source of truth** — when requirements and RTM diverge, the RTM is wrong; update RTM, not requirements.
+2. **RTM must reflect the baseline** — The requirements baseline is the single source of truth. The RTM is a derived artefact that must accurately reflect it. If they diverge, the RTM must be corrected to align with the requirements baseline.
 3. **AC-IDs are permanent** — deferred ACs keep their ID; they are marked deferred in status.
 4. **Test Ref = TBD is acceptable at Gate B** — test cases are defined in Phase 4; leave TBD but ensure AC exists.
 5. **Change control updates RTM atomically** — when a requirement changes post-baseline, the RTM, acceptance criteria, and version number must all be updated in the same change control record.

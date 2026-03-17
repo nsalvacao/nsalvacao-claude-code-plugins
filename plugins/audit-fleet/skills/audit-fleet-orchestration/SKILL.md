@@ -37,9 +37,8 @@ All Findings entries must include these keys exactly:
 
 Severity enum is strict: critical | warning | info.
 
-
 ## Execution Steps
-1. Confirm target path, blueprint or spec files, and plan or roadmap files.
+1. Confirm target repository path and available project artifacts (docs, specs, roadmap/tasks, ADRs, CI config, and git history).
 2. Assign one report file path per lane and dispatch lanes 01 to 13.
 3. Validate each lane output against Executive Summary, Findings, Quick Wins, and High-Impact Expansions.
 4. Accept lane completion only when finding_id, severity, dimension, evidence, impact, recommendation, effort, owner, dependencies, confidence, and acceptance_criteria are present.

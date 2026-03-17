@@ -30,7 +30,6 @@ All Findings entries must include these keys exactly:
 
 Severity enum is strict: critical | warning | info.
 
-
 ## Findings Format
 Use a markdown table with this exact column order:
 | finding_id | severity | dimension | evidence | impact | recommendation | effort | owner | dependencies | confidence | acceptance_criteria |

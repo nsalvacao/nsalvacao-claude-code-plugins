@@ -30,7 +30,6 @@ All Findings entries must include these keys exactly:
 
 Severity enum is strict: critical | warning | info.
 
-
 ## Trigger Cues
 Use when requests mention:
 - track lane status

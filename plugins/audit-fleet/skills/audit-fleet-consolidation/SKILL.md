@@ -30,7 +30,6 @@ All Findings entries must include these keys exactly:
 
 Severity enum is strict: critical | warning | info.
 
-
 ## Consolidation Process
 1. Validate each lane report contains Executive Summary, Findings, Quick Wins, High-Impact Expansions.
 2. Validate every finding row keeps finding_id, severity, dimension, evidence, impact, recommendation, effort, owner, dependencies, confidence, acceptance_criteria.

@@ -30,7 +30,6 @@ All Findings entries must include these keys exactly:
 
 Severity enum is strict: critical | warning | info.
 
-
 ## Evidence Standard
 - evidence must include file:line plus a short quote or command output.
 - impact must describe concrete consequence for delivery, security, UX, reliability, or business value.

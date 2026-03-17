@@ -24,6 +24,27 @@ Audit Fleet turns repository audits into a repeatable system:
 - Scripts (6): path normalization, report checks, json mirror, sqlite init/update, schema validation
 - Schemas (3): report, bundle, sqlite contract
 
+## Lane to Agent Mapping
+
+Use these agent identifiers for `--include` / `--exclude` filters during `/audit-fleet:run`:
+
+| Lane file | Agent identifier |
+|---|---|
+| `00-executive-summary.md` | `solution-auditor-consolidator` |
+| `01-solution-auditor.md` | `solution-auditor` |
+| `02-coherence-analyzer.md` | `coherence-analyzer` |
+| `03-architect-review.md` | `architect-review` |
+| `04-security-auditor.md` | `security-auditor` |
+| `05-test-engineer.md` | `test-engineer` |
+| `06-devops.md` | `devops` |
+| `07-deployment-engineer.md` | `deployment-engineer` |
+| `08-ux-reviewer.md` | `ux-reviewer` |
+| `09-business-analyst.md` | `business-analyst` |
+| `10-architect-roadmap.md` | `architect` |
+| `11-evolution-audit.md` | `explore` |
+| `12-documentation-auditor.md` | `documentation-auditor` |
+| `13-cost-efficiency-auditor.md` | `cost-efficiency-auditor` |
+
 ## Installation
 
 Use the official marketplace flow:

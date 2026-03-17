@@ -229,7 +229,7 @@ def seed_fleet(conn: sqlite3.Connection, replace_seed: bool) -> dict[str, int]:
         lane_id = Path(report_file).stem
         todo_id = lane_todo_id(report_file)
         title = f"Audit lane {lane_id}"
-        description = f"Produce {report_file} aligned to blueprint and plan contract"
+        description = f"Produce {report_file} aligned to the audit-fleet output contract"
 
         existing = conn.execute("SELECT id FROM todos WHERE id = ?", (todo_id,)).fetchone()
         if existing is None:

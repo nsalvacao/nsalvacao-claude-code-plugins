@@ -1,21 +1,32 @@
 ---
 name: run
-description: Orchestrate the full audit-fleet run with fan-out specialists, barrier sync, fan-in consolidation, and validation gates.
-argument-hint: "[--mode strict|balanced] [--reports-dir .audit-fleet/reports] [--blueprint <path>] [--plan <path>] [--db .audit-fleet/audit-fleet.sqlite3]"
+description: Orchestrate the full audit-fleet run with specialist fan-out, barrier synchronization, consolidator fan-in, and validation gates.
+argument-hint: "[--repo <path>] [--out <path>] [--mode strict|balanced] [--include <agents>] [--exclude <agents>] [--max-parallel <n>] [--allow-partial-consolidation]"
 allowed-tools:
   - Task
   - Bash
   - Read
   - Glob
+  - AskUserQuestion
 ---
 
 # Audit Fleet Run
 
-Execute the canonical audit-fleet orchestration flow, aligned to blueprint plus implementation plan.
+Execute the canonical cross-repository audit-fleet orchestration flow.
+
+## Defaults
+
+- `repo`: current working directory
+- `out`: `<repo>/.dev/audit-YYYY-MM-DD`
+- `mode`: `balanced`
+- `max-parallel`: `13`
+- `allow-partial-consolidation`: `false`
+
+If `repo` or `out` are missing, run a short wizard.
 
 ## Fixed Report Artifacts
 
-The run is complete only when these report files exist in `<reports-dir>`:
+The run is complete only when these report files exist in `<out>`:
 
 - `00-executive-summary.md`
 - `01-solution-auditor.md`
@@ -32,48 +43,66 @@ The run is complete only when these report files exist in `<reports-dir>`:
 - `12-documentation-auditor.md`
 - `13-cost-efficiency-auditor.md`
 
+## Agent Identifiers for `--include` and `--exclude`
+
+- `solution-auditor-consolidator` (lane `00`)
+- `solution-auditor`
+- `coherence-analyzer`
+- `architect-review`
+- `security-auditor`
+- `test-engineer`
+- `devops`
+- `deployment-engineer`
+- `ux-reviewer`
+- `business-analyst`
+- `architect` (lane `10`)
+- `explore` (lane `11`)
+- `documentation-auditor`
+- `cost-efficiency-auditor`
+
 ## Mode Semantics
 
 - `balanced` (default): warnings are reported but the run can continue.
-- `strict`: warnings are treated as failures at validation gates.
+- `strict`: warnings fail validation gates.
 
 ## Deterministic Outputs
 
-- `<reports-dir>/00-executive-summary.md` through `<reports-dir>/13-cost-efficiency-auditor.md`
-- `.audit-fleet/reports-check.json`
-- `.audit-fleet/reports-json/<report-id>.json` (one per fixed report)
-- `.audit-fleet/audit-bundle.json`
-- `.audit-fleet/validation-result.json`
-- `.audit-fleet/sqlite-contract.json`
-- `.audit-fleet/status.json`
+- `<out>/00-executive-summary.md` through `<out>/13-cost-efficiency-auditor.md`
+- `<out>/reports-check.json`
+- `<out>/reports-json/<report-id>.json` (one per fixed report)
+- `<out>/audit-bundle.json`
+- `<out>/validation-result.json`
+- `<out>/sqlite-contract.json`
+- `<out>/status.json`
+- `<out>/audit-fleet.sqlite3`
 
 ## Orchestration Flow
 
 1. **Pre-flight and state init**
-   - Normalize paths with `path-normalize.py`.
-   - Initialize DB: `sqlite-init.py --db <db> --seed-fleet`.
-2. **Fan-out (parallel barrier stage)**
-   - Dispatch lanes `01`..`13` in parallel.
-   - Each lane must audit against blueprint+plan and write exactly its fixed markdown file.
-   - Update lane todos to `in_progress` then `done` via `sqlite-update.py set-status`.
+   - Normalize `<repo>` and `<out>` with `path-normalize.py`.
+   - Initialize DB: `sqlite-init.py --db <out>/audit-fleet.sqlite3 --seed-fleet`.
+2. **Fan-out (parallel specialist stage)**
+   - Dispatch lanes `01` to `13` in parallel.
+   - Each lane audits the target repository (`--repo`) and writes one fixed markdown report in `<out>`.
+   - Update lane todos to `in_progress`, then `done` or `blocked` via `sqlite-update.py set-status`.
 3. **Barrier**
-   - Run `reports-check.py` to confirm required report inventory.
-   - Block fan-in until all specialist files are present and inventory checks pass.
+   - Run `reports-check.py --reports-dir <out>`.
+   - Wait for all specialists to become terminal unless `--allow-partial-consolidation` is enabled.
 4. **Fan-in (consolidator stage)**
-   - Run lane `00-executive-summary` only after barrier pass.
-   - Consolidator consumes `01`..`13`, deduplicates findings, and writes `00` report.
+   - Run lane `00-executive-summary` only after barrier conditions are met.
+   - If partial consolidation is enabled, missing specialists must be listed as `coverage_gap`.
 5. **Validation gate**
    - `schema-validate.py` validates markdown sections and JSON contracts with mode-aware strictness.
 6. **JSON mirror generation**
-   - `json-mirror.py` emits per-report JSON and `audit-bundle.json`.
+   - `json-mirror.py --reports-dir <out> --out-dir <out>` emits per-report JSON and `audit-bundle.json`.
 7. **State export**
-   - `sqlite-update.py export-contract --output .audit-fleet/sqlite-contract.json`.
-   - `sqlite-update.py status --mode <mode> --output .audit-fleet/status.json`.
+   - `sqlite-update.py export-contract --db <out>/audit-fleet.sqlite3 --output <out>/sqlite-contract.json`.
+   - `sqlite-update.py status --db <out>/audit-fleet.sqlite3 --mode <mode> --output <out>/status.json`.
 
 ## Usage
 
 ```bash
-/audit-fleet:run
-/audit-fleet:run --mode strict --blueprint docs/blueprint.md --plan docs/plan.md
-/audit-fleet:run --mode balanced --reports-dir .audit-fleet/reports --db .audit-fleet/audit-fleet.sqlite3
+/audit-fleet:run --repo . --out .dev/audit-2026-03-17 --mode balanced
+/audit-fleet:run --repo /workspace/my-app --out /workspace/my-app/.dev/audit-2026-03-17 --mode strict
+/audit-fleet:run --repo /workspace/legacy-repo --out /workspace/legacy-repo/.dev/audit-2026-03-17 --allow-partial-consolidation
 ```

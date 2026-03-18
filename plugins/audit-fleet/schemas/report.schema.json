@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audit-fleet/report",
+  "title": "Audit Fleet Report",
+  "description": "Deterministic per-lane report JSON contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "mode",
+    "generated_at",
+    "source_markdown",
+    "title",
+    "section_order",
+    "sections",
+    "findings",
+    "quick_wins",
+    "high_impact_expansions",
+    "finding_count",
+    "totals"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^[0-9]{2}-[a-z0-9][a-z0-9-]*$"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["strict", "balanced"]
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_markdown": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "section_order": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "string",
+        "enum": [
+          "Executive Summary",
+          "Findings",
+          "Quick Wins",
+          "High-Impact Expansions"
+        ]
+      }
+    },
+    "sections": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Executive Summary",
+        "Findings",
+        "Quick Wins",
+        "High-Impact Expansions"
+      ],
+      "properties": {
+        "Executive Summary": {
+          "type": "string"
+        },
+        "Findings": {
+          "type": "string"
+        },
+        "Quick Wins": {
+          "type": "string"
+        },
+        "High-Impact Expansions": {
+          "type": "string"
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "finding_id",
+          "severity",
+          "dimension",
+          "evidence",
+          "impact",
+          "recommendation",
+          "effort",
+          "owner",
+          "dependencies",
+          "confidence",
+          "acceptance_criteria"
+        ],
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "warning", "info"]
+          },
+          "dimension": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 1
+          },
+          "recommendation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "effort": {
+            "type": "string",
+            "enum": ["S", "M", "L"]
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          },
+          "acceptance_criteria": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "quick_wins": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "high_impact_expansions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "finding_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["by_severity"],
+      "properties": {
+        "by_severity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["critical", "warning", "info"],
+          "properties": {
+            "critical": {"type": "integer", "minimum": 0},
+            "warning": {"type": "integer", "minimum": 0},
+            "info": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    }
+  }
+}

@@ -122,6 +122,18 @@
       "source": "./plugins/waterfall-lifecycle",
       "category": "development",
       "tags": ["waterfall", "predictive", "lifecycle", "phase-gates", "ai-governance", "requirements-traceability", "formal-handovers", "artefact-management", "multi-agent"]
+    },
+    {
+      "name": "audit-fleet",
+      "description": "Cross-repository audit orchestration plugin for onboarding and quality assessment in any project, with deterministic outputs and SQLite-backed execution tracking.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/audit-fleet",
+      "category": "development",
+      "tags": ["audit", "quality", "orchestration", "multi-agent", "cross-repository", "sqlite"]
     }
   ]
 }

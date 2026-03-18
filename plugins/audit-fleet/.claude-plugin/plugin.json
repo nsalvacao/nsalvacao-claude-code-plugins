@@ -1,0 +1,18 @@
+{
+  "name": "audit-fleet",
+  "version": "0.1.0",
+  "description": "Cross-repository audit orchestration plugin for onboarding and quality assessment in any project, with deterministic outputs and SQLite-backed execution tracking.",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com"
+  },
+  "keywords": [
+    "audit",
+    "quality",
+    "onboarding",
+    "governance",
+    "cross-repository",
+    "multi-agent",
+    "sqlite"
+  ]
+}

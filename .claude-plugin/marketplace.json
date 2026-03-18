@@ -132,7 +132,8 @@
         "email": "nuno.salvacao@gmail.com"
       },
       "source": "./plugins/audit-fleet",
-      "category": "development"
+      "category": "development",
+      "tags": ["audit", "quality", "orchestration", "multi-agent", "cross-repository", "sqlite"]
     }
   ]
 }

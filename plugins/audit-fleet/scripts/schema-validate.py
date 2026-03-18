@@ -10,47 +10,16 @@ import sys
 from pathlib import Path
 from typing import Any
 
-REQUIRED_REPORT_FILES = [
-    "00-executive-summary.md",
-    "01-solution-auditor.md",
-    "02-coherence-analyzer.md",
-    "03-architect-review.md",
-    "04-security-auditor.md",
-    "05-test-engineer.md",
-    "06-devops.md",
-    "07-deployment-engineer.md",
-    "08-ux-reviewer.md",
-    "09-business-analyst.md",
-    "10-architect-roadmap.md",
-    "11-evolution-audit.md",
-    "12-documentation-auditor.md",
-    "13-cost-efficiency-auditor.md",
-]
-
-REQUIRED_SECTION_ORDER = [
-    "Executive Summary",
-    "Findings",
-    "Quick Wins",
-    "High-Impact Expansions",
-]
-
-REQUIRED_FINDING_KEYS = [
-    "finding_id",
-    "severity",
-    "dimension",
-    "evidence",
-    "impact",
-    "recommendation",
-    "effort",
-    "owner",
-    "dependencies",
-    "confidence",
-    "acceptance_criteria",
-]
-
-ALLOWED_SEVERITY = {"critical", "warning", "info"}
-ALLOWED_CONFIDENCE = {"high", "medium", "low"}
-ALLOWED_EFFORT = {"S", "M", "L"}
+from contract import (
+    ALLOWED_CONFIDENCE,
+    ALLOWED_EFFORT,
+    ALLOWED_SEVERITY,
+    REQUIRED_FINDING_KEYS,
+    REQUIRED_REPORT_FILES,
+    REQUIRED_SECTION_ORDER,
+    finding_key_deltas,
+    section_order_deltas,
+)
 
 
 def fail(message: str, code: int = 1) -> None:
@@ -102,10 +71,6 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def normalize_heading(value: str) -> str:
-    return re.sub(r"\s+", " ", value.strip().lower())
-
-
 def load_json(path: Path, label: str) -> dict[str, Any]:
     if not path.exists():
         fail(f"{label} file not found: {path}")
@@ -143,17 +108,10 @@ def check_markdown_sections(path: Path, mode: str, errors: list[str], warnings: 
         if match:
             section_titles.append(match.group(1).strip())
 
-    expected_norm = [normalize_heading(section) for section in REQUIRED_SECTION_ORDER]
-    found_norm = [normalize_heading(section) for section in section_titles]
-
-    missing_sections = [
-        section for section in REQUIRED_SECTION_ORDER if normalize_heading(section) not in found_norm
-    ]
+    missing_sections, order_ok = section_order_deltas(section_titles)
     if missing_sections:
         errors.append(f"{path.name}: missing sections: {', '.join(missing_sections)}")
 
-    ordered = [value for value in found_norm if value in expected_norm]
-    order_ok = ordered == expected_norm
     if not order_ok:
         message = (
             f"{path.name}: section order mismatch. "
@@ -176,11 +134,7 @@ def validate_finding_payload(
         errors.append(f"{source}: finding must be an object")
         return
 
-    keys = set(finding.keys())
-    required = set(REQUIRED_FINDING_KEYS)
-
-    missing = sorted(list(required - keys))
-    extras = sorted(list(keys - required))
+    missing, extras = finding_key_deltas(finding.keys())
 
     if missing:
         errors.append(f"{source}: missing finding keys: {', '.join(missing)}")

@@ -11,47 +11,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-REQUIRED_REPORT_FILES = [
-    "00-executive-summary.md",
-    "01-solution-auditor.md",
-    "02-coherence-analyzer.md",
-    "03-architect-review.md",
-    "04-security-auditor.md",
-    "05-test-engineer.md",
-    "06-devops.md",
-    "07-deployment-engineer.md",
-    "08-ux-reviewer.md",
-    "09-business-analyst.md",
-    "10-architect-roadmap.md",
-    "11-evolution-audit.md",
-    "12-documentation-auditor.md",
-    "13-cost-efficiency-auditor.md",
-]
-
-REQUIRED_SECTION_ORDER = [
-    "Executive Summary",
-    "Findings",
-    "Quick Wins",
-    "High-Impact Expansions",
-]
-
-REQUIRED_FINDING_KEYS = [
-    "finding_id",
-    "severity",
-    "dimension",
-    "evidence",
-    "impact",
-    "recommendation",
-    "effort",
-    "owner",
-    "dependencies",
-    "confidence",
-    "acceptance_criteria",
-]
-
-ALLOWED_SEVERITY = {"critical", "warning", "info"}
-ALLOWED_CONFIDENCE = {"high", "medium", "low"}
-ALLOWED_EFFORT = {"S", "M", "L"}
+from contract import (
+    ALLOWED_CONFIDENCE,
+    ALLOWED_EFFORT,
+    ALLOWED_SEVERITY,
+    REQUIRED_REPORT_FILES,
+    REQUIRED_SECTION_ORDER,
+    finding_key_deltas,
+    normalize_heading,
+    normalize_key,
+    section_order_deltas,
+)
 
 
 def utc_now() -> str:
@@ -84,17 +54,6 @@ def parse_args() -> argparse.Namespace:
         help="Validation mode while mirroring (default: balanced)",
     )
     return parser.parse_args()
-
-
-def normalize_heading(value: str) -> str:
-    return re.sub(r"\s+", " ", value.strip().lower())
-
-
-def normalize_key(value: str) -> str:
-    normalized = value.strip().lower().replace("-", "_")
-    normalized = re.sub(r"[^a-z0-9_]+", "_", normalized)
-    normalized = re.sub(r"_+", "_", normalized).strip("_")
-    return normalized
 
 
 def split_pipe_row(line: str) -> list[str]:
@@ -231,12 +190,11 @@ def normalize_finding(
         return None
 
     normalized = {normalize_key(str(key)): value for key, value in raw.items()}
-    missing = [key for key in REQUIRED_FINDING_KEYS if key not in normalized]
+    missing, extras = finding_key_deltas(normalized.keys())
     if missing:
         errors.append(f"{source}: missing finding keys: {', '.join(missing)}")
         return None
 
-    extras = sorted([key for key in normalized.keys() if key not in REQUIRED_FINDING_KEYS])
     if extras:
         message = f"{source}: extra finding keys ignored: {', '.join(extras)}"
         if mode == "strict":
@@ -345,11 +303,11 @@ def parse_report(path: Path, mode: str, errors: list[str], warnings: list[str]) 
     if not title:
         errors.append(f"{path.name}: missing top-level heading")
 
-    for section in REQUIRED_SECTION_ORDER:
-        if section not in sections:
-            errors.append(f"{path.name}: missing section '{section}'")
+    missing_sections, order_ok = section_order_deltas(section_order)
+    for section in missing_sections:
+        errors.append(f"{path.name}: missing section '{section}'")
 
-    if section_order != REQUIRED_SECTION_ORDER:
+    if not order_ok:
         message = (
             f"{path.name}: required section order is {REQUIRED_SECTION_ORDER}, "
             f"found {section_order or 'none'}"

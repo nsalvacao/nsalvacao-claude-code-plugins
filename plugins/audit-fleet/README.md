@@ -21,7 +21,7 @@ Audit Fleet turns repository audits into a repeatable system:
 - Commands (5): `run`, `status`, `validate`, `summarize`, `clean`
 - Agents (14): `00-executive-summary` through `13-cost-efficiency-auditor`
 - Skills (5): orchestration, output contract, evidence policy, SQL todos, consolidation
-- Scripts (6): path normalization, report checks, json mirror, sqlite init/update, schema validation
+- Scripts (7): path normalization, report checks, json mirror, sqlite init/update, schema validation, shared contract helpers
 - Schemas (3): report, bundle, sqlite contract
 
 ## Lane to Agent Mapping

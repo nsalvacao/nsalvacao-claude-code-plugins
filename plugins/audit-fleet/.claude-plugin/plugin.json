@@ -5,5 +5,14 @@
   "author": {
     "name": "Nuno Salvacao",
     "email": "nuno.salvacao@gmail.com"
-  }
+  },
+  "keywords": [
+    "audit",
+    "quality",
+    "onboarding",
+    "governance",
+    "cross-repository",
+    "multi-agent",
+    "sqlite"
+  ]
 }

@@ -1,0 +1,13 @@
+{
+  "name": "qwen-delegate",
+  "version": "0.1.0",
+  "description": "Delegate tasks to a local Qwen model to save Anthropic PRO tokens. Covers summarisation, formatting, translation, boilerplate and code generation — always with Claude validation.",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com"
+  },
+  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "license": "Apache-2.0",
+  "keywords": ["local-llm", "qwen", "delegation", "token-saving", "code-generation", "productivity"]
+}

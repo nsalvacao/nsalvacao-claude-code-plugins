@@ -13,7 +13,7 @@ Delegate tasks to the Qwen CLI to preserve Anthropic PRO tokens for work that ge
 ## Features
 
 - **Cognitive delegation skill** — Claude learns autonomously when and how to delegate to Qwen
-- **User-invoked skill** — `/qwen-delegate:ask-qwen` for direct delegation (invoked via the skills mechanism, not a `commands/` file)
+- **Slash command** — `/qwen-delegate:ask-qwen` for direct delegation by the user
 - **Delegation advisor agent** — Proactively triages task lists to identify Qwen candidates
 
 ## Prerequisites
@@ -48,9 +48,9 @@ Auto-activates when Claude is about to perform delegatable tasks. Teaches Claude
 - How to pass file context via stdin
 - The mandatory validation gate before presenting results
 
-### Skill: `ask-qwen` (user-invoked)
+### Command: `ask-qwen`
 
-Direct delegation by the user. Invoked as a skill via Claude Code's skill mechanism:
+Slash command for direct delegation by the user:
 
 ```
 /qwen-delegate:ask-qwen Write a Python function to validate an email address

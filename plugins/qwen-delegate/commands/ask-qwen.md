@@ -1,15 +1,16 @@
 ---
-name: Ask Qwen
-description: This skill should be used when the user invokes "/qwen-delegate:ask-qwen" to directly delegate a task or prompt to the Qwen CLI (cloud-backed). This is a user-invocable skill — invoked via the skills mechanism (argument-hint frontmatter), not via a commands/ file. Execute the task using the qwen CLI, validate the result, and return it to the user. Accepts an optional task argument; if absent, prompt the user for the task.
+name: ask-qwen
+description: Delegate a task directly to the Qwen CLI (cloud-backed, OAuth-authenticated). Executes the task via the qwen CLI, validates the result, and returns it to the user.
 argument-hint: "<task or prompt to delegate to Qwen>"
 allowed-tools:
   - Bash
-version: 0.1.0
 ---
 
 # Ask Qwen — Direct Delegation
 
-Execute a user-specified task on the local Qwen model (`qwen` CLI) and return the validated result.
+Execute a user-specified task via the `qwen` CLI (Qwen Code, cloud-backed) and return the validated result.
+
+> **Note:** The `qwen` CLI runs against Qwen/Alibaba cloud infrastructure — it is not a local LLM runner. No Anthropic API calls are made during delegation.
 
 ## Execution Steps
 
@@ -90,7 +91,7 @@ Present the result as:
 [Qwen's validated output here]
 
 ---
-*Drafted by local Qwen (coder-model), validated by Claude.*
+*Drafted by Qwen via the cloud-backed `qwen` CLI, validated by Claude.*
 ```
 
 For trivial transformations (e.g., reformatting a small JSON), omit the attribution footer.

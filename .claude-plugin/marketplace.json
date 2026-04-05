@@ -134,6 +134,18 @@
       "source": "./plugins/audit-fleet",
       "category": "development",
       "tags": ["audit", "quality", "orchestration", "multi-agent", "cross-repository", "sqlite"]
+    },
+    {
+      "name": "qwen-delegate",
+      "description": "Delegate token-cheap tasks to the Qwen CLI (cloud-based, OAuth-authenticated) — summarisation, formatting, translation, boilerplate and code generation — with a mandatory Claude validation gate. Saves Anthropic PRO tokens for tasks that genuinely need Claude's reasoning.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Nuno Salvacao",
+        "email": "nuno.salvacao@gmail.com"
+      },
+      "source": "./plugins/qwen-delegate",
+      "category": "productivity",
+      "tags": ["qwen", "delegation", "token-saving", "code-generation", "cost-efficiency", "multi-llm"]
     }
   ]
 }

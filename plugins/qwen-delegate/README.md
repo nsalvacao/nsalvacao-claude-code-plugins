@@ -1,6 +1,6 @@
 # qwen-delegate
 
-Delegate tasks to a local Qwen model to preserve Anthropic PRO tokens for work that genuinely needs Claude.
+Delegate tasks to the Qwen CLI to preserve Anthropic PRO tokens for work that genuinely needs Claude.
 
 ## Overview
 
@@ -65,4 +65,4 @@ All Qwen output is reviewed by Claude before delivery. This is non-negotiable an
 
 ## Token Economy
 
-Qwen runs locally — no Anthropic API calls are made during delegation. Token savings are highest for large text transformations and boilerplate-heavy code generation tasks.
+The `qwen` CLI uses its own backend (Qwen/Alibaba cloud, authenticated via OAuth or Alibaba Cloud Coding Plan) — no Anthropic API calls are made during delegation. This is not a local LLM runner like Ollama or LM Studio; it is a separate cloud agent CLI that runs against Qwen's own infrastructure. Token savings relative to Anthropic PRO are highest for large text transformations and boilerplate-heavy code generation tasks.

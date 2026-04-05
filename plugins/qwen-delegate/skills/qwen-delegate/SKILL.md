@@ -1,12 +1,14 @@
 ---
 name: Qwen Delegate
-description: This skill should be used when Claude is about to perform tasks that can be delegated to the local Qwen model to save Anthropic PRO tokens. Delegation candidates include "summarise this", "translate this text", "format this content", "generate boilerplate", "create a template", "write this function", "generate this code", "refactor this snippet", "convert this format", "explain this concept", or any text-processing or code-generation task that does not require Claude's reasoning depth. Always apply a validation gate — Claude reviews Qwen output before presenting to the user.
+description: This skill should be used when Claude is about to perform tasks that can be delegated to the Qwen CLI to save Anthropic PRO tokens. Delegation candidates include "summarise this", "translate this text", "format this content", "generate boilerplate", "create a template", "write this function", "generate this code", "refactor this snippet", "convert this format", "explain this concept", or any text-processing or code-generation task that does not require Claude's reasoning depth. Always apply a validation gate — Claude reviews Qwen output before presenting to the user.
 version: 0.1.0
 ---
 
 # Qwen Delegate
 
-Delegate token-cheap tasks to the local Qwen model (`qwen` CLI, model `coder-model`) running in the current WSL environment, preserving Anthropic PRO tokens for tasks that genuinely require Claude's reasoning.
+Delegate token-cheap tasks to the `qwen` CLI (Qwen Code, model `coder-model`), preserving Anthropic PRO tokens for tasks that genuinely require Claude's reasoning.
+
+> **Note:** The `qwen` CLI is not a local LLM runner (it does not use Ollama, LM Studio, or similar). It is an agent CLI that runs against Qwen/Alibaba cloud infrastructure, authenticated via OAuth or Alibaba Cloud Coding Plan. Delegation avoids Anthropic API calls, not all cloud calls.
 
 ## Delegation Criteria
 

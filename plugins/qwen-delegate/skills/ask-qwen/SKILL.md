@@ -1,6 +1,6 @@
 ---
 name: Ask Qwen
-description: This skill should be used when the user invokes "/qwen-delegate:ask-qwen" to directly delegate a task or prompt to the local Qwen model. Execute the task using the qwen CLI, validate the result, and return it to the user. Accepts an optional task argument; if absent, prompt the user for the task.
+description: This skill should be used when the user invokes "/qwen-delegate:ask-qwen" to directly delegate a task or prompt to the Qwen CLI (cloud-backed). This is a user-invocable skill — invoked via the skills mechanism (argument-hint frontmatter), not via a commands/ file. Execute the task using the qwen CLI, validate the result, and return it to the user. Accepts an optional task argument; if absent, prompt the user for the task.
 argument-hint: "<task or prompt to delegate to Qwen>"
 allowed-tools:
   - Bash

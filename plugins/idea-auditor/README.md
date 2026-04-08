@@ -71,9 +71,11 @@ Infra_Fork_Standard  # Infrastructure forks, standards, migrations (adds migrati
 <project>/
   IDEA.md                          # Input: idea definition
   STATE/                           # Input: accumulated evidence
-    interviews.json
-    analytics.json
-    oss_metrics.json
+    wedge_interviews.json          # dimension-prefixed → auto-mapped to "wedge"
+    friction_analytics.json        # dimension-prefixed → auto-mapped to "friction"
+    trust_oss_metrics.json         # dimension-prefixed → auto-mapped to "trust"
+    interviews.json                # multi-dimensional → each item needs `"dimension"` field
+    analytics.json                 # multi-dimensional → each item needs `"dimension"` field
   REPORTS/
     scorecard-YYYYMMDD.json        # Output: scorecard
     evidence-YYYYMMDD.json         # Output: graded evidence
@@ -82,6 +84,11 @@ Infra_Fork_Standard  # Infrastructure forks, standards, migrations (adds migrati
     plan-YYYYMMDD.md               # Output: experiment plan
     plan-YYYYMMDD.json             # Output: structured plan
 ```
+
+> **STATE file naming:** `grade_evidence.py` infers dimension from filename prefix
+> (e.g. `wedge_*.json → wedge`). Multi-dimensional files (e.g. `interviews.json`) require
+> a `"dimension"` field in each evidence item. Items without a resolvable dimension
+> aggregate under `"unknown"` and won't feed into the weighted score.
 
 ## Installation
 
@@ -95,7 +102,8 @@ Infra_Fork_Standard  # Infrastructure forks, standards, migrations (adds migrati
 - **No external evidence collection** — MCP integration (GitHub stats, trends, competitors) is v0.4.0. In v0.1.0, evidence comes from local `STATE/` files only.
 - **No watch mode** — Automated observation hooks are v0.3.0.
 - **No drill or report commands** — Deep-dive per dimension and full reports are v0.2.0.
-- **Scoring relies on human-provided evidence** — The scripts compute deterministically but cannot collect evidence automatically.
+- **Scoring relies on human-provided score_bruto** — `calc_scorecard.py` computes deterministically but `score_bruto` (0–5, qualitative dimension assessment) must be supplied via `--scores`. Specialist agents that automate this arrive in v0.2.0.
+- **Blockers and next_tests not auto-generated** — `scorecard.json` outputs `blockers: []` and `next_tests: []` in v0.1.0. The orchestrator agent derives these manually from scorecard output. Script-level population arrives in v0.2.0.
 - **Calibration** — Weight/threshold recalibration is v0.3.0.
 
 ## License

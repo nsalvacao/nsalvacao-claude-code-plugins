@@ -5,7 +5,7 @@ description: Runs the idea-auditor scoring pipeline on an IDEA.md or IDEA.json f
 
 # idea-auditor: Score
 
-Trigger this skill when the user runs `/idea-auditor:score` or asks to "score my idea", "evaluate this project", "run the idea scorecard".
+Trigger this skill when the user asks to "score my idea", "evaluate this project", "run the idea scorecard", "assess my idea", or invokes `/idea-auditor:score`.
 
 ## Interface
 

@@ -77,7 +77,9 @@ Dimensions with no evidence must have `null` (not `0`), unless explicitly set to
 
 **Entry:** Evidence files or raw interview notes provided.
 **Exit:** All evidence items have `confidence_components` populated; aggregated ConfDim per dimension computed.
-**Sign-off:** Output JSON is valid against `evidence.schema.json`.
+**Sign-off:** Each item in the output `items` array is valid against `evidence.schema.json`.
+The container output (`{items, aggregated_conf_by_dimension}`) is the `grade_evidence.py` output contract,
+not a single evidence item — it is not validated against `evidence.schema.json` directly.
 
 ## References
 

@@ -1,5 +1,6 @@
 # Thresholds and Weights per Scoring Mode
-# Used by calc_scorecard.py
+# Reference-only in v0.1.0: calc_scorecard.py currently hardcodes these weights/gates.
+# Keep this file aligned with calc_scorecard.py constants until runtime loading is implemented.
 # Anti-pattern: never change thresholds after seeing results (p-hacking)
 
 version: "0.1.0"

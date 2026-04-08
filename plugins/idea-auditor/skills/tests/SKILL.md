@@ -5,7 +5,7 @@ description: Generates a structured experiment plan for an idea or MVP with stop
 
 # idea-auditor: Tests
 
-Trigger this skill when the user runs `/idea-auditor:tests` or asks to "generate experiments", "what should I test", "design validation tests", "how do I validate this idea".
+Trigger this skill when the user asks to "generate experiments", "what should I test", "design validation tests", "how do I validate this idea", or invokes `/idea-auditor:tests`.
 
 ## Interface
 

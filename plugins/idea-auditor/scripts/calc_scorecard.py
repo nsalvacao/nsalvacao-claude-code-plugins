@@ -2,8 +2,9 @@
 """calc_scorecard.py — Applies rubric weights and gates to produce a scorecard.
 
 Rules:
-  ScoreTotal = 100 * sum(weight_dim * score_efetivo_dim) for each dimension
-  score_efetivo = score_bruto * confidence  (if either is None → null)
+  score_efetivo = score_bruto * confidence  (if either is None → null, on a 0–5 scale)
+  ScoreTotal = 20 * (sum(weight_dim * score_efetivo_dim) / sum(weight_dim for scored dims))
+  This converts the weighted average effective score from the 0–5 scale to 0–100.
   Gates (from GATES dict, aligned with references/thresholds.yml):
     PROCEED: ScoreTotal >= 70 AND confidence_global >= 0.6
     ITERATE: ScoreTotal >= 40
@@ -146,16 +147,20 @@ def main():
     parser.add_argument("--out", required=False, help="Output scorecard JSON path")
     args = parser.parse_args()
 
-    # Resolve mode from IDEA if available
+    # Resolve mode from IDEA if available.
+    # Only IDEA.json is parsed for mode extraction; IDEA.md is accepted as a path
+    # reference but does not trigger JSON parsing to avoid spurious warnings.
     mode = args.mode
     idea_path = None
     if args.idea:
         idea_path = args.idea
-        try:
-            idea_data = json.loads(Path(args.idea).read_text(encoding="utf-8"))
-            mode = idea_data.get("mode", mode)
-        except (json.JSONDecodeError, FileNotFoundError) as e:
-            print(f"WARN: could not read IDEA file: {e}", file=sys.stderr)
+        idea_file = Path(args.idea)
+        if idea_file.suffix.lower() == ".json":
+            try:
+                idea_data = json.loads(idea_file.read_text(encoding="utf-8"))
+                mode = idea_data.get("mode", mode)
+            except (json.JSONDecodeError, FileNotFoundError) as e:
+                print(f"WARN: could not read IDEA file: {e}", file=sys.stderr)
 
     # Build dim_scores: start from --scores, then overlay confidence from --evidence.
     # score_bruto must come from --scores (qualitative assessment by specialist agents).

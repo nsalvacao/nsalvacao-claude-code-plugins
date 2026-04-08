@@ -83,10 +83,29 @@ def grade_single(item: dict) -> dict:
 
 VALID_DIMENSIONS = {"wedge", "friction", "loop", "timing", "trust", "migration"}
 
+# Explicit mapping for STATE filenames documented in README.
+# Multi-dimensional files (interviews, analytics) have no single mapping;
+# items in these files must carry an explicit `dimension` field.
+_FILENAME_DIMENSION_MAP: dict[str, str | None] = {
+    "interviews": None,       # multi-dimensional — requires per-item `dimension`
+    "analytics": None,        # multi-dimensional — requires per-item `dimension`
+    "oss_metrics": None,      # multi-dimensional — requires per-item `dimension`
+    "competitors": None,      # multi-dimensional — requires per-item `dimension`
+    "trend_snapshots": None,  # multi-dimensional — requires per-item `dimension`
+}
+
 
 def infer_dimension_from_filename(filename: str) -> str | None:
-    """Infer scoring dimension from filename prefix (e.g. wedge_interviews.json → wedge)."""
+    """Infer scoring dimension from filename.
+
+    Precedence:
+      1. Exact match in _FILENAME_DIMENSION_MAP (documented STATE files, may return None)
+      2. Filename prefix matching a valid dimension (e.g. wedge_interviews.json → wedge)
+      3. None (falls back to per-item `dimension` field or "unknown")
+    """
     stem = Path(filename).stem.lower()
+    if stem in _FILENAME_DIMENSION_MAP:
+        return _FILENAME_DIMENSION_MAP[stem]  # may be None (multi-dim)
     for dim in VALID_DIMENSIONS:
         if stem.startswith(dim):
             return dim
@@ -134,17 +153,24 @@ def main():
 
     path = Path(args.evidence)
     if path.is_dir():
-        all_results: dict = {"files": {}, "aggregated_conf_by_dimension": {}}
+        all_results: dict = {"files": {}}
+        # Collect all conf_dim values per dimension across ALL items (not per-file averages)
+        # to avoid statistical bias when files have different item counts.
+        dim_all_confs: dict[str, list[float]] = {}
         for f in sorted(path.glob("*.json")):
             result = grade_file(f, args.dimension)
             all_results["files"][f.name] = result["items"]
-            for dim, score in result["aggregated_conf_by_dimension"].items():
-                prev = all_results["aggregated_conf_by_dimension"].get(dim, [])
-                all_results["aggregated_conf_by_dimension"][dim] = prev + [score]
-        # Average across files
+            filename_dim = infer_dimension_from_filename(f.name)
+            for item in result["items"]:
+                dim = item.get("dimension") or filename_dim or "unknown"
+                if args.dimension and dim != args.dimension:
+                    continue
+                conf = item.get("confidence_components", {}).get("conf_dim")
+                if conf is not None:
+                    dim_all_confs.setdefault(dim, []).append(conf)
         all_results["aggregated_conf_by_dimension"] = {
-            dim: round(sum(v) / len(v), 3) if v else 0.0
-            for dim, v in all_results["aggregated_conf_by_dimension"].items()
+            dim: round(sum(confs) / len(confs), 3)
+            for dim, confs in dim_all_confs.items()
         }
         output = all_results
     else:

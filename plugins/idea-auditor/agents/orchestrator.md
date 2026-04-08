@@ -42,11 +42,12 @@ Read from the project directory:
 Summarize what evidence is present vs missing by dimension (wedge, friction, loop, timing, trust).
 
 ### Step 3 — Grade Evidence
-Run `scripts/grade_evidence.py` on available STATE files:
+If `STATE/` exists, run `scripts/grade_evidence.py`:
 ```bash
 python3 plugins/idea-auditor/scripts/grade_evidence.py --evidence <STATE_DIR> --out REPORTS/evidence-<DATE>.json
 ```
-If no STATE exists, set all confidence values to 0 (no evidence = INSUFFICIENT_EVIDENCE).
+If `STATE/` does not exist, skip this step and omit `--evidence` from Step 4.
+The scorecard will then return `INSUFFICIENT_EVIDENCE` deterministically — do not invent confidence values.
 
 ### Step 4 — Score Dimensions
 Run `scripts/calc_scorecard.py`:
@@ -63,8 +64,11 @@ Read the output scorecard JSON. Interpret:
 - **decision**: PROCEED / ITERATE / KILL / INSUFFICIENT_EVIDENCE
 - **score_total** and **confidence_global**
 - **dimensions**: which scored well, which are weak
-- **blockers**: top 3 that most increase score if resolved
-- **next_tests**: concrete experiments to reduce uncertainty
+
+In v0.1.0, `blockers` and `next_tests` in the scorecard JSON are empty (`[]`) — specialist agents
+that populate them arrive in v0.2.0. Derive blockers manually from dimensions where
+`needs_experiment=true` or `score_efetivo` is lowest. Suggest the most relevant experiment type
+for each blocker based on `references/rubric.md`.
 
 ### Step 6 — Generate Next Tests (if needed)
 If `decision` is ITERATE or INSUFFICIENT_EVIDENCE, invoke the `tests` skill to generate an experiment plan:
@@ -76,7 +80,7 @@ If `decision` is ITERATE or INSUFFICIENT_EVIDENCE, invoke the `tests` skill to g
 
 - **Never invent numbers.** If evidence is missing, `score=null` and `needs_experiment=true`.
 - **Scripts are the source of truth** for all quantitative values — never calculate scores in narrative.
-- **Top 3 blockers** must always be present in the output.
+- **Top 3 blockers** should be derived by the agent from scorecard output in v0.1.0 (script-level blocker computation arrives in v0.2.0).
 - **Deterministic**: same inputs must always produce same outputs.
 
 ## Phase Contract

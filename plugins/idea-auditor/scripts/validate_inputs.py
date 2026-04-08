@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""validate_inputs.py — Validates IDEA.md/IDEA.json and STATE/ against schemas.
+"""validate_inputs.py — Validates IDEA.md/IDEA.json required fields and STATE/ JSON integrity.
+
+Note: this script performs structural validation (required fields, valid mode enum, JSON
+parseability) and reads required field names from idea.schema.json. It does NOT perform
+full JSON Schema draft-07 validation (no jsonschema dependency). Full schema validation
+is planned for a future version.
 
 Usage:
   python3 validate_inputs.py --idea <path>           Validate IDEA file only

@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "idea-auditor/evidence",
+  "title": "Evidence",
+  "description": "A single piece of evidence supporting or refuting a claim about the idea.",
+  "type": "object",
+  "required": ["claim", "source", "method", "collected_at", "quality_tier"],
+  "properties": {
+    "dimension": {
+      "type": "string",
+      "enum": ["wedge", "friction", "loop", "timing", "trust", "migration"],
+      "description": "Scoring dimension this evidence supports. Used by grade_evidence.py to aggregate ConfDim per dimension."
+    },
+    "claim": { "type": "string" },
+    "source": { "type": "string" },
+    "method": {
+      "type": "string",
+      "enum": ["interview", "survey", "analytics", "oss_metrics", "market_data", "observation", "experiment", "desk_research"]
+    },
+    "collected_at": { "type": "string", "format": "date" },
+    "raw": { "type": ["string", "null"] },
+    "normalized": { "type": ["string", "null"] },
+    "quality_tier": {
+      "type": "string",
+      "enum": ["commitment", "behavioral", "stated", "proxy", "assumption"],
+      "description": "commitment > behavioral > stated > proxy > assumption"
+    },
+    "confidence_components": {
+      "type": "object",
+      "properties": {
+        "source_diversity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "recency": { "type": "number", "minimum": 0, "maximum": 1 },
+        "commitment": { "type": "number", "minimum": 0, "maximum": 1 },
+        "consistency": { "type": "number", "minimum": 0, "maximum": 1 },
+        "conf_dim": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

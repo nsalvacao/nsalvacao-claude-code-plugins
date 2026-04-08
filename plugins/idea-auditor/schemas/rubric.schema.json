@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "idea-auditor/rubric",
+  "title": "Rubric",
+  "description": "Score anchors (0–5) per dimension per mode. Used by calc_scorecard.py.",
+  "type": "object",
+  "required": ["version", "dimensions"],
+  "properties": {
+    "version": { "type": "string" },
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Dimension definition with anchors and weights per mode.",
+        "required": ["anchors", "weights"],
+        "properties": {
+          "anchors": {
+            "type": "object",
+            "description": "0-5 anchor descriptions.",
+            "additionalProperties": { "type": "string" }
+          },
+          "weights": {
+            "type": "object",
+            "description": "Weight per scoring mode (must sum to 1.0 within each mode).",
+            "properties": {
+              "OSS_CLI": { "type": "number" },
+              "B2B_SaaS": { "type": "number" },
+              "Consumer_Viral": { "type": "number" },
+              "Infra_Fork_Standard": { "type": "number" }
+            }
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "description": "Score+confidence thresholds per decision gate.",
+      "properties": {
+        "PROCEED": {
+          "type": "object",
+          "properties": {
+            "score_min": { "type": "number" },
+            "confidence_min": { "type": "number" }
+          }
+        },
+        "ITERATE": {
+          "type": "object",
+          "properties": {
+            "score_min": { "type": "number" },
+            "score_max": { "type": "number" }
+          }
+        },
+        "KILL": {
+          "type": "object",
+          "properties": {
+            "score_max": { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}

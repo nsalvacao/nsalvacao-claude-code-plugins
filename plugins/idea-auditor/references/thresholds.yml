@@ -1,0 +1,74 @@
+# Thresholds and Weights per Scoring Mode
+# Reference-only in v0.1.0: calc_scorecard.py currently hardcodes these weights/gates.
+# Keep this file aligned with calc_scorecard.py constants until runtime loading is implemented.
+# Anti-pattern: never change thresholds after seeing results (p-hacking)
+
+version: "0.1.0"
+
+# Dimension weights per mode (must sum to 1.0)
+weights:
+  OSS_CLI:
+    wedge: 0.25
+    friction: 0.20
+    loop: 0.15
+    timing: 0.15
+    trust: 0.25
+
+  B2B_SaaS:
+    wedge: 0.30
+    friction: 0.25
+    loop: 0.10
+    timing: 0.15
+    trust: 0.20
+
+  Consumer_Viral:
+    wedge: 0.20
+    friction: 0.20
+    loop: 0.30
+    timing: 0.20
+    trust: 0.10
+
+  Infra_Fork_Standard:
+    wedge: 0.20
+    friction: 0.20
+    loop: 0.10
+    timing: 0.15
+    trust: 0.20
+    migration: 0.15
+
+# Decision gates (apply after ScoreTotal is computed)
+gates:
+  PROCEED:
+    score_min: 70
+    confidence_min: 0.6
+    interpretation: "Strong evidence, strong score — move to next stage"
+
+  ITERATE:
+    score_min: 40
+    score_max: 69
+    interpretation: "Some signal but gaps remain — run experiments to fill weak dimensions"
+
+  KILL:
+    score_max: 39
+    interpretation: "Weak evidence or fundamental problem with idea — stop or pivot"
+
+  PAUSE:
+    notes: "Use KILL if no strong timing catalyst. Use PAUSE if timing catalyst present but wedge weak."
+
+  INSUFFICIENT_EVIDENCE:
+    notes: "Any required dimension has null score — gather evidence before scoring"
+
+# Confidence interpretation
+confidence:
+  high: 0.7  # >= 0.7 — evidence is diverse, recent, and includes commitment signals
+  medium: 0.4  # 0.4–0.69 — some evidence but gaps in recency or commitment
+  low: 0.0  # < 0.4 — mostly assumptions or proxy signals
+
+# Experiment trigger rules
+experiment_triggers:
+  - condition: "any dimension has needs_experiment=true"
+    action: "run /idea-auditor:tests"
+  - condition: "confidence_global < 0.4"
+    action: "gather more evidence before scoring again"
+  - condition: "decision == ITERATE for 2+ consecutive scorecards"
+    action: "identify specific blocker and design targeted experiment"

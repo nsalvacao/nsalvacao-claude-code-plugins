@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "idea-auditor/experiments",
+  "title": "Experiment Plan",
+  "description": "Output of /idea-auditor:tests — one file per run.",
+  "type": "object",
+  "required": ["idea_path", "generated_at", "experiments"],
+  "properties": {
+    "idea_path": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date" },
+    "experiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["hypothesis", "proxy_metric", "design", "stop_rules"],
+        "properties": {
+          "hypothesis": { "type": "string" },
+          "proxy_metric": {
+            "type": "object",
+            "required": ["name", "formula", "source"],
+            "properties": {
+              "name": { "type": "string" },
+              "formula": { "type": "string" },
+              "source": { "type": "string" }
+            }
+          },
+          "design": {
+            "type": "string",
+            "enum": ["smoke_test", "fake_door", "wizard_of_oz", "ab_test", "jtbd_interview", "concierge"]
+          },
+          "sample": { "type": ["string", "null"] },
+          "threshold": {
+            "type": "object",
+            "properties": {
+              "kill_below": { "type": ["string", "null"] },
+              "iterate_between": { "type": ["string", "null"] },
+              "proceed_above": { "type": ["string", "null"] }
+            }
+          },
+          "stop_rules": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1
+          },
+          "instrumentation_events": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

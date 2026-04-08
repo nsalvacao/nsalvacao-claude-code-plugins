@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "idea-auditor/state",
+  "title": "State",
+  "description": "Container for STATE/ directory — tracks accumulated evidence over time.",
+  "type": "object",
+  "properties": {
+    "landing_metrics": {
+      "type": "object",
+      "properties": {
+        "visits": { "type": ["integer", "null"] },
+        "signups": { "type": ["integer", "null"] },
+        "signup_rate": { "type": ["number", "null"] },
+        "source": { "type": "string" },
+        "measured_at": { "type": "string", "format": "date" }
+      }
+    },
+    "analytics": {
+      "type": "object",
+      "properties": {
+        "activation_rate": { "type": ["number", "null"] },
+        "ttfv_median_minutes": { "type": ["number", "null"] },
+        "retention_d7": { "type": ["number", "null"] },
+        "source": { "type": "string" },
+        "measured_at": { "type": "string", "format": "date" }
+      }
+    },
+    "oss_metrics": {
+      "type": "object",
+      "properties": {
+        "stars": { "type": ["integer", "null"] },
+        "forks": { "type": ["integer", "null"] },
+        "installs_monthly": { "type": ["integer", "null"] },
+        "contributors": { "type": ["integer", "null"] },
+        "star_to_install_ratio": { "type": ["number", "null"] },
+        "measured_at": { "type": "string", "format": "date" }
+      }
+    },
+    "interviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "severity": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "frequency": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "urgency": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "commitment_signal": { "type": "string" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "competitors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "category": { "type": "string" },
+          "strengths": { "type": "array", "items": { "type": "string" } },
+          "weaknesses": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "trend_snapshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "query": { "type": "string" },
+          "slope": { "type": "string", "enum": ["accelerating", "stable", "declining", "unknown"] },
+          "source": { "type": "string" }
+        }
+      }
+    }
+  }
+}

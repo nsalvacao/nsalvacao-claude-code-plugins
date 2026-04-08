@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "idea-auditor/scorecard",
+  "title": "Scorecard",
+  "description": "Output of /idea-auditor:score — one scorecard per run.",
+  "type": "object",
+  "required": ["idea_path", "mode", "scored_at", "dimensions", "decision"],
+  "properties": {
+    "idea_path": { "type": "string" },
+    "mode": { "type": "string", "enum": ["OSS_CLI", "B2B_SaaS", "Consumer_Viral", "Infra_Fork_Standard"] },
+    "scored_at": { "type": "string", "format": "date" },
+    "dimensions": {
+      "type": "object",
+      "description": "One entry per scored dimension.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["score_bruto", "confidence", "score_efetivo", "needs_experiment"],
+        "properties": {
+          "score_bruto": { "type": ["number", "null"], "minimum": 0, "maximum": 5 },
+          "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "score_efetivo": { "type": ["number", "null"], "minimum": 0, "maximum": 5 },
+          "needs_experiment": { "type": "boolean" },
+          "evidence_refs": { "type": "array", "items": { "type": "string" } },
+          "metrics": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "score_total": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+    "confidence_global": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "decision": {
+      "type": "string",
+      "enum": ["PROCEED", "ITERATE", "KILL", "PAUSE", "INSUFFICIENT_EVIDENCE"]
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Top issues that, if resolved, most increase score."
+    },
+    "next_tests": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

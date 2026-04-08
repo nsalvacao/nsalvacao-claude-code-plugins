@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+"""grade_evidence.py — Calculates ConfDim per evidence item and per dimension.
+
+Formula (per dimension):
+  ConfDim = clamp(0, 1, 0.2*SourceDiversity + 0.3*Recency + 0.3*Commitment + 0.2*Consistency)
+
+Dimension resolution (in order of precedence):
+  1. `dimension` field in each evidence item (declared in evidence.schema.json)
+  2. Inferred from filename: wedge_*.json → wedge, friction_*.json → friction, etc.
+  3. Falls back to "unknown" (aggregation will be ungrouped)
+
+Usage:
+  python3 grade_evidence.py --evidence <path_to_evidence_json_or_dir>
+  python3 grade_evidence.py --evidence STATE/wedge_interviews.json --dimension wedge
+"""
+
+import argparse
+import json
+import sys
+from datetime import date
+from pathlib import Path
+
+
+def clamp(value: float, lo: float, hi: float) -> float:
+    return max(lo, min(hi, value))
+
+
+def score_recency(collected_at: str) -> float:
+    """Score recency: 1.0 = this month, 0.5 = within 6mo, 0.2 = older, 0.0 = unknown."""
+    try:
+        collected = date.fromisoformat(collected_at)
+        delta_days = (date.today() - collected).days
+        if delta_days <= 30:
+            return 1.0
+        elif delta_days <= 180:
+            return 0.7
+        elif delta_days <= 365:
+            return 0.4
+        else:
+            return 0.2
+    except (ValueError, TypeError):
+        return 0.0
+
+
+def score_commitment(quality_tier: str) -> float:
+    """Map quality tier to commitment score."""
+    mapping = {
+        "commitment": 1.0,
+        "behavioral": 0.75,
+        "stated": 0.5,
+        "proxy": 0.3,
+        "assumption": 0.0,
+    }
+    return mapping.get(quality_tier, 0.0)
+
+
+def grade_single(item: dict) -> dict:
+    """Grade a single evidence item and return updated item with confidence_components."""
+    components = item.get("confidence_components", {})
+
+    recency = score_recency(item.get("collected_at", ""))
+    commitment = score_commitment(item.get("quality_tier", "assumption"))
+
+    # Source diversity and consistency are set by the caller or default to 0.5
+    source_diversity = components.get("source_diversity", 0.5)
+    consistency = components.get("consistency", 0.5)
+
+    conf_dim = clamp(
+        0.2 * source_diversity + 0.3 * recency + 0.3 * commitment + 0.2 * consistency,
+        0.0,
+        1.0,
+    )
+
+    item["confidence_components"] = {
+        "source_diversity": source_diversity,
+        "recency": recency,
+        "commitment": commitment,
+        "consistency": consistency,
+        "conf_dim": round(conf_dim, 3),
+    }
+    return item
+
+
+VALID_DIMENSIONS = {"wedge", "friction", "loop", "timing", "trust", "migration"}
+
+# Explicit mapping for STATE filenames documented in README.
+# Multi-dimensional files (interviews, analytics) have no single mapping;
+# items in these files must carry an explicit `dimension` field.
+_FILENAME_DIMENSION_MAP: dict[str, str | None] = {
+    "interviews": None,       # multi-dimensional — requires per-item `dimension`
+    "analytics": None,        # multi-dimensional — requires per-item `dimension`
+    "oss_metrics": None,      # multi-dimensional — requires per-item `dimension`
+    "competitors": None,      # multi-dimensional — requires per-item `dimension`
+    "trend_snapshots": None,  # multi-dimensional — requires per-item `dimension`
+}
+
+
+def infer_dimension_from_filename(filename: str) -> str | None:
+    """Infer scoring dimension from filename.
+
+    Precedence:
+      1. Exact match in _FILENAME_DIMENSION_MAP (documented STATE files, may return None)
+      2. Filename prefix matching a valid dimension (e.g. wedge_interviews.json → wedge)
+      3. None (falls back to per-item `dimension` field or "unknown")
+    """
+    stem = Path(filename).stem.lower()
+    if stem in _FILENAME_DIMENSION_MAP:
+        return _FILENAME_DIMENSION_MAP[stem]  # may be None (multi-dim)
+    for dim in VALID_DIMENSIONS:
+        if stem.startswith(dim):
+            return dim
+    return None
+
+
+def grade_file(path: Path, dimension_filter: str | None = None) -> dict:
+    if not path.exists():
+        print(f"ERROR: file not found: {path}", file=sys.stderr)
+        sys.exit(1)
+
+    data = json.loads(path.read_text(encoding="utf-8"))
+    items = data if isinstance(data, list) else [data]
+
+    # Infer dimension from filename as fallback for items that lack the field
+    filename_dim = infer_dimension_from_filename(path.name)
+
+    graded = [grade_single(item) for item in items]
+
+    # Aggregate ConfDim per dimension
+    dim_scores: dict[str, list[float]] = {}
+    for item in graded:
+        # Precedence: explicit field > filename inference > "unknown"
+        dim = item.get("dimension") or filename_dim or "unknown"
+        if dimension_filter and dim != dimension_filter:
+            continue
+        conf = item.get("confidence_components", {}).get("conf_dim")
+        if conf is not None:
+            dim_scores.setdefault(dim, []).append(conf)
+
+    aggregated = {
+        dim: round(sum(scores) / len(scores), 3)
+        for dim, scores in dim_scores.items()
+    }
+
+    return {"items": graded, "aggregated_conf_by_dimension": aggregated}
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Grade evidence confidence.")
+    parser.add_argument("--evidence", required=True, help="Path to evidence JSON file or dir")
+    parser.add_argument("--dimension", required=False, help="Filter by dimension")
+    parser.add_argument("--out", required=False, help="Output file (default: stdout)")
+    args = parser.parse_args()
+
+    path = Path(args.evidence)
+    if path.is_dir():
+        all_results: dict = {"files": {}}
+        # Collect all conf_dim values per dimension across ALL items (not per-file averages)
+        # to avoid statistical bias when files have different item counts.
+        dim_all_confs: dict[str, list[float]] = {}
+        for f in sorted(path.glob("*.json")):
+            result = grade_file(f, args.dimension)
+            all_results["files"][f.name] = result["items"]
+            filename_dim = infer_dimension_from_filename(f.name)
+            for item in result["items"]:
+                dim = item.get("dimension") or filename_dim or "unknown"
+                if args.dimension and dim != args.dimension:
+                    continue
+                conf = item.get("confidence_components", {}).get("conf_dim")
+                if conf is not None:
+                    dim_all_confs.setdefault(dim, []).append(conf)
+        all_results["aggregated_conf_by_dimension"] = {
+            dim: round(sum(confs) / len(confs), 3)
+            for dim, confs in dim_all_confs.items()
+        }
+        output = all_results
+    else:
+        output = grade_file(path, args.dimension)
+
+    result_json = json.dumps(output, indent=2, ensure_ascii=False)
+
+    if args.out:
+        Path(args.out).write_text(result_json, encoding="utf-8")
+        print(f"OK: graded evidence written to {args.out}")
+    else:
+        print(result_json)
+
+
+if __name__ == "__main__":
+    main()

@@ -82,7 +82,7 @@ Create `STATE/wedge_interviews.json`:
     "claim": "User spent 3h reconciling tool outputs manually last week",
     "source": "HN comment thread (anonymous)",
     "method": "community_observation",
-    "collected_at": "2026-04-08",
+    "collected_at": "YYYY-MM-DD",
     "quality_tier": "stated",
     "confidence_components": {
       "source_diversity": 0.5,
@@ -107,10 +107,10 @@ To supply your qualitative `score_bruto` assessment for wedge (0–5, using `ref
 ```bash
 python3 plugins/idea-auditor/scripts/calc_scorecard.py \
   --idea my-project/IDEA.md \
-  --evidence my-project/REPORTS/evidence-20260408.json \
+  --evidence my-project/REPORTS/evidence-YYYYMMDD.json \
   --scores '{"wedge": {"score_bruto": 2}}' \
   --mode OSS_CLI \
-  --out my-project/REPORTS/scorecard-20260408.json
+  --out my-project/REPORTS/scorecard-YYYYMMDD.json
 ```
 
 ---
@@ -154,7 +154,7 @@ Continue the loop:
 
 ## Stop Rule Example (pre-filled)
 
-From `EXPERIMENTS/plan-20260408.md`:
+From `EXPERIMENTS/plan-YYYYMMDD.md`:
 
 ```markdown
 ### Experiment — Waitlist Smoke Test
@@ -180,9 +180,9 @@ my-project/
     wedge_interviews.json         ← collected evidence
     .cache/                       ← fetch_oss_metrics.py cache (auto-created)
   REPORTS/
-    evidence-20260408.json        ← graded evidence (from grade_evidence.py)
-    scorecard-20260408.json       ← scorecard (from calc_scorecard.py)
-    drill-friction-20260408.md    ← dimension drill report
+    evidence-YYYYMMDD.json        ← graded evidence (from grade_evidence.py)
+    scorecard-YYYYMMDD.json       ← scorecard (from calc_scorecard.py)
+    drill-friction-YYYYMMDD.md    ← dimension drill report
   EXPERIMENTS/
-    plan-20260408.md              ← experiment plan (from /tests)
+    plan-YYYYMMDD.md              ← experiment plan (from /tests)
 ```

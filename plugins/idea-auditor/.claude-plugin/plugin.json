@@ -1,0 +1,24 @@
+{
+  "name": "idea-auditor",
+  "version": "0.1.0",
+  "description": "Evidence-driven scorecard engine for ideas, MVPs, and evolving projects. Uses scientific frameworks (JTBD, TAM, ISO, Rogers, Mayer) as anchors and mathematical proxies as instrumentation. Scores ideas across 5 dimensions (wedge, friction, loop, timing, trust) with a confidence-weighted model and gates (PROCEED / ITERATE / KILL).",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com",
+    "url": "https://www.linkedin.com/in/nsalvacao/"
+  },
+  "keywords": [
+    "idea-validation",
+    "scorecard",
+    "evidence-driven",
+    "jtbd",
+    "lean-startup",
+    "mvp",
+    "product-strategy",
+    "experiment-design",
+    "multi-agent"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins"
+}

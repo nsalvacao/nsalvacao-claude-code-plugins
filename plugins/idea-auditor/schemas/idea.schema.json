@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "idea-auditor/idea",
+  "title": "IDEA",
+  "description": "Minimum viable idea definition for scoring. Fill before running /idea-auditor:score.",
+  "type": "object",
+  "required": ["icp", "job_to_be_done", "pain", "current_alternative", "promise", "mode"],
+  "properties": {
+    "icp": {
+      "type": "object",
+      "description": "Ideal Customer Profile",
+      "required": ["who", "context"],
+      "properties": {
+        "who": { "type": "string" },
+        "context": { "type": "string" }
+      }
+    },
+    "job_to_be_done": {
+      "type": "string",
+      "description": "When [context], I want [job], so that [outcome]."
+    },
+    "pain": {
+      "type": "string",
+      "description": "Concrete pain or friction the target person experiences today."
+    },
+    "current_alternative": {
+      "type": "object",
+      "description": "What the person does today instead of using your solution.",
+      "required": ["description"],
+      "properties": {
+        "description": { "type": "string" },
+        "cost_time": { "type": "string" },
+        "cost_money": { "type": "string" },
+        "cost_risk": { "type": "string" }
+      }
+    },
+    "promise": {
+      "type": "string",
+      "description": "One-sentence value proposition."
+    },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Key assumptions that, if wrong, would invalidate the idea."
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["OSS_CLI", "B2B_SaaS", "Consumer_Viral", "Infra_Fork_Standard"],
+      "description": "Scoring mode — determines weights and threshold profile."
+    }
+  }
+}

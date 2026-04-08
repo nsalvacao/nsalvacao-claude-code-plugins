@@ -11,7 +11,15 @@ import json
 import sys
 from pathlib import Path
 
+# Schema directory — used to validate required fields from idea.schema.json
 SCHEMA_DIR = Path(__file__).parent.parent / "schemas"
+
+# Required fields per schema (mirrors idea.schema.json "required" array)
+IDEA_REQUIRED_FIELDS = ["icp", "job_to_be_done", "pain", "current_alternative", "promise", "mode"]
+VALID_MODES = ["OSS_CLI", "B2B_SaaS", "Consumer_Viral", "Infra_Fork_Standard"]
+
+# Required sections in IDEA.md (markdown format)
+IDEA_MD_REQUIRED_SECTIONS = ["ICP", "JTBD", "pain", "current_alternative", "promise", "mode"]
 
 
 def load_json(path: Path) -> dict:
@@ -30,6 +38,18 @@ def validate_required_fields(data: dict, required: list[str], context: str) -> l
     return errors
 
 
+def _get_schema_required(schema_name: str) -> list[str]:
+    """Read 'required' array from a schema file, if available."""
+    schema_path = SCHEMA_DIR / schema_name
+    if not schema_path.exists():
+        return []
+    try:
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        return schema.get("required", [])
+    except (json.JSONDecodeError, KeyError):
+        return []
+
+
 def validate_idea(idea_path: Path) -> list[str]:
     errors = []
     if not idea_path.exists():
@@ -37,28 +57,42 @@ def validate_idea(idea_path: Path) -> list[str]:
 
     if idea_path.suffix == ".json":
         data = load_json(idea_path)
+        # Use required fields from schema if available, fall back to hardcoded list
+        required = _get_schema_required("idea.schema.json") or IDEA_REQUIRED_FIELDS
+        errors.extend(validate_required_fields(data, required, "IDEA"))
+
+        if "mode" in data and data["mode"] not in VALID_MODES:
+            errors.append(
+                f"IDEA: invalid mode '{data['mode']}'. Must be one of: {VALID_MODES}"
+            )
+
+        if "icp" in data and isinstance(data["icp"], dict):
+            for sub in ["who", "context"]:
+                if not data["icp"].get(sub):
+                    errors.append(f"IDEA.icp: missing required sub-field '{sub}'")
+
     else:
-        # Minimal markdown parse: look for JSON front-matter or treat as structured text
+        # Markdown IDEA.md — check for required section keywords
         content = idea_path.read_text(encoding="utf-8")
         if content.strip().startswith("{"):
+            # Misnamed file: content is JSON
             try:
                 data = json.loads(content)
+                required = _get_schema_required("idea.schema.json") or IDEA_REQUIRED_FIELDS
+                errors.extend(validate_required_fields(data, required, "IDEA"))
+                return errors
             except json.JSONDecodeError:
-                return [f"IDEA file is not valid JSON: {idea_path}"]
-        else:
-            # Markdown IDEA.md — check for required sections
-            required_sections = ["ICP", "JTBD", "pain", "current_alternative", "promise", "mode"]
-            for section in required_sections:
-                if section.lower() not in content.lower():
-                    errors.append(f"IDEA.md: missing section or keyword '{section}'")
-            return errors
+                return [f"IDEA file appears to be JSON but is not valid: {idea_path}"]
 
-    required = ["icp", "job_to_be_done", "pain", "current_alternative", "promise", "mode"]
-    errors.extend(validate_required_fields(data, required, "IDEA"))
+        for section in IDEA_MD_REQUIRED_SECTIONS:
+            if section.lower() not in content.lower():
+                errors.append(f"IDEA.md: missing required section or keyword '{section}'")
 
-    valid_modes = ["OSS_CLI", "B2B_SaaS", "Consumer_Viral", "Infra_Fork_Standard"]
-    if "mode" in data and data["mode"] not in valid_modes:
-        errors.append(f"IDEA: invalid mode '{data['mode']}'. Must be one of: {valid_modes}")
+        # Check that a valid mode appears in the file
+        if not any(mode in content for mode in VALID_MODES):
+            errors.append(
+                f"IDEA.md: no valid mode found. Expected one of: {VALID_MODES}"
+            )
 
     return errors
 

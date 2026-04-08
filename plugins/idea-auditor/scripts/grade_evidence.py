@@ -4,9 +4,14 @@
 Formula (per dimension):
   ConfDim = clamp(0, 1, 0.2*SourceDiversity + 0.3*Recency + 0.3*Commitment + 0.2*Consistency)
 
+Dimension resolution (in order of precedence):
+  1. `dimension` field in each evidence item (declared in evidence.schema.json)
+  2. Inferred from filename: wedge_*.json → wedge, friction_*.json → friction, etc.
+  3. Falls back to "unknown" (aggregation will be ungrouped)
+
 Usage:
   python3 grade_evidence.py --evidence <path_to_evidence_json_or_dir>
-  python3 grade_evidence.py --evidence STATE/interviews.json --dimension wedge
+  python3 grade_evidence.py --evidence STATE/wedge_interviews.json --dimension wedge
 """
 
 import argparse
@@ -76,6 +81,18 @@ def grade_single(item: dict) -> dict:
     return item
 
 
+VALID_DIMENSIONS = {"wedge", "friction", "loop", "timing", "trust", "migration"}
+
+
+def infer_dimension_from_filename(filename: str) -> str | None:
+    """Infer scoring dimension from filename prefix (e.g. wedge_interviews.json → wedge)."""
+    stem = Path(filename).stem.lower()
+    for dim in VALID_DIMENSIONS:
+        if stem.startswith(dim):
+            return dim
+    return None
+
+
 def grade_file(path: Path, dimension_filter: str | None = None) -> dict:
     if not path.exists():
         print(f"ERROR: file not found: {path}", file=sys.stderr)
@@ -84,12 +101,16 @@ def grade_file(path: Path, dimension_filter: str | None = None) -> dict:
     data = json.loads(path.read_text(encoding="utf-8"))
     items = data if isinstance(data, list) else [data]
 
+    # Infer dimension from filename as fallback for items that lack the field
+    filename_dim = infer_dimension_from_filename(path.name)
+
     graded = [grade_single(item) for item in items]
 
     # Aggregate ConfDim per dimension
     dim_scores: dict[str, list[float]] = {}
     for item in graded:
-        dim = item.get("dimension", "unknown")
+        # Precedence: explicit field > filename inference > "unknown"
+        dim = item.get("dimension") or filename_dim or "unknown"
         if dimension_filter and dim != dimension_filter:
             continue
         conf = item.get("confidence_components", {}).get("conf_dim")

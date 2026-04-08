@@ -6,6 +6,11 @@
   "type": "object",
   "required": ["claim", "source", "method", "collected_at", "quality_tier"],
   "properties": {
+    "dimension": {
+      "type": "string",
+      "enum": ["wedge", "friction", "loop", "timing", "trust", "migration"],
+      "description": "Scoring dimension this evidence supports. Used by grade_evidence.py to aggregate ConfDim per dimension."
+    },
     "claim": { "type": "string" },
     "source": { "type": "string" },
     "method": {

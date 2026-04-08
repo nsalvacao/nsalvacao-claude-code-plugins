@@ -4,14 +4,28 @@
 Rules:
   ScoreTotal = 100 * sum(weight_dim * score_efetivo_dim) for each dimension
   score_efetivo = score_bruto * confidence  (if either is None → null)
-  Gates:
+  Gates (from GATES dict, aligned with references/thresholds.yml):
     PROCEED: ScoreTotal >= 70 AND confidence_global >= 0.6
-    ITERATE: ScoreTotal >= 40 OR confidence_global < 0.6
-    KILL/PAUSE: ScoreTotal < 40 AND no strong timing catalyst
-    INSUFFICIENT_EVIDENCE: any required dimension has score=null
+    ITERATE: ScoreTotal >= 40
+    KILL: ScoreTotal < 40
+    INSUFFICIENT_EVIDENCE: any required dimension has score_bruto=null
+
+Design:
+  score_bruto (0–5) is a qualitative assessment of dimension merit — provided by specialist
+  agents (v0.2.0+) or directly via --scores. It is NOT derivable from evidence alone.
+  confidence (0–1) IS derived from evidence via grade_evidence.py.
+
+  The intended pipeline:
+    1. validate_inputs.py   → validate IDEA.md / STATE/
+    2. grade_evidence.py    → compute confidence per dimension → evidence JSON
+    3. specialist agents    → assess score_bruto per dimension (v0.2.0)
+    4. calc_scorecard.py    → merge both, compute scorecard
+
+  In v0.1.0 (no specialist agents), supply score_bruto directly via --scores.
+  Combining --scores and --evidence: evidence confidence overrides --scores confidence.
 
 Usage:
-  python3 calc_scorecard.py --idea IDEA.json --evidence evidence.json [--mode OSS_CLI]
+  python3 calc_scorecard.py --scores '{"wedge":{"score_bruto":3},...}' --evidence ev.json --mode OSS_CLI
   python3 calc_scorecard.py --scores '{"wedge":{"score_bruto":3,"confidence":0.8},...}' --mode B2B_SaaS
 """
 
@@ -61,13 +75,12 @@ GATES = {
 
 
 def decide(score_total: float | None, confidence_global: float | None, any_null: bool) -> str:
-    if any_null:
+    if any_null or score_total is None or confidence_global is None:
         return "INSUFFICIENT_EVIDENCE"
-    if score_total is None or confidence_global is None:
-        return "INSUFFICIENT_EVIDENCE"
-    if score_total >= 70 and confidence_global >= 0.6:
+    proceed = GATES["PROCEED"]
+    if score_total >= proceed["score_min"] and confidence_global >= proceed["confidence_min"]:
         return "PROCEED"
-    if score_total >= 40:
+    if score_total >= GATES["ITERATE"]["score_min"]:
         return "ITERATE"
     return "KILL"
 
@@ -144,21 +157,32 @@ def main():
         except (json.JSONDecodeError, FileNotFoundError) as e:
             print(f"WARN: could not read IDEA file: {e}", file=sys.stderr)
 
-    # Build dim_scores from --scores arg or evidence file
+    # Build dim_scores: start from --scores, then overlay confidence from --evidence.
+    # score_bruto must come from --scores (qualitative assessment by specialist agents).
+    # confidence comes from --evidence (grade_evidence.py output).
+    # If only --evidence is provided without --scores, score_bruto stays null →
+    # decision will be INSUFFICIENT_EVIDENCE, which is correct and expected.
     dim_scores: dict = {}
+
     if args.scores:
         try:
             dim_scores = json.loads(args.scores)
         except json.JSONDecodeError as e:
             print(f"ERROR: invalid --scores JSON: {e}", file=sys.stderr)
             sys.exit(1)
-    elif args.evidence:
+
+    if args.evidence:
         try:
             evidence_data = json.loads(Path(args.evidence).read_text(encoding="utf-8"))
             # Expect aggregated_conf_by_dimension from grade_evidence.py output
             agg = evidence_data.get("aggregated_conf_by_dimension", {})
             for dim, conf in agg.items():
-                dim_scores[dim] = {"score_bruto": None, "confidence": conf}
+                if dim not in dim_scores:
+                    dim_scores[dim] = {}
+                # Evidence confidence always overrides --scores confidence
+                dim_scores[dim]["confidence"] = conf
+                # Preserve score_bruto from --scores; do not invent it from evidence
+                dim_scores[dim].setdefault("score_bruto", None)
         except (json.JSONDecodeError, FileNotFoundError) as e:
             print(f"ERROR: could not read evidence file: {e}", file=sys.stderr)
             sys.exit(1)

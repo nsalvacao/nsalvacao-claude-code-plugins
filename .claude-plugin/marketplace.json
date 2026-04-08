@@ -109,7 +109,14 @@
       },
       "source": "./plugins/agile-lifecycle",
       "category": "productivity",
-      "tags": ["agile", "lifecycle", "project-management", "ai-ml", "gates", "phases"]
+      "tags": [
+        "agile",
+        "lifecycle",
+        "project-management",
+        "ai-ml",
+        "gates",
+        "phases"
+      ]
     },
     {
       "name": "waterfall-lifecycle",
@@ -121,7 +128,17 @@
       },
       "source": "./plugins/waterfall-lifecycle",
       "category": "development",
-      "tags": ["waterfall", "predictive", "lifecycle", "phase-gates", "ai-governance", "requirements-traceability", "formal-handovers", "artefact-management", "multi-agent"]
+      "tags": [
+        "waterfall",
+        "predictive",
+        "lifecycle",
+        "phase-gates",
+        "ai-governance",
+        "requirements-traceability",
+        "formal-handovers",
+        "artefact-management",
+        "multi-agent"
+      ]
     },
     {
       "name": "audit-fleet",
@@ -133,7 +150,14 @@
       },
       "source": "./plugins/audit-fleet",
       "category": "development",
-      "tags": ["audit", "quality", "orchestration", "multi-agent", "cross-repository", "sqlite"]
+      "tags": [
+        "audit",
+        "quality",
+        "orchestration",
+        "multi-agent",
+        "cross-repository",
+        "sqlite"
+      ]
     },
     {
       "name": "qwen-delegate",
@@ -145,19 +169,34 @@
       },
       "source": "./plugins/qwen-delegate",
       "category": "productivity",
-      "tags": ["qwen", "delegation", "token-saving", "code-generation", "cost-efficiency", "multi-llm"]
+      "tags": [
+        "qwen",
+        "delegation",
+        "token-saving",
+        "code-generation",
+        "cost-efficiency",
+        "multi-llm"
+      ]
     },
     {
       "name": "idea-auditor",
       "description": "Evidence-driven scorecard engine for ideas, MVPs, and evolving projects. Scores across 5 dimensions (wedge, friction, loop, timing, trust) using scientific frameworks (JTBD, TAM, ISO, Rogers, Mayer) with confidence-weighted scoring and PROCEED/ITERATE/KILL gates.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Nuno Salvacao",
         "email": "nuno.salvacao@gmail.com"
       },
       "source": "./plugins/idea-auditor",
       "category": "productivity",
-      "tags": ["idea-validation", "scorecard", "jtbd", "lean-startup", "mvp", "evidence-driven", "experiment-design"]
+      "tags": [
+        "idea-validation",
+        "scorecard",
+        "jtbd",
+        "lean-startup",
+        "mvp",
+        "evidence-driven",
+        "experiment-design"
+      ]
     }
   ]
 }

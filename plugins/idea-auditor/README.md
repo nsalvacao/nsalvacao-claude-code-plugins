@@ -25,13 +25,13 @@
 | Gate | Condition |
 |------|-----------|
 | `PROCEED` | Score ≥ 70 AND confidence ≥ 0.6 |
-| `ITERATE` | Score 40–69 OR confidence < 0.6 |
+| `ITERATE` | Score 40–69, OR score ≥ 70 with confidence < 0.6 |
 | `KILL` | Score < 40 |
 | `INSUFFICIENT_EVIDENCE` | Any dimension has null score |
 
 ## Quick Start
 
-1. Create `IDEA.md` in your project directory (see template in `assets/examples_min/IDEA.md`)
+1. Create `IDEA.md` in your project directory (template: `assets/examples_min/IDEA.md` — available in v0.2.0)
 2. Run the scorecard:
    ```
    /idea-auditor:score ./my-project --mode OSS_CLI
@@ -97,13 +97,12 @@ Infra_Fork_Standard  # Infrastructure forks, standards, migrations (adds migrati
 /plugin install idea-auditor@nsalvacao-claude-code-plugins
 ```
 
-## Known Limitations (v0.1.0)
+## Known Limitations (v0.2.0)
 
-- **No external evidence collection** — MCP integration (GitHub stats, trends, competitors) is v0.4.0. In v0.1.0, evidence comes from local `STATE/` files only.
+- **No external MCP evidence collection** — MCP integration (GitHub stats, trends, competitors) is v0.4.0. In v0.2.0, `fetch_oss_metrics.py` provides GitHub API signals; local `STATE/` files remain the primary evidence source.
 - **No watch mode** — Automated observation hooks are v0.3.0.
-- **No drill or report commands** — Deep-dive per dimension and full reports are v0.2.0.
-- **Scoring relies on human-provided score_bruto** — `calc_scorecard.py` computes deterministically but `score_bruto` (0–5, qualitative dimension assessment) must be supplied via `--scores`. Specialist agents that automate this arrive in v0.2.0.
-- **Blockers and next_tests not auto-generated** — `scorecard.json` outputs `blockers: []` and `next_tests: []` in v0.1.0. The orchestrator agent derives these manually from scorecard output. Script-level population arrives in v0.2.0.
+- **score_bruto is qualitative** — `calc_scorecard.py` computes deterministically but `score_bruto` (0–5) must be supplied via `--scores`. The 5 specialist agents in v0.2.0 assist with dimension assessment but `score_bruto` still requires human judgment.
+- **Blockers and next_tests not script-populated** — `scorecard.json` outputs `blockers: []` and `next_tests: []`. `build_report.py` derives blockers from lowest `score_efetivo` and `needs_experiment=True`. Script-level population in `calc_scorecard.py` is v0.3.0.
 - **Calibration** — Weight/threshold recalibration is v0.3.0.
 
 ## License

@@ -25,13 +25,13 @@
 | Gate | Condition |
 |------|-----------|
 | `PROCEED` | Score ≥ 70 AND confidence ≥ 0.6 |
-| `ITERATE` | Score 40–69 OR confidence < 0.6 |
+| `ITERATE` | Score 40–69, OR score ≥ 70 with confidence < 0.6 |
 | `KILL` | Score < 40 |
 | `INSUFFICIENT_EVIDENCE` | Any dimension has null score |
 
 ## Quick Start
 
-1. Create `IDEA.md` in your project directory (see template in `assets/examples_min/IDEA.md`)
+1. Create `IDEA.md` in your project directory (template: `assets/examples_min/IDEA.md` — available in v0.2.0)
 2. Run the scorecard:
    ```
    /idea-auditor:score ./my-project --mode OSS_CLI

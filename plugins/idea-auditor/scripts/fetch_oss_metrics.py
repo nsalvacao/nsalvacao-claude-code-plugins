@@ -9,8 +9,9 @@ Environment:
   GITHUB_TOKEN — optional; if absent, rate-limited to 60 req/h (graceful fallback).
 
 Output:
-  JSON conforming to evidence.schema.json format, with dimension=null (multi-dimensional).
-  Callers must assign dimension per item or use dimension-prefixed filenames.
+  A signals document for STATE/oss_metrics.json (not a validated evidence.schema.json item).
+  Dimension agents convert these signals into evidence items with claims before scoring.
+  dimension=null: signals are multi-dimensional (stars/forks → loop; security_md → trust; pushed_at → timing).
 
 Cache:
   STATE/.cache/<repo_slug>-<date>.json — TTL daily (no re-fetch within same day).
@@ -72,7 +73,7 @@ def fetch_metrics(repo: str, token: str | None) -> dict:
         return {
             "dimension": None,
             "source": f"fetch_oss_metrics.py:{repo}",
-            "method": "github_api",
+            "method": "oss_metrics",
             "collected_at": collected_at,
             "quality_tier": "proxy",
             "errors": errors,
@@ -133,7 +134,7 @@ def fetch_metrics(repo: str, token: str | None) -> dict:
     result = {
         "dimension": None,
         "source": f"fetch_oss_metrics.py:{repo}",
-        "method": "github_api",
+        "method": "oss_metrics",
         "collected_at": collected_at,
         "quality_tier": "proxy",
         "signals": signals,

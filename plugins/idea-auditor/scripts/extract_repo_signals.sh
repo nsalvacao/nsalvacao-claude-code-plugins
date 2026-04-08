@@ -4,7 +4,8 @@
 # Usage:
 #   bash extract_repo_signals.sh <repo_path> [--out <output.json>]
 #
-# Output: JSON with repo signals normalized for evidence.schema.json
+# Output: A signals document for STATE/ (not a validated evidence.schema.json item).
+#   Dimension agents convert these signals into evidence items with claims before scoring.
 #
 # Signals extracted:
 #   - Recent commits (last 30 days): count, authors, top changed paths
@@ -76,18 +77,21 @@ if [[ -n "$SENSITIVE_JSON" ]]; then
     SENSITIVE_CHANGES="[${SENSITIVE_JSON%,}]"
 fi
 
-# Top changed paths (last 30 days, excluding .env and *.key)
+# Top changed paths (last 30 days).
+# Uses Python for JSON-safe encoding to handle spaces, quotes, and backslashes in paths.
+# Excludes: .env files, *.key, *.pem, and secrets in any directory.
 TOP_PATHS=$(git log --since="$SINCE" --name-only --format="" 2>/dev/null \
-    | grep -v -E '^\.(env|key|pem|secret)' \
-    | grep -v '^$' \
-    | sort | uniq -c | sort -rn | head -5 \
-    | awk '{printf "{\"path\":\"%s\",\"change_count\":%d},", $2, $1}' \
-    | sed 's/,$//')
-if [[ -n "$TOP_PATHS" ]]; then
-    TOP_PATHS="[$TOP_PATHS]"
-else
-    TOP_PATHS="[]"
-fi
+    | python3 -c '
+import collections, json, re, sys
+counts = collections.Counter()
+exclude = re.compile(r"(^|/)\.(env|secret)(\.|$)|(^|/)[^/]+\.(key|pem)$")
+for line in sys.stdin:
+    path = line.rstrip("\n")
+    if path and not exclude.search(path):
+        counts[path] += 1
+top = [{"path": p, "change_count": c} for p, c in counts.most_common(5)]
+print(json.dumps(top))
+')
 
 # Build output JSON
 COLLECTED_AT=$(date +%Y-%m-%d)
@@ -96,7 +100,7 @@ OUTPUT=$(cat <<JSON
 {
   "dimension": null,
   "source": "extract_repo_signals.sh",
-  "method": "git_analysis",
+  "method": "observation",
   "collected_at": "${COLLECTED_AT}",
   "signals": {
     "commits_last_30d": ${COMMIT_COUNT},

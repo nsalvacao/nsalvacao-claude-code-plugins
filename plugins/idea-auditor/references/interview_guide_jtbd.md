@@ -80,7 +80,7 @@ After each interview, code these fields for each item in `STATE/wedge_interviews
   "dimension": "wedge",
   "claim": "Spends 3h/week manually reconciling pricing data across spreadsheets",
   "source": "Interview: [anonymized ID]",
-  "method": "user_interview",
+  "method": "interview",
   "collected_at": "YYYY-MM-DD",
   "quality_tier": "stated",
   "confidence_components": {

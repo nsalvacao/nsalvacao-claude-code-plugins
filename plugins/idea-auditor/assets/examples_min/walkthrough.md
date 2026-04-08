@@ -81,7 +81,7 @@ Create `STATE/wedge_interviews.json`:
     "dimension": "wedge",
     "claim": "User spent 3h reconciling tool outputs manually last week",
     "source": "HN comment thread (anonymous)",
-    "method": "community_observation",
+    "method": "observation",
     "collected_at": "YYYY-MM-DD",
     "quality_tier": "stated",
     "confidence_components": {

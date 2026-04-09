@@ -2,7 +2,7 @@
 
 [![Plugin Validation](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/plugin-validation.yml/badge.svg)](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/plugin-validation.yml)
 [![Release](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/release.yml/badge.svg)](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/actions/workflows/release.yml)
-[![Plugins](https://img.shields.io/badge/plugins-12-blue)](#plugin-catalog)
+[![Plugins](https://img.shields.io/badge/plugins-13-blue)](#plugin-catalog)
 [![License](https://img.shields.io/badge/license-MIT-black)](LICENSE)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/nsalvacao/nsalvacao-claude-code-plugins/badge)](https://scorecard.dev/viewer/?uri=github.com/nsalvacao/nsalvacao-claude-code-plugins)
 
@@ -60,6 +60,7 @@ By treating plugins as products (not one-off prompt files), this repository can 
 | `waterfall-lifecycle` | 0.3.0 | Formal predictive waterfall lifecycle framework for AI/ML products — 8 phases... | development | 8 cmd, 8 skill, hooks |
 | `audit-fleet` | 0.1.0 | Cross-repository audit orchestration plugin for onboarding and quality assess... | development | 5 cmd, 5 skill, 14 agent |
 | `qwen-delegate` | 0.1.0 | Delegate token-cheap tasks to the Qwen CLI (cloud-backed) to save Anthropic P... | productivity | 1 cmd, 1 skill, 1 agent |
+| `idea-auditor` | 0.4.0 | Evidence-driven scorecard engine for ideas, MVPs, and evolving projects — sco... | productivity | 7 cmd, 7 skill, 10 agent, hooks, mcp |
 <!-- PLUGINS-TABLE-END -->
 
 ## Repository Structure

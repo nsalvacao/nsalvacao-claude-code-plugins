@@ -181,7 +181,7 @@
     {
       "name": "idea-auditor",
       "description": "Evidence-driven scorecard engine for ideas, MVPs, and evolving projects. Scores across 5 dimensions (wedge, friction, loop, timing, trust) using scientific frameworks (JTBD, TAM, ISO, Rogers, Mayer) with confidence-weighted scoring and PROCEED/ITERATE/KILL gates.",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": {
         "name": "Nuno Salvacao",
         "email": "nuno.salvacao@gmail.com"

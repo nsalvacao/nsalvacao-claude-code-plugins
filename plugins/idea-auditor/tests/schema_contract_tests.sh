@@ -146,6 +146,24 @@ sys.exit(r.returncode)
 \"" \
     0
 
+# --- 9. diff_scorecards.py exits 0 on exactly -10 drop (boundary: strictly > 10) ---
+assert \
+    "diff_scorecards.py exits 0 on exactly -10 drop (boundary)" \
+    "python3 -c \"
+import json, tempfile, subprocess, sys, os
+
+before = {'mode':'OSS_CLI','scored_at':'2026-04-08','score_total':60.0,'confidence_global':0.6,'decision':'ITERATE','dimensions':{}}
+after  = {'mode':'OSS_CLI','scored_at':'2026-04-09','score_total':50.0,'confidence_global':0.6,'decision':'ITERATE','dimensions':{}}
+
+with tempfile.NamedTemporaryFile('w',suffix='.json',delete=False) as f: json.dump(before,f); b=f.name
+with tempfile.NamedTemporaryFile('w',suffix='.json',delete=False) as f: json.dump(after,f);  a=f.name
+
+r = subprocess.run(['python3','scripts/diff_scorecards.py','--before',b,'--after',a],capture_output=True)
+os.unlink(b); os.unlink(a)
+sys.exit(r.returncode)
+\"" \
+    0
+
 # --- Results ---
 
 echo ""

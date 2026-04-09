@@ -24,8 +24,7 @@ import json
 import sys
 from pathlib import Path
 
-REGRESSION_THRESHOLD = 10  # points drop in score_total that triggers a warning
-DIMENSIONS = ("wedge", "friction", "loop", "timing", "trust", "migration")
+REGRESSION_THRESHOLD = 10  # points drop in score_total that triggers a warning (strictly > threshold)
 
 
 def load(path: str) -> dict:
@@ -68,7 +67,8 @@ def compute_diff(before: dict, after: dict) -> dict:
     blockers_resolved: list[str] = []
     blockers_new: list[str] = []
 
-    for dim in DIMENSIONS:
+    all_dims = sorted(set(dims_before.keys()) | set(dims_after.keys()))
+    for dim in all_dims:
         b = dims_before.get(dim)
         a = dims_after.get(dim)
         if b is None and a is None:
@@ -122,7 +122,7 @@ def compute_diff(before: dict, after: dict) -> dict:
     dec_after = after.get("decision", "unknown")
 
     st_delta = _delta(st_before, st_after)
-    regression = st_delta is not None and st_delta <= -REGRESSION_THRESHOLD
+    regression = st_delta is not None and st_delta < -REGRESSION_THRESHOLD
 
     return {
         "before_file": before.get("_source", "before"),

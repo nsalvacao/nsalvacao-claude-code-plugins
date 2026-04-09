@@ -81,12 +81,11 @@ python3 scripts/diff_scorecards.py \
 
 ## Checking Watch Status
 
-Watch mode has no runtime toggle. To verify it is active:
+Watch mode has no runtime toggle. It is automatically active when the `idea-auditor` plugin is installed — the hook is wired at the plugin level, not inside the user's project directory. No `hooks/hooks.json` file will appear inside a user's idea project.
+
+To check recent snapshot activity in the user's project:
 
 ```bash
-# Confirm hook is wired
-cat hooks/hooks.json
-
 # Check recent snapshots
 ls -lt STATE/.snapshots/ | head -5
 
@@ -94,7 +93,7 @@ ls -lt STATE/.snapshots/ | head -5
 python3 -c "
 import json, pathlib, sys
 files = sorted(pathlib.Path('STATE/.snapshots').glob('*.json'), reverse=True)
-if not files: sys.exit('No snapshots yet')
+if not files: sys.exit('No snapshots yet — write to IDEA.md to trigger the first snapshot.')
 data = json.loads(files[0].read_text())
 print(f'{files[0].name}: {len(data)} entries')
 for e in data: print(' ', e['ts'], e['basename'])

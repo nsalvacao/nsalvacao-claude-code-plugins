@@ -3,7 +3,7 @@
 #
 # Validates that:
 #   1. evidence.schema.json is valid JSON
-#   2. All method values in evidence examples are in the allowed enum
+#   2. evidence.schema.json text contains specific required method values (interview, oss_metrics, observation)
 #   3. scorecard golden files contain required top-level keys
 #   4. calc_scorecard.py --scores null produces INSUFFICIENT_EVIDENCE
 #   5. diff_scorecards.py exits 2 on regression (score drop > 10)
@@ -44,10 +44,13 @@ assert_output_contains() {
     local cmd="$2"
     local pattern="$3"
 
-    local output
-    output=$(eval "$cmd" 2>&1) || true
+    local output actual_exit=0
+    output=$(eval "$cmd" 2>&1) || actual_exit=$?
 
-    if echo "$output" | grep -qF "$pattern"; then
+    if [[ $actual_exit -ne 0 ]]; then
+        FAIL=$((FAIL + 1))
+        ERRORS+=("FAIL [$name]: command exited $actual_exit (expected 0)")
+    elif echo "$output" | grep -qF "$pattern"; then
         PASS=$((PASS + 1))
         $VERBOSE && echo "PASS [$name]"
     else

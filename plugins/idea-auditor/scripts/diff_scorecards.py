@@ -60,8 +60,12 @@ def _fmt_val(val: float | None, precision: int = 2) -> str:
 
 
 def compute_diff(before: dict, after: dict) -> dict:
-    dims_before: dict = before.get("dimensions", {})
-    dims_after: dict = after.get("dimensions", {})
+    dims_before = before.get("dimensions", {})
+    dims_after = after.get("dimensions", {})
+    if not isinstance(dims_before, dict):
+        dims_before = {}
+    if not isinstance(dims_after, dict):
+        dims_after = {}
 
     dim_deltas: dict[str, dict] = {}
     blockers_resolved: list[str] = []

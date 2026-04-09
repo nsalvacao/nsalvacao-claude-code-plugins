@@ -27,27 +27,35 @@ run_test() {
 
     # Run calc_scorecard.py and capture output
     local actual
-    actual=$(python3 scripts/calc_scorecard.py \
-        --scores "$scores_json" \
-        --mode "$mode" 2>&1) || {
+    local _tmp_actual
+    _tmp_actual=$(mktemp "${TMPDIR:-/tmp}/idea-auditor-golden.XXXXXX") || {
         FAIL=$((FAIL + 1))
-        ERRORS+=("FAIL [$name]: calc_scorecard.py exited with error")
+        ERRORS+=("FAIL [$name]: mktemp failed")
         return
     }
 
-    # Compare key fields using Python
+    python3 scripts/calc_scorecard.py \
+        --scores "$scores_json" \
+        --mode "$mode" > "$_tmp_actual" 2>&1 || {
+        FAIL=$((FAIL + 1))
+        ERRORS+=("FAIL [$name]: calc_scorecard.py exited with error")
+        rm -f "$_tmp_actual"
+        return
+    }
+
+    # Compare key fields using Python, reading actual output from temp file
     local result
-    result=$(python3 - <<EOF 2>&1
+    result=$(python3 - "$_tmp_actual" "$golden_file" <<'PYEOF' 2>&1
 import json, sys
 
-golden_path = "$golden_file"
-actual_json = '''$actual'''
+actual_path, golden_path = sys.argv[1], sys.argv[2]
 
 with open(golden_path, 'r') as f:
     golden = json.load(f)
 
 try:
-    actual = json.loads(actual_json)
+    with open(actual_path, 'r') as f:
+        actual = json.load(f)
 except json.JSONDecodeError as e:
     print(f"PARSE_ERROR: {e}")
     sys.exit(1)
@@ -86,9 +94,10 @@ if errors:
     for e in errors:
         print(e)
     sys.exit(1)
-EOF
+PYEOF
     )
 
+    rm -f "$_tmp_actual"
     local exit_code=$?
 
     if [[ $exit_code -eq 0 ]]; then

@@ -9,8 +9,9 @@
 
 set -uo pipefail
 
-# Use a temp file to avoid E2BIG when tool input includes large file content
-_TMP_INPUT=$(mktemp 2>/dev/null) || exit 0
+# Use a temp file to avoid E2BIG when tool input includes large file content.
+# Portable template form required for BSD/macOS compatibility.
+_TMP_INPUT=$(mktemp "${TMPDIR:-/tmp}/idea-auditor.XXXXXX" 2>/dev/null) || exit 0
 cat > "$_TMP_INPUT" 2>/dev/null || { rm -f "$_TMP_INPUT"; exit 0; }
 [ ! -s "$_TMP_INPUT" ] && { rm -f "$_TMP_INPUT"; exit 0; }
 
@@ -37,13 +38,13 @@ case "$BASENAME" in
     *) exit 0 ;;
 esac
 
-# Detect project root: walk up from the file's directory looking for IDEA.md
+# Detect project root: walk up from the file's directory looking for IDEA.md or IDEA.json
 detect_project_root() {
     local dir
     dir=$(dirname "$FILE_PATH")
     [[ "$dir" != /* ]] && dir="$(pwd)/$dir"
     while [ "$dir" != "/" ]; do
-        [ -f "$dir/IDEA.md" ] && { echo "$dir"; return; }
+        { [ -f "$dir/IDEA.md" ] || [ -f "$dir/IDEA.json" ]; } && { echo "$dir"; return; }
         dir=$(dirname "$dir")
     done
     pwd

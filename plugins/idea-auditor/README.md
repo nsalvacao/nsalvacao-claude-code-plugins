@@ -52,7 +52,7 @@
 | `/idea-auditor:tests <path>` | Generate experiment plan with stop rules |
 | `/idea-auditor:drill <dimension>` | Deep-dive single dimension *(v0.2.0)* |
 | `/idea-auditor:report <path>` | Full consolidated report *(v0.2.0)* |
-| `/idea-auditor:watch on\|off` | Toggle observation hooks *(v0.3.0)* |
+| `/idea-auditor:watch [<path>]` | Show watch mode status and recent snapshots *(v0.3.0)* |
 | `/idea-auditor:calibrate` | Recalibrate weights with evidence *(v0.3.0)* |
 | `/idea-auditor:migrate <path>` | Assess switching costs *(v0.4.0, Infra_Fork_Standard)* |
 

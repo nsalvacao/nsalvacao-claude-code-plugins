@@ -6,8 +6,8 @@ allowed-tools: Bash, Read
 
 Show watch mode status and recent snapshot activity for the idea-auditor plugin.
 
-1. Identify the project path (default: current directory). Look for `IDEA.md`, `STATE/`, or `hooks/hooks.json`.
-2. Confirm that `hooks/hooks.json` exists and contains a `PostToolUse` matcher for `Write|Edit`. If missing, warn the user that watch mode is not active.
+1. Identify the project path (default: current directory). Look for `IDEA.md` or `IDEA.json`.
+2. Note to user: watch mode is always active when the `idea-auditor` plugin is installed — the hook lives in the plugin, not in the project directory. No hook file check is needed.
 3. Check `STATE/.snapshots/` for recent snapshot files. List the 5 most recent files with their entry count and timestamps.
 4. Show the high-signal file patterns being observed: `IDEA.*`, `BLUEPRINT.*`, `README.md`, `SECURITY.md`, `CHANGELOG.md`.
 5. If scorecard files exist in `STATE/`, suggest the diff command:

@@ -370,6 +370,26 @@ assert_output_contains \
     "python3 -c \"import ast; tree=ast.parse(open('$SERVER_PY').read()); fns=[n for n in ast.walk(tree) if isinstance(n,ast.AsyncFunctionDef) and n.name=='_fetch_competitor_scan']; f=fns[0] if fns else None; print('async='+str(bool(fns))+' client='+str(any(a.arg=='client' for a in (f.args.args if f else []))))\"" \
     "async=True client=True"
 
+BRIDGE_SERVER="mcp/servers/analytics-bridge/server.py"
+
+assert_exit \
+    "S7: analytics-bridge server.py exists" \
+    "test -f '$BRIDGE_SERVER'"
+
+assert_exit \
+    "S7: analytics-bridge server.py is valid Python AST" \
+    "python3 -c \"import ast; ast.parse(open('$BRIDGE_SERVER').read())\""
+
+assert_output_contains \
+    "S7: analytics-bridge declares fetch_events tool" \
+    "python3 -c \"
+import ast
+tree = ast.parse(open('$BRIDGE_SERVER').read())
+strings = [n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)]
+print('fetch_events' in strings)
+\"" \
+    "True"
+
 # ---------------------------------------------------------------------------
 # Results
 # ---------------------------------------------------------------------------

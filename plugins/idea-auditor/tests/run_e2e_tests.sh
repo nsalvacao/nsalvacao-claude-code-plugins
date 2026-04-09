@@ -355,7 +355,7 @@ assert_output_contains \
     "async=True client=True"
 
 assert_output_contains \
-    "S7: trend_snapshot result has github_trending_weekly key" \
+    "S7: _fetch_trend_snapshot function exists" \
     "python3 -c \"
 import ast, types as _t
 src = open('$SERVER_PY').read()

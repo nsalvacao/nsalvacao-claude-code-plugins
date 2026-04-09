@@ -67,10 +67,18 @@ def _cache_save(key: str, data: dict, state_dir: str | None = None) -> None:
 
 
 async def _github_get(client: "httpx.AsyncClient", path: str) -> dict | list | None:
-    """Async GitHub API GET via injected httpx.AsyncClient (non-blocking)."""
+    """Async GitHub API GET via injected httpx.AsyncClient (non-blocking).
+
+    Auth headers are set per-request so a single shared client can be used
+    across tool branches without leaking the GitHub token to third-party APIs.
+    """
     url = f"{GITHUB_API}{path}"
+    token = os.environ.get("GITHUB_TOKEN")
+    headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
     try:
-        resp = await client.get(url, timeout=15)
+        resp = await client.get(url, timeout=15, headers=headers)
         resp.raise_for_status()
         return resp.json()
     except httpx.HTTPStatusError as e:
@@ -271,7 +279,7 @@ async def _fetch_trend_snapshot(client: httpx.AsyncClient, query: str, state_dir
 
             # Description (first <p> tag content, stripped)
             desc_m = re.search(r'<p[^>]*>\s*(.*?)\s*</p>', article, re.DOTALL)
-            description = re.sub(r'<[^>]+>', '', desc_m.group(1)).strip() if desc_m else None
+            description = re.sub(r'<.*?>', '', desc_m.group(1), flags=re.DOTALL).strip() if desc_m else None
 
             # Relevance: does the query match repo name or description?
             searchable = (repo_name + " " + (description or "")).lower()
@@ -454,80 +462,75 @@ async def call_tool(
 
     state_dir = arguments.get("state_dir")
 
-    if name == "github_repo_stats":
-        repo = arguments["repo"]
-        dimension = arguments.get("dimension")
-        as_evidence = arguments.get("as_evidence", False)
+    # Single shared client for all branches — auth headers are set per-request
+    # inside _github_get so the token is never sent to third-party registries.
+    async with httpx.AsyncClient() as client:
+        if name == "github_repo_stats":
+            repo = arguments["repo"]
+            dimension = arguments.get("dimension")
+            as_evidence = arguments.get("as_evidence", False)
 
-        token = os.environ.get("GITHUB_TOKEN")
-        headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
-        if token:
-            headers["Authorization"] = f"Bearer {token}"
-        async with httpx.AsyncClient(headers=headers) as client:
             data = await _fetch_github_repo_stats(client, repo, state_dir)
 
-        if "error" in data:
+            if "error" in data:
+                return [types.TextContent(type="text", text=json.dumps(data, indent=2))]
+
+            if as_evidence:
+                items = []
+                # Stars as loop/timing signal
+                if data.get("stars") is not None:
+                    items.append(_to_evidence_item(
+                        claim=f"{repo} has {data['stars']} GitHub stars",
+                        source=f"github/{repo}",
+                        method="oss_metrics",
+                        collected_at=TODAY,
+                        quality_tier="proxy",
+                        dimension=dimension or "loop",
+                        raw={"stars": data["stars"], "forks": data["forks"]},
+                        normalized=f"stars={data['stars']}, forks={data['forks']}",
+                    ))
+                # Security posture as trust signal
+                if data.get("has_security_md") is not None:
+                    items.append(_to_evidence_item(
+                        claim=f"{repo} {'has' if data['has_security_md'] else 'does not have'} SECURITY.md",
+                        source=f"github/{repo}",
+                        method="oss_metrics",
+                        collected_at=TODAY,
+                        quality_tier="behavioral",
+                        dimension=dimension or "trust",
+                        raw={"has_security_md": data["has_security_md"]},
+                        normalized=f"has_security_md={data['has_security_md']}",
+                    ))
+                # Release freshness as timing signal
+                if data.get("last_release_days") is not None:
+                    items.append(_to_evidence_item(
+                        claim=f"{repo} last released {data['last_release_days']} days ago",
+                        source=f"github/{repo}",
+                        method="oss_metrics",
+                        collected_at=TODAY,
+                        quality_tier="proxy",
+                        dimension=dimension or "timing",
+                        raw={"last_release_date": data["last_release_date"], "last_release_days": data["last_release_days"]},
+                        normalized=f"last_release_days={data['last_release_days']}",
+                    ))
+                return [types.TextContent(type="text", text=json.dumps(items, indent=2))]
+
             return [types.TextContent(type="text", text=json.dumps(data, indent=2))]
 
-        if as_evidence:
-            items = []
-            # Stars as loop/timing signal
-            if data.get("stars") is not None:
-                items.append(_to_evidence_item(
-                    claim=f"{repo} has {data['stars']} GitHub stars",
-                    source=f"github/{repo}",
-                    method="oss_metrics",
-                    collected_at=TODAY,
-                    quality_tier="proxy",
-                    dimension=dimension or "loop",
-                    raw={"stars": data["stars"], "forks": data["forks"]},
-                    normalized=f"stars={data['stars']}, forks={data['forks']}",
-                ))
-            # Security posture as trust signal
-            if data.get("has_security_md") is not None:
-                items.append(_to_evidence_item(
-                    claim=f"{repo} {'has' if data['has_security_md'] else 'does not have'} SECURITY.md",
-                    source=f"github/{repo}",
-                    method="oss_metrics",
-                    collected_at=TODAY,
-                    quality_tier="behavioral",
-                    dimension=dimension or "trust",
-                    raw={"has_security_md": data["has_security_md"]},
-                    normalized=f"has_security_md={data['has_security_md']}",
-                ))
-            # Release freshness as timing signal
-            if data.get("last_release_days") is not None:
-                items.append(_to_evidence_item(
-                    claim=f"{repo} last released {data['last_release_days']} days ago",
-                    source=f"github/{repo}",
-                    method="oss_metrics",
-                    collected_at=TODAY,
-                    quality_tier="proxy",
-                    dimension=dimension or "timing",
-                    raw={"last_release_date": data["last_release_date"], "last_release_days": data["last_release_days"]},
-                    normalized=f"last_release_days={data['last_release_days']}",
-                ))
-            return [types.TextContent(type="text", text=json.dumps(items, indent=2))]
-
-        return [types.TextContent(type="text", text=json.dumps(data, indent=2))]
-
-    elif name == "registry_downloads":
-        async with httpx.AsyncClient() as client:
+        elif name == "registry_downloads":
             result = await _fetch_registry_downloads(client, arguments["package"], arguments["registry"], state_dir)
-        return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+            return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
-    elif name == "trend_snapshot":
-        async with httpx.AsyncClient() as client:
+        elif name == "trend_snapshot":
             result = await _fetch_trend_snapshot(client, arguments["query"], state_dir)
-        return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+            return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
-    elif name == "competitor_scan":
-        async with httpx.AsyncClient() as client:
+        elif name == "competitor_scan":
             result = await _fetch_competitor_scan(client, arguments.get("alternatives", []), state_dir)
-        return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
+            return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
-    else:
-        return [types.TextContent(type="text", text=json.dumps({"error": f"Unknown tool: {name}"}))]
+        else:
+            return [types.TextContent(type="text", text=json.dumps({"error": f"Unknown tool: {name}"}))]
 
 
 # ---------------------------------------------------------------------------

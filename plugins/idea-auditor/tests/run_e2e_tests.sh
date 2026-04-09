@@ -391,6 +391,57 @@ print('fetch_events' in strings)
     "True"
 
 # ---------------------------------------------------------------------------
+# Scenario 8 — normalize_interviews.py --validate rejects null source
+# ---------------------------------------------------------------------------
+
+NO_SOURCE_MD="$_TMP_DIR/no_source.md"
+cat > "$NO_SOURCE_MD" <<'NOSRCEOF'
+## Interview 1
+Date: 2026-04-09
+Dimension: wedge
+Pain: I waste hours on manual research every week.
+Severity: 4/5
+Frequency: weekly
+NOSRCEOF
+
+assert_exit \
+    "S8: --validate exits 1 when source is null (no interviewee metadata)" \
+    "python3 scripts/normalize_interviews.py --input '$NO_SOURCE_MD' --validate" \
+    1
+
+# ---------------------------------------------------------------------------
+# Scenario 9 — grade_evidence.py handles confidence_components: {} without crash
+# ---------------------------------------------------------------------------
+
+EMPTY_CC_EVIDENCE="$_TMP_DIR/empty_cc.json"
+cat > "$EMPTY_CC_EVIDENCE" <<'CCEOF'
+[
+  {
+    "claim": "User spends 3h/week on manual validation",
+    "source": "Alice, Senior Engineer",
+    "method": "interview",
+    "collected_at": "2026-04-01",
+    "quality_tier": "stated",
+    "dimension": "wedge",
+    "raw": null,
+    "normalized": null,
+    "confidence_components": {}
+  }
+]
+CCEOF
+
+GRADED_CC_OUT="$_TMP_DIR/graded_cc.json"
+
+assert_exit \
+    "S9: grade_evidence.py exits 0 with confidence_components: {}" \
+    "python3 scripts/grade_evidence.py --evidence '$EMPTY_CC_EVIDENCE' --out '$GRADED_CC_OUT'"
+
+assert_output_contains \
+    "S9: graded output contains conf_dim (no crash on empty confidence_components)" \
+    "python3 -c \"import json; d=json.load(open('$GRADED_CC_OUT')); print(str(d))\"" \
+    "conf_dim"
+
+# ---------------------------------------------------------------------------
 # Results
 # ---------------------------------------------------------------------------
 

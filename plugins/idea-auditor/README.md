@@ -54,7 +54,7 @@
 | `/idea-auditor:report <path>` | Full consolidated report *(v0.2.0)* |
 | `/idea-auditor:watch [<path>]` | Show watch mode status and recent snapshots *(v0.3.0)* |
 | `/idea-auditor:calibrate` | Recalibrate weights with evidence *(v0.3.0)* |
-| `/idea-auditor:migrate <path>` | Assess switching costs *(v0.4.0, Infra_Fork_Standard)* |
+| `/idea-auditor:migrate <path>` | Assess switching costs *(v0.4.0, Infra_Fork_Standard only)* |
 
 ## Scoring Modes
 
@@ -97,12 +97,13 @@ Infra_Fork_Standard  # Infrastructure forks, standards, migrations (adds migrati
 /plugin install idea-auditor@nsalvacao-claude-code-plugins
 ```
 
-## Known Limitations (v0.3.0)
+## Known Limitations (v0.4.0)
 
-- **No external MCP evidence collection** — MCP integration (GitHub stats, trends, competitors) is v0.4.0. `fetch_oss_metrics.py` provides GitHub API signals; local `STATE/` files remain the primary evidence source.
-- **score_bruto is qualitative** — `calc_scorecard.py` computes deterministically but `score_bruto` (0–5) must be supplied via `--scores`. The 5 specialist agents assist with dimension assessment but `score_bruto` still requires human judgment.
-- **Blockers and next_tests not script-populated** — `scorecard.json` outputs `blockers: []` and `next_tests: []`. `build_report.py` derives blockers from lowest `score_efetivo` and `needs_experiment=True`. Automated script-level population is v0.4.0.
-- **Watch mode records writes only** — `hooks/scripts/snapshot.sh` snapshots file content after Write/Edit tool calls. It does not capture deletions, git commits, or external edits.
+- **score_bruto is qualitative** — `calc_scorecard.py` computes deterministically but `score_bruto` (0–5) must be supplied via `--scores`. Specialist agents assist with dimension assessment but `score_bruto` still requires human judgment.
+- **Blockers and next_tests not script-populated** — `scorecard.json` outputs `blockers: []` and `next_tests: []`. `build_report.py` derives blockers from lowest `score_efetivo` and `needs_experiment=True`.
+- **Watch mode records writes only** — `hooks/scripts/snapshot.sh` snapshots file content after Write/Edit tool calls only. Deletions, git commits, and external edits are not captured.
+- **MCP server tools are mostly stubs** — `evidence-harvester` has `github_repo_stats` functional; `registry_downloads`, `trend_snapshot`, and `competitor_scan` are stubs planned for v0.5.0.
+- **competitor-mapper produces no score_bruto** — It feeds wedge/friction/timing agents; it does not produce a dimension score for `calc_scorecard.py` directly.
 
 ## License
 

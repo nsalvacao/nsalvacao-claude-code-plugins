@@ -105,7 +105,7 @@ def parse_structured_interview(block: str, default_dimension: str | None) -> dic
         "normalized": None,
         "quality_tier": "stated",
         "dimension": default_dimension,
-        "confidence_components": None,
+        "confidence_components": {},
     }
 
     # --- Metadata extraction ---
@@ -121,7 +121,7 @@ def parse_structured_interview(block: str, default_dimension: str | None) -> dic
 
     # --- Source ---
     source_parts = [p for p in [interviewee, role, company] if p]
-    item["source"] = ", ".join(source_parts) if source_parts else "anonymous interviewee"
+    item["source"] = ", ".join(source_parts) if source_parts else None
 
     # --- Collected at ---
     if collected_at:
@@ -130,8 +130,7 @@ def parse_structured_interview(block: str, default_dimension: str | None) -> dic
             parsed = date.fromisoformat(collected_at)
             item["collected_at"] = parsed.isoformat()
         except ValueError:
-            # Keep raw if we can't parse — validator will flag it
-            item["collected_at"] = collected_at
+            item["collected_at"] = None  # non-ISO format — null per schema contract
     else:
         item["collected_at"] = None  # null — not inferred
 

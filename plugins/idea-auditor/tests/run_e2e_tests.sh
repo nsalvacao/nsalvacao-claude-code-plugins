@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # run_e2e_tests.sh — End-to-end integration tests for idea-auditor scripts.
 #
-# Tests 4 scenarios offline (no MCP, no Claude API):
+# Tests 6 scenarios offline (no MCP, no Claude API):
 #   1. Valid scores → scorecard JSON produced with a decision gate
 #   2. Null score_bruto → INSUFFICIENT_EVIDENCE decision
 #   3. grade_evidence.py → graded evidence JSON with conf_dim per dimension
 #   4. build_report.py → markdown report with decision, dimensions, blockers
+#   5. validate_inputs.py → accepts valid IDEA.md
+#   6. normalize_interviews.py → round-trip to valid evidence JSON
 #
 # Usage:
 #   bash tests/run_e2e_tests.sh          # from plugin root

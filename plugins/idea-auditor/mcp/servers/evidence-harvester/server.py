@@ -98,7 +98,7 @@ def _to_evidence_item(
         "dimension": dimension,
         "raw": json.dumps(raw) if raw else None,
         "normalized": normalized,
-        "confidence_components": None,
+        "confidence_components": {},
     }
 
 

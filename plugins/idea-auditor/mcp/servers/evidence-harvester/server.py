@@ -19,12 +19,10 @@ Cache:
 import asyncio
 import json
 import os
-import sys
-import urllib.request
-import urllib.error
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+import httpx
 import mcp.server.stdio
 import mcp.types as types
 from mcp.server import NotificationOptions, Server
@@ -64,22 +62,18 @@ def _cache_save(key: str, data: dict, state_dir: str | None = None) -> None:
     try:
         _cache_path(key, state_dir).write_text(json.dumps(data, indent=2))
     except Exception:
-        pass
+        pass  # cache write failure is non-fatal — MCP server continues without caching
 
 
-def _github_get(path: str) -> dict | list | None:
-    token = os.environ.get("GITHUB_TOKEN")
+async def _github_get(client: "httpx.AsyncClient", path: str) -> dict | list | None:
+    """Async GitHub API GET via injected httpx.AsyncClient (non-blocking)."""
     url = f"{GITHUB_API}{path}"
-    req = urllib.request.Request(url)
-    req.add_header("Accept", "application/vnd.github+json")
-    req.add_header("X-GitHub-Api-Version", "2022-11-28")
-    if token:
-        req.add_header("Authorization", f"Bearer {token}")
     try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            return json.loads(resp.read())
-    except urllib.error.HTTPError as e:
-        return {"error": f"HTTP {e.code}: {e.reason}", "url": url}
+        resp = await client.get(url, timeout=15)
+        resp.raise_for_status()
+        return resp.json()
+    except httpx.HTTPStatusError as e:
+        return {"error": f"HTTP {e.response.status_code}: {e.response.reason_phrase}", "url": str(e.request.url)}
     except Exception as e:
         return {"error": str(e), "url": url}
 
@@ -112,18 +106,18 @@ def _to_evidence_item(
 # Tool: github_repo_stats
 # ---------------------------------------------------------------------------
 
-def _fetch_github_repo_stats(repo: str, state_dir: str | None) -> dict:
+async def _fetch_github_repo_stats(client: httpx.AsyncClient, repo: str, state_dir: str | None) -> dict:
     cache_key = f"github_repo_{repo}"
     cached = _cache_load(cache_key, state_dir)
     if cached:
         return {**cached, "cache_hit": True}
 
-    repo_data = _github_get(f"/repos/{repo}")
+    repo_data = await _github_get(client, f"/repos/{repo}")
     if not repo_data or "error" in repo_data:
         return {"error": repo_data.get("error") if repo_data else "no data", "repo": repo}
 
     # Contributors (last 90 days via stats/contributors — can be slow)
-    contrib_data = _github_get(f"/repos/{repo}/stats/contributors")
+    contrib_data = await _github_get(client, f"/repos/{repo}/stats/contributors")
     active_contributors = 0
     if isinstance(contrib_data, list):
         cutoff = datetime.now(timezone.utc).timestamp() - 90 * 86400
@@ -135,12 +129,12 @@ def _fetch_github_repo_stats(repo: str, state_dir: str | None) -> dict:
 
     # Security signals
     has_security_md = False
-    contents = _github_get(f"/repos/{repo}/contents/SECURITY.md")
+    contents = await _github_get(client, f"/repos/{repo}/contents/SECURITY.md")
     if isinstance(contents, dict) and "name" in contents:
         has_security_md = True
 
     # Latest release
-    latest_release = _github_get(f"/repos/{repo}/releases/latest")
+    latest_release = await _github_get(client, f"/repos/{repo}/releases/latest")
     last_release_date = None
     last_release_days = None
     if isinstance(latest_release, dict) and "published_at" in latest_release:
@@ -149,7 +143,7 @@ def _fetch_github_repo_stats(repo: str, state_dir: str | None) -> dict:
             rel_date = date.fromisoformat(last_release_date)
             last_release_days = (date.today() - rel_date).days
         except ValueError:
-            pass
+            pass  # published_at format unexpected — leave last_release_days as None
 
     result = {
         "repo": repo,
@@ -318,7 +312,12 @@ async def call_tool(
         dimension = arguments.get("dimension")
         as_evidence = arguments.get("as_evidence", False)
 
-        data = _fetch_github_repo_stats(repo, state_dir)
+        token = os.environ.get("GITHUB_TOKEN")
+        headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+        async with httpx.AsyncClient(headers=headers) as client:
+            data = await _fetch_github_repo_stats(client, repo, state_dir)
 
         if "error" in data:
             return [types.TextContent(type="text", text=json.dumps(data, indent=2))]

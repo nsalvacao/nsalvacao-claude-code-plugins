@@ -26,7 +26,6 @@ run_test() {
     local scores_json="$4"
 
     # Run calc_scorecard.py and capture output
-    local actual
     local _tmp_actual
     _tmp_actual=$(mktemp "${TMPDIR:-/tmp}/idea-auditor-golden.XXXXXX") || {
         FAIL=$((FAIL + 1))

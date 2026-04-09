@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""evidence-harvester MCP server — idea-auditor v0.4.0
+"""evidence-harvester MCP server — idea-auditor v0.5.0
 
 Fetches external evidence signals and normalizes them to evidence.schema.json format.
 
 Tools:
   github_repo_stats   — GitHub star/fork/contributor velocity, security posture
-  registry_downloads  — npm/pypi/homebrew weekly download counts (stub — v0.5.0)
-  trend_snapshot      — GitHub trending & Google Trends signals (stub — v0.5.0)
-  competitor_scan     — competitor metric list normalized to same proxies (stub — v0.5.0)
+  registry_downloads  — npm/pypi/homebrew weekly download counts
+  trend_snapshot      — GitHub trending & Google Trends signals (stub — v0.6.0)
+  competitor_scan     — competitor metric list normalized to same proxies (stub — v0.6.0)
 
 Environment:
   GITHUB_TOKEN — optional; absent → rate-limited to 60 req/h
@@ -171,33 +171,79 @@ async def _fetch_github_repo_stats(client: httpx.AsyncClient, repo: str, state_d
 # Tool stubs (v0.5.0)
 # ---------------------------------------------------------------------------
 
-def _fetch_registry_downloads(package: str, registry: str, state_dir: str | None) -> dict:
-    """Stub — npm/pypi/homebrew registry downloads. Full implementation in v0.5.0."""
-    return {
-        "status": "stub",
-        "message": f"registry_downloads for {registry}/{package} is not yet implemented. "
-                   "Full implementation planned for v0.5.0.",
+async def _fetch_registry_downloads(client: httpx.AsyncClient, package: str, registry: str, state_dir: str | None) -> dict:
+    """Fetch weekly download counts from npm, pypi, or homebrew. Results cached daily."""
+    cache_key = f"registry_{registry}_{package}"
+    cached = _cache_load(cache_key, state_dir)
+    if cached:
+        return {**cached, "cache_hit": True}
+
+    result: dict = {
         "package": package,
         "registry": registry,
+        "fetched_at": TODAY,
+        "weekly_downloads": None,
+        "monthly_downloads": None,
     }
+
+    try:
+        if registry == "npm":
+            resp = await client.get(
+                f"https://api.npmjs.org/downloads/point/last-week/{package}", timeout=15
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            result["weekly_downloads"] = data.get("downloads")
+
+        elif registry == "pypi":
+            resp = await client.get(
+                f"https://pypistats.org/api/packages/{package}/recent", timeout=15
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            pkg_data = data.get("data") or {}
+            result["weekly_downloads"] = pkg_data.get("last_week")
+            result["monthly_downloads"] = pkg_data.get("last_month")
+
+        elif registry == "homebrew":
+            resp = await client.get(
+                f"https://formulae.brew.sh/api/formula/{package}.json", timeout=15
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            install_30d = (data.get("analytics") or {}).get("install", {}).get("30d", {})
+            monthly = sum(install_30d.values()) if install_30d else None
+            result["monthly_downloads"] = monthly
+            result["weekly_downloads"] = round(monthly / 4) if monthly else None
+
+        else:
+            return {"error": f"Unknown registry: {registry}", "package": package, "registry": registry}
+
+    except httpx.HTTPStatusError as e:
+        return {"error": f"HTTP {e.response.status_code}: {e.response.reason_phrase}", "package": package, "registry": registry}
+    except Exception as e:
+        return {"error": str(e), "package": package, "registry": registry}
+
+    _cache_save(cache_key, result, state_dir)
+    return result
 
 
 def _fetch_trend_snapshot(query: str, state_dir: str | None) -> dict:
-    """Stub — GitHub trending + Google Trends. Full implementation in v0.5.0."""
+    """Stub — GitHub trending + Google Trends. Full implementation in v0.6.0."""
     return {
         "status": "stub",
         "message": f"trend_snapshot for '{query}' is not yet implemented. "
-                   "Full implementation planned for v0.5.0.",
+                   "Full implementation planned for v0.6.0.",
         "query": query,
     }
 
 
 def _fetch_competitor_scan(alternatives: list[str], state_dir: str | None) -> dict:
-    """Stub — competitor metric scan normalized to same proxies. Full implementation in v0.5.0."""
+    """Stub — competitor metric scan normalized to same proxies. Full implementation in v0.6.0."""
     return {
         "status": "stub",
         "message": "competitor_scan is not yet implemented. Use competitor-mapper agent for now. "
-                   "Full implementation planned for v0.5.0.",
+                   "Full implementation planned for v0.6.0.",
         "alternatives": alternatives,
     }
 
@@ -245,27 +291,28 @@ async def list_tools() -> list[types.Tool]:
         types.Tool(
             name="registry_downloads",
             description=(
-                "[STUB — v0.5.0] Fetch weekly download counts from npm, pypi, or homebrew. "
-                "Returns a stub response indicating planned implementation."
+                "Fetch weekly download counts from npm, pypi, or homebrew for idea-auditor evidence. "
+                "Returns weekly_downloads (and monthly_downloads for pypi/homebrew). "
+                "Results are cached daily in STATE/.cache/evidence-harvester/."
             ),
             inputSchema={
                 "type": "object",
                 "required": ["package", "registry"],
                 "properties": {
-                    "package": {"type": "string", "description": "Package name"},
+                    "package": {"type": "string", "description": "Package name (e.g. 'httpx', 'react')"},
                     "registry": {
                         "type": "string",
                         "enum": ["npm", "pypi", "homebrew"],
                         "description": "Package registry",
                     },
-                    "state_dir": {"type": "string"},
+                    "state_dir": {"type": "string", "description": "Path to STATE/ directory for cache. Defaults to STATE/"},
                 },
             },
         ),
         types.Tool(
             name="trend_snapshot",
             description=(
-                "[STUB — v0.5.0] Snapshot GitHub trending and Google Trends signals for a query. "
+                "[STUB — v0.6.0] Snapshot GitHub trending and Google Trends signals for a query. "
                 "Returns a stub response indicating planned implementation."
             ),
             inputSchema={
@@ -280,7 +327,7 @@ async def list_tools() -> list[types.Tool]:
         types.Tool(
             name="competitor_scan",
             description=(
-                "[STUB — v0.5.0] Scan a list of competitor repos/packages and return normalized "
+                "[STUB — v0.6.0] Scan a list of competitor repos/packages and return normalized "
                 "proxy metrics for the competitor-mapper agent. "
                 "Returns a stub response; use competitor-mapper agent for current analysis."
             ),
@@ -365,7 +412,8 @@ async def call_tool(
         return [types.TextContent(type="text", text=json.dumps(data, indent=2))]
 
     elif name == "registry_downloads":
-        result = _fetch_registry_downloads(arguments["package"], arguments["registry"], state_dir)
+        async with httpx.AsyncClient() as client:
+            result = await _fetch_registry_downloads(client, arguments["package"], arguments["registry"], state_dir)
         return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
     elif name == "trend_snapshot":
@@ -391,7 +439,7 @@ async def _main() -> None:
             write_stream,
             InitializationOptions(
                 server_name="idea-auditor-evidence-harvester",
-                server_version="0.4.0",
+                server_version="0.5.0",
                 capabilities=app.get_capabilities(
                     notification_options=NotificationOptions(),
                     experimental_capabilities={},

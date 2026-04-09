@@ -1,0 +1,54 @@
+{
+  "_golden": true,
+  "_description": "OSS CLI baseline — ITERATE zone, confidence just below PROCEED threshold. Used to verify that calc_scorecard.py applies OSS_CLI weights correctly and gates fire as expected.",
+  "idea_path": "unknown",
+  "mode": "OSS_CLI",
+  "scored_at": "2026-04-09",
+  "dimensions": {
+    "wedge": {
+      "score_bruto": 3.5,
+      "confidence": 0.65,
+      "score_efetivo": 2.275,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    },
+    "friction": {
+      "score_bruto": 3.0,
+      "confidence": 0.5,
+      "score_efetivo": 1.5,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    },
+    "loop": {
+      "score_bruto": 2.5,
+      "confidence": 0.45,
+      "score_efetivo": 1.125,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    },
+    "timing": {
+      "score_bruto": 3.5,
+      "confidence": 0.6,
+      "score_efetivo": 2.1,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    },
+    "trust": {
+      "score_bruto": 4.0,
+      "confidence": 0.7,
+      "score_efetivo": 2.8,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    }
+  },
+  "score_total": 41.1,
+  "confidence_global": 0.58,
+  "decision": "ITERATE",
+  "blockers": [],
+  "next_tests": []
+}

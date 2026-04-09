@@ -1,0 +1,54 @@
+{
+  "_golden": true,
+  "_description": "B2B SaaS baseline — ITERATE zone with confidence above 0.6. Used to verify that calc_scorecard.py applies B2B_SaaS weights correctly (higher wedge/friction weights vs OSS_CLI) and gates fire as expected.",
+  "idea_path": "unknown",
+  "mode": "B2B_SaaS",
+  "scored_at": "2026-04-09",
+  "dimensions": {
+    "wedge": {
+      "score_bruto": 4.0,
+      "confidence": 0.7,
+      "score_efetivo": 2.8,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    },
+    "friction": {
+      "score_bruto": 3.5,
+      "confidence": 0.65,
+      "score_efetivo": 2.275,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    },
+    "loop": {
+      "score_bruto": 2.0,
+      "confidence": 0.5,
+      "score_efetivo": 1.0,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    },
+    "timing": {
+      "score_bruto": 3.0,
+      "confidence": 0.6,
+      "score_efetivo": 1.8,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    },
+    "trust": {
+      "score_bruto": 3.5,
+      "confidence": 0.65,
+      "score_efetivo": 2.275,
+      "needs_experiment": false,
+      "evidence_refs": [],
+      "metrics": []
+    }
+  },
+  "score_total": 44.7,
+  "confidence_global": 0.62,
+  "decision": "ITERATE",
+  "blockers": [],
+  "next_tests": []
+}

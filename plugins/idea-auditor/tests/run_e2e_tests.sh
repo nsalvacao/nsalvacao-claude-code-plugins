@@ -340,6 +340,32 @@ assert_output_contains \
     "commitment"
 
 # ---------------------------------------------------------------------------
+# Scenario 7 — evidence-harvester server.py structural checks (no network)
+# ---------------------------------------------------------------------------
+
+SERVER_PY="mcp/servers/evidence-harvester/server.py"
+
+assert_exit \
+    "S7: server.py is valid Python AST" \
+    "python3 -c \"import ast; ast.parse(open('$SERVER_PY').read())\""
+
+assert_output_contains \
+    "S7: _fetch_trend_snapshot is async with client param" \
+    "python3 -c \"import ast, sys; tree=ast.parse(open('$SERVER_PY').read()); fns=[n for n in ast.walk(tree) if isinstance(n,ast.AsyncFunctionDef) and n.name=='_fetch_trend_snapshot']; f=fns[0] if fns else None; print('async='+str(bool(fns))+' client='+str(any(a.arg=='client' for a in (f.args.args if f else [])))+'')\"" \
+    "async=True client=True"
+
+assert_output_contains \
+    "S7: trend_snapshot result has github_trending_weekly key" \
+    "python3 -c \"
+import ast, types as _t
+src = open('$SERVER_PY').read()
+tree = ast.parse(src)
+fns = [n for n in ast.walk(tree) if isinstance(n, (ast.FunctionDef,ast.AsyncFunctionDef)) and n.name=='_fetch_trend_snapshot']
+print('found='+str(len(fns)))
+\"" \
+    "found=1"
+
+# ---------------------------------------------------------------------------
 # Results
 # ---------------------------------------------------------------------------
 

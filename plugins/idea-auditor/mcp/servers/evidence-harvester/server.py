@@ -228,14 +228,81 @@ async def _fetch_registry_downloads(client: httpx.AsyncClient, package: str, reg
     return result
 
 
-def _fetch_trend_snapshot(query: str, state_dir: str | None) -> dict:
-    """Stub — GitHub trending + Google Trends. Full implementation in v0.6.0."""
-    return {
-        "status": "stub",
-        "message": f"trend_snapshot for '{query}' is not yet implemented. "
-                   "Full implementation planned for v0.6.0.",
+async def _fetch_trend_snapshot(client: httpx.AsyncClient, query: str, state_dir: str | None) -> dict:
+    """Fetch GitHub Trending repos (weekly) matching the query. Google Trends not implemented.
+
+    Google Trends has no stable public API without auth or fragile third-party libraries
+    (pytrends regularly breaks due to Google blocking). Use trends.google.com manually.
+    """
+    cache_key = f"trend_{query.replace(' ', '_')}"
+    cached = _cache_load(cache_key, state_dir)
+    if cached:
+        return {**cached, "cache_hit": True}
+
+    trending_repos: list[dict] = []
+    github_error: str | None = None
+
+    try:
+        resp = await client.get(
+            "https://github.com/trending",
+            params={"since": "weekly"},
+            headers={"Accept": "text/html", "User-Agent": "idea-auditor/0.5.0"},
+            timeout=20,
+        )
+        resp.raise_for_status()
+        html = resp.text
+
+        # Extract article blocks (each article = one trending repo)
+        articles = re.findall(r'<article[^>]*Box-row[^>]*>(.*?)</article>', html, re.DOTALL)
+
+        query_words = {w.lower() for w in query.split() if len(w) > 2}
+
+        for article in articles[:25]:
+            # Repo path: first href matching owner/name pattern inside the article
+            repo_m = re.search(r'href="/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)"', article)
+            if not repo_m:
+                continue
+            repo_name = repo_m.group(1)
+
+            # Stars this week
+            stars_m = re.search(r'([\d,]+)\s+stars?\s+this\s+week', article, re.IGNORECASE)
+            stars_week = int(stars_m.group(1).replace(",", "")) if stars_m else None
+
+            # Description (first <p> tag content, stripped)
+            desc_m = re.search(r'<p[^>]*>\s*(.*?)\s*</p>', article, re.DOTALL)
+            description = re.sub(r'<[^>]+>', '', desc_m.group(1)).strip() if desc_m else None
+
+            # Relevance: does the query match repo name or description?
+            searchable = (repo_name + " " + (description or "")).lower()
+            relevance = "match" if query_words and query_words.intersection(searchable.split()) else "trending"
+
+            trending_repos.append({
+                "repo": repo_name,
+                "stars_this_week": stars_week,
+                "description": description,
+                "relevance": relevance,
+            })
+
+    except httpx.HTTPStatusError as e:
+        github_error = f"HTTP {e.response.status_code}: {e.response.reason_phrase}"
+    except Exception as e:
+        github_error = str(e)
+
+    result = {
         "query": query,
+        "fetched_at": TODAY,
+        "github_trending_weekly": trending_repos if not github_error else None,
+        "github_error": github_error,
+        "google_trends": None,
+        "google_trends_note": (
+            "Google Trends has no stable public API without auth. "
+            "Check trends.google.com manually for keyword interest signals."
+        ),
     }
+
+    if not github_error:
+        _cache_save(cache_key, result, state_dir)
+    return result
 
 
 def _fetch_competitor_scan(alternatives: list[str], state_dir: str | None) -> dict:
@@ -312,15 +379,17 @@ async def list_tools() -> list[types.Tool]:
         types.Tool(
             name="trend_snapshot",
             description=(
-                "[STUB — v0.6.0] Snapshot GitHub trending and Google Trends signals for a query. "
-                "Returns a stub response indicating planned implementation."
+                "Snapshot GitHub Trending repos (weekly) matching a query. "
+                "Returns up to 25 trending repos with stars_this_week and relevance flag. "
+                "Google Trends not implemented (no stable public API without auth). "
+                "Results are cached daily in STATE/.cache/evidence-harvester/."
             ),
             inputSchema={
                 "type": "object",
                 "required": ["query"],
                 "properties": {
-                    "query": {"type": "string", "description": "Search query (e.g. 'AI code review')"},
-                    "state_dir": {"type": "string"},
+                    "query": {"type": "string", "description": "Search query to match against trending repos (e.g. 'AI code review')"},
+                    "state_dir": {"type": "string", "description": "Path to STATE/ directory for cache. Defaults to STATE/"},
                 },
             },
         ),
@@ -417,7 +486,8 @@ async def call_tool(
         return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
     elif name == "trend_snapshot":
-        result = _fetch_trend_snapshot(arguments["query"], state_dir)
+        async with httpx.AsyncClient() as client:
+            result = await _fetch_trend_snapshot(client, arguments["query"], state_dir)
         return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
     elif name == "competitor_scan":

@@ -365,6 +365,11 @@ print('found='+str(len(fns)))
 \"" \
     "found=1"
 
+assert_output_contains \
+    "S7: _fetch_competitor_scan is async with client param" \
+    "python3 -c \"import ast; tree=ast.parse(open('$SERVER_PY').read()); fns=[n for n in ast.walk(tree) if isinstance(n,ast.AsyncFunctionDef) and n.name=='_fetch_competitor_scan']; f=fns[0] if fns else None; print('async='+str(bool(fns))+' client='+str(any(a.arg=='client' for a in (f.args.args if f else []))))\"" \
+    "async=True client=True"
+
 # ---------------------------------------------------------------------------
 # Results
 # ---------------------------------------------------------------------------

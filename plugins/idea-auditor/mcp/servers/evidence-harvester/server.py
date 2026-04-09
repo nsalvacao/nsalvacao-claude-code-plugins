@@ -19,6 +19,7 @@ Cache:
 import asyncio
 import json
 import os
+import re
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -305,14 +306,42 @@ async def _fetch_trend_snapshot(client: httpx.AsyncClient, query: str, state_dir
     return result
 
 
-def _fetch_competitor_scan(alternatives: list[str], state_dir: str | None) -> dict:
-    """Stub — competitor metric scan normalized to same proxies. Full implementation in v0.6.0."""
-    return {
-        "status": "stub",
-        "message": "competitor_scan is not yet implemented. Use competitor-mapper agent for now. "
-                   "Full implementation planned for v0.6.0.",
-        "alternatives": alternatives,
-    }
+async def _fetch_competitor_scan(client: httpx.AsyncClient, alternatives: list[str], state_dir: str | None) -> list[dict]:
+    """Scan a list of GitHub repos or packages and return normalized competitor proxy matrix.
+
+    For each alternative: fetches GitHub stats and maps to the 7 proxy fields used by
+    the competitor-mapper agent. pricing_floor_usd and jtbd_match_score are left null —
+    they require human research and cannot be inferred.
+    """
+    results = []
+    for alt in alternatives:
+        entry: dict = {
+            "alternative": alt,
+            "stars_or_installs": None,
+            "weekly_downloads": None,
+            "github_contributors": None,
+            "last_release_days": None,
+            "pricing_floor_usd": None,     # requires human research
+            "integration_depth": None,     # requires human research
+            "jtbd_match_score": None,      # requires human research
+            "error": None,
+        }
+
+        # Treat as GitHub repo if it matches owner/name pattern
+        if re.match(r'^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$', alt):
+            data = await _fetch_github_repo_stats(client, alt, state_dir)
+            if "error" in data:
+                entry["error"] = data["error"]
+            else:
+                entry["stars_or_installs"] = data.get("stars")
+                entry["github_contributors"] = data.get("active_contributors_90d")
+                entry["last_release_days"] = data.get("last_release_days")
+        else:
+            entry["error"] = f"'{alt}' does not match owner/name format — package registry lookup not implemented here; use registry_downloads tool"
+
+        results.append(entry)
+
+    return results
 
 
 # ---------------------------------------------------------------------------
@@ -396,9 +425,11 @@ async def list_tools() -> list[types.Tool]:
         types.Tool(
             name="competitor_scan",
             description=(
-                "[STUB — v0.6.0] Scan a list of competitor repos/packages and return normalized "
-                "proxy metrics for the competitor-mapper agent. "
-                "Returns a stub response; use competitor-mapper agent for current analysis."
+                "Scan a list of GitHub repos and return a normalized competitor proxy matrix "
+                "for the competitor-mapper agent. For each alternative: fetches GitHub stars, "
+                "active contributors (90d), last release age. pricing_floor_usd, "
+                "integration_depth, and jtbd_match_score are left null (require human research). "
+                "Reuses github_repo_stats cache."
             ),
             inputSchema={
                 "type": "object",
@@ -491,7 +522,8 @@ async def call_tool(
         return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
     elif name == "competitor_scan":
-        result = _fetch_competitor_scan(arguments.get("alternatives", []), state_dir)
+        async with httpx.AsyncClient() as client:
+            result = await _fetch_competitor_scan(client, arguments.get("alternatives", []), state_dir)
         return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
 
     else:

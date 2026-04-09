@@ -104,6 +104,7 @@ Infra_Fork_Standard  # Infrastructure forks, standards, migrations (adds migrati
 - **Watch mode records writes only** — `hooks/scripts/snapshot.sh` snapshots file content after Write/Edit tool calls only. Deletions, git commits, and external edits are not captured.
 - **MCP server tools are mostly stubs** — `evidence-harvester` has `github_repo_stats` functional; `registry_downloads`, `trend_snapshot`, and `competitor_scan` are stubs planned for v0.5.0.
 - **competitor-mapper produces no score_bruto** — It feeds wedge/friction/timing agents; it does not produce a dimension score for `calc_scorecard.py` directly.
+- **normalize_interviews.py — source is null when not found** — If interview notes have no `Interviewee:` / `Name:` / `Role:` metadata, `source` is left `null`. Use `--validate` to catch missing required fields before feeding into `grade_evidence.py`.
 
 ## License
 

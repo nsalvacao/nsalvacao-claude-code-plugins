@@ -59,13 +59,13 @@ Use `diff_scorecards.py` to compare any two scorecards — including those produ
 ```bash
 # Compare yesterday's scorecard with today's
 python3 scripts/diff_scorecards.py \
-  --before STATE/scorecard_20260408.json \
-  --after  STATE/scorecard_20260409.json
+  --before REPORTS/scorecard-20260408.json \
+  --after  REPORTS/scorecard-20260409.json
 
 # Output as JSON for automated pipelines
 python3 scripts/diff_scorecards.py \
-  --before STATE/scorecard_v1.json \
-  --after  STATE/scorecard_v2.json \
+  --before REPORTS/scorecard-v1.json \
+  --after  REPORTS/scorecard-v2.json \
   --format json
 ```
 
@@ -73,7 +73,7 @@ python3 scripts/diff_scorecards.py \
 
 ### Typical Regression Workflow
 
-1. Save a baseline: `cp STATE/scorecard.json STATE/scorecard_baseline.json`
+1. Save a baseline: `cp REPORTS/scorecard-YYYYMMDD.json REPORTS/scorecard-baseline.json`
 2. Make changes to IDEA.md or evidence files
 3. Re-score: `/idea-auditor:score`
 4. Diff: `python3 scripts/diff_scorecards.py --before STATE/scorecard_baseline.json --after STATE/scorecard.json`

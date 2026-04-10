@@ -97,12 +97,13 @@ Infra_Fork_Standard  # Infrastructure forks, standards, migrations (adds migrati
 /plugin install idea-auditor@nsalvacao-claude-code-plugins
 ```
 
-## Known Limitations (v0.4.0)
+## Known Limitations (v0.5.0)
 
 - **score_bruto is qualitative** — `calc_scorecard.py` computes deterministically but `score_bruto` (0–5) must be supplied via `--scores`. Specialist agents assist with dimension assessment but `score_bruto` still requires human judgment.
 - **Blockers and next_tests not script-populated** — `scorecard.json` outputs `blockers: []` and `next_tests: []`. `build_report.py` derives blockers from lowest `score_efetivo` and `needs_experiment=True`.
 - **Watch mode records writes only** — `hooks/scripts/snapshot.sh` snapshots file content after Write/Edit tool calls only. Deletions, git commits, and external edits are not captured.
-- **MCP server tools are mostly stubs** — `evidence-harvester` has `github_repo_stats` functional; `registry_downloads`, `trend_snapshot`, and `competitor_scan` are stubs planned for v0.5.0.
+- **MCP analytics-bridge is stub** — `analytics-bridge` tools (`fetch_events`, `fetch_funnels`, `fetch_referrals`) are stubs planned for v0.6.0. Use analytics provider UI or export data to STATE/ manually.
+- **trend_snapshot — Google Trends not implemented** — `evidence-harvester` scrapes GitHub Trending (weekly) but Google Trends has no stable public API without auth. Check trends.google.com manually.
 - **competitor-mapper produces no score_bruto** — It feeds wedge/friction/timing agents; it does not produce a dimension score for `calc_scorecard.py` directly.
 - **normalize_interviews.py — source is null when not found** — If interview notes have no `Interviewee:` / `Name:` / `Role:` metadata, `source` is left `null`. Use `--validate` to catch missing required fields before feeding into `grade_evidence.py`.
 

@@ -9,6 +9,18 @@
         "GITHUB_TOKEN": "${GITHUB_TOKEN}"
       },
       "description": "Fetches external evidence signals (GitHub stats, registry downloads, trends, competitors) and normalizes them to evidence.schema.json for the idea-auditor scoring pipeline."
+    },
+    "idea-auditor-analytics-bridge": {
+      "command": "python",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp/servers/analytics-bridge/server.py"
+      ],
+      "env": {
+        "ANALYTICS_PROVIDER": "${ANALYTICS_PROVIDER}",
+        "ANALYTICS_API_KEY": "${ANALYTICS_API_KEY}",
+        "ANALYTICS_PROJECT": "${ANALYTICS_PROJECT}"
+      },
+      "description": "Bridges product analytics providers (PostHog, Mixpanel, Amplitude) to evidence.schema.json items for TTFV/activation/referral signals. Tools are stubs in v0.5.0 — full implementation in v0.6.0."
     }
   }
 }

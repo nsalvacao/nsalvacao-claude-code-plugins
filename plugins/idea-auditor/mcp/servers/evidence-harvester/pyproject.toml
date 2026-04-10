@@ -1,6 +1,6 @@
 [project]
 name = "idea-auditor-evidence-harvester"
-version = "0.4.0"
+version = "0.5.0"
 description = "MCP server for idea-auditor: fetches external evidence signals (GitHub stats, registry downloads, trends, competitor scan) and normalizes them to evidence.schema.json."
 requires-python = ">=3.11"
 dependencies = [
@@ -8,12 +8,11 @@ dependencies = [
     "httpx>=0.27.0",
 ]
 
+py_modules = ["server"]
+
 [project.scripts]
 evidence-harvester = "server:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
-[tool.hatch.build.targets.wheel]
-packages = ["."]

@@ -340,6 +340,108 @@ assert_output_contains \
     "commitment"
 
 # ---------------------------------------------------------------------------
+# Scenario 7 — evidence-harvester server.py structural checks (no network)
+# ---------------------------------------------------------------------------
+
+SERVER_PY="mcp/servers/evidence-harvester/server.py"
+
+assert_exit \
+    "S7: server.py is valid Python AST" \
+    "python3 -c \"import ast; ast.parse(open('$SERVER_PY').read())\""
+
+assert_output_contains \
+    "S7: _fetch_trend_snapshot is async with client param" \
+    "python3 -c \"import ast, sys; tree=ast.parse(open('$SERVER_PY').read()); fns=[n for n in ast.walk(tree) if isinstance(n,ast.AsyncFunctionDef) and n.name=='_fetch_trend_snapshot']; f=fns[0] if fns else None; print('async='+str(bool(fns))+' client='+str(any(a.arg=='client' for a in (f.args.args if f else [])))+'')\"" \
+    "async=True client=True"
+
+assert_output_contains \
+    "S7: _fetch_trend_snapshot function exists" \
+    "python3 -c \"
+import ast, types as _t
+src = open('$SERVER_PY').read()
+tree = ast.parse(src)
+fns = [n for n in ast.walk(tree) if isinstance(n, (ast.FunctionDef,ast.AsyncFunctionDef)) and n.name=='_fetch_trend_snapshot']
+print('found='+str(len(fns)))
+\"" \
+    "found=1"
+
+assert_output_contains \
+    "S7: _fetch_competitor_scan is async with client param" \
+    "python3 -c \"import ast; tree=ast.parse(open('$SERVER_PY').read()); fns=[n for n in ast.walk(tree) if isinstance(n,ast.AsyncFunctionDef) and n.name=='_fetch_competitor_scan']; f=fns[0] if fns else None; print('async='+str(bool(fns))+' client='+str(any(a.arg=='client' for a in (f.args.args if f else []))))\"" \
+    "async=True client=True"
+
+BRIDGE_SERVER="mcp/servers/analytics-bridge/server.py"
+
+assert_exit \
+    "S7: analytics-bridge server.py exists" \
+    "test -f '$BRIDGE_SERVER'"
+
+assert_exit \
+    "S7: analytics-bridge server.py is valid Python AST" \
+    "python3 -c \"import ast; ast.parse(open('$BRIDGE_SERVER').read())\""
+
+assert_output_contains \
+    "S7: analytics-bridge declares fetch_events tool" \
+    "python3 -c \"
+import ast
+tree = ast.parse(open('$BRIDGE_SERVER').read())
+strings = [n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)]
+print('fetch_events' in strings)
+\"" \
+    "True"
+
+# ---------------------------------------------------------------------------
+# Scenario 8 — normalize_interviews.py --validate rejects null source
+# ---------------------------------------------------------------------------
+
+NO_SOURCE_MD="$_TMP_DIR/no_source.md"
+cat > "$NO_SOURCE_MD" <<'NOSRCEOF'
+## Interview 1
+Date: 2026-04-09
+Dimension: wedge
+Pain: I waste hours on manual research every week.
+Severity: 4/5
+Frequency: weekly
+NOSRCEOF
+
+assert_exit \
+    "S8: --validate exits 1 when source is null (no interviewee metadata)" \
+    "python3 scripts/normalize_interviews.py --input '$NO_SOURCE_MD' --validate" \
+    1
+
+# ---------------------------------------------------------------------------
+# Scenario 9 — grade_evidence.py handles confidence_components: {} without crash
+# ---------------------------------------------------------------------------
+
+EMPTY_CC_EVIDENCE="$_TMP_DIR/empty_cc.json"
+cat > "$EMPTY_CC_EVIDENCE" <<'CCEOF'
+[
+  {
+    "claim": "User spends 3h/week on manual validation",
+    "source": "Alice, Senior Engineer",
+    "method": "interview",
+    "collected_at": "2026-04-01",
+    "quality_tier": "stated",
+    "dimension": "wedge",
+    "raw": null,
+    "normalized": null,
+    "confidence_components": {}
+  }
+]
+CCEOF
+
+GRADED_CC_OUT="$_TMP_DIR/graded_cc.json"
+
+assert_exit \
+    "S9: grade_evidence.py exits 0 with confidence_components: {}" \
+    "python3 scripts/grade_evidence.py --evidence '$EMPTY_CC_EVIDENCE' --out '$GRADED_CC_OUT'"
+
+assert_output_contains \
+    "S9: graded output contains conf_dim (no crash on empty confidence_components)" \
+    "python3 -c \"import json; d=json.load(open('$GRADED_CC_OUT')); print(str(d))\"" \
+    "conf_dim"
+
+# ---------------------------------------------------------------------------
 # Results
 # ---------------------------------------------------------------------------
 

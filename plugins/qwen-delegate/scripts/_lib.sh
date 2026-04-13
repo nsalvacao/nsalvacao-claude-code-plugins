@@ -35,7 +35,7 @@ qwen_preflight() {
 # Usage: qwen_check_path_safe "path/to/file"
 qwen_check_path_safe() {
   local file="$1"
-  local -a denied_patterns=(".env" ".env." "*.pem" "*.key" "*.p12" "*.pfx" "*.secret" "*password*" "*credential*" "*_secret*" ".git/")
+  local -a denied_patterns=(".env" ".env." "*.pem" "*.key" "*.p12" "*.pfx" "*.secret" "*password*" "*credential*" "*_secret*" ".git" ".git/")
   for pattern in "${denied_patterns[@]}"; do
     # shellcheck disable=SC2254
     case "$file" in
@@ -51,6 +51,8 @@ qwen_check_path_safe() {
 # Usage: qwen_invoke_with_retry <max_retries> <prompt> <turns> [extra_flags...]
 # On success: sets global QWEN_OUTPUT; returns 0
 # On failure: returns non-zero exit code
+# NOTE: retry budget is shared — exit-53 (turns exhausted) consumes the same slots as other errors.
+# On exit-53, turns are incremented by 2 before the next attempt.
 # shellcheck disable=SC2034
 QWEN_OUTPUT=""
 qwen_invoke_with_retry() {
@@ -90,6 +92,7 @@ qwen_invoke_with_retry() {
   done
 
   log_error "All $max_retries attempts exhausted."
+  rm -f "/tmp/qwen_stderr_$$.txt"
   return "${EXIT_VALIDATOR_FAIL}"
 }
 
@@ -100,11 +103,13 @@ qwen_escalate() {
   local category="$1"
   local error_msg="$2"
   local validators_json="${3:-{\}}"
-  local timestamp
+  local timestamp safe_category safe_error
   timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  safe_category=$(printf '%s' "$category" | sed 's/\\/\\\\/g; s/"/\\"/g')
+  safe_error=$(printf '%s' "$error_msg" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
   printf '<qwen_escalation>\n{"status":"escalate","timestamp":"%s","category":"%s","error":"%s","validators":%s,"instruction":"Fix directly or inform user — do not re-read Qwen output."}\n</qwen_escalation>\n' \
-    "$timestamp" "$category" "$error_msg" "$validators_json"
+    "$timestamp" "$safe_category" "$safe_error" "$validators_json"
   exit "${EXIT_ESCALATE}"
 }
 

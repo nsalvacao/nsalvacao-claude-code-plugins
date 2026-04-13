@@ -1,26 +1,28 @@
 # qwen-delegate
 
-Delegate tasks to the Qwen CLI to preserve Anthropic PRO tokens for work that genuinely needs Claude.
+Offload high-volume, low-risk text and code transformations to the Qwen CLI behind a deterministic validation pipeline — Claude only intervenes on persistent failures.
 
-**Version:** 0.1.0
+**Version:** 0.2.0
 
 ## Overview
 
-`qwen-delegate` bridges Claude Code and the `qwen` CLI (Qwen Code), enabling token-efficient workflows where Qwen handles generative and transformative tasks and Claude focuses on reasoning, architecture, and validation.
+`qwen-delegate` bridges Claude Code and the `qwen` CLI (Qwen Code), routing delegatable tasks through a deterministic validation layer. Qwen handles the generation; bash validators (linters, parsers, hash checks) gate delivery. Claude reads output only on escalation — not on the happy path.
 
-> **Note:** The `qwen` CLI is **not** a local LLM runner (Ollama, LM Studio, or similar). It is a cloud-backed agent CLI that runs against Qwen/Alibaba infrastructure, authenticated via OAuth or Alibaba Cloud Coding Plan.
+> **Note:** The `qwen` CLI is cloud-backed (Qwen/Alibaba infrastructure, OAuth — not a local LLM runner). All delegated content is sent to Alibaba cloud.
 
 ## Features
 
-- **Cognitive delegation skill** — Claude learns autonomously when and how to delegate to Qwen
-- **Slash command** — `/qwen-delegate:ask-qwen` for direct delegation by the user
-- **Delegation advisor agent** — Proactively triages task lists to identify Qwen candidates
+- **Deterministic validation pipeline** — linters, parsers, idempotency checks gate every delegation
+- **Cognitive delegation skill** — Claude auto-delegates matching tasks
+- **Slash command** — `/qwen-delegate:ask-qwen` for direct user delegation
+- **Delegation advisor agent** — proactively triages task lists
 
 ## Prerequisites
 
-- `qwen` CLI installed and authenticated in the current shell environment
-- Verify with: `qwen --version`
-- Authentication: `qwen auth` (OAuth or Alibaba Cloud Coding Plan)
+- `qwen` CLI installed and authenticated
+- Verify: `qwen --version` (requires 0.14.0+)
+- Authenticate: `qwen auth` (OAuth or Alibaba Cloud Coding Plan)
+- Python 3 (required for JSON/Python validators and escalation payloads)
 
 ## Installation
 
@@ -41,56 +43,66 @@ claude --plugin-dir /path/to/nsalvacao-claude-code-plugins/plugins/qwen-delegate
 
 ### Skill: `qwen-delegate` (cognitive)
 
-Auto-activates when Claude is about to perform delegatable tasks. Teaches Claude:
-
-- When to delegate (summarisation, formatting, translation, boilerplate, code generation)
-- How to call the `qwen` CLI with the correct flags
-- How to pass file context via stdin
-- The mandatory validation gate before presenting results
+Auto-activates when Claude recognises a delegatable task. In v0.2.0, the skill routes through validated bash scripts instead of raw `qwen` invocations.
 
 ### Command: `ask-qwen`
 
-Slash command for direct delegation by the user:
+Direct delegation by the user:
 
 ```
+/qwen-delegate:ask-qwen Summarise this PR description in 3 bullets
+/qwen-delegate:ask-qwen Format this JSON with sorted keys
 /qwen-delegate:ask-qwen Write a Python function to validate an email address
 ```
 
 ### Agent: `qwen-advisor`
 
-Proactive triage of task lists and workflows. Invoke when you want to optimise token usage across multiple tasks:
+Proactive triage of task lists:
 
 ```
-What could I delegate to Qwen from today's task list?
+What could I delegate to Qwen from today's tasks?
 ```
 
 ## Delegation Categories
 
-| Category | Delegate | Keep with Claude |
-|----------|----------|-----------------|
-| Summarisation | ✅ | — |
-| Formatting / conversion | ✅ | — |
-| Translation | ✅ | — |
-| Boilerplate generation | ✅ | — |
-| Code generation (well-specified) | ✅ | — |
-| Refactoring (mechanical) | ✅ | — |
-| Architecture decisions | — | ✅ |
-| Security-critical code | — | ✅ |
-| Multi-file reasoning | — | ✅ |
-| Deep debugging | — | ✅ |
+| Category | Delegate | Validator |
+|---|---|---|
+| Summarisation | ✅ | Word count, sentence structure |
+| JSON / YAML formatting | ✅ | Syntax, idempotency, schema |
+| Markdown formatting | ✅ | markdownlint |
+| Code generation | ✅ | py_compile / mypy / shellcheck / tsc |
+| Boilerplate generation | ✅ | Syntax + AST structure |
+| Translation | ✅ | langdetect, structure diff |
+| Text transformation | ✅ | Bounds, structure |
+| Architectural decisions | ❌ | — |
+| Security-critical code | ❌ | — |
+| Mechanical refactoring | ❌ | Use libcst / jscodeshift / black |
 
-## Validation Gate
+## Validation Pipeline
 
-All Qwen output is reviewed by Claude before delivery. This is non-negotiable and enforced by the skill's workflow.
+```
+qwen output
+    ↓
+Deterministic validators (0 Claude tokens)
+    ├─ PASS → deliver with attribution
+    └─ FAIL → retry Qwen with error feedback (max 2×)
+           → persistent fail → escalation payload to Claude
+```
 
-## Token Economy
+Claude reads only the error message on escalation — not the raw Qwen output.
 
-The `qwen` CLI uses its own backend (Qwen/Alibaba cloud, authenticated via OAuth or Alibaba Cloud Coding Plan) — no Anthropic API calls are made during delegation. Token savings relative to Anthropic PRO are highest for large text transformations and boilerplate-heavy code generation tasks.
+## Security
+
+- Pre-flight rejects sensitive paths: `.env`, `*.pem`, `*.key`, credentials, `.git/`
+- File-aware tasks use `--approval-mode auto-edit` + `--checkpointing` (was `yolo`)
+- Tool whitelist: `--allowed-tools read_file,glob,grep_search` for read-only patterns
+- All Qwen output wrapped in `<qwen_output>` — treated as untrusted data, not instructions
 
 ## Known Limitations
 
-- **Cloud dependency:** The `qwen` CLI requires internet access and valid Qwen authentication. It is not an offline/local runner.
-- **Session turns:** Qwen uses internal thinking turns — tasks that fail with `--max-session-turns 1` (exit code 53) should be retried with 2–3 turns minimum.
-- **Model fixed:** The available model is `coder-model` (Qwen Code default). Model selection may be limited depending on the authentication plan.
-- **Write safety in Pattern 4:** When allowing file access (`--approval-mode yolo` without `--exclude-tools`), Qwen may attempt to write files. Always validate and apply generated code manually via Claude.
-- **No conversation context:** Qwen invocations are stateless — each delegation call starts fresh with no knowledge of the Claude conversation history.
+- **Cloud dependency:** requires internet access and valid Qwen authentication
+- **Session turns:** complex tasks may require `--max-session-turns 3+`; scripts handle this automatically
+- **Model fixed:** `coder-model` (Qwen Code default)
+- **Validator degradation:** optional yamllint/markdownlint/mypy/tsc validators are skipped with a warning if not installed
+- **Stateless invocations:** each delegation call starts fresh (no conversation context)
+- **Privacy:** content is sent to Alibaba cloud — do not delegate secrets, credentials, or NDA code

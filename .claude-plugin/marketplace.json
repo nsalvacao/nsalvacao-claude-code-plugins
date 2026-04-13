@@ -161,8 +161,8 @@
     },
     {
       "name": "qwen-delegate",
-      "description": "Delegate token-cheap tasks to the Qwen CLI (cloud-based, OAuth-authenticated) — summarisation, formatting, translation, boilerplate and code generation — with a mandatory Claude validation gate. Saves Anthropic PRO tokens for tasks that genuinely need Claude's reasoning.",
-      "version": "0.1.0",
+      "description": "Offload high-volume, low-risk text and code transformations to the Qwen CLI behind a deterministic validation pipeline — Claude only intervenes on persistent failures. Covers summarisation, formatting, translation, and code generation.",
+      "version": "0.2.0",
       "author": {
         "name": "Nuno Salvacao",
         "email": "nuno.salvacao@gmail.com"
@@ -172,9 +172,10 @@
       "tags": [
         "qwen",
         "delegation",
-        "token-saving",
+        "deterministic-validation",
+        "pipeline",
         "code-generation",
-        "cost-efficiency",
+        "token-economy",
         "multi-llm"
       ]
     },

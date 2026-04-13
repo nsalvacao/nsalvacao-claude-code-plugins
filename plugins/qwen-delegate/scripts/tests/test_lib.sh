@@ -23,7 +23,7 @@ assert_eq() {
 echo "=== test_lib.sh ==="
 
 # Source the lib
-# shellcheck source=../_lib.sh
+# shellcheck disable=SC1090,SC1091
 source "$LIB"
 
 # Test 1: log functions write to stderr, not stdout

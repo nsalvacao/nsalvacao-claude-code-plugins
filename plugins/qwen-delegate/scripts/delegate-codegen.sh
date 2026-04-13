@@ -33,7 +33,7 @@ qwen_invoke_with_retry "$QWEN_DELEGATE_MAX_RETRIES" "$PROMPT" 3 \
 CODE="$QWEN_OUTPUT"
 
 # Strip markdown fences if Qwen included them despite instructions
-CODE=$(echo "$CODE" | sed '/^```/d')
+CODE=$(echo "$CODE" | sed -e '1{/^```/d;}' -e '${/^```/d;}')
 
 TMP_FILE=$(mktemp "/tmp/qwen_codegen_XXXXXX")
 trap 'rm -f "$TMP_FILE"' EXIT
@@ -55,7 +55,7 @@ case "$LANG" in
       RETRY_PROMPT="Previous Python code had syntax errors: ${COMPILE_ERR}. Fix and return ONLY valid Python code."
       qwen_invoke_with_retry 2 "$RETRY_PROMPT" 2 --exclude-tools run_shell_command,edit,write_file
       CODE="$QWEN_OUTPUT"
-      CODE=$(echo "$CODE" | sed '/^```/d')
+      CODE=$(echo "$CODE" | sed -e '1{/^```/d;}' -e '${/^```/d;}')
       echo "$CODE" > "$TMP_FILE"
     done
     log_pass "Python syntax valid"

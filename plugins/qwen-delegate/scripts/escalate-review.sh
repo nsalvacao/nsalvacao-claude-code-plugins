@@ -10,9 +10,30 @@ ERROR_MSG="${2:-Persistent validation failure}"
 VALIDATORS_JSON="${3:-{\}}"
 TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-# Escape double-quotes and backslashes for safe JSON interpolation
-SAFE_CAT=$(printf '%s' "$CATEGORY" | sed 's/\\/\\\\/g; s/"/\\"/g')
-SAFE_ERR=$(printf '%s' "$ERROR_MSG" | sed 's/\\/\\\\/g; s/"/\\"/g')
+PAYLOAD=$(
+  python3 -c '
+import json
+import sys
 
-printf '<qwen_escalation>\n{"status":"escalate","timestamp":"%s","category":"%s","error":"%s","validators":%s,"instruction":"Qwen output failed deterministic validation after retries. (1) Fix the issue directly with minimal tokens, OR (2) inform the user with the exact error and offer alternatives. Do NOT re-read the raw Qwen output."}\n</qwen_escalation>\n' \
-  "$TIMESTAMP" "$SAFE_CAT" "$SAFE_ERR" "$VALIDATORS_JSON"
+timestamp, category, error_msg, validators_json = sys.argv[1:5]
+try:
+    validators = json.loads(validators_json)
+except json.JSONDecodeError as exc:
+    validators = {
+        "_error": "invalid validators_json",
+        "raw": validators_json,
+        "message": str(exc),
+    }
+
+print(json.dumps({
+    "status": "escalate",
+    "timestamp": timestamp,
+    "category": category,
+    "error": error_msg,
+    "validators": validators,
+    "instruction": "Fix directly or inform user — do not re-read Qwen output.",
+}, ensure_ascii=False))
+' "$TIMESTAMP" "$CATEGORY" "$ERROR_MSG" "$VALIDATORS_JSON"
+)
+
+printf '<qwen_escalation>\n%s\n</qwen_escalation>\n' "$PAYLOAD"

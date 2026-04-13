@@ -50,7 +50,22 @@ result=0
 qwen_check_path_safe "private.key" || result=$?
 assert_eq "*.key is denied (exit 80)" "80" "$result"
 
-# Test 6: EXIT constants are defined
+# Test 6: qwen_check_path_safe allows .github paths
+result=0
+qwen_check_path_safe ".github/workflows/plugin-validation.yml" || result=$?
+assert_eq ".github path exits 0" "0" "$result"
+
+# Test 7: qwen_check_path_safe allows .gitignore
+result=0
+qwen_check_path_safe ".gitignore" || result=$?
+assert_eq ".gitignore exits 0" "0" "$result"
+
+# Test 8: qwen_check_path_safe denies .git directory paths
+result=0
+qwen_check_path_safe ".git/config" || result=$?
+assert_eq ".git directory is denied (exit 80)" "80" "$result"
+
+# Test 9: EXIT constants are defined
 assert_eq "EXIT_PREFLIGHT_FAIL is 80" "80" "$EXIT_PREFLIGHT_FAIL"
 assert_eq "EXIT_ESCALATE is 70" "70" "$EXIT_ESCALATE"
 assert_eq "EXIT_VALIDATOR_FAIL is 65" "65" "$EXIT_VALIDATOR_FAIL"

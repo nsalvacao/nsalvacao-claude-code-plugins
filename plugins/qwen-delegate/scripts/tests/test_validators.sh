@@ -66,9 +66,7 @@ assert_eq "invalid JSON parse fails" "1" "$(( PARSE_RESULT != 0 ))"
 # Test: idempotency check
 NORM1=$(python3 -m json.tool <<< "$IDEMPOTENT_JSON")
 NORM2=$(python3 -m json.tool <<< "$NORM1")
-HASH1=$(echo "$NORM1" | sha256sum | cut -d' ' -f1)
-HASH2=$(echo "$NORM2" | sha256sum | cut -d' ' -f1)
-assert_eq "JSON format is idempotent" "$HASH1" "$HASH2"
+assert_eq "JSON format is idempotent" "$NORM1" "$NORM2"
 
 # ---- Codegen validators ----
 echo ""
@@ -96,13 +94,15 @@ python3 -m py_compile "$TMP" 2>/dev/null || PYCOMPILE=$?
 rm -f "$TMP"
 assert_eq "invalid Python fails compile" "1" "$(( PYCOMPILE != 0 ))"
 
-# Test: fence removal (sed strips ```)
+# Test: fence removal strips only wrapping fences
 CODE_WITH_FENCE='```python
-def hello():
-    pass
+TEXT = """
+```
+inside literal
+"""
 ```'
-CLEANED=$(echo "$CODE_WITH_FENCE" | sed '/^```/d')
-assert_eq "fences removed" "$(printf 'def hello():\n    pass')" "$CLEANED"
+CLEANED=$(echo "$CODE_WITH_FENCE" | sed -e '1{/^```/d;}' -e '${/^```/d;}')
+assert_eq "wrapping fences removed" "$(printf 'TEXT = """\n```\ninside literal\n"""')" "$CLEANED"
 
 echo ""
 echo "Results: $PASS passed, $FAIL failed"

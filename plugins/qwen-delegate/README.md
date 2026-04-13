@@ -22,7 +22,7 @@ Offload high-volume, low-risk text and code transformations to the Qwen CLI behi
 - `qwen` CLI installed and authenticated
 - Verify: `qwen --version` (requires 0.14.0+)
 - Authenticate: `qwen auth` (OAuth or Alibaba Cloud Coding Plan)
-- Python 3 (for JSON/Python validators — graceful degradation if absent)
+- Python 3 (required for JSON/Python validators and escalation payloads)
 
 ## Installation
 
@@ -103,6 +103,6 @@ Claude reads only the error message on escalation — not the raw Qwen output.
 - **Cloud dependency:** requires internet access and valid Qwen authentication
 - **Session turns:** complex tasks may require `--max-session-turns 3+`; scripts handle this automatically
 - **Model fixed:** `coder-model` (Qwen Code default)
-- **Validator degradation:** Python/mypy/tsc validators are skipped with a warning if not installed
+- **Validator degradation:** optional yamllint/markdownlint/mypy/tsc validators are skipped with a warning if not installed
 - **Stateless invocations:** each delegation call starts fresh (no conversation context)
 - **Privacy:** content is sent to Alibaba cloud — do not delegate secrets, credentials, or NDA code

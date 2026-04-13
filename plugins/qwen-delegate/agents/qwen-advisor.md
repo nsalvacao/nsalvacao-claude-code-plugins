@@ -56,7 +56,7 @@ Delegate to Qwen when the task is:
 - **Generative (template-based)**: boilerplate, scaffolding, stubs, templates
 - **Summarisation**: condensing documents, meeting notes, changelogs
 - **Code generation (well-specified)**: function from a clear spec, known algorithm implementation, CRUD stubs
-- **Refactoring (mechanical)**: renaming, extracting methods, applying a pattern
+- **Refactoring (mechanical):** ⚠️ Prefer deterministic tools first (`black`, `prettier`, `libcst`, `jscodeshift`, `rustfmt`). Delegate to Qwen only if no suitable tool exists for the transformation.
 - **Text analysis (simple)**: counting, extracting fields, detecting language, sorting
 
 Keep with Claude when the task requires:
@@ -97,7 +97,8 @@ Keep with Claude when the task requires:
 
 ### Token Economy Summary
 - Delegatable tasks: N/M
-- Estimated token saving: High / Medium / Low
+- Estimated token saving (net of validation): High (>50%) / Medium (20–50%) / Low (<20%)
+  Note: validation is now deterministic (0 Claude tokens on happy path). "High" means delegation + validation costs less than Claude handling directly.
 - Validation gates required: [list tasks where Claude must review Qwen output]
 ```
 

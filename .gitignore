@@ -42,6 +42,9 @@ coverage/
 # Private ideation outputs used by strategy-toolkit
 .ideas/
 
+# Git worktrees
+.worktrees/
+
 # Local tool state
 .claude/*.local.md
 .codex/

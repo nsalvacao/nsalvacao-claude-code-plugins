@@ -21,7 +21,7 @@ description: |
   <commentary>One of 3 parallel agents in /blueprint-review workflow.</commentary>
   </example>
 model: inherit
-color: orange
+color: yellow
 tools:
   - Read
   - Grep

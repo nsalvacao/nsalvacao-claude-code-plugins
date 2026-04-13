@@ -208,7 +208,8 @@ Requirements:
 - Include 2-4 <example> blocks
 - Include at least one near-miss or should-not-trigger case
 - Keep tools least-privilege and use comma-separated format in examples
-- Omit model unless a specific override is justified
+- Set model to inherit unless a specific allowed override is justified
+- Set color to one of the repository-supported values
 - Write the system prompt in second person
 
 Return JSON with:

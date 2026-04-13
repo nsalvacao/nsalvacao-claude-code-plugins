@@ -37,9 +37,6 @@ if [ ! -f "$AGENT_FILE" ]; then
   exit 1
 fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-FORGE_SCRIPTS_DIR="$(cd "$SCRIPT_DIR/../../agent-forge/scripts" && pwd)"
-
 if [ -z "$PHRASES_FILE" ]; then
   PHRASES_FILE="$(mktemp)"
   python3 - "$AGENT_FILE" > "$PHRASES_FILE" <<'PY'
@@ -47,13 +44,45 @@ from pathlib import Path
 import re
 import sys
 
-from yaml import safe_load
-
 path = Path(sys.argv[1])
 content = path.read_text()
 lines = content.splitlines()
 end_idx = next((idx for idx, line in enumerate(lines[1:], start=1) if line.strip() == "---"), None)
-frontmatter = safe_load("\n".join(lines[1:end_idx])) or {}
+
+def parse_frontmatter(text):
+    data = {}
+    current_key = None
+    current_lines = []
+
+    def flush_current():
+        nonlocal current_key, current_lines
+        if current_key is not None:
+            data[current_key] = "\n".join(current_lines).strip()
+        current_key = None
+        current_lines = []
+
+    for raw_line in text.splitlines():
+        if not raw_line.strip():
+            if current_key is not None:
+                current_lines.append("")
+            continue
+        if raw_line.startswith((" ", "\t")) and current_key is not None:
+            current_lines.append(raw_line.strip())
+            continue
+        match = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", raw_line)
+        if not match:
+            continue
+        flush_current()
+        current_key = match.group(1)
+        value = match.group(2).strip()
+        if value in {"|", ">"}:
+            current_lines = []
+        else:
+            current_lines = [value.strip("\"'")] if value else []
+    flush_current()
+    return data
+
+frontmatter = parse_frontmatter("\n".join(lines[1:end_idx])) if end_idx is not None else {}
 description = str(frontmatter.get("description", ""))
 matches = re.findall(r'user:\s*"([^"]+)"', description)
 for match in matches:
@@ -76,20 +105,18 @@ cleanup() {
 }
 trap cleanup EXIT
 
-PYTHONPATH="$FORGE_SCRIPTS_DIR${PYTHONPATH:+:$PYTHONPATH}" python3 - "$AGENT_FILE" "$PHRASES_FILE" "$TIMEOUT_SECONDS" <<'PY'
+python3 - "$AGENT_FILE" "$PHRASES_FILE" "$TIMEOUT_SECONDS" <<'PY'
 from __future__ import annotations
 
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
-
-from llm_runner import LLMProviderError, run_with_fallback
-from utils import parse_agent_md
 
 
 RETRYABLE_PATTERNS = (
@@ -100,6 +127,108 @@ RETRYABLE_PATTERNS = (
     "please run /login",
     "authentication_failed",
 )
+
+
+class LLMProviderError(RuntimeError):
+    """Raised when no usable LLM runner is available or invocation fails."""
+
+
+class LLMResult:
+    def __init__(self, text: str, provider: str) -> None:
+        self.text = text
+        self.provider = provider
+
+
+def parse_frontmatter(text: str) -> dict[str, str]:
+    data: dict[str, str] = {}
+    current_key: str | None = None
+    current_lines: list[str] = []
+
+    def flush_current() -> None:
+        nonlocal current_key, current_lines
+        if current_key is not None:
+            data[current_key] = "\n".join(current_lines).strip()
+        current_key = None
+        current_lines = []
+
+    for raw_line in text.splitlines():
+        if not raw_line.strip():
+            if current_key is not None:
+                current_lines.append("")
+            continue
+
+        if raw_line.startswith((" ", "\t")) and current_key is not None:
+            current_lines.append(raw_line.strip())
+            continue
+
+        match = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", raw_line)
+        if not match:
+            continue
+
+        flush_current()
+        current_key = match.group(1)
+        value = match.group(2).strip()
+        if value in {"|", ">"}:
+            current_lines = []
+        else:
+            current_lines = [value.strip("\"'")] if value else []
+
+    flush_current()
+    return data
+
+
+def parse_agent_md(agent_file: Path) -> dict[str, object]:
+    text = agent_file.read_text()
+    lines = text.splitlines()
+    frontmatter: dict[str, str] = {}
+    body = text.strip()
+
+    if lines and lines[0].strip() == "---":
+        end_idx = next((idx for idx, line in enumerate(lines[1:], start=1) if line.strip() == "---"), None)
+        if end_idx is not None:
+            frontmatter = parse_frontmatter("\n".join(lines[1:end_idx]))
+            body = "\n".join(lines[end_idx + 1 :]).strip()
+
+    return {"frontmatter": frontmatter, "system_prompt": body}
+
+
+def run_with_fallback(prompt: str, *, system_prompt: str, timeout: int, **_kwargs) -> LLMResult:
+    command_text = os.environ.get("AGENT_TRIGGER_LLM_COMMAND") or os.environ.get("LLM_RUNNER_COMMAND")
+    if command_text:
+        command = shlex.split(command_text)
+        provider = "env-command"
+    elif shutil.which("claude"):
+        command = ["claude", "-p"]
+        provider = "claude"
+    else:
+        raise LLMProviderError(
+            "No LLM command is available. Install claude or set AGENT_TRIGGER_LLM_COMMAND."
+        )
+
+    full_prompt = f"{system_prompt.rstrip()}\n\n{prompt}"
+    if provider == "claude":
+        command = [*command, full_prompt]
+        stdin_text = None
+    else:
+        stdin_text = full_prompt
+
+    try:
+        completed = subprocess.run(
+            command,
+            input=stdin_text,
+            text=True,
+            capture_output=True,
+            timeout=timeout,
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise LLMProviderError(f"LLM command timed out after {timeout}s") from exc
+
+    if completed.returncode != 0:
+        stderr = (completed.stderr or "").strip()
+        raise LLMProviderError(f"LLM command exited with status {completed.returncode}: {stderr}")
+
+    return LLMResult((completed.stdout or "").strip(), provider)
 
 
 def parse_phrase_line(line: str) -> tuple[bool, str] | None:

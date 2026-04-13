@@ -9,8 +9,8 @@ if [ $# -eq 0 ]; then
   echo ""
   echo "Validates agent file for:"
   echo "  - YAML frontmatter structure"
-  echo "  - Required fields (name, description)"
-  echo "  - Optional field formats (model, color, tools)"
+  echo "  - Required fields (name, description, model, color)"
+  echo "  - Optional field formats (tools)"
   echo "  - System prompt presence and practical quality signals"
   exit 1
 fi
@@ -21,26 +21,21 @@ echo "Validating agent file: $AGENT_FILE"
 echo ""
 
 if [ ! -f "$AGENT_FILE" ]; then
-  echo "ERROR: File not found: $AGENT_FILE"
+  echo "❌ ERROR: File not found: $AGENT_FILE"
   exit 1
 fi
 echo "OK: File exists"
 
-if ! python3 -c 'import yaml' >/dev/null 2>&1; then
-  echo "ERROR: PyYAML is required for YAML frontmatter parsing"
-  echo "Install it with: python3 -m pip install pyyaml"
-  exit 1
-fi
-
 FIRST_LINE=$(head -1 "$AGENT_FILE")
 if [ "$FIRST_LINE" != "---" ]; then
-  echo "ERROR: File must start with YAML frontmatter (---)"
+  echo "❌ ERROR: File must start with YAML frontmatter (---)"
   exit 1
 fi
 echo "OK: Starts with frontmatter"
 
-if ! tail -n +2 "$AGENT_FILE" | grep -q '^---$'; then
-  echo "ERROR: Frontmatter not closed (missing second ---)"
+FRONTMATTER_CLOSING_COUNT=$(tail -n +2 "$AGENT_FILE" | grep -c '^---$')
+if [ "$FRONTMATTER_CLOSING_COUNT" -eq 0 ]; then
+  echo "❌ ERROR: Frontmatter not closed (missing second ---)"
   exit 1
 fi
 echo "OK: Frontmatter properly closed"
@@ -49,11 +44,10 @@ PARSED_JSON_FILE=$(mktemp)
 trap 'rm -f "$PARSED_JSON_FILE"' EXIT
 
 python3 - "$AGENT_FILE" > "$PARSED_JSON_FILE" <<'PY'
-from pathlib import Path
 import json
+import re
 import sys
-
-import yaml
+from pathlib import Path
 
 path = Path(sys.argv[1])
 content = path.read_text()
@@ -71,9 +65,46 @@ for idx, line in enumerate(lines[1:], start=1):
 if end_idx is None:
     raise SystemExit("missing closing frontmatter delimiter")
 
-frontmatter = yaml.safe_load("\n".join(lines[1:end_idx])) or {}
-if not isinstance(frontmatter, dict):
-    raise SystemExit("frontmatter must be a YAML mapping")
+
+def parse_frontmatter(text: str) -> dict[str, object]:
+    data: dict[str, object] = {}
+    current_key: str | None = None
+    current_lines: list[str] = []
+
+    def flush_current() -> None:
+        nonlocal current_key, current_lines
+        if current_key is not None:
+            data[current_key] = "\n".join(current_lines).strip()
+        current_key = None
+        current_lines = []
+
+    for raw_line in text.splitlines():
+        if not raw_line.strip():
+            if current_key is not None:
+                current_lines.append("")
+            continue
+
+        if raw_line.startswith((" ", "\t")) and current_key is not None:
+            current_lines.append(raw_line.strip())
+            continue
+
+        match = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", raw_line)
+        if not match:
+            continue
+
+        flush_current()
+        current_key = match.group(1)
+        value = match.group(2).strip()
+        if value in {"|", ">"}:
+            current_lines = []
+        else:
+            current_lines = [value.strip("\"'")] if value else []
+
+    flush_current()
+    return data
+
+
+frontmatter = parse_frontmatter("\n".join(lines[1:end_idx]))
 
 payload = {
     "frontmatter": frontmatter,
@@ -124,23 +155,23 @@ echo ""
 echo "Checking frontmatter..."
 
 if [ -z "$NAME" ]; then
-  echo "ERROR: Missing required field: name"
+  echo "❌ ERROR: Missing required field: name"
   error_count=$((error_count + 1))
 else
   echo "OK: name: $NAME"
   if ! [[ "$NAME" =~ ^[a-z0-9][a-z0-9-]*[a-z0-9]$ ]]; then
-    echo "ERROR: name must start/end with alphanumeric and use lowercase letters, numbers, and hyphens only"
+    echo "❌ ERROR: name must start/end with alphanumeric and use lowercase letters, numbers, and hyphens only"
     error_count=$((error_count + 1))
   fi
   name_length=${#NAME}
   if [ "$name_length" -lt 3 ] || [ "$name_length" -gt 50 ]; then
-    echo "ERROR: name must be 3-50 characters"
+    echo "❌ ERROR: name must be 3-50 characters"
     error_count=$((error_count + 1))
   fi
 fi
 
 if [ -z "$DESCRIPTION" ]; then
-  echo "ERROR: Missing required field: description"
+  echo "❌ ERROR: Missing required field: description"
   error_count=$((error_count + 1))
 else
   desc_length=${#DESCRIPTION}
@@ -164,26 +195,30 @@ else
 fi
 
 if [ -z "$MODEL" ]; then
-  echo "INFO: model not specified (defaults to inherit)"
-  info_count=$((info_count + 1))
+  echo "❌ ERROR: Missing required field: model"
+  error_count=$((error_count + 1))
 else
   echo "OK: model: $MODEL"
-  if ! [[ "$MODEL" =~ ^[A-Za-z0-9._-]+$ ]]; then
-    echo "ERROR: model must be a simple alias or model id without spaces"
-    error_count=$((error_count + 1))
-  fi
+  case "$MODEL" in
+    inherit|sonnet|opus|haiku)
+      ;;
+    *)
+      echo "❌ ERROR: model must be one of: inherit, sonnet, opus, haiku"
+      error_count=$((error_count + 1))
+      ;;
+  esac
 fi
 
 if [ -z "$COLOR" ]; then
-  echo "INFO: color not specified (no explicit UI color)"
-  info_count=$((info_count + 1))
+  echo "❌ ERROR: Missing required field: color"
+  error_count=$((error_count + 1))
 else
   echo "OK: color: $COLOR"
   case "$COLOR" in
-    red|blue|green|yellow|purple|orange|pink|cyan)
+    blue|cyan|green|yellow|magenta|red)
       ;;
     *)
-      echo "ERROR: color must be one of: red, blue, green, yellow, purple, orange, pink, cyan"
+      echo "❌ ERROR: color must be one of: blue, cyan, green, yellow, magenta, red"
       error_count=$((error_count + 1))
       ;;
   esac
@@ -213,14 +248,14 @@ echo ""
 echo "Checking system prompt..."
 
 if [ -z "$SYSTEM_PROMPT" ]; then
-  echo "ERROR: System prompt is empty"
+  echo "❌ ERROR: System prompt is empty"
   error_count=$((error_count + 1))
 else
   prompt_length=${#SYSTEM_PROMPT}
   echo "OK: System prompt: ${prompt_length} characters"
 
   if [ "$prompt_length" -lt 20 ]; then
-    echo "ERROR: system prompt is too short"
+    echo "❌ ERROR: system prompt is too short"
     error_count=$((error_count + 1))
   fi
 

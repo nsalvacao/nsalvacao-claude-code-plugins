@@ -1,17 +1,17 @@
 ---
 name: agent-development
-description: Reference guide for Claude Code subagent frontmatter, agent file structure, description/examples, tool and color fields, and plugin compatibility rules. Use this skill when the user wants agent frontmatter reference, agent field reference, agent file format, agent YAML format, how to write an agent description, what fields an agent needs, or help understanding agent structure without creating or benchmarking a new agent. Prefer agent-forge for creating, evaluating, comparing, or improving an agent artifact.
+description: Reference guide for Claude Code subagent frontmatter, agent file structure, description/examples, tool and color fields, and plugin compatibility rules. Use this skill when the user wants agent frontmatter reference, agent field reference, agent file format, agent YAML format, how to write an agent description, what fields an agent needs, or help understanding agent structure without creating or benchmarking a new agent.
 version: 0.2.0
 ---
 
 # Agent Development Reference
 
-Use this skill as a reference manual for Claude Code subagent files. It explains the on-disk format, frontmatter fields, description patterns, and validation workflow. It is intentionally reference-oriented; use `agent-forge` when the user wants to create, evaluate, compare, or optimize an agent artifact end to end.
+Use this skill as a reference manual for Claude Code subagent files. It explains the on-disk format, frontmatter fields, description patterns, and validation workflow.
 
-This skill has been aligned with the official Claude Code subagent documentation:
-- only `name` and `description` are required
-- `model` defaults to `inherit` when omitted
-- `color` is optional
+This skill follows the current repository policy and validation workflow for agent files:
+- `name`, `description`, `model`, and `color` are required in this repository
+- `model` should usually be set to `inherit` unless the agent needs a specific model
+- `color` must use a supported value required by the repo validator
 - examples use the official comma-separated `tools` format
 
 ## Agent File Structure
@@ -124,29 +124,26 @@ assistant: "[what Claude should say before delegation]"
 </example>
 ```
 
-### model (optional)
+### model (required)
 
 Which model the agent should use when it runs.
 
-- Default: `inherit`
-- Common aliases: `inherit`, `sonnet`, `opus`, `haiku`
-- Full model IDs are also valid, for example `claude-sonnet-4-6`
+- Allowed values: `inherit`, `sonnet`, `opus`, `haiku`
 
-Omit `model` unless the agent genuinely needs a model override.
+Use `inherit` unless the agent genuinely needs a model override.
 
-### color (optional)
+### color (required)
 
 Visual identifier for the agent in the UI.
 
-- Allowed values: `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, `cyan`
-- Default: none
+- Allowed values: `blue`, `cyan`, `green`, `yellow`, `magenta`, `red`
 
 Practical guidance:
 - `blue`, `cyan`: analysis, review, diagnostics
 - `green`: generation, docs, happy-path builders
-- `yellow`, `orange`: validation, caution, scoring
+- `yellow`: validation, caution, scoring
 - `red`: security, critical controls
-- `purple`, `pink`: orchestration, transformation, creative workflows
+- `magenta`: orchestration, transformation, creative workflows
 
 ### tools (optional)
 
@@ -226,14 +223,11 @@ Use `scripts/test-agent-trigger.sh` to run empirical trigger checks.
 
 Recommended workflow:
 1. Build a phrases file with positive and negative cases
-2. Prefix positive cases with `+ ` and negative cases with `- `
+2. Prefix positive cases with `+` and a space, and negative cases with `-` and a space
 3. Run `./scripts/test-agent-trigger.sh <path-to-agent.md> phrases.txt`
 4. Review pass/fail results and tighten the description when near-miss cases trigger incorrectly
 
-The script prefers native `claude` routing when available. If `claude` is unavailable or blocked by rate limits, it falls back in this order:
-1. `codex`
-2. `gemini`
-3. `qwen`
+The script prefers native `claude` routing when available. If native routing is unavailable or blocked by rate limits, configure `AGENT_TRIGGER_LLM_COMMAND` or `LLM_RUNNER_COMMAND` for semantic fallback evaluation.
 
 Fallback runs use semantic routing evaluation rather than native Claude delegation, so treat them as resilient approximation rather than perfect equivalence.
 
@@ -290,7 +284,7 @@ Don't:
 When helping someone author or review an agent:
 1. Confirm the agent's remit is distinct from adjacent agents
 2. Draft `name` and `description` first
-3. Add optional `model`, `color`, and `tools` only when justified
+3. Set required `model` and `color`; add optional `tools` when justified
 4. Write the system prompt with responsibilities, process, output format, and fallback behavior
 5. Validate structure with `scripts/validate-agent.sh`
 6. Test positive and negative trigger cases with `scripts/test-agent-trigger.sh`

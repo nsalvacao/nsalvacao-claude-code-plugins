@@ -16,7 +16,7 @@ INPUT_FILE="${2:--}"
 qwen_preflight
 
 if [[ "$INPUT_FILE" != "-" ]]; then
-  qwen_check_path_safe "$INPUT_FILE"
+  qwen_check_path_safe "$INPUT_FILE" || exit "${EXIT_PREFLIGHT_FAIL}"
   INPUT_TEXT=$(cat "$INPUT_FILE")
 else
   INPUT_TEXT=$(cat)
@@ -67,7 +67,7 @@ case "$FORMAT_TYPE" in
       RETRY_PROMPT="Output was not valid JSON. Return ONLY valid JSON with 2-space indentation, sorted keys, no fences.
 
 ${INPUT_TEXT}"
-      qwen_invoke_with_retry 1 "$RETRY_PROMPT" 1 --exclude-tools run_shell_command,edit,write_file
+      qwen_invoke_with_retry 2 "$RETRY_PROMPT" 1 --exclude-tools run_shell_command,edit,write_file
       FORMATTED="$QWEN_OUTPUT"
       if ! python3 -m json.tool <<< "$FORMATTED" > /dev/null 2>&1; then
         qwen_escalate "formatting-json" "output is not valid JSON after retry" '{"json_syntax":"fail"}'
@@ -102,6 +102,7 @@ ${INPUT_TEXT}"
   markdown)
     if command -v markdownlint-cli2 &> /dev/null; then
       TMP_MD=$(mktemp /tmp/qwen_md_XXXXXX.md)
+      trap 'rm -f "$TMP_MD"' EXIT
       echo "$FORMATTED" > "$TMP_MD"
       if markdownlint-cli2 "$TMP_MD" &>/dev/null; then
         log_pass "markdownlint OK"

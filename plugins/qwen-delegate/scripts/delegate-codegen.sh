@@ -41,21 +41,23 @@ echo "$CODE" > "$TMP_FILE"
 
 case "$LANG" in
   python)
-    # Validator 1: syntax
-    if ! python3 -m py_compile "$TMP_FILE" 2>/tmp/py_err_$$.txt; then
-      COMPILE_ERR=$(head -3 "/tmp/py_err_$$.txt" || true)
-      rm -f "/tmp/py_err_$$.txt"
-      log_warn "Syntax error: $COMPILE_ERR. Retrying."
+    # Validator 1: syntax (up to 2 retries)
+    PY_ERR_FILE=$(mktemp "/tmp/py_err_XXXXXX")
+    trap 'rm -f "$TMP_FILE" "$PY_ERR_FILE"' EXIT
+    COMPILE_RETRIES=0
+    while ! python3 -m py_compile "$TMP_FILE" 2>"$PY_ERR_FILE"; do
+      COMPILE_ERR=$(head -3 "$PY_ERR_FILE" || true)
+      if (( COMPILE_RETRIES >= 2 )); then
+        qwen_escalate "codegen-python" "syntax errors persist after 2 retries" '{"syntax":"fail"}'
+      fi
+      COMPILE_RETRIES=$((COMPILE_RETRIES + 1))
+      log_warn "Syntax error (attempt $COMPILE_RETRIES/2): $COMPILE_ERR. Retrying."
       RETRY_PROMPT="Previous Python code had syntax errors: ${COMPILE_ERR}. Fix and return ONLY valid Python code."
       qwen_invoke_with_retry 2 "$RETRY_PROMPT" 2 --exclude-tools run_shell_command,edit,write_file
       CODE="$QWEN_OUTPUT"
       CODE=$(echo "$CODE" | sed '/^```/d')
       echo "$CODE" > "$TMP_FILE"
-      if ! python3 -m py_compile "$TMP_FILE" 2>/dev/null; then
-        qwen_escalate "codegen-python" "syntax errors persist after retry" '{"syntax":"fail"}'
-      fi
-    fi
-    rm -f "/tmp/py_err_$$.txt"
+    done
     log_pass "Python syntax valid"
 
     # Validator 2: mypy (non-blocking)
@@ -90,13 +92,14 @@ case "$LANG" in
 
   bash)
     if command -v shellcheck &> /dev/null; then
-      if ! shellcheck "$TMP_FILE" 2>/tmp/sc_$$.txt; then
-        SC_ISSUES=$(head -5 "/tmp/sc_$$.txt" || true)
+      SC_ERR_FILE=$(mktemp "/tmp/sc_err_XXXXXX")
+      trap 'rm -f "$TMP_FILE" "$SC_ERR_FILE"' EXIT
+      if ! shellcheck "$TMP_FILE" 2>"$SC_ERR_FILE"; then
+        SC_ISSUES=$(head -5 "$SC_ERR_FILE" || true)
         log_warn "shellcheck: $SC_ISSUES"
       else
         log_pass "shellcheck: OK"
       fi
-      rm -f "/tmp/sc_$$.txt"
     else
       log_warn "shellcheck not installed — skipping."
     fi

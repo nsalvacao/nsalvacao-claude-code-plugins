@@ -63,7 +63,7 @@ log_pass "Word count: $WORD_COUNT"
 BAD_BULLETS=0
 while IFS= read -r line; do
   [[ -z "$line" ]] && continue
-  if [[ "$line" =~ ^[-*•] ]]; then
+  if [[ "$line" =~ ^[[:space:]]*[-*•] ]]; then
     content="${line#*- }"
     content="${content#*\* }"
     content="${content#*• }"

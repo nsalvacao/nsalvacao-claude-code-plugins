@@ -42,9 +42,9 @@ SUMMARY_SHORT=$(python3 -c "print(' '.join(['word'] * 10))")
 WORD_COUNT=$(echo "$SUMMARY_SHORT" | wc -w | tr -d ' ')
 assert_eq "word count 10 < MIN_WORDS 30" "1" "$(( WORD_COUNT < 30 ))"
 
-SUMMARY_OK="First. Second. Third. Fourth. Fifth."
+SUMMARY_OK=$(python3 -c "print(' '.join(['word'] * 50))")
 WORD_COUNT=$(echo "$SUMMARY_OK" | wc -w | tr -d ' ')
-assert_eq "word count 5 within bounds" "1" "$(( WORD_COUNT >= 1 && WORD_COUNT <= 150 ))"
+assert_eq "word count 50 within bounds [30-150]" "1" "$(( WORD_COUNT >= 30 && WORD_COUNT <= 150 ))"
 
 # ---- Format validators ----
 echo ""

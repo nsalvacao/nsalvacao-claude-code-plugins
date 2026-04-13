@@ -366,7 +366,7 @@ Provide a report.
 - Many edge cases
 - Examples within system prompt
 
-**Avoid > 10,000 words:** Too long, diminishing returns.
+Very long prompts above roughly 8,000 tokens may cause registration issues, so prefer focused prompts over exhaustive prose.
 
 ## Testing System Prompts
 

@@ -1,221 +1,299 @@
 #!/bin/bash
 # Agent File Validator
-# Validates agent markdown files for correct structure and content
+# Validates agent markdown files for correct structure and practical quality signals.
 
 set -euo pipefail
 
-# Usage
 if [ $# -eq 0 ]; then
   echo "Usage: $0 <path/to/agent.md>"
   echo ""
   echo "Validates agent file for:"
   echo "  - YAML frontmatter structure"
   echo "  - Required fields (name, description, model, color)"
-  echo "  - Field formats and constraints"
-  echo "  - System prompt presence and length"
-  echo "  - Example blocks in description"
+  echo "  - Optional field formats (tools)"
+  echo "  - System prompt presence and practical quality signals"
   exit 1
 fi
 
 AGENT_FILE="$1"
 
-echo "🔍 Validating agent file: $AGENT_FILE"
+echo "Validating agent file: $AGENT_FILE"
 echo ""
 
-# Check 1: File exists
 if [ ! -f "$AGENT_FILE" ]; then
-  echo "❌ File not found: $AGENT_FILE"
+  echo "❌ ERROR: File not found: $AGENT_FILE"
   exit 1
 fi
-echo "✅ File exists"
+echo "OK: File exists"
 
-# Check 2: Starts with ---
 FIRST_LINE=$(head -1 "$AGENT_FILE")
 if [ "$FIRST_LINE" != "---" ]; then
-  echo "❌ File must start with YAML frontmatter (---)"
+  echo "❌ ERROR: File must start with YAML frontmatter (---)"
   exit 1
 fi
-echo "✅ Starts with frontmatter"
+echo "OK: Starts with frontmatter"
 
-# Check 3: Has closing ---
-# Uses grep -c instead of grep -q to avoid SIGPIPE with set -o pipefail:
-# grep -q exits early on first match while tail is still writing, causing
-# tail to receive SIGPIPE (exit 141) which pipefail propagates as failure.
-# grep -c reads all input before exiting, so no early-exit race condition.
-if [ "$(tail -n +2 "$AGENT_FILE" | grep -c '^---$')" -eq 0 ]; then
-  echo "❌ Frontmatter not closed (missing second ---)"
+FRONTMATTER_CLOSING_COUNT=$(tail -n +2 "$AGENT_FILE" | grep -c '^---$')
+if [ "$FRONTMATTER_CLOSING_COUNT" -eq 0 ]; then
+  echo "❌ ERROR: Frontmatter not closed (missing second ---)"
   exit 1
 fi
-echo "✅ Frontmatter properly closed"
+echo "OK: Frontmatter properly closed"
 
-# Extract frontmatter and system prompt
-FRONTMATTER=$(sed -n '/^---$/,/^---$/{ /^---$/d; p; }' "$AGENT_FILE")
-SYSTEM_PROMPT=$(awk '/^---$/{i++; next} i>=2' "$AGENT_FILE")
+PARSED_JSON_FILE=$(mktemp)
+trap 'rm -f "$PARSED_JSON_FILE"' EXIT
 
-# Check 4: Required fields
-echo ""
-echo "Checking required fields..."
+python3 - "$AGENT_FILE" > "$PARSED_JSON_FILE" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+content = path.read_text()
+lines = content.splitlines()
+
+if not lines or lines[0].strip() != "---":
+    raise SystemExit("missing opening frontmatter delimiter")
+
+end_idx = None
+for idx, line in enumerate(lines[1:], start=1):
+    if line.strip() == "---":
+        end_idx = idx
+        break
+
+if end_idx is None:
+    raise SystemExit("missing closing frontmatter delimiter")
+
+
+def parse_frontmatter(text: str) -> dict[str, object]:
+    data: dict[str, object] = {}
+    current_key: str | None = None
+    current_lines: list[str] = []
+
+    def flush_current() -> None:
+        nonlocal current_key, current_lines
+        if current_key is not None:
+            data[current_key] = "\n".join(current_lines).strip()
+        current_key = None
+        current_lines = []
+
+    for raw_line in text.splitlines():
+        if not raw_line.strip():
+            if current_key is not None:
+                current_lines.append("")
+            continue
+
+        if raw_line.startswith((" ", "\t")) and current_key is not None:
+            current_lines.append(raw_line.strip())
+            continue
+
+        match = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", raw_line)
+        if not match:
+            continue
+
+        flush_current()
+        current_key = match.group(1)
+        value = match.group(2).strip()
+        if value in {"|", ">"}:
+            current_lines = []
+        else:
+            current_lines = [value.strip("\"'")] if value else []
+
+    flush_current()
+    return data
+
+
+frontmatter = parse_frontmatter("\n".join(lines[1:end_idx]))
+
+payload = {
+    "frontmatter": frontmatter,
+    "system_prompt": "\n".join(lines[end_idx + 1 :]).strip(),
+}
+print(json.dumps(payload))
+PY
+
+json_read() {
+  python3 - "$PARSED_JSON_FILE" "$1" <<'PY'
+import json
+import sys
+
+payload = json.loads(open(sys.argv[1]).read())
+path = sys.argv[2].split(".")
+value = payload
+for part in path:
+    if part == "":
+        continue
+    if isinstance(value, dict):
+        value = value.get(part)
+    else:
+        value = None
+        break
+
+if value is None:
+    print("")
+elif isinstance(value, str):
+    print(value)
+else:
+    print(json.dumps(value))
+PY
+}
 
 error_count=0
 warning_count=0
+info_count=0
 
-# Check name field
-NAME=$(echo "$FRONTMATTER" | grep '^name:' | sed 's/name: *//' | sed 's/^"\(.*\)"$/\1/')
+NAME=$(json_read "frontmatter.name")
+DESCRIPTION=$(json_read "frontmatter.description")
+MODEL=$(json_read "frontmatter.model")
+COLOR=$(json_read "frontmatter.color")
+TOOLS=$(json_read "frontmatter.tools")
+MEMORY=$(json_read "frontmatter.memory")
+SYSTEM_PROMPT=$(json_read "system_prompt")
+
+echo ""
+echo "Checking frontmatter..."
 
 if [ -z "$NAME" ]; then
-  echo "❌ Missing required field: name"
-  error_count=$((error_count+1))
+  echo "❌ ERROR: Missing required field: name"
+  error_count=$((error_count + 1))
 else
-  echo "✅ name: $NAME"
-
-  # Validate name format
-  if ! [[ "$NAME" =~ ^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$ ]]; then
-    echo "❌ name must start/end with alphanumeric and contain only letters, numbers, hyphens"
-    error_count=$((error_count+1))
+  echo "OK: name: $NAME"
+  if ! [[ "$NAME" =~ ^[a-z0-9][a-z0-9-]*[a-z0-9]$ ]]; then
+    echo "❌ ERROR: name must start/end with alphanumeric and use lowercase letters, numbers, and hyphens only"
+    error_count=$((error_count + 1))
   fi
-
-  # Validate name length
   name_length=${#NAME}
-  if [ "$name_length" -lt 3 ]; then
-    echo "❌ name too short (minimum 3 characters)"
-    error_count=$((error_count+1))
-  elif [ "$name_length" -gt 50 ]; then
-    echo "❌ name too long (maximum 50 characters)"
-    error_count=$((error_count+1))
-  fi
-
-  # Check for generic names
-  if [[ "$NAME" =~ ^(helper|assistant|agent|tool)$ ]]; then
-    echo "⚠️  name is too generic: $NAME"
-    warning_count=$((warning_count+1))
+  if [ "$name_length" -lt 3 ] || [ "$name_length" -gt 50 ]; then
+    echo "❌ ERROR: name must be 3-50 characters"
+    error_count=$((error_count + 1))
   fi
 fi
-
-# Check description field
-DESCRIPTION=$(echo "$FRONTMATTER" | grep '^description:' | sed 's/description: *//')
 
 if [ -z "$DESCRIPTION" ]; then
-  echo "❌ Missing required field: description"
-  error_count=$((error_count+1))
+  echo "❌ ERROR: Missing required field: description"
+  error_count=$((error_count + 1))
 else
   desc_length=${#DESCRIPTION}
-  echo "✅ description: ${desc_length} characters"
-
+  echo "OK: description: ${desc_length} characters"
   if [ "$desc_length" -lt 10 ]; then
-    echo "⚠️  description too short (minimum 10 characters recommended)"
-    warning_count=$((warning_count+1))
-  elif [ "$desc_length" -gt 5000 ]; then
-    echo "⚠️  description very long (over 5000 characters)"
-    warning_count=$((warning_count+1))
+    echo "WARNING: description is very short"
+    warning_count=$((warning_count + 1))
   fi
-
-  # Check for example blocks
-  if ! echo "$DESCRIPTION" | grep -q '<example>'; then
-    echo "⚠️  description should include <example> blocks for triggering"
-    warning_count=$((warning_count+1))
+  if ! printf "%s" "$DESCRIPTION" | grep -q '<example>'; then
+    echo "WARNING: description should include <example> blocks"
+    warning_count=$((warning_count + 1))
   fi
-
-  # Check for "Use this agent when" pattern
-  if ! echo "$DESCRIPTION" | grep -qi 'use this agent when'; then
-    echo "⚠️  description should start with 'Use this agent when...'"
-    warning_count=$((warning_count+1))
+  if ! printf "%s" "$DESCRIPTION" | grep -qi 'use this agent when'; then
+    echo "WARNING: description should begin with 'Use this agent when...'"
+    warning_count=$((warning_count + 1))
+  fi
+  if ! printf "%s" "$DESCRIPTION" | grep -Eqi 'should not|do not use|not when|avoid using'; then
+    echo "WARNING: description has no negative or near-miss guidance"
+    warning_count=$((warning_count + 1))
   fi
 fi
-
-# Check model field
-MODEL=$(echo "$FRONTMATTER" | grep '^model:' | sed 's/model: *//')
 
 if [ -z "$MODEL" ]; then
-  echo "❌ Missing required field: model"
-  error_count=$((error_count+1))
+  echo "❌ ERROR: Missing required field: model"
+  error_count=$((error_count + 1))
 else
-  echo "✅ model: $MODEL"
-
+  echo "OK: model: $MODEL"
   case "$MODEL" in
     inherit|sonnet|opus|haiku)
-      # Valid model
       ;;
     *)
-      echo "⚠️  Unknown model: $MODEL (valid: inherit, sonnet, opus, haiku)"
-      warning_count=$((warning_count+1))
+      echo "❌ ERROR: model must be one of: inherit, sonnet, opus, haiku"
+      error_count=$((error_count + 1))
       ;;
   esac
 fi
-
-# Check color field
-COLOR=$(echo "$FRONTMATTER" | grep '^color:' | sed 's/color: *//')
 
 if [ -z "$COLOR" ]; then
-  echo "❌ Missing required field: color"
-  error_count=$((error_count+1))
+  echo "❌ ERROR: Missing required field: color"
+  error_count=$((error_count + 1))
 else
-  echo "✅ color: $COLOR"
-
+  echo "OK: color: $COLOR"
   case "$COLOR" in
     blue|cyan|green|yellow|magenta|red)
-      # Valid color
       ;;
     *)
-      echo "⚠️  Unknown color: $COLOR (valid: blue, cyan, green, yellow, magenta, red)"
-      warning_count=$((warning_count+1))
+      echo "❌ ERROR: color must be one of: blue, cyan, green, yellow, magenta, red"
+      error_count=$((error_count + 1))
       ;;
   esac
 fi
 
-# Check tools field (optional)
-TOOLS=$(echo "$FRONTMATTER" | grep '^tools:' | sed 's/tools: *//' || true)
-
 if [ -n "$TOOLS" ]; then
-  echo "✅ tools: $TOOLS"
+  echo "OK: tools: $TOOLS"
+  if printf "%s" "$TOOLS" | grep -q '\*'; then
+    echo "WARNING: tools grants broad access; prefer least privilege"
+    warning_count=$((warning_count + 1))
+  fi
+  if printf "%s" "$TOOLS" | grep -Eqi 'bash.*write|write.*bash|edit.*bash|bash.*edit'; then
+    echo "WARNING: tools includes broad edit and shell access; review least-privilege scope"
+    warning_count=$((warning_count + 1))
+  fi
 else
-  echo "💡 tools: not specified (agent has access to all tools)"
+  echo "WARNING: tools not specified (agent has broad default access)"
+  warning_count=$((warning_count + 1))
 fi
 
-# Check 5: System prompt
+if [ -z "$MEMORY" ]; then
+  echo "INFO: consider adding memory when cross-session learning would help"
+  info_count=$((info_count + 1))
+fi
+
 echo ""
 echo "Checking system prompt..."
 
 if [ -z "$SYSTEM_PROMPT" ]; then
-  echo "❌ System prompt is empty"
-  error_count=$((error_count+1))
+  echo "❌ ERROR: System prompt is empty"
+  error_count=$((error_count + 1))
 else
   prompt_length=${#SYSTEM_PROMPT}
-  echo "✅ System prompt: $prompt_length characters"
+  echo "OK: System prompt: ${prompt_length} characters"
 
   if [ "$prompt_length" -lt 20 ]; then
-    echo "❌ System prompt too short (minimum 20 characters)"
-    error_count=$((error_count+1))
-  elif [ "$prompt_length" -gt 10000 ]; then
-    echo "⚠️  System prompt very long (over 10,000 characters)"
-    warning_count=$((warning_count+1))
+    echo "❌ ERROR: system prompt is too short"
+    error_count=$((error_count + 1))
   fi
 
-  # Check for second person
-  if ! echo "$SYSTEM_PROMPT" | grep -q "You are\|You will\|Your"; then
-    echo "⚠️  System prompt should use second person (You are..., You will...)"
-    warning_count=$((warning_count+1))
+  if ! printf "%s" "$SYSTEM_PROMPT" | grep -Eqi '\bYou are\b|\bYou will\b|\bYour\b'; then
+    echo "WARNING: system prompt should use second person"
+    warning_count=$((warning_count + 1))
   fi
 
-  # Check for structure
-  if ! echo "$SYSTEM_PROMPT" | grep -qi "responsibilities\|process\|steps"; then
-    echo "💡 Consider adding clear responsibilities or process steps"
+  if ! printf "%s" "$SYSTEM_PROMPT" | grep -Eqi 'responsibilities|process|steps'; then
+    echo "WARNING: consider adding clear responsibilities or process steps"
+    warning_count=$((warning_count + 1))
   fi
 
-  if ! echo "$SYSTEM_PROMPT" | grep -qi "output"; then
-    echo "💡 Consider defining output format expectations"
+  if ! printf "%s" "$SYSTEM_PROMPT" | grep -Eqi 'output format|output|return'; then
+    echo "WARNING: no output format defined in system prompt"
+    warning_count=$((warning_count + 1))
+  fi
+
+  if ! printf "%s" "$SYSTEM_PROMPT" | grep -Eqi 'edge case|fallback|error|failure'; then
+    echo "WARNING: no edge cases or fallback behavior described in system prompt"
+    warning_count=$((warning_count + 1))
+  fi
+
+  if [ "$prompt_length" -gt 32000 ]; then
+    echo "INFO: very long prompts (>~8,000 tokens) may cause registration issues"
+    info_count=$((info_count + 1))
   fi
 fi
 
 echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "----------------------------------------"
 
-if [ $error_count -eq 0 ] && [ $warning_count -eq 0 ]; then
-  echo "✅ All checks passed!"
+if [ "$error_count" -eq 0 ]; then
+  echo "Validation passed"
+  echo "Warnings: $warning_count | Info: $info_count"
   exit 0
-elif [ $error_count -eq 0 ]; then
-  echo "⚠️  Validation passed with $warning_count warning(s)"
-  exit 0
-else
-  echo "❌ Validation failed with $error_count error(s) and $warning_count warning(s)"
-  exit 1
 fi
+
+echo "Validation failed"
+echo "Errors: $error_count | Warnings: $warning_count | Info: $info_count"
+exit 1

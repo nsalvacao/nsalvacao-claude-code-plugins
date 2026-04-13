@@ -1,6 +1,6 @@
 ---
 name: ask-qwen
-description: Delegate a task directly to the Qwen CLI (cloud-backed, OAuth-authenticated). Executes the task via the qwen CLI, validates the result, and returns it to the user.
+description: Delegate a task directly to the Qwen CLI (cloud-backed, OAuth-authenticated). Selects the appropriate delegate script, runs deterministic validators, and returns the validated result.
 argument-hint: "<task or prompt to delegate to Qwen>"
 allowed-tools:
   - Bash
@@ -8,97 +8,101 @@ allowed-tools:
 
 # Ask Qwen — Direct Delegation
 
-Execute a user-specified task via the `qwen` CLI (Qwen Code, cloud-backed) and return the validated result.
+Execute a user-specified task via the `qwen` CLI (Qwen Code, cloud-backed Qwen/Alibaba). No Anthropic API calls are made during delegation.
 
-> **Note:** The `qwen` CLI runs against Qwen/Alibaba cloud infrastructure — it is not a local LLM runner. No Anthropic API calls are made during delegation.
+> **Privacy:** Qwen CLI sends all content to Alibaba cloud infrastructure. Do not delegate secrets, credentials, private keys, personal data, or NDA-protected code.
 
 ## Execution Steps
 
-1. **Get the task** — Use the argument provided by the user. If no argument was given, ask: *"What task would you like to delegate to Qwen?"*
+1. **Get the task** — Use the argument provided. If none: ask *"What task would you like to delegate to Qwen?"*
 
-2. **Classify the task** to select the right command pattern:
-   - Text/analysis task with no file context → Pattern A
-   - Task referencing a file the user mentioned → Pattern B
-   - Code generation or refactoring → Pattern C
-
-3. **Execute** the appropriate command (see patterns below).
-
-4. **Validate** Qwen's output before presenting it (see Validation section).
-
-5. **Present** the result with a brief attribution line.
-
-## Command Patterns
-
-### Pattern A — Text task, no files
+2. **Pre-flight check:**
 
 ```bash
-qwen "TASK" \
-  --output-format text \
-  --approval-mode yolo \
-  --max-session-turns 1 \
-  --exclude-tools run_shell_command,edit,write_file
+qwen auth status
 ```
 
-Simple text transformations only. Use `--max-session-turns 2` if the task is moderately complex.
+If not authenticated, stop and tell the user to run `qwen auth`.
 
-### Pattern B — Task with file context
+3. **Classify the task:**
+
+   - Summarisation → `delegate-summary.sh`
+   - JSON / YAML / Markdown formatting → `delegate-format.sh <type>`
+   - Code generation or boilerplate → `delegate-codegen.sh <lang> "<spec>"`
+   - Translation / text transformation → Pattern T (direct qwen invocation)
+
+4. **Execute** the appropriate command (see below).
+
+5. **Handle output** — see "Output handling" section.
+
+## Commands
+
+### Summarisation
 
 ```bash
-cat FILE_PATH | qwen "TASK" \
+echo "CONTENT" | bash plugins/qwen-delegate/scripts/delegate-summary.sh
+# or
+bash plugins/qwen-delegate/scripts/delegate-summary.sh path/to/file.md
+```
+
+### JSON formatting
+
+```bash
+echo 'RAW_JSON' | bash plugins/qwen-delegate/scripts/delegate-format.sh json
+```
+
+### YAML formatting
+
+```bash
+bash plugins/qwen-delegate/scripts/delegate-format.sh yaml path/to/file.yaml
+```
+
+### Markdown formatting
+
+```bash
+bash plugins/qwen-delegate/scripts/delegate-format.sh markdown path/to/file.md
+```
+
+### Code generation
+
+```bash
+bash plugins/qwen-delegate/scripts/delegate-codegen.sh python "SPEC"
+bash plugins/qwen-delegate/scripts/delegate-codegen.sh typescript "SPEC"
+bash plugins/qwen-delegate/scripts/delegate-codegen.sh bash "SPEC"
+```
+
+### Translation (Pattern T)
+
+```bash
+cat FILE_PATH | qwen \
+  "Translate to TARGET_LANGUAGE. Preserve markdown and code blocks. Output ONLY the translation." \
   --output-format text \
   --approval-mode yolo \
   --max-session-turns 2 \
   --exclude-tools run_shell_command,edit,write_file
 ```
 
-### Pattern C — Code generation or refactoring
+## Output handling
 
-```bash
-qwen "TASK" \
-  --output-format text \
-  --approval-mode yolo \
-  --max-session-turns 3 \
-  --exclude-tools run_shell_command,edit,write_file
-```
-
-Minimum 3 turns for code tasks — Qwen uses thinking turns internally. Using `--max-session-turns 1` on code tasks causes exit code 53.
-
-## Prompt Construction
-
-Construct a self-contained prompt for Qwen — it has no conversation history. Include all context the task requires:
-
-- For code: language, function name, signature, expected behaviour, edge cases.
-- For text: desired format, length, tone.
-- For transformations: input and target format.
-
-Incorporate the user's argument verbatim as the core of the prompt, expanding only where necessary for clarity.
-
-## Validation (Mandatory)
-
-Before presenting results, verify:
-
-- **Code output**: Correct logic, valid syntax, no obvious security issues, edge cases handled.
-- **Text output**: Accurate, complete, matches requested format/tone.
-- **Structured output**: Valid schema, required fields present.
-
-Apply corrections directly if needed; do not re-delegate fixes.
-
-## Response Format
-
-Present the result as:
+**Success (`<qwen_output>`, exit 0):** Present the content to the user with:
 
 ```
-[Qwen's validated output here]
+[content from <qwen_output> block]
 
 ---
-*Drafted by Qwen via the cloud-backed `qwen` CLI, validated by Claude.*
+*Drafted by Qwen CLI (coder-model), validated by deterministic pipeline.*
 ```
 
-For trivial transformations (e.g., reformatting a small JSON), omit the attribution footer.
+**Escalation (`<qwen_escalation>`, exit 70):** Read only `error` and `validators` from the JSON payload — do NOT re-read the raw Qwen output. Decide: fix directly, or tell the user: *"Qwen output failed validation ([error]). I can handle this with Claude directly — shall I?"*
 
-## Error Handling
+**Pre-flight failure (exit 80):** Tell the user: *"Delegation blocked: [reason from stderr]. Qwen CLI may not be authenticated. Run `qwen auth` to log in."*
 
-If the `qwen` command fails or returns an empty result:
+## Error troubleshooting
 
-1. Report the error to the user with the raw stderr output.
-2. Offer to retry with a refined prompt or handle the task directly with Claude.
+| Error | Cause | Fix |
+|---|---|---|
+| `qwen: command not found` | CLI not installed | Install Qwen Code CLI; verify with `qwen --version` |
+| Exit 80 — not authenticated | OAuth expired / never run | Run `qwen auth` |
+| Exit 53 — turns exhausted | Task too complex for turn limit | Increase `--max-session-turns`; script retries automatically |
+| Network error | No internet | Check connectivity; Qwen CLI requires cloud access |
+| Exit 70 — escalation after retry | Qwen persistently producing invalid output | Handle with Claude directly |

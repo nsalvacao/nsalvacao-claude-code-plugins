@@ -1,0 +1,13 @@
+{
+  "name": "gemini-delegate",
+  "version": "0.1.0",
+  "description": "Offload text, code, research, large-file analysis, and UI generation to the Gemini CLI behind a deterministic validation pipeline. Exploits Gemini's Google Search grounding, 1M token context, and multi-model routing (Flash/Pro). Claude only intervenes on persistent failures.",
+  "author": {
+    "name": "Nuno Salvacao",
+    "email": "nuno.salvacao@gmail.com"
+  },
+  "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
+  "license": "Apache-2.0",
+  "keywords": ["gemini", "delegation", "deterministic-validation", "pipeline", "google-search", "code-generation", "ui-generation", "large-context", "token-economy", "multi-llm"]
+}

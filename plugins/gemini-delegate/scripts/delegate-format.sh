@@ -82,8 +82,8 @@ ${INPUT_TEXT}"
     # Validator 2: idempotency
     NORM1=$(python3 -m json.tool <<< "$FORMATTED")
     NORM2=$(python3 -m json.tool <<< "$NORM1")
-    HASH1=$(echo "$NORM1" | sha256sum | cut -d' ' -f1)
-    HASH2=$(echo "$NORM2" | sha256sum | cut -d' ' -f1)
+    HASH1=$(echo "$NORM1" | (sha256sum 2>/dev/null || shasum -a 256) | cut -d' ' -f1)
+    HASH2=$(echo "$NORM2" | (sha256sum 2>/dev/null || shasum -a 256) | cut -d' ' -f1)
     if [[ "$HASH1" != "$HASH2" ]]; then
       gemini_escalate "formatting-json" "format not idempotent (hash mismatch)" '{"idempotency":"fail"}'
     fi

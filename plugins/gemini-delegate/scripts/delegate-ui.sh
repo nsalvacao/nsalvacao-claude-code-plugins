@@ -3,7 +3,7 @@
 # Uses gemini-2.5-pro for quality UI output.
 # Usage: delegate-ui.sh <ui_type> "<spec>" [output_file]
 #   ui_type: html | react | css
-#   output_file: if provided, writes output to file (after user review)
+#   output_file: if provided, writes output directly to file
 # Stdout: <gemini_output category="ui-TYPE">...</gemini_output>
 set -euo pipefail
 

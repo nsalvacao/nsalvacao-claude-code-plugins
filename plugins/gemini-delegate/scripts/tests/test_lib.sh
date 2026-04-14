@@ -50,6 +50,21 @@ result=0
 gemini_check_path_safe "private.key" || result=$?
 assert_eq "*.key is denied (exit 80)" "80" "$result"
 
+# Test 5b: gemini_check_path_safe denies bare .git directory
+result=0
+gemini_check_path_safe ".git" || result=$?
+assert_eq ".git is denied (exit 80)" "80" "$result"
+
+# Test 5c: gemini_check_path_safe denies nested .git path
+result=0
+gemini_check_path_safe "foo/.git/config" || result=$?
+assert_eq "foo/.git/config is denied (exit 80)" "80" "$result"
+
+# Test 5d: gemini_check_path_safe allows .github paths (D8 regression)
+result=0
+gemini_check_path_safe ".github/actions/workflow.yml" || result=$?
+assert_eq ".github path is allowed (exit 0)" "0" "$result"
+
 # Test 6: EXIT constants are defined
 assert_eq "EXIT_AUTH_FAIL is 41" "41" "$EXIT_AUTH_FAIL"
 assert_eq "EXIT_PREFLIGHT_FAIL is 80" "80" "$EXIT_PREFLIGHT_FAIL"

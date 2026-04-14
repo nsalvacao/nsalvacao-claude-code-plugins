@@ -40,17 +40,27 @@ gemini_preflight() {
   log_info "Preflight: OK (jq present, gemini CLI available, settings.json found)"
 }
 
-# --- Pre-flight: path safelist ---
+# --- Pre-flight: path denylist ---
 # Usage: gemini_check_path_safe "path/to/file"
 # Uses substring matching (*$pattern*) to block secrets in nested paths (e.g. config/.env)
 gemini_check_path_safe() {
   local file="$1"
-  local -a denied_patterns=(".env" ".env." "*.pem" "*.key" "*.p12" "*.pfx" "*.secret" "*password*" "*credential*" "*_secret*" ".git" ".git/")
+
+  # Special-case: block .git directory (exact name or path component).
+  # Handled separately to avoid the .git substring matching .github paths.
+  case "$file" in
+    .git|.git/*|*/.git|*/.git/*)
+      log_error "DENIED: '$file' matches .git directory. Never delegate git internals."
+      return "${EXIT_PREFLIGHT_FAIL}"
+      ;;
+  esac
+
+  local -a denied_patterns=(".env" ".env." "*.pem" "*.key" "*.p12" "*.pfx" "*.secret" "*password*" "*credential*" "*_secret*")
   for pattern in "${denied_patterns[@]}"; do
     # shellcheck disable=SC2254
     case "$file" in
       *$pattern*)
-        log_error "DENIED: '$file' matches safelist pattern '$pattern'. Never delegate secrets."
+        log_error "DENIED: '$file' matches denylist pattern '$pattern'. Never delegate secrets."
         return "${EXIT_PREFLIGHT_FAIL}"
         ;;
     esac
@@ -67,6 +77,7 @@ gemini_extract_response() {
 
 # --- Retry wrapper ---
 # Usage: gemini_invoke_with_retry <max_retries> <prompt> <model> <approval_mode> [extra_flags...]
+# max_retries = number of retries AFTER the initial attempt (total attempts = max_retries + 1).
 # On success: sets global GEMINI_RESPONSE; returns 0
 # On auth error (exit 41): exits immediately with EXIT_AUTH_FAIL
 # On other failure: returns non-zero exit code
@@ -89,9 +100,9 @@ gemini_invoke_with_retry() {
   # No trap RETURN — bash traps are global and would fire on every nested function return.
   # Explicit rm -f before every exit/return path ensures cleanup without side effects.
 
-  while (( attempt < max_retries )); do
+  while (( attempt <= max_retries )); do
     attempt=$((attempt + 1))
-    log_info "Gemini attempt $attempt/$max_retries (model=$model, mode=$approval_mode)"
+    log_info "Gemini attempt $attempt/$((max_retries + 1)) (model=$model, mode=$approval_mode)"
     exit_code=0
     raw_json=$(gemini \
       --prompt "$prompt" \
@@ -109,7 +120,7 @@ gemini_invoke_with_retry() {
 
     if (( exit_code != 0 )); then
       log_error "gemini failed (exit=$exit_code): $(cat "$_stderr_file" 2>/dev/null || true)"
-      if (( attempt < max_retries )); then
+      if (( attempt <= max_retries )); then
         log_warn "Retrying..."
         continue
       fi
@@ -130,7 +141,7 @@ gemini_invoke_with_retry() {
     GEMINI_RESPONSE=$(gemini_extract_response "$raw_json")
     if [[ -z "$GEMINI_RESPONSE" ]]; then
       log_warn "Empty response from Gemini. Retrying."
-      if (( attempt < max_retries )); then
+      if (( attempt <= max_retries )); then
         continue
       fi
       rm -f "$_stderr_file"
@@ -141,7 +152,7 @@ gemini_invoke_with_retry() {
     return 0
   done
 
-  log_error "All $max_retries attempts exhausted."
+  log_error "All $((max_retries + 1)) attempts exhausted ($max_retries retries)."
   rm -f "$_stderr_file"
   return "${EXIT_VALIDATOR_FAIL}"
 }
@@ -152,7 +163,8 @@ gemini_invoke_with_retry() {
 gemini_escalate() {
   local category="$1"
   local error_msg="$2"
-  local validators_json="${3:-{}}"
+  local validators_json="${3:-}"
+  [[ -z "$validators_json" ]] && validators_json="{}"
   local timestamp escalation_json
   timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
   escalation_json=$(jq -n \

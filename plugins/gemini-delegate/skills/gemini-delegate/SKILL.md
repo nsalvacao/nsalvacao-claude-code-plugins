@@ -22,7 +22,7 @@ Offload high-volume, low-risk text, code, research, and UI generation tasks to t
 
 ---
 
-## Do NOT delegate (security safelist)
+## Do NOT delegate (security denylist)
 
 Never delegate content that contains or references:
 
@@ -32,7 +32,7 @@ Never delegate content that contains or references:
 - `.git/` internals
 - Code under NDA, proprietary IP, or personal data (GDPR in scope)
 
-The delegation scripts enforce this safelist automatically. If the pre-flight check fires, handle the task with Claude directly.
+The delegation scripts enforce this denylist automatically. If the pre-flight check fires, handle the task with Claude directly.
 
 ---
 

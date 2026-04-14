@@ -32,8 +32,9 @@ gemini_invoke_with_retry "$GEMINI_DELEGATE_MAX_RETRIES" "$PROMPT" \
   "$GEMINI_DELEGATE_PRO_MODEL" "plan"
 CODE="$GEMINI_RESPONSE"
 
-# Strip markdown fences if Gemini included them
-CODE=$(echo "$CODE" | sed '/^```/d')
+# Strip markdown fences if Gemini included them (first and last line only — avoids
+# removing ``` that may appear inside docstrings or string literals)
+CODE=$(echo "$CODE" | sed -e '1{/^```/d}' -e '${/^```$/d}')
 
 TMP_FILE=$(mktemp "/tmp/gemini_codegen_XXXXXX")
 PY_ERR_FILE=$(mktemp "/tmp/gemini_py_err_XXXXXX")
@@ -55,7 +56,7 @@ case "$LANG" in
       RETRY_PROMPT="Previous Python code had syntax errors: ${COMPILE_ERR}. Fix and return ONLY valid Python code, no fences."
       gemini_invoke_with_retry 2 "$RETRY_PROMPT" "$GEMINI_DELEGATE_PRO_MODEL" "plan"
       CODE="$GEMINI_RESPONSE"
-      CODE=$(echo "$CODE" | sed '/^```/d')
+      CODE=$(echo "$CODE" | sed -e '1{/^```/d}' -e '${/^```$/d}')
       echo "$CODE" > "$TMP_FILE"
     done
     log_pass "Python syntax valid"

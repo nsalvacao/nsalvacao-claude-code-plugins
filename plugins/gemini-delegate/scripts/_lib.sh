@@ -25,6 +25,10 @@ log_fail()  { echo "${GEMINI_DELEGATE_LOG_PREFIX} FAIL  $*" >&2; }
 
 # --- Pre-flight: auth check ---
 gemini_preflight() {
+  if ! command -v jq &>/dev/null; then
+    log_error "jq is not installed. Install it to use gemini-delegate (e.g., 'sudo apt install jq')."
+    exit "${EXIT_PREFLIGHT_FAIL}"
+  fi
   if [[ ! -f "$GEMINI_SETTINGS" ]]; then
     log_error "Gemini not authenticated. Run: gemini (Google OAuth interactive login)"
     exit "${EXIT_PREFLIGHT_FAIL}"
@@ -75,6 +79,10 @@ gemini_invoke_with_retry() {
   local exit_code=0
   local raw_json=""
 
+  local _stderr_file
+  _stderr_file=$(mktemp /tmp/gemini_stderr_XXXXXX.txt)
+  trap 'rm -f "$_stderr_file"' RETURN
+
   while (( attempt < max_retries )); do
     attempt=$((attempt + 1))
     log_info "Gemini attempt $attempt/$max_retries (model=$model, mode=$approval_mode)"
@@ -84,23 +92,20 @@ gemini_invoke_with_retry() {
       --output-format json \
       --model "$model" \
       --approval-mode "$approval_mode" \
-      "${extra_flags[@]}" 2>"/tmp/gemini_stderr_$$.txt") || exit_code=$?
+      "${extra_flags[@]}" 2>"$_stderr_file") || exit_code=$?
 
     # Auth error — exit immediately, no retry
     if (( exit_code == EXIT_AUTH_FAIL )); then
       log_error "Gemini auth error (exit 41). Run: gemini (Google OAuth)"
-      rm -f "/tmp/gemini_stderr_$$.txt"
       exit "${EXIT_AUTH_FAIL}"
     fi
 
     if (( exit_code != 0 )); then
-      log_error "gemini failed (exit=$exit_code): $(cat /tmp/gemini_stderr_$$.txt 2>/dev/null || true)"
-      rm -f "/tmp/gemini_stderr_$$.txt"
+      log_error "gemini failed (exit=$exit_code): $(cat "$_stderr_file" 2>/dev/null || true)"
       if (( attempt < max_retries )); then
         log_warn "Retrying..."
         continue
       fi
-      rm -f "/tmp/gemini_stderr_$$.txt"
       return "$exit_code"
     fi
 
@@ -109,7 +114,6 @@ gemini_invoke_with_retry() {
     err_code=$(echo "$raw_json" | jq -r '.error.code // empty' 2>/dev/null || true)
     if [[ "$err_code" == "41" ]]; then
       log_error "Gemini auth error in JSON payload. Run: gemini (Google OAuth)"
-      rm -f "/tmp/gemini_stderr_$$.txt"
       exit "${EXIT_AUTH_FAIL}"
     fi
 
@@ -119,16 +123,13 @@ gemini_invoke_with_retry() {
       if (( attempt < max_retries )); then
         continue
       fi
-      rm -f "/tmp/gemini_stderr_$$.txt"
       return "${EXIT_VALIDATOR_FAIL}"
     fi
 
-    rm -f "/tmp/gemini_stderr_$$.txt"
     return 0
   done
 
   log_error "All $max_retries attempts exhausted."
-  rm -f "/tmp/gemini_stderr_$$.txt"
   return "${EXIT_VALIDATOR_FAIL}"
 }
 
@@ -138,14 +139,18 @@ gemini_invoke_with_retry() {
 gemini_escalate() {
   local category="$1"
   local error_msg="$2"
-  local validators_json="${3:-\{\}}"
-  local timestamp safe_category safe_error
+  local validators_json="${3:-{}}"
+  local timestamp escalation_json
   timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-  safe_category=$(printf '%s' "$category" | sed 's/\\/\\\\/g; s/"/\\"/g')
-  safe_error=$(printf '%s' "$error_msg" | sed 's/\\/\\\\/g; s/"/\\"/g')
-
-  printf '<gemini_escalation>\n{"status":"escalate","timestamp":"%s","category":"%s","error":"%s","validators":%s,"instruction":"Fix directly or inform user — do not re-read Gemini output."}\n</gemini_escalation>\n' \
-    "$timestamp" "$safe_category" "$safe_error" "$validators_json"
+  escalation_json=$(jq -n \
+    --arg status "escalate" \
+    --arg ts "$timestamp" \
+    --arg cat "$category" \
+    --arg err "$error_msg" \
+    --argjson val "$validators_json" \
+    --arg instr "Fix directly or inform user — do not re-read Gemini output." \
+    '{status: $status, timestamp: $ts, category: $cat, error: $err, validators: $val, instruction: $instr}')
+  printf '<gemini_escalation>\n%s\n</gemini_escalation>\n' "$escalation_json"
   exit "${EXIT_ESCALATE}"
 }
 

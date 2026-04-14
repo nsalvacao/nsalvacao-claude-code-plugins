@@ -1,0 +1,1 @@
+{"version":"1","name":"myapp","deps":["z-lib","a-lib","m-lib"],"scripts":{"build":"tsc","test":"jest"}}

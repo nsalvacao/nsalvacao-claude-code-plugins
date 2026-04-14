@@ -95,10 +95,19 @@ case "$UI_TYPE" in
     ;;
 
   react)
-    # Validator: contains 'export' and 'return' (basic React component checks)
+    # Validator: export and return are both required for a usable React component.
+    # Missing export makes the component unimportable — treat as retry/escalation, not warning.
     if ! echo "$RESULT" | grep -q "export"; then
-      log_warn "React component missing export statement."
+      log_warn "React component missing export statement. Retrying."
+      RETRY_PROMPT="Previous React component was missing an export statement. Generate a complete, exportable React component for: ${SPEC}"
+      gemini_invoke_with_retry 1 "$RETRY_PROMPT" "$GEMINI_DELEGATE_PRO_MODEL" "plan"
+      RESULT="$GEMINI_RESPONSE"
+      RESULT=$(echo "$RESULT" | sed -e '1{/^```/d}' -e '${/^```$/d}')
+      if ! echo "$RESULT" | grep -q "export"; then
+        gemini_escalate "ui-react" "React component missing export after retry" '{"export":"fail"}'
+      fi
     fi
+    log_pass "React component export present"
     if ! echo "$RESULT" | grep -q "return"; then
       gemini_escalate "ui-react" "React component missing return statement" '{"return":"fail"}'
     fi

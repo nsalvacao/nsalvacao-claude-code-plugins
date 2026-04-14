@@ -25,7 +25,7 @@ Offload text, code, research, large-file analysis, and UI generation to the Gemi
 - `gemini` CLI installed and authenticated (v0.36.0+)
 - Verify: `gemini --version`
 - Authenticate: run `gemini` interactively → Google OAuth
-- Python 3 (for validators — graceful degradation if absent)
+- Python 3 (required for JSON syntax validation and Python codegen validators)
 - `jq` (required for JSON response parsing)
 
 ## Installation

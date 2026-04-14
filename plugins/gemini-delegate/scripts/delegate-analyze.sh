@@ -53,6 +53,13 @@ fi
 
 CHAR_COUNT=$(wc -c < "$_content_file" | tr -d ' ')
 log_info "Total content size: $CHAR_COUNT characters"
+
+# Guard: OS ARG_MAX is ~2MB on Linux; leave headroom for prompt wrapper + env.
+if (( CHAR_COUNT > 1500000 )); then
+  log_error "Content too large (${CHAR_COUNT} bytes, limit 1 500 000). Split input or reduce scope."
+  exit 1
+fi
+
 CONTENT=$(cat "$_content_file")
 
 PROMPT="Analyze the following content and answer this question:

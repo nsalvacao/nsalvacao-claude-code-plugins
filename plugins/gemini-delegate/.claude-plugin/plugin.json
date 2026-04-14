@@ -8,6 +8,6 @@
   },
   "homepage": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
   "repository": "https://github.com/nsalvacao/nsalvacao-claude-code-plugins",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "keywords": ["gemini", "delegation", "deterministic-validation", "pipeline", "google-search", "code-generation", "ui-generation", "large-context", "token-economy", "multi-llm"]
 }

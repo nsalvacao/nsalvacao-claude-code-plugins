@@ -58,8 +58,9 @@ esac
 gemini_invoke_with_retry "$GEMINI_DELEGATE_MAX_RETRIES" "$PROMPT" "$TURNS_MODEL" "plan"
 FORMATTED="$GEMINI_RESPONSE"
 
-# Strip markdown fences if Gemini included them
-FORMATTED=$(echo "$FORMATTED" | sed '/^```/d')
+# Strip markdown fences if Gemini included them (first and last line only — avoids
+# removing ``` that may appear inside formatted markdown or code blocks)
+FORMATTED=$(echo "$FORMATTED" | sed -e '1{/^```/d}' -e '${/^```$/d}')
 
 # ---- Validators ----
 case "$FORMAT_TYPE" in
@@ -71,7 +72,7 @@ case "$FORMAT_TYPE" in
 ${INPUT_TEXT}"
       gemini_invoke_with_retry "$GEMINI_DELEGATE_MAX_RETRIES" "$RETRY_PROMPT" "$TURNS_MODEL" "plan"
       FORMATTED="$GEMINI_RESPONSE"
-      FORMATTED=$(echo "$FORMATTED" | sed '/^```/d')
+      FORMATTED=$(echo "$FORMATTED" | sed -e '1{/^```/d}' -e '${/^```$/d}')
       if ! python3 -m json.tool <<< "$FORMATTED" > /dev/null 2>&1; then
         gemini_escalate "formatting-json" "output is not valid JSON after retry" '{"json_syntax":"fail"}'
       fi

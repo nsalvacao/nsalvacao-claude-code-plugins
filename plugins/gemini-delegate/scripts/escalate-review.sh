@@ -2,7 +2,7 @@
 # Emit a structured escalation payload for Claude to act on.
 # Usage: escalate-review.sh <category> <error_message> [validators_json]
 # Stdout: <gemini_escalation>JSON</gemini_escalation>
-# This script is normally called BY _lib.sh::gemini_escalate(), not directly.
+# This script is a standalone helper; _lib.sh::gemini_escalate() is the runtime path.
 set -euo pipefail
 
 CATEGORY="${1:-unknown}"

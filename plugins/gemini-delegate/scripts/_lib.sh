@@ -29,22 +29,27 @@ gemini_preflight() {
     log_error "jq is not installed. Install it to use gemini-delegate (e.g., 'sudo apt install jq')."
     exit "${EXIT_PREFLIGHT_FAIL}"
   fi
+  if ! command -v gemini &>/dev/null; then
+    log_error "gemini CLI is not installed or not on PATH. Install it, then run: gemini (Google OAuth)"
+    exit "${EXIT_PREFLIGHT_FAIL}"
+  fi
   if [[ ! -f "$GEMINI_SETTINGS" ]]; then
     log_error "Gemini not authenticated. Run: gemini (Google OAuth interactive login)"
     exit "${EXIT_PREFLIGHT_FAIL}"
   fi
-  log_info "Auth: OK (settings.json present)"
+  log_info "Preflight: OK (jq present, gemini CLI available, settings.json found)"
 }
 
 # --- Pre-flight: path safelist ---
 # Usage: gemini_check_path_safe "path/to/file"
+# Uses substring matching (*$pattern*) to block secrets in nested paths (e.g. config/.env)
 gemini_check_path_safe() {
   local file="$1"
-  local -a denied_patterns=(".env" ".env.*" "*.pem" "*.key" "*.p12" "*.pfx" "*.secret" "*password*" "*credential*" "*_secret*" ".git" ".git/*")
+  local -a denied_patterns=(".env" ".env." "*.pem" "*.key" "*.p12" "*.pfx" "*.secret" "*password*" "*credential*" "*_secret*" ".git" ".git/")
   for pattern in "${denied_patterns[@]}"; do
     # shellcheck disable=SC2254
     case "$file" in
-      $pattern)
+      *$pattern*)
         log_error "DENIED: '$file' matches safelist pattern '$pattern'. Never delegate secrets."
         return "${EXIT_PREFLIGHT_FAIL}"
         ;;
@@ -79,9 +84,10 @@ gemini_invoke_with_retry() {
   local exit_code=0
   local raw_json=""
 
-  local _stderr_file
+  local _stderr_file _rc
   _stderr_file=$(mktemp /tmp/gemini_stderr_XXXXXX.txt)
-  trap 'rm -f "$_stderr_file"' RETURN
+  # No trap RETURN — bash traps are global and would fire on every nested function return.
+  # Explicit rm -f before every exit/return path ensures cleanup without side effects.
 
   while (( attempt < max_retries )); do
     attempt=$((attempt + 1))
@@ -97,6 +103,7 @@ gemini_invoke_with_retry() {
     # Auth error — exit immediately, no retry
     if (( exit_code == EXIT_AUTH_FAIL )); then
       log_error "Gemini auth error (exit 41). Run: gemini (Google OAuth)"
+      rm -f "$_stderr_file"
       exit "${EXIT_AUTH_FAIL}"
     fi
 
@@ -106,7 +113,9 @@ gemini_invoke_with_retry() {
         log_warn "Retrying..."
         continue
       fi
-      return "$exit_code"
+      _rc="$exit_code"
+      rm -f "$_stderr_file"
+      return "$_rc"
     fi
 
     # Check for error in JSON body (Gemini may exit 0 with error payload)
@@ -114,6 +123,7 @@ gemini_invoke_with_retry() {
     err_code=$(echo "$raw_json" | jq -r '.error.code // empty' 2>/dev/null || true)
     if [[ "$err_code" == "41" ]]; then
       log_error "Gemini auth error in JSON payload. Run: gemini (Google OAuth)"
+      rm -f "$_stderr_file"
       exit "${EXIT_AUTH_FAIL}"
     fi
 
@@ -123,13 +133,16 @@ gemini_invoke_with_retry() {
       if (( attempt < max_retries )); then
         continue
       fi
+      rm -f "$_stderr_file"
       return "${EXIT_VALIDATOR_FAIL}"
     fi
 
+    rm -f "$_stderr_file"
     return 0
   done
 
   log_error "All $max_retries attempts exhausted."
+  rm -f "$_stderr_file"
   return "${EXIT_VALIDATOR_FAIL}"
 }
 

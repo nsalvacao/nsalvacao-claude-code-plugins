@@ -40,6 +40,14 @@ gemini_preflight() {
   log_info "Preflight: OK (jq present, gemini CLI available, settings.json found)"
 }
 
+# --- Pre-flight: python3 check (only call from scripts that use python validators) ---
+gemini_check_python3() {
+  if ! command -v python3 &>/dev/null; then
+    log_error "python3 is not installed or not on PATH. Install it to use this delegate script."
+    exit "${EXIT_PREFLIGHT_FAIL}"
+  fi
+}
+
 # --- Pre-flight: path denylist ---
 # Usage: gemini_check_path_safe "path/to/file"
 # Uses substring matching (*$pattern*) to block secrets in nested paths (e.g. config/.env)

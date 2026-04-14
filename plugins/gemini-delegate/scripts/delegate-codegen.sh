@@ -19,6 +19,8 @@ if [[ -z "$SPEC" ]]; then
 fi
 
 gemini_preflight
+# python3 is required for syntax validation (py_compile) and JSON validation
+gemini_check_python3
 
 PROMPT="You are a ${LANG} code generator. Return ONLY valid ${LANG} code — no markdown fences, no prose, no commentary.
 

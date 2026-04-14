@@ -24,7 +24,7 @@ assert_eq() {
 
 echo "=== test_validators.sh (offline — mocking gemini) ==="
 
-# Load _lib.sh and mock gemini_preflight + gemini_invoke_with_retry
+# Load _lib.sh and mock gemini_preflight (gemini_invoke_with_retry is not called here)
 # shellcheck disable=SC1090,SC1091
 source "${SCRIPTS_DIR}/_lib.sh"
 gemini_preflight() { log_info "AUTH MOCK: OK"; }

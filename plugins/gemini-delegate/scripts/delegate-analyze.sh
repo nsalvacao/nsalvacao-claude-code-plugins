@@ -52,7 +52,7 @@ if [[ ! -s "$_content_file" ]]; then
 fi
 
 CHAR_COUNT=$(wc -c < "$_content_file" | tr -d ' ')
-log_info "Total content size: $CHAR_COUNT characters"
+log_info "Total content size: $CHAR_COUNT bytes"
 
 # Guard: OS ARG_MAX is ~2MB on Linux; leave headroom for prompt wrapper + env.
 if (( CHAR_COUNT > 1500000 )); then

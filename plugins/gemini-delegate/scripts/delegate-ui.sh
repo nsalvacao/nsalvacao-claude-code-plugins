@@ -67,8 +67,9 @@ gemini_invoke_with_retry "$GEMINI_DELEGATE_MAX_RETRIES" "$PROMPT" \
   "$GEMINI_DELEGATE_PRO_MODEL" "plan"
 RESULT="$GEMINI_RESPONSE"
 
-# Strip markdown fences
-RESULT=$(echo "$RESULT" | sed '/^```/d')
+# Strip markdown fences if Gemini included them (first and last line only — avoids
+# removing ``` that may appear inside template literals or embedded code examples)
+RESULT=$(echo "$RESULT" | sed -e '1{/^```/d}' -e '${/^```$/d}')
 
 # ---- Validators ----
 case "$UI_TYPE" in
@@ -79,7 +80,7 @@ case "$UI_TYPE" in
       RETRY_PROMPT="Previous HTML was missing DOCTYPE. Generate a complete valid HTML5 page with DOCTYPE for: ${SPEC}"
       gemini_invoke_with_retry 1 "$RETRY_PROMPT" "$GEMINI_DELEGATE_PRO_MODEL" "plan"
       RESULT="$GEMINI_RESPONSE"
-      RESULT=$(echo "$RESULT" | sed '/^```/d')
+      RESULT=$(echo "$RESULT" | sed -e '1{/^```/d}' -e '${/^```$/d}')
       if ! echo "$RESULT" | grep -qi "<!DOCTYPE"; then
         gemini_escalate "ui-html" "HTML missing DOCTYPE after retry" '{"doctype":"fail"}'
       fi

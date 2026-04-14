@@ -14,6 +14,7 @@ FORMAT_TYPE="${1:-json}"
 INPUT_FILE="${2:--}"
 
 gemini_preflight
+gemini_check_python3
 
 if [[ "$INPUT_FILE" != "-" ]]; then
   gemini_check_path_safe "$INPUT_FILE" || exit "${EXIT_PREFLIGHT_FAIL}"

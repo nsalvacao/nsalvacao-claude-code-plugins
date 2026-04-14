@@ -54,19 +54,21 @@ VALID_JSON='{"a":1,"b":2}'
 INVALID_JSON='{not:valid}'
 IDEMPOTENT_JSON='{"a": 1, "b": 2}'
 
+# JSON syntax validation uses jq (matches production: jq is already a required dep)
 PARSE_RESULT=0
-python3 -m json.tool <<< "$VALID_JSON" > /dev/null 2>&1 || PARSE_RESULT=$?
+echo "$VALID_JSON" | jq . > /dev/null 2>&1 || PARSE_RESULT=$?
 assert_eq "valid JSON parses OK" "0" "$PARSE_RESULT"
 
 PARSE_RESULT=0
-python3 -m json.tool <<< "$INVALID_JSON" > /dev/null 2>&1 || PARSE_RESULT=$?
+echo "$INVALID_JSON" | jq . > /dev/null 2>&1 || PARSE_RESULT=$?
 assert_eq "invalid JSON parse fails" "1" "$(( PARSE_RESULT != 0 ))"
 
-NORM1=$(python3 -m json.tool <<< "$IDEMPOTENT_JSON")
-NORM2=$(python3 -m json.tool <<< "$NORM1")
+# jq --indent 2 -S normalizes to 2-space + sorted keys, matching the production contract
+NORM1=$(echo "$IDEMPOTENT_JSON" | jq --indent 2 -S .)
+NORM2=$(echo "$NORM1" | jq --indent 2 -S .)
 HASH1=$(echo "$NORM1" | (sha256sum 2>/dev/null || shasum -a 256) | cut -d' ' -f1)
 HASH2=$(echo "$NORM2" | (sha256sum 2>/dev/null || shasum -a 256) | cut -d' ' -f1)
-assert_eq "JSON format is idempotent" "$HASH1" "$HASH2"
+assert_eq "JSON format is idempotent (2-space, sorted)" "$HASH1" "$HASH2"
 
 # ---- Codegen validators ----
 echo ""

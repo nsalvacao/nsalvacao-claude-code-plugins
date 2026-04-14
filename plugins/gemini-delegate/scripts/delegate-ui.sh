@@ -116,6 +116,11 @@ esac
 
 # Optional: write to file if requested
 if [[ -n "$OUTPUT_FILE" ]]; then
+  # Reject absolute paths and path traversal to prevent arbitrary file overwrites.
+  if [[ "$OUTPUT_FILE" == /* || "$OUTPUT_FILE" == *..* ]]; then
+    log_error "OUTPUT_FILE must be a relative path with no '..' components: '$OUTPUT_FILE'"
+    exit 1
+  fi
   log_warn "Output file requested: $OUTPUT_FILE — REVIEW BEFORE USE. Writing..."
   gemini_check_path_safe "$OUTPUT_FILE" || exit "${EXIT_PREFLIGHT_FAIL}"
   printf '%s\n' "$RESULT" > "$OUTPUT_FILE"

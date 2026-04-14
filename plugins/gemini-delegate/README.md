@@ -84,7 +84,7 @@ jq response extraction (.response field)
     ↓
 Deterministic validators (0 Claude tokens)
     ├─ PASS → deliver in <gemini_output> with attribution
-    └─ FAIL → retry with error feedback (max 2×)
+    └─ FAIL → retry with error feedback (up to GEMINI_DELEGATE_MAX_RETRIES retries per call)
            → persistent fail → <gemini_escalation> to Claude
 ```
 

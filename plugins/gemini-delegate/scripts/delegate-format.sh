@@ -14,7 +14,6 @@ FORMAT_TYPE="${1:-json}"
 INPUT_FILE="${2:--}"
 
 gemini_preflight
-gemini_check_python3
 
 if [[ "$INPUT_FILE" != "-" ]]; then
   gemini_check_path_safe "$INPUT_FILE" || exit "${EXIT_PREFLIGHT_FAIL}"
@@ -66,29 +65,30 @@ FORMATTED=$(echo "$FORMATTED" | sed -e '1{/^```/d}' -e '${/^```$/d}')
 # ---- Validators ----
 case "$FORMAT_TYPE" in
   json)
-    # Validator 1: syntax
-    if ! python3 -m json.tool <<< "$FORMATTED" > /dev/null 2>&1; then
+    # Validator 1: syntax — jq exits non-zero on invalid JSON
+    if ! echo "$FORMATTED" | jq . > /dev/null 2>&1; then
       RETRY_PROMPT="Output was not valid JSON. Return ONLY valid JSON with 2-space indentation, sorted keys, no fences.
 
 ${INPUT_TEXT}"
       gemini_invoke_with_retry "$GEMINI_DELEGATE_MAX_RETRIES" "$RETRY_PROMPT" "$TURNS_MODEL" "plan"
       FORMATTED="$GEMINI_RESPONSE"
       FORMATTED=$(echo "$FORMATTED" | sed -e '1{/^```/d}' -e '${/^```$/d}')
-      if ! python3 -m json.tool <<< "$FORMATTED" > /dev/null 2>&1; then
+      if ! echo "$FORMATTED" | jq . > /dev/null 2>&1; then
         gemini_escalate "formatting-json" "output is not valid JSON after retry" '{"json_syntax":"fail"}'
       fi
     fi
     log_pass "JSON syntax valid"
 
-    # Validator 2: idempotency
-    NORM1=$(python3 -m json.tool <<< "$FORMATTED")
-    NORM2=$(python3 -m json.tool <<< "$NORM1")
+    # Validator 2: normalize to 2-space + sorted keys (fulfils stated contract), then idempotency check.
+    # jq is already a required dependency (pre-flight). python3 -m json.tool was 4-space and unsorted.
+    NORM1=$(echo "$FORMATTED" | jq --indent 2 -S .)
+    NORM2=$(echo "$NORM1" | jq --indent 2 -S .)
     HASH1=$(echo "$NORM1" | (sha256sum 2>/dev/null || shasum -a 256) | cut -d' ' -f1)
     HASH2=$(echo "$NORM2" | (sha256sum 2>/dev/null || shasum -a 256) | cut -d' ' -f1)
     if [[ "$HASH1" != "$HASH2" ]]; then
       gemini_escalate "formatting-json" "format not idempotent (hash mismatch)" '{"idempotency":"fail"}'
     fi
-    log_pass "JSON idempotency verified"
+    log_pass "JSON idempotency verified (2-space, sorted keys)"
     FORMATTED="$NORM1"
     ;;
 

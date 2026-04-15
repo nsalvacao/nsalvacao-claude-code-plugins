@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -44,12 +45,32 @@ jobs:
           AI_ENHANCE_DOCS: ${{ github.event.inputs.ai_enhance || 'false' }}
         run: python3 scripts/sync-docs.py
 
-      - name: Commit updated docs
-        uses: stefanzweifel/git-auto-commit-action@v7
-        with:
-          commit_message: "docs(auto): sync plugin inventory and README table [skip ci]"
-          file_pattern: |
-            README.md
-            docs/plugins-inventory.md
-          commit_user_name: "github-actions[bot]"
-          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet -- README.md docs/plugins-inventory.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No docs changes detected — skipping PR."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Docs changes detected."
+          fi
+
+      - name: Open PR for docs update
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="chore/docs-sync-${{ github.run_id }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add README.md docs/plugins-inventory.md
+          git commit -m "docs(auto): sync plugin inventory and README table"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "docs(auto): sync plugin inventory and README table" \
+            --body "Automated docs sync triggered by push to \`main\`. Only markdown files changed — CodeQL will pass." \
+            --base main \
+            --head "$BRANCH"
+          gh pr merge "$BRANCH" --auto --squash --delete-branch

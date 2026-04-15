@@ -61,16 +61,23 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          BRANCH="chore/docs-sync-${{ github.run_id }}"
+          BRANCH="chore/docs-sync-${{ github.run_id }}-${{ github.run_attempt }}"
+          PR_TITLE="docs(auto): sync plugin inventory and README table"
+          PR_BODY="Automated docs sync triggered by push to \`main\`. Only markdown files changed — CodeQL will pass."
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH"
+          git checkout -B "$BRANCH"
           git add README.md docs/plugins-inventory.md
           git commit -m "docs(auto): sync plugin inventory and README table"
           git push origin "$BRANCH"
-          gh pr create \
-            --title "docs(auto): sync plugin inventory and README table" \
-            --body "Automated docs sync triggered by push to \`main\`. Only markdown files changed — CodeQL will pass." \
-            --base main \
-            --head "$BRANCH"
-          gh pr merge "$BRANCH" --auto --squash --delete-branch
+          if PR_NUMBER="$(gh pr view "$BRANCH" --json number --jq '.number' 2>/dev/null)"; then
+            echo "PR already exists: #$PR_NUMBER — reusing."
+          else
+            gh pr create \
+              --title "$PR_TITLE" \
+              --body "$PR_BODY" \
+              --base main \
+              --head "$BRANCH"
+            PR_NUMBER="$(gh pr view "$BRANCH" --json number --jq '.number')"
+          fi
+          gh pr merge "$PR_NUMBER" --auto --squash --delete-branch

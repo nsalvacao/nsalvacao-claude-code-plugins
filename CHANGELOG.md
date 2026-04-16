@@ -5,6 +5,65 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.8.0...v1.9.0) (2026-04-15)
+
+
+### ✨ Features
+
+* **agile-lifecycle:** implement 7 missing SKILL.md files ([#62](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/62)) ([07d987e](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/07d987e97a62dfbfef87c9f934dbefc446064991))
+* **agile-lifecycle:** implement full plugin v0.1.0 ([#59](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/59)) ([beaa7d3](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/beaa7d32afacd945dc7b9df72c8fa77256a04c40))
+* **agile-lifecycle:** v0.2.0 documentation, testing and alignment ([#65](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/65)) ([a7ad972](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/a7ad972c16fd2c8c5c7c578ef0d1a7d6dc135fb2))
+* **agile-lifecycle:** v1.0.0 release preparation ([#66](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/66)) ([4a862bb](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/4a862bb3e7eb123e29c2d4921db12ea21386f917))
+* **idea-auditor:** v0.1.0 — Foundation ([#93](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/93)) ([df64a5f](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/df64a5fb5f191f1ed6912cb39c6a27c81f61718b))
+* **idea-auditor:** v0.2.0 — Dimension agents, evidence scripts, drill/report ([#94](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/94)) ([7acac5d](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/7acac5d98b4d978ce58bbc07d7b2987c1df63e66))
+* **idea-auditor:** v0.3.0 — Watch mode, regression detection, calibration, tests ([#95](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/95)) ([bfff9cd](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/bfff9cdb31227baa3b6d6dbd09adc61328d6e826))
+* **idea-auditor:** v0.4.0 — Optional agents, migrate skill, MCP scaffold, normalize, E2E tests ([#96](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/96)) ([db17f8e](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/db17f8e6da227ce9f6ffad6593e27c9150a237cb))
+* **idea-auditor:** v0.5.0 — MCP tools complete, analytics-bridge scaffold, E2E expansion ([#97](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/97)) ([ecd7f7d](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/ecd7f7d83c3baf63882b5a62aef1410411c7f6e8))
+* **plugin-studio:** add 4-panel layout shell ([#5](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/5)) ([#57](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/57)) ([cacb0a2](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/cacb0a28707c393f72a245ce675c29b8a22df81f))
+* **plugin-studio:** add native validation engine and API routes ([#55](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/55)) ([fa37700](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/fa37700d455f3a292383796a45e752721f6d70e6))
+* **waterfall-lifecycle:** v0.1.0 — Foundation + Phase 1 (Opportunity & Feasibility) ([#82](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/82)) ([9f07308](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/9f07308d91f9bb1747e2adecb20379b84ea80a90))
+* **waterfall-lifecycle:** v0.3.0 — Phase 3 (Architecture & Solution Design) ([#89](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/89)) ([afcb647](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/afcb647caf568b9bd6d6104d7cabe5bed31e5e81))
+
+
+### 🐛 Bug Fixes
+
+* **agents:** 1.6 — agent frontmatter alignment (name, model, color, description) ([#56](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/56)) ([9bf98ab](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/9bf98ab52cd371bb26ffaea64efc419b4b726ea3))
+* **agile-lifecycle:** convert bold Quality/Output/Edge headings to ## in 4 transversal agents ([#61](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/61)) ([1f375bb](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/1f375bb5c2d0259f7c46c5c536a86db2d04badef))
+* **agile-lifecycle:** correct template refs in all 7 phase-essentials files ([#63](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/63)) ([44165e1](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/44165e1802d46d896e4711c038877db4fb167c99))
+* **agile-lifecycle:** improve skill descriptions for v1.1.0 ([#67](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/67)) ([14b7349](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/14b7349e6791b4240293deef336dd1b217b25cb5))
+* **agile-lifecycle:** PE + structural quality fixes — all 31 agents, 10 docs ([#60](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/60)) ([d89acad](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/d89acad737494952f5d67b7d8f9bdfbf1ed32697))
+* **agile-lifecycle:** update skill count from 13 to 16 in descriptions ([#64](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/64)) ([e91ad57](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/e91ad5799ae76708b92e100072d3cda30f060fd2))
+* **ci:** add checkout step before release-please-action@v4 ([#51](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/51)) ([d1dfc17](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/d1dfc17ffa290e280f41fa618217befb9c54fa46))
+* **ci:** run CodeQL and Scorecard on all PRs, any branch ([19594fe](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/19594fe0f3c4fbb7687d06e29c5214f9f7ea32a6))
+* **ci:** unblock docs-sync and release-please from CodeQL gate ([#101](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/101)) ([bc5b145](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/bc5b145645181b60c808b03f3beabd6be50e6268))
+* **plugin-dev:** validate-agent.sh — arithmetic, SIGPIPE, and shellcheck fixes ([#54](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/54)) ([032b417](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/032b4171eaeccb7de14d5882c373ac17d74697d3))
+* **plugin-studio:** stabilize pre-issue-6 shell and runtime ([#68](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/68)) ([b61d2c4](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/b61d2c4db66e3409293861b360a389bb7b7db047))
+* **security:** least-privilege permissions across all workflows + fix Scorecard SARIF drift on PRs ([#49](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/49)) ([160eb13](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/160eb13a845faddcd225ce853a253782a6213eeb))
+
+
+### 📚 Documentation
+
+* **auto:** sync plugin inventory and README table [skip ci] ([9ba5225](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/9ba52258ed77fbe23e283f13c7c3c573c1eb0b46))
+* **idea-auditor:** add normalize_interviews source-null limitation to README ([e3bf558](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/e3bf558a085625cbf96b497b7435cbeaf1f2a829))
+* **plugin-dev:** 1.4 — UX / developer onboarding ([#53](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/53)) ([e25b7e8](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/e25b7e805880c54df24194f6c7fe2f94d924a0d4))
+* **plugin-dev:** documentation fixes — scope delimiters, format warning, env var clarification ([#52](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/52)) ([bbf6a53](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/bbf6a53b13d0e24d326058c4c8f5aa0a12fd78a2))
+* **plugin-dev:** identity & ownership — author, fork attribution, CHANGELOG ([#46](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/46)) ([fd648cf](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/fd648cfe23e756d665f25b0efaabe8655a8af894))
+* **plugin-dev:** version consistency — document skill discrepancy, add agent versions ([#50](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/50)) ([cfea916](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/cfea916f04476273731fad18f32c0dd8dcae9aeb))
+* **readme:** sync plugin catalog and marketplace with current state ([79a3e0b](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/79a3e0b0b87a8ab449cef35d6da9767ff92897a9))
+
+
+### 🔧 Maintenance
+
+* **idea-auditor:** bump version to 0.3.0, sync marketplace, update limitations ([4972282](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/497228292e6ae195d3456b17df87c028c39ad6ff))
+
+
+### 🔌 New Plugins
+
+* **audit-fleet:** implement cross-repo audit fleet workflow ([#91](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/91)) ([a618ae9](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/a618ae96b7829619460115383e18a8af7c9634d2))
+* **gemini-delegate:** v0.1.0 — deterministic pipeline for Gemini CLI ([#100](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/100)) ([6d266ec](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/6d266ec59e30064ab837b8e7b4c1e6772557f968))
+* **qwen-delegate:** implement Qwen CLI delegation plugin ([#92](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/92)) ([67605c0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/67605c07c83fd65e1e398172e022951e4dd4af83))
+* **qwen-delegate:** v0.2.0 — deterministic validation pipeline ([#98](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/98)) ([50b4339](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/50b4339ece8a67032475d84b5f332a5f5d642b9d))
+
 ## [1.8.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.7.0...v1.8.0) (2026-03-11)
 
 

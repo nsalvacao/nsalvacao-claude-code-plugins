@@ -5,6 +5,13 @@ All notable changes to this repository will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.1](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.9.0...v1.9.1) (2026-09-29)
+
+
+### 🔧 Maintenance
+
+* retire legacy AI review workflow ([#108](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/issues/108)) ([c644774](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/commit/c6447740f738152c177bbb8d7b45e3148017e6e5))
+
 ## [1.9.0](https://github.com/nsalvacao/nsalvacao-claude-code-plugins/compare/v1.8.0...v1.9.0) (2026-04-15)
 
 
